@@ -1,0 +1,29 @@
+.role-filter {
+  flex-shrink: 0;
+}
+
+.role-filter__label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--people-muted, #64748b);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+}
+
+.role-filter__select {
+  width: 100%;
+  padding: 8px 10px;
+  font-size: 13px;
+  border: 1px solid var(--people-border, #e2e8f0);
+  border-radius: 6px;
+  background: var(--people-bg, #fff);
+  color: var(--people-text, #1e293b);
+  cursor: pointer;
+}
+
+.role-filter__select:focus {
+  outline: none;
+  border-color: var(--people-accent, #1368ce);
+}

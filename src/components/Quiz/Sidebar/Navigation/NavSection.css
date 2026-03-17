@@ -1,0 +1,177 @@
+.nav-section {
+  margin: 0;
+  padding: 0;
+}
+
+.nav-section-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.nav-section-divider {
+  height: 0;
+  margin: 6px 0.5rem 4px;
+  border: none;
+  border-top: 1px solid #e2e8f0;
+  list-style: none;
+}
+
+.nav-section-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  text-align: left;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.825rem;
+  font-weight: 600;
+  color: #4a5568;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nav-section-btn-icon {
+  flex-shrink: 0;
+  font-size: 0.875rem;
+  color: #7d3dbd;
+  opacity: 0.9;
+}
+
+.nav-section-btn:hover .nav-section-btn-icon {
+  opacity: 1;
+}
+
+.nav-section-btn-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nav-section-btn:hover {
+  background: rgba(125, 61, 189, 0.1);
+  color: #7d3dbd;
+}
+
+/* Active section (scroll spy) – slight background so user sees which section they're in */
+.nav-section-btn.is-current {
+  background: rgba(125, 61, 189, 0.12);
+  color: #7d3dbd;
+}
+
+.nav-section-btn.is-current .nav-section-btn-icon {
+  opacity: 1;
+}
+
+.nav-section-btn:focus-visible {
+  outline: 2px solid #7d3dbd;
+  outline-offset: 2px;
+}
+
+/* Mobile dropdown */
+.nav-section-dropdown {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+}
+
+.nav-section-dropdown-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #4a5568;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.nav-section-dropdown-trigger:hover {
+  border-color: #7d3dbd;
+  color: #7d3dbd;
+}
+
+.nav-section-dropdown-trigger-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nav-section-dropdown-chevron {
+  flex-shrink: 0;
+  font-size: 0.75rem;
+  color: #7d3dbd;
+  transition: transform 0.2s ease;
+}
+
+.nav-section-dropdown-chevron.is-open {
+  transform: rotate(180deg);
+}
+
+.nav-section-dropdown-panel {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin: 4px 0 0;
+  padding: 6px;
+  list-style: none;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-height: 70vh;
+  overflow-y: auto;
+  z-index: 100;
+}
+
+.nav-section-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #4a5568;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.nav-section-dropdown-item:hover {
+  background: rgba(125, 61, 189, 0.1);
+  color: #7d3dbd;
+}
+
+.nav-section-dropdown-item.is-current {
+  background: rgba(125, 61, 189, 0.12);
+  color: #7d3dbd;
+}
+
+.nav-section-dropdown-panel .nav-section-divider {
+  margin: 6px 0.25rem 4px;
+}

@@ -1,0 +1,317 @@
+/* Download PDF uses shared styles from ../DownloadResults.css */
+
+/* PDF export view: same layout for mobile and PC – desktop-style 2x2 tables, readable fonts */
+.pdf-export-view {
+  box-sizing: border-box;
+  overflow: visible;
+  width: 800px;
+  max-width: 800px;
+}
+
+.pdf-export-view > * {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+}
+
+.pdf-export-view * {
+  box-sizing: border-box;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.pdf-export-view table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.pdf-export-view th,
+.pdf-export-view td {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal !important;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+/* Section archetype block – desktop font sizes */
+.pdf-export-view .section-archetype-name {
+  font-size: 1.25rem !important;
+}
+
+.pdf-export-view .section-archetype-description,
+.pdf-export-view .section-archetype-quote {
+  font-size: 1rem !important;
+}
+
+.pdf-export-view .section-archetype-block::before {
+  font-size: 4rem !important;
+}
+
+/* Pressure Profile – 2x2 table */
+.pdf-export-view .pressure-profile-table thead {
+  display: table-header-group !important;
+}
+
+.pdf-export-view .pressure-profile-table tbody tr {
+  display: table-row !important;
+}
+
+.pdf-export-view .pressure-profile-table tbody th {
+  display: table-cell !important;
+  width: 11em !important;
+  padding: 0.65rem 1rem !important;
+  font-size: 0.85rem !important;
+  color: #64748b !important;
+}
+
+.pdf-export-view .pressure-profile-table tbody td {
+  display: table-cell !important;
+  padding: 0.65rem 1rem !important;
+  font-size: 0.95rem !important;
+}
+
+/* Work Style – 2x2 table */
+.pdf-export-view .work-style-table thead {
+  display: table-header-group !important;
+}
+
+.pdf-export-view .work-style-table tbody tr {
+  display: table-row !important;
+}
+
+.pdf-export-view .work-style-table tbody th {
+  display: table-cell !important;
+  width: 11em !important;
+  padding: 0.65rem 1rem !important;
+  font-size: 0.85rem !important;
+  color: #64748b !important;
+}
+
+.pdf-export-view .work-style-table tbody td {
+  display: table-cell !important;
+  padding: 0.65rem 1rem !important;
+  font-size: 0.95rem !important;
+}
+
+/* Social Map – 2x2 table */
+.pdf-export-view .social-map-table thead {
+  display: table-header-group !important;
+}
+
+.pdf-export-view .social-map-table tbody tr {
+  display: table-row !important;
+}
+
+.pdf-export-view .social-map-table tbody th {
+  display: table-cell !important;
+  width: 11em !important;
+  padding: 0.65rem 1rem !important;
+  font-size: 0.85rem !important;
+  color: #64748b !important;
+}
+
+.pdf-export-view .social-map-table tbody td {
+  display: table-cell !important;
+  padding: 0.65rem 1rem !important;
+  font-size: 0.95rem !important;
+}
+
+/* Feedback Style – 2x2 table */
+.pdf-export-view .feedback-style-table thead {
+  display: table-header-group !important;
+}
+
+.pdf-export-view .feedback-style-table tbody tr {
+  display: table-row !important;
+}
+
+.pdf-export-view .feedback-style-table tbody th {
+  display: table-cell !important;
+  width: 11em !important;
+  padding: 0.65rem 1rem !important;
+  font-size: 0.85rem !important;
+  color: #64748b !important;
+}
+
+.pdf-export-view .feedback-style-table tbody td {
+  display: table-cell !important;
+  padding: 0.65rem 1rem !important;
+  font-size: 0.95rem !important;
+}
+
+/* Bento grid – keep 2 columns for Natural Default */
+.pdf-export-view .bento-grid {
+  grid-template-columns: 1fr 1.3fr !important;
+  min-width: 0;
+}
+
+/* Overall result and breakdown – readable sizing */
+.pdf-export-view .overall-archetype-name {
+  font-size: 1.75rem !important;
+}
+
+.pdf-export-view .overall-archetype-description,
+.pdf-export-view .overall-archetype-quote {
+  font-size: 0.95rem !important;
+}
+
+.pdf-export-view .overall-brain-badge,
+.pdf-export-view .overall-icon-badge {
+  font-size: 1.5rem !important;
+  padding: 1.25rem 2rem !important;
+}
+
+/* Radar: identical size on mobile and PC – fixed width and height in px */
+.pdf-export-view .radar-chart-container {
+  width: 300px !important;
+  min-width: 300px !important;
+  max-width: 300px !important;
+  height: 314px !important;
+  min-height: 314px !important;
+  max-height: 314px !important;
+  overflow: visible !important;
+  padding: 0 !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.pdf-export-view .all-radars-card,
+.pdf-export-view .all-radars-card-overall {
+  overflow: visible !important;
+}
+
+.pdf-export-view .all-radars-card-chart,
+.pdf-export-view .all-radars-card-overall .all-radars-card-chart {
+  width: 300px !important;
+  min-width: 300px !important;
+  max-width: 300px !important;
+  height: 314px !important;
+  min-height: 314px !important;
+  max-height: 314px !important;
+  overflow: visible !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.pdf-export-view .radar-chart,
+.pdf-export-view .radar-chart-labels {
+  overflow: visible !important;
+}
+
+.pdf-export-view .radar-chart {
+  width: 300px !important;
+  min-width: 300px !important;
+  max-width: 300px !important;
+  height: 314px !important;
+  min-height: 314px !important;
+  max-height: 314px !important;
+}
+
+.pdf-export-view .radar-chart svg {
+  width: 300px !important;
+  height: 314px !important;
+  min-width: 300px !important;
+  min-height: 314px !important;
+  max-width: 300px !important;
+  max-height: 314px !important;
+}
+
+.pdf-export-view .radar-chart-label {
+  font-size: 12px !important;
+  text-align: center !important;
+  align-items: center !important;
+  max-width: none !important;
+  overflow: visible !important;
+  contain: none !important;
+}
+
+.pdf-export-view .radar-chart-label-name,
+.pdf-export-view .radar-chart-label-value {
+  text-align: center !important;
+}
+
+.pdf-export-view .radar-chart-label-name {
+  font-size: 12px !important;
+}
+
+.pdf-export-view .radar-chart-label-value {
+  font-size: 14px !important;
+}
+
+/* PDF: identical on mobile and PC – all positions set here so no viewport/media affects result */
+.pdf-export-view .radar-chart-label-head {
+  top: 25% !important;
+  left: 61% !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: translate(-50%, -50%) !important;
+}
+
+.pdf-export-view .radar-chart-label-heart {
+  top: 96% !important;
+  left: 30% !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: translate(-50%, -50%) !important;
+}
+
+.pdf-export-view .radar-chart-label-gut {
+  top: 96% !important;
+  left: 92% !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: translate(-50%, -50%) !important;
+}
+
+.pdf-export-view .radar-chart-icon-wrap {
+  width: 48px !important;
+  height: 48px !important;
+  min-width: 48px !important;
+  min-height: 48px !important;
+  overflow: visible !important;
+  contain: none !important;
+  flex-shrink: 0 !important;
+  transform: scale(0.5) !important;
+  transform-origin: center center !important;
+  margin-bottom: 0 !important;
+  margin-left: 1px !important; /* icons ~1% right; same on mobile and PC */
+}
+
+.pdf-export-view .radar-chart-label .radar-chart-label-icon {
+  display: block !important;
+  overflow: visible !important;
+  contain: none !important;
+  width: 48px !important;
+  height: 48px !important;
+  min-width: 48px !important;
+  min-height: 48px !important;
+  max-width: 48px !important;
+  max-height: 48px !important;
+}
+
+.pdf-export-view .radar-chart-label .radar-chart-label-icon svg {
+  width: 48px !important;
+  height: 48px !important;
+  min-width: 48px !important;
+  min-height: 48px !important;
+  max-width: 48px !important;
+  max-height: 48px !important;
+  overflow: visible !important;
+  display: block !important;
+  contain: none !important;
+}
+
+.pdf-export-view .all-radars-grid-sections {
+  grid-template-columns: repeat(2, 1fr) !important;
+}
+
+/* Answer results table – readable columns */
+.pdf-export-view .answer-results-question {
+  min-width: 180px !important;
+}
+
+.pdf-export-view .answer-results-choice {
+  min-width: 140px !important;
+  max-width: 260px !important;
+}

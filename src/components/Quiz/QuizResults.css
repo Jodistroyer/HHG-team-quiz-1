@@ -1,0 +1,458 @@
+/* Results page root: constrain to viewport and allow shrinking */
+.quiz-results-page {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* Override Quiz.css fixed width so results are always fluid and responsive */
+.quiz-results-page .container.container-results {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.quiz-results-page .container-results,
+.container-results {
+  height: auto;
+  min-height: 0;
+  overflow: visible;
+  /* Keep same padding as quiz: 30px */
+}
+
+/* Results layout: main content in container + sidebar as its own box to the right (PC) */
+.quiz-results-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.quiz-results-layout > .container.container-results {
+  flex: 1;
+  min-width: 0;
+}
+
+.quiz-results-main {
+  width: 100%;
+  min-width: 0;
+}
+
+/* Sidebar outside container: own box, horizontally centered to the right; stretch height so sticky works */
+.results-sidebar-outer {
+  flex-shrink: 0;
+  align-self: stretch;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 220px;
+  padding-left: 24px;
+}
+
+@media (max-width: 767px) {
+  .quiz-results-layout {
+    flex-direction: column;
+  }
+
+  .results-sidebar-outer {
+    width: 100%;
+    padding-left: 0;
+    justify-content: center;
+    order: -1;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+}
+
+/* Below 600px: ensure layout is column so main content gets full width (avoids narrow strip) */
+@media (max-width: 600px) {
+  .quiz-results-layout {
+    flex-direction: column;
+  }
+
+  .results-sidebar-outer {
+    width: 100%;
+    padding-left: 0;
+  }
+}
+
+/* Results page: purple overall title (quiz brand #7d3dbd) */
+.quiz-results-page .title {
+  color: #7d3dbd;
+  letter-spacing: -0.02em;
+}
+
+/* Section headings (same style as all-radars-section-title) */
+.results-section-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #7d3dbd;
+  margin: 0 0 20px 0;
+  text-align: center;
+}
+
+/* Constrain results content width to match quiz question area (800px) */
+.quiz-results-page .final-summary {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+@media (max-width: 768px) {
+  .quiz-results-page .container-results,
+  .container-results {
+    height: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .quiz-results-page .container-results,
+  .container-results {
+    height: auto;
+  }
+}
+
+/* Final Summary - match quiz animation and spacing */
+.final-summary {
+  animation: fadeIn 0.3s ease-in;
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.bento-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 0;
+  margin-bottom: 30px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 12px 40px rgba(0, 0, 0, 0.08);
+  overflow: visible;
+  position: relative;
+  min-width: 0;
+}
+
+.overall-result {
+  text-align: center;
+  padding: 30px;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.overall-result h2 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #2d3748;
+  text-align: center;
+  position: relative;
+  padding-bottom: 0;
+  margin: 0 0 20px 0;
+}
+
+.overall-result-inner {
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+}
+
+/* Archetype block: clear hierarchy — Level 1 = archetype name (purple) */
+.overall-archetype {
+  text-align: center;
+  width: 100%;
+}
+
+.overall-archetype-name {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #7d3dbd;
+  margin: 0 0 1.25rem 0;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+}
+
+/* Row of separate icon badge + combo badge (side by side) — Level 2 */
+.overall-badges-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.75rem;
+}
+
+/* Description: readable block — Level 3 body text */
+.overall-archetype-description {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: #4a5568;
+  margin: 0 auto 1.5rem;
+  text-align: left;
+  max-width: 100%;
+}
+
+/* Quote: pull-quote — Level 3, purple accent */
+.overall-archetype-quote {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  font-style: italic;
+  color: #5a4a6a;
+  letter-spacing: 0.01em;
+  margin: 0;
+  padding: 0.75rem 0 0 1rem;
+  border-left: 4px solid #7d3dbd;
+  text-align: left;
+  background: none;
+}
+
+/* Overall result: icon badge + combo label badge */
+.overall-brain-badge {
+  font-family: 'Montserrat', sans-serif;
+  display: inline-block;
+  padding: 1.25rem 2rem;
+  border-radius: 12px;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.5rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 4px 16px rgba(0, 0, 0, 0.06);
+  white-space: nowrap;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.overall-brain-badge.long-label {
+  font-size: 1.25rem;
+  padding: 1.25rem 1.75rem;
+}
+
+.overall-icon-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.overall-icon-badge.long-label {
+  padding: 1.25rem 1.75rem;
+}
+
+.type-icon {
+  font-size: 1.5rem;
+}
+
+.overall-breakdown {
+  padding: 30px 24px;
+  background: #fafbfc;
+  border-radius: 0;
+  box-shadow: none;
+  border: none;
+  border-left: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  overflow: visible;
+}
+
+/* Results actions: Start Over + Download JSON + Download PDF */
+.quiz-results-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+  margin-bottom: 36px;
+}
+
+.quiz-results-actions .btn {
+  max-width: 200px;
+}
+
+.quiz-results-actions .btn:focus-visible {
+  outline: 2px solid #7d3dbd;
+  outline-offset: 2px;
+}
+
+/* Responsive Design for QuizResults */
+@media (max-width: 768px) {
+  .bento-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .overall-result {
+    padding: 20px 15px;
+  }
+
+  .overall-archetype-name {
+    font-size: 1.6rem;
+  }
+
+  .overall-badges-row {
+    gap: 0.5rem;
+  }
+
+  .overall-result h2 {
+    font-size: 1.75rem;
+    padding: 0 10px 18px 10px;
+    margin: 0 0 20px 0;
+    white-space: normal;
+    word-break: normal;
+    overflow: visible;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .overall-brain-badge {
+    padding: 1rem 1.5rem;
+    font-size: 1.25rem;
+  }
+}
+
+/* Extra small mobile devices */
+@media (max-width: 480px) {
+  .overall-result h2 {
+    font-size: 1.6rem;
+    padding: 0 5px 15px 5px;
+  }
+
+  .overall-result {
+    padding: 15px 10px;
+  }
+
+  .overall-archetype-name {
+    font-size: 1.45rem;
+  }
+}
+
+/* Narrow viewports (below 588px): shrink fonts and radars so everything fits */
+@media (max-width: 588px) {
+  .quiz-results-page {
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
+  .quiz-results-page .container.container-results {
+    padding: 8px;
+  }
+
+  .quiz-results-page .title {
+    font-size: 1.5rem;
+    margin-bottom: 24px;
+  }
+
+  .results-section-title {
+    font-size: 1rem;
+    margin-bottom: 14px;
+  }
+
+  .quiz-results-page .final-summary {
+    max-width: 100%;
+  }
+
+  .bento-grid {
+    padding: 0;
+    margin-bottom: 20px;
+  }
+
+  .overall-result {
+    padding: 12px 10px;
+  }
+
+  .overall-result h2 {
+    font-size: 1.25rem;
+    margin-bottom: 14px;
+    padding: 0 4px 12px 4px;
+  }
+
+  .overall-archetype-name {
+    font-size: 1.2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .overall-badges-row {
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+  }
+
+  .overall-brain-badge {
+    font-size: 1rem;
+    padding: 0.6rem 1rem;
+  }
+
+  .overall-brain-badge.long-label {
+    font-size: 0.9rem;
+    padding: 0.6rem 0.85rem;
+  }
+
+  .overall-icon-badge,
+  .overall-icon-badge.long-label {
+    padding: 0.6rem 1rem;
+  }
+
+  .type-icon {
+    font-size: 1.1rem;
+  }
+
+  .overall-archetype-description,
+  .overall-archetype-quote {
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+  }
+
+  .overall-archetype-quote {
+    padding: 0.5rem 0 0 0.75rem;
+    font-size: 0.8rem;
+  }
+
+  .overall-breakdown {
+    padding: 16px 10px;
+  }
+
+  .quiz-results-actions {
+    margin-top: 16px;
+    margin-bottom: 20px;
+    padding: 0 4px;
+  }
+
+  .quiz-results-actions .btn {
+    font-size: 0.85rem;
+    padding: 8px 14px;
+  }
+
+  /* Prevent long words/URLs from causing horizontal overflow */
+  .quiz-results-main,
+  .final-summary,
+  .bento-grid,
+  .overall-result,
+  .overall-breakdown {
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+}
+

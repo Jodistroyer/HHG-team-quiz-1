@@ -1,0 +1,114 @@
+.add-person-modal__backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.add-person-modal {
+  background: var(--people-bg, #fff);
+  border-radius: 10px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  max-width: 360px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.add-person-modal__title {
+  margin: 0;
+  padding: 16px 16px 8px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.add-person-modal__form {
+  padding: 8px 16px 16px;
+}
+
+.add-person-modal__form label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--people-text, #1e293b);
+  margin-bottom: 4px;
+}
+
+.add-person-modal__form input[type="text"],
+.add-person-modal__form input[type="number"] {
+  width: 100%;
+  padding: 8px 10px;
+  font-size: 13px;
+  border: 1px solid var(--people-border, #e2e8f0);
+  border-radius: 6px;
+  margin-bottom: 12px;
+  box-sizing: border-box;
+}
+
+.add-person-modal__form input:focus {
+  outline: none;
+  border-color: var(--people-accent, #1368ce);
+}
+
+.add-person-modal__hhg {
+  margin: 12px 0;
+  padding: 10px;
+  border: 1px solid var(--people-border, #e2e8f0);
+  border-radius: 6px;
+}
+
+.add-person-modal__hhg legend {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 0 4px;
+}
+
+.add-person-modal__hhg label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.add-person-modal__hhg input {
+  width: 70px;
+  margin-bottom: 0;
+}
+
+.add-person-modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.add-person-modal__btn {
+  padding: 8px 16px;
+  font-size: 13px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.add-person-modal__btn--primary {
+  background: var(--people-accent, #1368ce);
+  color: #fff;
+  border-color: var(--people-accent, #1368ce);
+}
+
+.add-person-modal__btn--primary:hover {
+  filter: brightness(1.05);
+}
+
+.add-person-modal__btn--secondary {
+  background: transparent;
+  color: var(--people-text, #1e293b);
+  border-color: var(--people-border, #e2e8f0);
+}
+
+.add-person-modal__btn--secondary:hover {
+  background: rgba(0, 0, 0, 0.04);
+}

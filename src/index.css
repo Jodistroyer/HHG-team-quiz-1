@@ -1,0 +1,39 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scrollbar-gutter: stable;
+}
+
+html, body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: #ffffff;
+}
+
+#root {
+  width: 100%;
+  max-width: 100%;
+  min-height: 100vh;
+  /* Let root grow with content so long pages (e.g. Teams) scroll; no fixed height that would cover content */
+}
+
+/* Small viewports: constrain width; allow horizontal scroll only if content still overflows */
+@media (max-width: 588px) {
+  html, body {
+    max-width: 100vw;
+  }
+
+  body {
+    overflow-x: auto;
+  }
+
+  #root {
+    max-width: 100%;
+    min-width: 0;
+  }
+}

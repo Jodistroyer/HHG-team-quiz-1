@@ -1,0 +1,19 @@
+.people-search {
+  width: 100%;
+  padding: 8px 10px;
+  font-size: 13px;
+  border: 1px solid var(--people-border, #e2e8f0);
+  border-radius: 6px;
+  background: var(--people-bg, #fff);
+  color: var(--people-text, #1e293b);
+}
+
+.people-search::placeholder {
+  color: var(--people-muted, #94a3b8);
+}
+
+.people-search:focus {
+  outline: none;
+  border-color: var(--people-accent, #1368ce);
+  box-shadow: 0 0 0 2px rgba(19, 104, 206, 0.2);
+}

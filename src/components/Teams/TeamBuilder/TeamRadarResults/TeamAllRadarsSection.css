@@ -1,0 +1,155 @@
+.all-radars-section {
+  margin-bottom: 30px;
+  padding: 24px 0;
+  border-top: 1px solid #e2e8f0;
+}
+
+.all-radars-section-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #7d3dbd;
+  margin: 0 0 20px 0;
+  text-align: center;
+}
+
+/* Overall: single card on top, centered */
+.all-radars-overall {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.all-radars-card-overall .all-radars-card-chart {
+  max-width: 320px;
+}
+
+/* Sections: 2x2 grid */
+.all-radars-grid-sections {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  max-width: 100%;
+}
+
+.all-radars-grid {
+  max-width: 100%;
+}
+
+.all-radars-card {
+  background: #fafbfc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: visible;
+}
+
+.all-radars-card-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #2d3748;
+  margin: 0 0 12px 0;
+  text-align: center;
+}
+
+.all-radars-card-badges {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.all-radars-brain-combo-badge {
+  font-family: 'Montserrat', sans-serif;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  border: 3px solid #fff;
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  white-space: nowrap;
+}
+
+.all-radars-card-chart {
+  width: 100%;
+  max-width: 280px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: visible;
+}
+
+.all-radars-card-chart .radar-chart {
+  max-width: 100%;
+}
+
+@media (max-width: 768px) {
+  .all-radars-section {
+    padding: 20px 0;
+  }
+
+  .all-radars-grid-sections {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .all-radars-card-chart,
+  .all-radars-card-overall .all-radars-card-chart {
+    max-width: 280px;
+    min-width: 260px;
+  }
+}
+
+@media (max-width: 588px) {
+  .all-radars-section {
+    padding: 14px 0;
+  }
+
+  .all-radars-section-title {
+    font-size: 1rem;
+    margin-bottom: 14px;
+  }
+
+  .all-radars-grid-sections {
+    gap: 14px;
+    min-width: 0;
+  }
+
+  .all-radars-card {
+    min-width: 0;
+    padding: 12px 10px;
+  }
+
+  .all-radars-card-title {
+    font-size: 0.875rem;
+    margin-bottom: 8px;
+  }
+
+  .all-radars-brain-combo-badge {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.6rem;
+  }
+
+  /* Keep radar charts readable on mobile – same size as overall, not squished */
+  .all-radars-card-chart,
+  .all-radars-card-overall .all-radars-card-chart {
+    min-width: 260px;
+    max-width: 280px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

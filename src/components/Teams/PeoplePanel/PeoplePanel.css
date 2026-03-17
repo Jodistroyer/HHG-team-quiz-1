@@ -1,0 +1,258 @@
+/* People Panel - left sidebar for Teams page */
+.people-panel {
+  --people-bg: #fafafa;
+  --people-text: #1e293b;
+  --people-muted: #64748b;
+  --people-border: #e2e8f0;
+  --people-accent: #1368ce;
+
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--people-bg);
+  border-right: 1px solid var(--people-border);
+  color: var(--people-text);
+  box-sizing: border-box;
+}
+
+/* PC: start panel lower to clear the top navbar */
+@media (min-width: 769px) {
+  .people-panel {
+    padding-top: 16px;
+  }
+}
+
+.people-panel__header {
+  flex-shrink: 0;
+  padding: 12px 12px 8px;
+}
+
+.people-panel__title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.people-panel__search {
+  flex-shrink: 0;
+  padding: 0 12px 8px;
+}
+
+.people-panel__filter {
+  flex-shrink: 0;
+  padding: 0 12px 8px;
+}
+
+.people-panel__actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+  padding: 0 12px 8px;
+}
+
+.people-panel__btn {
+  flex: 1;
+  padding: 8px 10px;
+  font-size: 12px;
+  border: 1px solid var(--people-border);
+  border-radius: 6px;
+  background: var(--people-bg);
+  color: var(--people-text);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.people-panel__btn:hover {
+  background: #f1f5f9;
+  border-color: var(--people-muted);
+}
+
+.people-panel__btn--add {
+  background: var(--people-accent);
+  color: #fff;
+  border-color: var(--people-accent);
+}
+
+.people-panel__btn--add:hover {
+  filter: brightness(1.08);
+}
+
+.people-panel__btn--secondary {
+  background: var(--people-bg);
+  color: var(--people-text);
+  border-color: var(--people-border);
+}
+
+.people-panel__file-input {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.view-mode-toggle {
+  flex-shrink: 0;
+  padding: 0 12px 8px;
+}
+
+.people-panel__tree-wrap {
+  flex: 1 1 0;
+  min-height: 200px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 0 12px;
+}
+
+/* Footer: fixed height; top buttons don't scroll, Saved Groups + Selected list scroll */
+.people-panel__footer {
+  flex-shrink: 0;
+  height: 280px;
+  min-height: 280px;
+  max-height: 280px;
+  margin-top: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 0 12px 12px;
+}
+
+.people-panel__footer-buttons {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--people-border, #e2e8f0);
+  margin-bottom: 8px;
+}
+
+.people-panel__footer-scroll {
+  flex: 1 1 0;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.people-panel__save-group-btn {
+  flex-shrink: 0;
+  margin: 0;
+  padding: 6px 10px;
+  font-size: 11px;
+  border: 1px dashed var(--people-accent);
+  border-radius: 6px;
+  background: rgba(19, 104, 206, 0.06);
+  color: var(--people-accent);
+  cursor: pointer;
+}
+
+.people-panel__save-group-btn:hover {
+  background: rgba(19, 104, 206, 0.12);
+}
+
+.people-panel__footer-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+  flex-shrink: 0;
+}
+
+.people-panel__footer-actions:first-child {
+  margin-top: 0;
+}
+
+.people-panel__footer-btn {
+  flex: 1;
+  padding: 6px 10px;
+  font-size: 12px;
+  border: 1px solid var(--people-border, #e2e8f0);
+  border-radius: 6px;
+  background: var(--people-bg, #fff);
+  color: var(--people-text, #1e293b);
+  cursor: pointer;
+}
+
+.people-panel__footer-btn:hover {
+  background: #f1f5f9;
+}
+
+.people-panel__footer-btn--danger {
+  color: #e21b3c;
+  border-color: rgba(226, 27, 60, 0.3);
+}
+
+.people-panel__footer-btn--danger:hover {
+  background: rgba(226, 27, 60, 0.08);
+}
+
+.people-panel__backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.people-panel__save-group-modal {
+  background: var(--people-bg);
+  border-radius: 10px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  padding: 16px;
+  min-width: 260px;
+}
+
+.people-panel__save-group-title {
+  margin: 0 0 10px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.people-panel__save-group-input {
+  width: 100%;
+  padding: 8px 10px;
+  font-size: 13px;
+  border: 1px solid var(--people-border);
+  border-radius: 6px;
+  margin-bottom: 12px;
+  box-sizing: border-box;
+}
+
+.people-panel__save-group-input:focus {
+  outline: none;
+  border-color: var(--people-accent);
+}
+
+.people-panel__save-group-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.people-panel__save-group-actions button {
+  padding: 8px 14px;
+  font-size: 13px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid var(--people-border);
+  background: var(--people-bg);
+  color: var(--people-text);
+}
+
+.people-panel__save-group-actions button:last-child {
+  background: var(--people-accent);
+  color: #fff;
+  border-color: var(--people-accent);
+}
+
+.people-panel__save-group-actions button:hover {
+  filter: brightness(0.98);
+}
+
+.people-panel__save-group-actions button:last-child:hover {
+  filter: brightness(1.05);
+}

@@ -1,0 +1,61 @@
+/* Shared styling for Download JSON and Download PDF buttons – content left-aligned */
+.btn-download-json,
+.btn-download-pdf {
+  background: #5a4a6a;
+  color: #fff;
+  border: none;
+  min-width: 11rem;
+  white-space: nowrap;
+  justify-content: flex-start !important;
+  text-align: left;
+  padding-left: 1rem;
+  padding-right: 1.5rem;
+}
+
+.btn-download-json:hover,
+.btn-download-pdf:hover {
+  background: #4a3a5a;
+}
+
+.btn-download-json:focus-visible,
+.btn-download-pdf:focus-visible {
+  outline: 2px solid #7d3dbd;
+  outline-offset: 2px;
+}
+
+@media (max-width: 588px) {
+  .btn-download-json,
+  .btn-download-pdf {
+    min-width: 0;
+    padding-left: 0.6rem;
+    padding-right: 0.75rem;
+    font-size: 0.8rem;
+  }
+}
+
+.btn-download-json .btn-download-icon,
+.btn-download-pdf .btn-download-icon {
+  margin-right: 0.35em;
+}
+
+.btn-download-json.btn-download-icon-only .btn-download-icon,
+.btn-download-pdf.btn-download-icon-only .btn-download-icon {
+  margin-right: 0.5em;
+}
+
+/* Loading state: disable interaction and show spinner */
+.btn-download-json.is-loading,
+.btn-download-pdf.is-loading {
+  pointer-events: none;
+  cursor: wait;
+}
+
+@keyframes btn-download-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.btn-download-spinner {
+  animation: btn-download-spin 0.8s linear infinite;
+}

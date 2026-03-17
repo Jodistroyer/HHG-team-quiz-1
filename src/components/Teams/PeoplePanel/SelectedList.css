@@ -1,0 +1,65 @@
+/* One scrollbar (footer). Header sticks to top when scrolling footer content. */
+.selected-list {
+  border-top: 1px solid var(--people-border, #e2e8f0);
+  padding-top: 8px;
+  margin-top: 8px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.selected-list__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  background: var(--people-bg, #fafafa);
+  z-index: 1;
+  padding-bottom: 2px;
+}
+
+.selected-list__title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--people-muted, #64748b);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.selected-list__clear {
+  font-size: 11px;
+  color: var(--people-accent, #1368ce);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0 4px;
+}
+
+.selected-list__clear:hover {
+  text-decoration: underline;
+}
+
+.selected-list__names {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.selected-list__item,
+.selected-list__empty {
+  font-size: 12px;
+  padding: 2px 0;
+  color: var(--people-text, #1e293b);
+}
+
+.selected-list__empty {
+  color: var(--people-muted, #64748b);
+  font-style: italic;
+}
+
+.selected-list__meta {
+  color: var(--people-muted, #64748b);
+}

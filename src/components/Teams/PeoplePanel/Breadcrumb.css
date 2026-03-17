@@ -1,0 +1,30 @@
+.breadcrumb {
+  font-size: 11px;
+  color: var(--people-muted, #64748b);
+  padding: 4px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.breadcrumb__sep {
+  margin: 0 2px;
+  color: var(--people-muted, #94a3b8);
+}
+
+.breadcrumb__link {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--people-accent, #1368ce);
+  cursor: pointer;
+  font-size: inherit;
+}
+
+.breadcrumb__link:hover {
+  text-decoration: underline;
+}
+
+.breadcrumb__text {
+  color: var(--people-muted, #64748b);
+}

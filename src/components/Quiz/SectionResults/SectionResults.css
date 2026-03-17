@@ -1,0 +1,694 @@
+/* Section Traits Styles - match quiz boxes (16px radius, 3px border, 30px padding) */
+.under-pressure-content,
+.with-people-content,
+.getting-better-content,
+.doing-work-content {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.under-pressure-content {
+  --section-card-radius: 16px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Under Pressure archetype block - same feel as quiz question container */
+.section-archetype-block {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 30px;
+  margin-bottom: 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 12px 40px rgba(0, 0, 0, 0.08);
+  position: relative;
+  overflow: hidden;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.section-archetype-block::before {
+  content: '"';
+  position: absolute;
+  top: 0.5rem;
+  left: 1rem;
+  font-family: Georgia, serif;
+  font-size: 4rem;
+  font-weight: 700;
+  color: #e2e8f0;
+  line-height: 1;
+}
+
+/* Level 1: Section archetype name — purple */
+.section-archetype-name {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #7d3dbd;
+  margin: 0 0 0.5rem 0;
+  position: relative;
+}
+
+.section-archetype-description {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #4a5568;
+  line-height: 1.5;
+  margin: 0 0 1rem 0;
+  position: relative;
+}
+
+.section-archetype-quote {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  font-style: italic;
+  color: #4a5568;
+  margin: 0;
+  padding: 0.75rem 0 0 1rem;
+  border: none;
+  border-left: 4px solid #7d3dbd;
+  line-height: 1.5;
+  position: relative;
+}
+
+/* Level 2: Intro blocks (Who You Are / How You React) */
+.intro-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 20px;
+  margin-top: 1.5rem;
+  margin-bottom: 0;
+  min-width: 0;
+}
+
+.with-people-content .intro-grid-three,
+.getting-better-content .intro-grid-three {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.trait-section {
+  margin-bottom: 0;
+  padding: 1rem 0 1rem 1rem;
+  border-left: 3px solid rgba(125, 61, 189, 0.3);
+  min-width: 0;
+}
+
+.trait-section-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #7d3dbd;
+  margin: 0 0 0.5rem 0;
+}
+
+.trait-content {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #4a5568;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* Level 3: Strengths / Risks cards — light background for readability */
+.bento-cards {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 20px;
+  margin-top: 1.5rem;
+  margin-bottom: 0;
+  min-width: 0;
+}
+
+.strength-card {
+  background: #ffffff;
+  border: 3px solid #bbf7d0;
+  border-radius: var(--section-card-radius);
+  padding: 0;
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.12);
+  overflow: hidden;
+  min-width: 0;
+}
+
+.warning-card {
+  background: #ffffff;
+  border: 3px solid #fed7aa;
+  border-radius: var(--section-card-radius);
+  padding: 0;
+  box-shadow: 0 4px 12px rgba(217, 119, 6, 0.12);
+  overflow: hidden;
+  min-width: 0;
+}
+
+/* Pair cards: same design as strengths/weaknesses — light bg, soft border, muted accent */
+.pair-cards {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 20px;
+  margin-top: 1.5rem;
+  margin-bottom: 0;
+  min-width: 0;
+}
+
+.pair-card-teal {
+  background: #f0fdfa;
+  border: 3px solid #99f6e4;
+  border-radius: var(--section-card-radius);
+  padding: 0;
+  box-shadow: 0 4px 12px rgba(13, 148, 136, 0.08);
+  overflow: hidden;
+  min-width: 0;
+}
+
+.pair-card-blue {
+  background: #f0f9ff;
+  border: 3px solid #bae6fd;
+  border-radius: var(--section-card-radius);
+  padding: 0;
+  box-shadow: 0 4px 12px rgba(3, 105, 161, 0.08);
+  overflow: hidden;
+  min-width: 0;
+}
+
+.pair-card-teal .card-title,
+.pair-card-blue .card-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 800;
+  margin: 0;
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.pair-card-teal .card-title {
+  color: #0f766e;
+  background: rgba(20, 184, 166, 0.08);
+}
+
+.pair-card-blue .card-title {
+  color: #0369a1;
+  background: rgba(56, 189, 248, 0.08);
+}
+
+.pair-card-teal .card-icon {
+  color: #0d9488;
+}
+
+.pair-card-blue .card-icon {
+  color: #0284c7;
+}
+
+.pair-card-teal .trait-bullets,
+.pair-card-blue .trait-bullets,
+.pair-card-teal .card-content,
+.pair-card-blue .card-content {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #374151;
+  line-height: 1.7;
+  margin: 0;
+  padding: 1.25rem 1.25rem 1.25rem 3rem;
+  list-style: none;
+}
+
+.pair-card-teal .card-content,
+.pair-card-blue .card-content {
+  padding: 1.25rem 1.25rem;
+}
+
+.pair-card-teal .trait-bullets li,
+.pair-card-blue .trait-bullets li {
+  margin-bottom: 0.85rem;
+}
+
+.pair-card-teal .heart-icon {
+  left: -1.75rem;
+  color: #0d9488;
+}
+
+.pair-card-blue .heart-icon {
+  left: -1.75rem;
+  color: #0284c7;
+}
+
+/* Card header: clear title bar for hierarchy */
+.strength-card .card-title,
+.warning-card .card-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 800;
+  margin: 0;
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.strength-card .card-title {
+  color: #166534;
+  background: rgba(34, 197, 94, 0.08);
+}
+
+.warning-card .card-title {
+  color: #c2410c;
+  background: rgba(249, 115, 22, 0.08);
+}
+
+.card-icon {
+  font-size: 1.25rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.strength-card .card-icon {
+  color: #16a34a;
+}
+
+.warning-card .card-icon {
+  color: #ea580c;
+}
+
+/* List area: dark text on light for readability */
+.strength-card .trait-bullets,
+.warning-card .trait-bullets {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #374151;
+  line-height: 1.7;
+  margin: 0;
+  padding: 1.25rem 1.25rem 1.25rem 3rem;
+  list-style: none;
+}
+
+.trait-bullets li {
+  position: relative;
+  margin-bottom: 0.85rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.trait-bullets li:last-child {
+  margin-bottom: 0;
+}
+
+.check-icon {
+  position: absolute;
+  left: -1.75rem;
+  color: #16a34a;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+  top: 0.2em;
+}
+
+.warning-icon {
+  position: absolute;
+  left: -1.75rem;
+  color: #ea580c;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+  top: 0.2em;
+}
+
+.heart-icon {
+  position: absolute;
+  left: -1.75rem;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+  top: 0.2em;
+}
+
+.user-icon {
+  position: absolute;
+  left: -1.75rem;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+  top: 0.2em;
+}
+
+/* Dark-background bento cards: white text (only when NOT pair-cards; pair-cards use light style above) */
+.core-need-card .card-title,
+.love-language-card:not(.pair-card-teal) .card-title,
+.drawn-to-card:not(.pair-card-blue) .card-title,
+.progress-card .card-title,
+.performance-card:not(.pair-card-teal) .card-title,
+.experience-card:not(.pair-card-blue) .card-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 0 1rem 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.core-need-card .trait-bullets,
+.love-language-card:not(.pair-card-teal) .trait-bullets,
+.drawn-to-card:not(.pair-card-blue) .trait-bullets,
+.progress-card .trait-bullets,
+.performance-card:not(.pair-card-teal) .trait-bullets,
+.experience-card:not(.pair-card-blue) .trait-bullets {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.95);
+  line-height: 1.7;
+  margin: 0;
+  padding-left: 1.75rem;
+  list-style: none;
+}
+
+.core-need-card .trait-bullets li,
+.love-language-card:not(.pair-card-teal) .trait-bullets li,
+.drawn-to-card:not(.pair-card-blue) .trait-bullets li,
+.progress-card .trait-bullets li,
+.performance-card:not(.pair-card-teal) .trait-bullets li,
+.experience-card:not(.pair-card-blue) .trait-bullets li {
+  margin-bottom: 0.85rem;
+}
+
+.core-need-card .check-icon,
+.core-need-card .warning-icon,
+.love-language-card:not(.pair-card-teal) .check-icon,
+.love-language-card:not(.pair-card-teal) .warning-icon,
+.drawn-to-card:not(.pair-card-blue) .check-icon,
+.drawn-to-card:not(.pair-card-blue) .warning-icon,
+.progress-card .check-icon,
+.progress-card .warning-icon,
+.performance-card:not(.pair-card-teal) .warning-icon,
+.experience-card:not(.pair-card-blue) .check-icon {
+  left: 0;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Level 4: Balance tip — clear visual close to section */
+.action-box {
+  background: #7d3dbd;
+  color: #fff;
+  border: 3px solid #622fa3;
+  border-radius: var(--section-card-radius);
+  padding: 30px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  margin-top: 1.5rem;
+}
+
+.action-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #fff;
+  margin: 0 0 0.75rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: space-between;
+}
+
+.action-title-left {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.action-icon {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.balance-tip-badge {
+  font-family: 'Montserrat', sans-serif;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  text-transform: none;
+  border: 4px solid rgb(255, 255, 255);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  white-space: nowrap;
+}
+
+.action-content {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #e2e8f0;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.additional-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+  min-width: 0;
+}
+
+.full-width-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+  min-width: 0;
+}
+
+.info-card {
+  border-radius: var(--section-card-radius);
+  padding: 30px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  background: white;
+  min-width: 0;
+  border: 3px solid #e2e8f0;
+}
+
+.core-need-card {
+  background: #2563eb;
+  border: 3px solid #2563eb;
+  border-radius: 16px;
+  padding: 1.5rem 1.5rem;
+}
+
+.love-language-card:not(.pair-card-teal) {
+  background: #dc2626;
+  border: 3px solid #dc2626;
+  border-radius: 16px;
+  padding: 1.5rem 1.5rem;
+}
+
+.drawn-to-card:not(.pair-card-blue) {
+  background: #16a34a;
+  border: 3px solid #16a34a;
+  border-radius: 16px;
+  padding: 1.5rem 1.5rem;
+}
+
+.core-need-card .card-icon {
+  color: #ffffff;
+}
+
+.love-language-card:not(.pair-card-teal) .card-icon {
+  color: #ffffff;
+}
+
+.drawn-to-card:not(.pair-card-blue) .card-icon {
+  color: #ffffff;
+}
+
+.progress-card {
+  background: #2563eb;
+  border: 3px solid #2563eb;
+  border-radius: 16px;
+  padding: 1.5rem 1.5rem;
+}
+
+.performance-card:not(.pair-card-teal) {
+  background: #dc2626;
+  border: 3px solid #dc2626;
+  border-radius: 16px;
+  padding: 1.5rem 1.5rem;
+}
+
+.experience-card:not(.pair-card-blue) {
+  background: #16a34a;
+  border: 3px solid #16a34a;
+  border-radius: 16px;
+  padding: 1.5rem 1.5rem;
+}
+
+.progress-card .card-icon {
+  color: #ffffff;
+}
+
+.performance-card:not(.pair-card-teal) .card-icon {
+  color: #ffffff;
+}
+
+.experience-card:not(.pair-card-blue) .card-icon {
+  color: #ffffff;
+}
+
+.card-content {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #ffffff;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.brain-combination-badge {
+  font-family: 'Montserrat', sans-serif;
+  display: inline-block;
+  padding: 0.6rem 1.25rem;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: 800;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+  .section-archetype-block {
+    padding: 1.35rem 1.25rem;
+  }
+
+  .section-archetype-block::before {
+    font-size: 3rem;
+    top: 0.35rem;
+  }
+
+  .section-archetype-quote {
+    font-size: 0.95rem;
+    padding-left: 0.85rem;
+  }
+
+  .intro-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .with-people-content .intro-grid-three,
+  .with-people-content .with-people-profile .intro-grid-three,
+  .getting-better-content .intro-grid-three {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .bento-cards,
+  .pair-cards {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .additional-cards {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .brain-combination-badge {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .trait-section-title {
+    font-size: 1rem;
+  }
+  
+  .trait-content,
+  .trait-bullets {
+    font-size: 0.9rem;
+  }
+
+  .action-title {
+    font-size: 1rem;
+  }
+
+  .action-content {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 588px) {
+  .under-pressure-content,
+  .with-people-content,
+  .getting-better-content,
+  .doing-work-content {
+    min-width: 0;
+  }
+
+  .section-archetype-block {
+    padding: 0.75rem 10px;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
+  .section-archetype-name {
+    font-size: 1rem;
+  }
+
+  .section-archetype-description,
+  .section-archetype-quote {
+    font-size: 0.85rem;
+  }
+
+  .trait-section-title {
+    font-size: 0.9rem;
+  }
+
+  .trait-content,
+  .trait-bullets {
+    font-size: 0.8rem;
+  }
+
+  .action-title {
+    font-size: 0.9rem;
+  }
+
+  .action-content {
+    font-size: 0.85rem;
+  }
+
+  .brain-combination-badge {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.75rem;
+  }
+}
+
+/* Extra narrow (below 430px): section-archetype-block fonts even smaller */
+@media (max-width: 430px) {
+  .section-archetype-name {
+    font-size: 0.9rem;
+  }
+
+  .section-archetype-description,
+  .section-archetype-quote {
+    font-size: 0.75rem;
+  }
+
+  .section-archetype-block::before {
+    font-size: 2.25rem;
+  }
+}

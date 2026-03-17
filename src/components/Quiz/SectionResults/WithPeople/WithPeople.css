@@ -1,0 +1,266 @@
+/* With People section — component-specific styles. Import SectionResults.css for shared section styles. */
+
+.with-people-content {
+  gap: 0;
+}
+
+.with-people-content .with-people-section {
+  margin-bottom: 2.25rem;
+}
+
+.with-people-content .with-people-section:last-child {
+  margin-bottom: 0;
+}
+
+.with-people-content .with-people-hero {
+  margin-bottom: 2.5rem;
+}
+
+.with-people-content .with-people-hero .section-archetype-block {
+  margin-bottom: 0;
+}
+
+.with-people-content .with-people-cards-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1.25rem;
+  margin-top: 0;
+  margin-bottom: 0;
+  min-width: 0;
+}
+
+.with-people-content .with-people-card {
+  border-radius: var(--section-card-radius);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 0;
+  border: none;
+  min-width: 0;
+}
+
+.with-people-content .drawn-to-section.with-people-card {
+  background: #0284c7;
+  color: #fff;
+}
+
+.with-people-content .drawn-to-section.with-people-card .trait-section-title,
+.with-people-content .drawn-to-section.with-people-card .card-icon,
+.with-people-content .drawn-to-section.with-people-card .user-icon {
+  color: #fff;
+}
+
+.with-people-content .drawn-to-section.with-people-card .trait-bullets {
+  color: rgba(255, 255, 255, 0.95);
+  padding-left: 1.75rem;
+}
+
+.with-people-content .love-language-section.with-people-card {
+  background: #db2777;
+  color: #fff;
+}
+
+.with-people-content .love-language-section.with-people-card .trait-section-title,
+.with-people-content .love-language-section.with-people-card .card-icon,
+.with-people-content .love-language-section.with-people-card .heart-icon {
+  color: #fff;
+}
+
+.with-people-content .love-language-section.with-people-card .trait-bullets {
+  color: rgba(255, 255, 255, 0.95);
+  padding-left: 1.75rem;
+}
+
+.with-people-content .with-people-card .trait-section-title {
+  margin-bottom: 0.75rem;
+}
+
+.with-people-content .with-people-profile .intro-grid-three {
+  margin-top: 0;
+  margin-bottom: 0;
+  gap: 1.25rem;
+}
+
+.with-people-content .with-people-strengths-risks .bento-cards {
+  margin-top: 0;
+  margin-bottom: 0;
+  gap: 1.25rem;
+}
+
+.with-people-content .with-people-action {
+  margin-top: 0.5rem;
+}
+
+.with-people-content .love-language-section .trait-section-title,
+.with-people-content .drawn-to-section .trait-section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.with-people-content .love-language-section .trait-section-title,
+.with-people-content .love-language-section .card-icon {
+  color: #db2777;
+}
+
+.with-people-content .drawn-to-section .trait-section-title,
+.with-people-content .drawn-to-section .card-icon {
+  color: #0284c7;
+}
+
+.with-people-content .love-language-section .trait-bullets,
+.with-people-content .drawn-to-section .trait-bullets {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #4a5568;
+  line-height: 1.7;
+  margin: 0;
+  padding: 0.5rem 0 0 1.75rem;
+  list-style: none;
+}
+
+.with-people-content .love-language-section .heart-icon {
+  color: #db2777;
+}
+
+.with-people-content .drawn-to-section .user-icon {
+  color: #0284c7;
+}
+
+.with-people-content .love-language-card {
+  background: #fdf2f8;
+  border: 3px solid #fbcfe8;
+  border-radius: var(--section-card-radius);
+  padding: 0;
+  box-shadow: 0 4px 12px rgba(190, 24, 93, 0.1);
+  overflow: hidden;
+}
+
+.with-people-content .drawn-to-card {
+  background: #f0f9ff;
+  border: 3px solid #bae6fd;
+  border-radius: var(--section-card-radius);
+  padding: 0;
+  box-shadow: 0 4px 12px rgba(3, 105, 161, 0.1);
+  overflow: hidden;
+}
+
+.with-people-content .love-language-card .card-title,
+.with-people-content .drawn-to-card .card-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 800;
+  margin: 0;
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.with-people-content .love-language-card .card-title {
+  color: #db2777;
+  background: rgba(236, 72, 153, 0.08);
+}
+
+.with-people-content .drawn-to-card .card-title {
+  color: #0284c7;
+  background: rgba(56, 189, 248, 0.08);
+}
+
+.with-people-content .love-language-card .card-icon {
+  color: #db2777;
+}
+
+.with-people-content .drawn-to-card .card-icon {
+  color: #0284c7;
+}
+
+.with-people-content .love-language-card .trait-bullets,
+.with-people-content .drawn-to-card .trait-bullets {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #374151;
+  line-height: 1.7;
+  margin: 0;
+  padding: 1.25rem 1.25rem 1.25rem 3rem;
+  list-style: none;
+}
+
+.with-people-content .love-language-card .heart-icon {
+  color: #db2777;
+}
+
+.with-people-content .drawn-to-card .user-icon {
+  color: #0284c7;
+}
+
+.with-people-content .heart-icon {
+  color: #64748b;
+}
+
+.with-people-content .additional-cards:not(.pair-cards) {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.with-people-content .additional-cards.pair-cards {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 20px;
+  min-width: 0;
+}
+
+.with-people-content .core-need-card,
+.with-people-content .love-language-card:not(.pair-card-teal):not(.pair-card-blue),
+.with-people-content .drawn-to-card:not(.pair-card-teal):not(.pair-card-blue) {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  border-left: 3px solid rgba(125, 61, 189, 0.4);
+  box-shadow: none;
+}
+
+.with-people-content .core-need-card .card-title,
+.with-people-content .love-language-card:not(.pair-card-teal) .card-title,
+.with-people-content .drawn-to-card:not(.pair-card-blue) .card-title {
+  color: #475569;
+}
+
+.with-people-content .bento-cards .love-language-card .card-title,
+.with-people-content .bento-cards .love-language-card .card-icon {
+  color: #db2777;
+}
+
+.with-people-content .bento-cards .drawn-to-card .card-title,
+.with-people-content .bento-cards .drawn-to-card .card-icon {
+  color: #0284c7;
+}
+
+.with-people-content .core-need-card .trait-bullets,
+.with-people-content .love-language-card:not(.pair-card-teal) .trait-bullets,
+.with-people-content .drawn-to-card:not(.pair-card-blue) .trait-bullets {
+  color: #475569;
+  padding: 0;
+  padding-left: 1.75rem;
+}
+
+.with-people-content .core-need-card .card-content,
+.with-people-content .love-language-card:not(.pair-card-teal) .card-content,
+.with-people-content .drawn-to-card:not(.pair-card-blue) .card-content {
+  color: #475569;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .with-people-content .with-people-section {
+    margin-bottom: 1.75rem;
+  }
+
+  .with-people-content .with-people-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}

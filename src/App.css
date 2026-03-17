@@ -1,0 +1,137 @@
+@font-face {
+  font-family: 'Montserrat';
+  src: url('./assets/Fonts/Montserrat/Montserrat-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('./assets/Fonts/Montserrat/Montserrat-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Red Hat Display';
+  src: url('./assets/Fonts/RedHatDisplay/RedHatDisplay-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Red Hat Display';
+  src: url('./assets/Fonts/RedHatDisplay/RedHatDisplay-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Red Hat Display';
+  src: url('./assets/Fonts/RedHatDisplay/RedHatDisplay-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.app {
+  min-height: 100vh;
+  height: auto;
+  background: #ffffff;
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.app-content {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 0;
+}
+
+/* Desktop: Center content in viewport while preventing navbar overlap */
+@media (min-width: 769px) {
+  .app {
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    /* Add top padding for navbar, but center in full viewport */
+    padding-top: 80px;
+    padding-bottom: 20px;
+  }
+  
+  .app-content {
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 0;
+    /* Shift content up by half the navbar padding to maintain viewport centering */
+    margin-top: -40px;
+    margin-bottom: -40px;
+  }
+}
+
+/* Scale down by 20% (zoom to 80%) when window is not maximized on PC */
+@media (min-width: 769px) and (max-width: 1919px) {
+  .app {
+    zoom: 0.8;
+  }
+  
+  .navbar {
+    zoom: 0.8;
+  }
+}
+
+/* Mobile: Adjust for bottom navbar */
+@media (max-width: 768px) {
+  .app {
+    padding: 10px;
+    padding-bottom: 90px;
+    align-items: flex-start;
+    padding-top: 20px;
+  }
+
+  .app-content {
+    align-items: flex-start;
+  }
+}
+
+/* Small mobile (e.g. below 588px): reduce padding so content fits, prevent overflow */
+@media (max-width: 588px) {
+  .app {
+    padding-left: 6px;
+    padding-right: 6px;
+    padding-top: 12px;
+    padding-bottom: 84px;
+  }
+}

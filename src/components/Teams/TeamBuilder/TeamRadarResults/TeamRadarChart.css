@@ -1,0 +1,197 @@
+.radar-chart {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  position: relative;
+  overflow: visible;
+}
+
+.radar-chart svg {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  display: block;
+  margin: 0 auto;
+  flex-shrink: 0;
+}
+
+/* Labels overlay: HTML outside SVG so text and percentages always render; above SVG */
+.radar-chart-labels {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  margin: 0 auto;
+  max-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 1;
+  overflow: visible;
+}
+
+.radar-chart-label {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  font-size: 12px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  line-height: 1.2;
+  min-width: 64px;
+  max-width: 10em;
+  overflow: visible;
+  contain: none;
+}
+
+/* Wrapper: room for icon (no clip), then scale down so icon displays small */
+.radar-chart-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  min-height: 48px;
+  margin: 0 auto 2px;
+  flex-shrink: 0;
+  overflow: visible;
+  contain: none;
+  transform: scale(0.35);
+  transform-origin: center center;
+}
+
+/* Icon centered above Head / Heart / Gut label; inherit label color so icon is visible */
+.radar-chart-label .radar-chart-label-icon {
+  display: block;
+  flex-shrink: 0;
+  color: inherit;
+  overflow: visible !important;
+  contain: none;
+}
+
+.radar-chart-label .radar-chart-label-icon svg {
+  fill: currentColor;
+  overflow: visible !important;
+  display: block;
+  contain: none;
+}
+
+.radar-chart-label-name,
+.radar-chart-label-value {
+  text-align: center;
+}
+
+/* FA icon container: larger viewport so path overflow is never clipped */
+.radar-chart-label .radar-chart-label-icon {
+  width: 48px !important;
+  height: 48px !important;
+  min-width: 48px !important;
+  min-height: 48px !important;
+  max-width: 48px !important;
+  max-height: 48px !important;
+  overflow: visible !important;
+}
+
+/* 48px viewport = no cutoff; wrap scale shrinks the whole icon */
+.radar-chart-label .radar-chart-label-icon svg {
+  width: 48px !important;
+  height: 48px !important;
+  min-width: 48px !important;
+  min-height: 48px !important;
+  max-width: 48px !important;
+  max-height: 48px !important;
+  overflow: visible !important;
+}
+
+.radar-chart-label-name {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.radar-chart-label-value {
+  font-size: 14px;
+  margin-top: 2px;
+}
+
+/* Head: top center of triangle */
+.radar-chart-label-head {
+  top: 8%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  color: #1368ce;
+}
+
+/* Heart: bottom left */
+.radar-chart-label-heart {
+  bottom: 8%;
+  left: 12%;
+  transform: translate(0, 0);
+  color: #e21b3c;
+}
+
+/* Gut: bottom right */
+.radar-chart-label-gut {
+  bottom: 8%;
+  right: 12%;
+  left: auto;
+  transform: translate(0, 0);
+  color: #26890c;
+}
+
+.radar-chart-label-head .radar-chart-label-value,
+.radar-chart-label-heart .radar-chart-label-value,
+.radar-chart-label-gut .radar-chart-label-value {
+  color: inherit;
+}
+
+/* Mobile: slightly larger icon, Head label higher, tighter spacing */
+@media (max-width: 588px) {
+  .radar-chart-label {
+    font-size: 10px;
+  }
+
+  .radar-chart-label-name {
+    font-size: 10px;
+  }
+
+  .radar-chart-label-value {
+    font-size: 11px;
+    margin-top: 1px;
+  }
+
+  /* Head label higher so it isn’t too low on mobile */
+  .radar-chart-label-head {
+    top: 4%;
+  }
+
+  /* Slightly larger icon on mobile (scale 0.5 = ~24px), less gap below icon */
+  .radar-chart-icon-wrap {
+    transform: scale(0.5);
+    margin-bottom: 0;
+  }
+
+  .radar-chart-label .radar-chart-label-icon {
+    width: 48px !important;
+    height: 48px !important;
+    min-width: 48px !important;
+    min-height: 48px !important;
+    max-width: 48px !important;
+    max-height: 48px !important;
+  }
+
+  .radar-chart-label .radar-chart-label-icon svg {
+    width: 48px !important;
+    height: 48px !important;
+    min-width: 48px !important;
+    min-height: 48px !important;
+    max-width: 48px !important;
+    max-height: 48px !important;
+    overflow: visible !important;
+  }
+}
