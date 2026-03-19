@@ -1,4 +1,4 @@
-import type { Person, TreeNode, ViewMode, HHGCenter } from './types'
+import type { Person, TreeNode, ViewMode, HHGCenter, TeamContextScores } from './types'
 import type { QuizExportPayload, PeopleImportPayload } from './types'
 
 /** Generate a simple unique id. */
@@ -12,6 +12,28 @@ export function personFromQuizExport(
   name: string = 'Imported'
 ): Person {
   const nd = data.naturalDefault
+  const sectionSummaries = data.sectionSummaries ?? []
+  const toContext = (idx: number): TeamContextScores | undefined => {
+    const section = sectionSummaries[idx]
+    if (!section) return undefined
+    return {
+      headPercent: section.headPercent ?? 33.33,
+      heartPercent: section.heartPercent ?? 33.33,
+      gutPercent: section.gutPercent ?? 33.34,
+    }
+  }
+
+  const contextScores: Person['contextScores'] = {}
+  const underPressure = toContext(0)
+  const doingWork = toContext(1)
+  const withPeople = toContext(2)
+  const gettingBetter = toContext(3)
+
+  if (underPressure) contextScores.underPressure = underPressure
+  if (doingWork) contextScores.doingWork = doingWork
+  if (withPeople) contextScores.withPeople = withPeople
+  if (gettingBetter) contextScores.gettingBetter = gettingBetter
+
   return {
     id: nextId('import'),
     name: data.name ?? name,
@@ -24,6 +46,7 @@ export function personFromQuizExport(
     gutPercent: nd.gutPercent ?? 33.34,
     dominant: nd.dominant ?? (nd.headPercent >= nd.heartPercent && nd.headPercent >= nd.gutPercent ? 'Head' : nd.heartPercent >= nd.gutPercent ? 'Heart' : 'Gut'),
     secondaryBrain: nd.secondaryBrain ?? null,
+    contextScores,
   }
 }
 

@@ -1,19 +1,29 @@
+import { useRef, useState } from 'react'
 import { PeoplePanel } from './PeoplePanel/PeoplePanel'
+import type { Person } from './PeoplePanel/types'
+import { TeamMap } from './TeamMap/TeamMap'
 import './Teams.css'
 
 function Teams() {
+  const [selectedPeople, setSelectedPeople] = useState<Person[]>([])
+  const deselectRef = useRef<(id: string) => void>(() => {})
+  const clearAllRef = useRef<() => void>(() => {})
+
   return (
     <div className="teams">
       <aside className="teams__panel">
-        <PeoplePanel />
+        <PeoplePanel
+          onSelectedPeopleChange={setSelectedPeople}
+          onRegisterDeselect={(fn) => { deselectRef.current = fn }}
+          onRegisterClearAll={(fn) => { clearAllRef.current = fn }}
+        />
       </aside>
       <main className="teams__main">
-        <h1>Teams</h1>
-        <p className="teams__intro">
-          Use the People panel on the left to organize and select people. Finished quizzes can be
-          imported via &quot;Import JSON&quot; or add people manually. Selected people feed into the
-          interaction map and team analysis.
-        </p>
+        <TeamMap
+          selectedPeople={selectedPeople}
+          onRemovePerson={(id) => deselectRef.current(id)}
+          onClearAll={() => clearAllRef.current()}
+        />
       </main>
     </div>
   )

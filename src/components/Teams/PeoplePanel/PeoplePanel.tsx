@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { Person, ViewMode, SavedGroup, TreeNode as TreeNodeType } from './types'
 import type { EmptyTeams } from './data'
 import {
@@ -21,6 +21,14 @@ import { AddPersonModal } from './AddPersonModal'
 import { ContextMenu, type ContextMenuItem } from './ContextMenu'
 import { DeleteConfirmModal, type DeleteImpact } from './DeleteConfirmModal'
 import './PeoplePanel.css'
+interface PeoplePanelProps {
+  onSelectedPeopleChange?: (people: Person[]) => void
+  /** Called once on mount; receives a stable function that deselects a person by id. */
+  onRegisterDeselect?: (deselect: (id: string) => void) => void
+  /** Called once on mount; receives a stable function that clears the whole selection. */
+  onRegisterClearAll?: (clearAll: () => void) => void
+}
+
 
 const STORAGE_KEY_PEOPLE = 'hhg.people.v1'
 const STORAGE_KEY_SAVED_GROUPS = 'hhg.people.savedGroups.v1'
@@ -72,7 +80,7 @@ function loadEmptyTeams(): EmptyTeams {
   }
 }
 
-export function PeoplePanel() {
+export function PeoplePanel({ onSelectedPeopleChange, onRegisterDeselect, onRegisterClearAll }: PeoplePanelProps) {
   const [people, setPeople] = useState<Person[]>(loadPeople)
   const [search, setSearch] = useState('')
   const [viewMode, setViewMode] = useState<ViewMode>('company')
@@ -501,8 +509,34 @@ export function PeoplePanel() {
     return []
   }, [contextMenu, people, emptyTeams, savedGroups, persistPeople, persistEmptyTeams, handleQuickAdd, startRename, openAddPerson, openEditPerson])
 
-  const selectedPeople = people.filter((p) => selectedIds.has(p.id))
+  const selectedPeople = useMemo(
+    () => people.filter((p) => selectedIds.has(p.id)),
+    [people, selectedIds]
+  )
   const selectedCount = selectedPeople.length
+
+  useEffect(() => {
+    onSelectedPeopleChange?.(selectedPeople)
+  }, [onSelectedPeopleChange, selectedPeople])
+
+  // Register a stable deselect function so parent can trigger removal from outside.
+  // setSelectedIds is stable (React guarantee), so empty deps is intentional.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    onRegisterDeselect?.((id) => {
+      setSelectedIds((prev) => {
+        const next = new Set(prev)
+        next.delete(id)
+        return next
+      })
+    })
+  }, [])
+
+  useEffect(() => {
+    onRegisterClearAll?.(() => {
+      setSelectedIds(new Set())
+    })
+  }, [])
 
   const handleMultiSelectDelete = useCallback(() => {
     const groupsRemovedFrom = groupNamesContainingIds(savedGroups, selectedIds)

@@ -22,6 +22,16 @@ export interface Person {
     Pe?: HHGCenter
     G?: HHGCenter
   }
+  /** Optional context-specific HHG percentages for team map tabs. */
+  contextScores?: Partial<Record<TeamContextKey, TeamContextScores>>
+}
+
+export type TeamContextKey = 'underPressure' | 'doingWork' | 'withPeople' | 'gettingBetter'
+
+export interface TeamContextScores {
+  headPercent: number
+  heartPercent: number
+  gutPercent: number
 }
 
 /** Tree node for hierarchical display. */

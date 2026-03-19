@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDiamond, faHeart, faSquare } from '@fortawesome/free-solid-svg-icons'
-import './RadarChart.css'
+import './TeamRadarChart.css'
 
 export interface RadarChartProps {
   headPercent: number

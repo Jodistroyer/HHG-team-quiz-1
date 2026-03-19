@@ -21,19 +21,7 @@
 .teams__main {
   flex: 1;
   min-width: 0;
-  padding: 24px;
-  overflow-y: auto;
-}
-
-.teams__main h1 {
-  margin: 0 0 12px;
-  font-size: 24px;
-  font-weight: 700;
-}
-
-.teams__intro {
-  margin: 0;
-  color: #64748b;
-  font-size: 14px;
-  line-height: 1.5;
+  padding: 0;
+  overflow: hidden;
+  display: flex;
 }
