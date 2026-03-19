@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import type { Person, HHGCenter } from './types'
 import { nextId } from './data'
 import './AddPersonModal.css'
@@ -90,7 +91,7 @@ export function AddPersonModal({
     onClose()
   }
 
-  return (
+  return createPortal(
     <div className="add-person-modal__backdrop" onClick={onClose} role="dialog" aria-modal="true" aria-labelledby="add-person-title">
       <div className="add-person-modal" onClick={(e) => e.stopPropagation()}>
         <h2 id="add-person-title" className="add-person-modal__title">{isEdit ? 'Edit Person' : 'Add Person'}</h2>
@@ -187,6 +188,7 @@ export function AddPersonModal({
           </div>
         </form>
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }

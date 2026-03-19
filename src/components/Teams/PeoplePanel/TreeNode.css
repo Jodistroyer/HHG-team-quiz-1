@@ -7,23 +7,24 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  min-height: 28px;
-  padding: 2px 4px;
-  border-radius: 4px;
+  min-height: 30px;
+  padding: 3px 6px;
+  border-radius: 6px;
   cursor: default;
+  transition: background 100ms;
 }
 
 .tree-node__row:hover {
-  background: rgba(0, 0, 0, 0.05);
+  background: rgba(125, 61, 189, 0.06);
 }
 
 .tree-node--drop-target .tree-node__row {
-  background: rgba(19, 104, 206, 0.12);
-  outline: 1px dashed var(--people-accent, #1368ce);
+  background: rgba(125, 61, 189, 0.1);
+  outline: 1px dashed var(--people-accent, #7d3dbd);
 }
 
 .tree-node--dragging .tree-node__row {
-  opacity: 0.6;
+  opacity: 0.5;
 }
 
 .tree-node__expand {
@@ -31,8 +32,10 @@
   flex-shrink: 0;
   text-align: center;
   cursor: pointer;
-  color: var(--people-muted, #64748b);
+  color: var(--people-muted, #94a3b8);
   user-select: none;
+  font-size: 10px;
+  transition: color 100ms;
 }
 
 .tree-node__expand:hover {
@@ -48,10 +51,15 @@
   cursor: pointer;
 }
 
+/* Custom checkbox */
 .tree-node__checkbox {
   flex-shrink: 0;
+  width: 15px;
+  height: 15px;
   margin: 0;
   cursor: pointer;
+  accent-color: var(--people-accent, #7d3dbd);
+  border-radius: 3px;
 }
 
 .tree-node__title {
@@ -60,11 +68,13 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  font-size: 13px;
 }
 
 .tree-node__count {
-  color: var(--people-muted, #64748b);
-  font-weight: normal;
+  color: var(--people-muted, #94a3b8);
+  font-weight: 400;
+  font-size: 11px;
 }
 
 .tree-node__dots {
@@ -74,16 +84,17 @@
 }
 
 .tree-node__dot {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
 }
 
 .tree-node__children {
-  border-left: 1px solid rgba(0, 0, 0, 0.08);
-  margin-left: 6px;
+  border-left: 1.5px solid var(--people-border, #e2e8f0);
+  margin-left: 8px;
 }
 
+/* Hover action buttons (+ and …) */
 .tree-node__hover-actions {
   display: flex;
   align-items: center;
@@ -96,44 +107,44 @@
   height: 22px;
   padding: 0;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   background: transparent;
-  color: var(--people-muted, #64748b);
+  color: var(--people-muted, #94a3b8);
   font-size: 14px;
   line-height: 1;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: background 100ms, color 100ms;
 }
 
 .tree-node__hover-btn:hover {
-  background: rgba(19, 104, 206, 0.12);
-  color: var(--people-accent, #1368ce);
+  background: var(--people-accent-alpha, rgba(125, 61, 189, 0.1));
+  color: var(--people-accent, #7d3dbd);
 }
 
 .tree-node__hover-btn--add {
-  font-weight: 600;
+  font-weight: 700;
 }
 
+/* Inline rename input */
 .tree-node__inline-input {
   flex: 1;
   min-width: 0;
-  padding: 2px 6px;
+  padding: 3px 8px;
   font-size: 13px;
-  border: 1px solid var(--people-accent, #1368ce);
-  border-radius: 4px;
+  border: 1px solid var(--people-accent, #7d3dbd);
+  border-radius: 5px;
   background: var(--people-bg, #fff);
   color: var(--people-text, #1e293b);
-}
-
-.tree-node__inline-input:focus {
   outline: none;
-  box-shadow: 0 0 0 2px rgba(19, 104, 206, 0.25);
+  box-shadow: 0 0 0 3px rgba(125, 61, 189, 0.12);
 }
 
+/* Empty team placeholder */
 .tree-node__empty-state {
-  padding: 6px 4px 8px;
+  padding: 6px 4px 10px;
 }
 
 .tree-node__empty-text {
@@ -144,14 +155,16 @@
 
 .tree-node__empty-add {
   font-size: 12px;
-  padding: 4px 8px;
-  border: 1px dashed var(--people-accent, #1368ce);
-  border-radius: 4px;
-  background: rgba(19, 104, 206, 0.06);
-  color: var(--people-accent, #1368ce);
+  font-weight: 600;
+  padding: 4px 10px;
+  border: 1.5px dashed var(--people-accent, #7d3dbd);
+  border-radius: 6px;
+  background: rgba(125, 61, 189, 0.06);
+  color: var(--people-accent, #7d3dbd);
   cursor: pointer;
+  transition: background 120ms;
 }
 
 .tree-node__empty-add:hover {
-  background: rgba(19, 104, 206, 0.12);
+  background: rgba(125, 61, 189, 0.12);
 }

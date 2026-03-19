@@ -5,6 +5,7 @@
   display: flex;
   flex: 1;
   height: 100%;
+  min-height: 0;
   overflow: hidden;
 }
 
@@ -119,18 +120,45 @@
   border-right: 1px solid #e2e8f0;
   display: flex;
   flex-direction: column;
+  height: 100%;
   overflow: hidden;
   background: #fff;
+  box-sizing: border-box;
 }
 
-/* Desktop: push roster top down to clear the fixed top navbar */
+/*
+ * Desktop: Selected = same sticky + height as Teams Library only.
+ * Do NOT cap .team-map__center with --teams-sidebar-height — that reuses the sidebar’s
+ * 100dvh band and shrinks the map; the center should fill all remaining height of .teams__main.
+ */
 @media (min-width: 769px) {
+  .team-map {
+    overflow: visible;
+    align-items: stretch;
+    height: 100%;
+    min-height: 0;
+  }
+
   .team-map__roster {
-    padding-top: 16px;
+    position: sticky;
+    top: var(--teams-sticky-top);
+    align-self: flex-start;
+    height: var(--teams-sidebar-height);
+    max-height: var(--teams-sidebar-height);
+    min-height: 0;
+    padding-top: var(--teams-column-pad);
+    box-sizing: border-box;
+  }
+
+  .team-map__center {
+    align-self: stretch;
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    overflow-y: auto;
   }
 }
 
-/* Mobile: fixed navbar is at the bottom, no top offset needed */
 @media (max-width: 768px) {
   .team-map__roster {
     padding-top: 0;
@@ -142,12 +170,9 @@
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  padding: 16px 14px 12px;
-  border-bottom: 1px solid #f1f5f9;
-  position: sticky;
-  top: 0;
-  background: #fff;
-  z-index: 1;
+  /* Match PeoplePanel header padding exactly: 4px 14px 10px */
+  padding: 4px 14px 10px;
+  border-bottom: 1px solid #e2e8f0;
   flex-shrink: 0;
 }
 
@@ -158,14 +183,15 @@
   min-width: 0;
 }
 
+/* Match PeoplePanel's .people-panel__title style */
 .team-map__roster-title {
   flex: 0;
   margin: 0;
-  font-size: 0.75rem;
+  font-size: 15px;
   font-weight: 800;
-  color: #94a3b8;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: -0.01em;
+  color: #1e293b;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .team-map__roster-count {
@@ -180,7 +206,9 @@
 
 .team-map__roster-chips {
   flex: 1;
+  /* Scroll lives here, not on the outer roster */
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 10px;
   display: flex;
   flex-direction: column;

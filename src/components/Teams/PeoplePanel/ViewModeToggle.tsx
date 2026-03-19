@@ -2,10 +2,10 @@ import type { ViewMode } from './types'
 import './ViewModeToggle.css'
 
 const VIEW_LABELS: Record<ViewMode, string> = {
-  company: 'Company Structure',
+  company: 'Company',
   team: 'Team',
   tags: 'Tags',
-  flat: 'Flat List',
+  flat: 'List',
 }
 
 interface ViewModeToggleProps {

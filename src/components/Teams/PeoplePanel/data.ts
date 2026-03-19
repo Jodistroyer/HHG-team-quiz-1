@@ -1,5 +1,6 @@
-import type { Person, TreeNode, ViewMode, HHGCenter, TeamContextScores } from './types'
+import type { Person, TreeNode, ViewMode, TeamContextScores } from './types'
 import type { QuizExportPayload, PeopleImportPayload } from './types'
+import { getBrainCombination } from '../../Quiz/SectionResults/utils'
 
 /** Generate a simple unique id. */
 export function nextId(prefix = 'person'): string {
@@ -206,6 +207,7 @@ function buildCompanyTree(people: Person[], emptyTeams: EmptyTeams = {}): TreeNo
       }))
 
       const teamLabel = teamName === '_' ? 'Other' : teamName
+      const teamVisuals = groupHhgVisuals(teamPeople)
       childNodes.push({
         id: `team-${companyName}-${teamName}`,
         kind: 'team',
@@ -213,9 +215,10 @@ function buildCompanyTree(people: Person[], emptyTeams: EmptyTeams = {}): TreeNo
         count: teamPeople.length,
         children: personNodes,
         path: [companyName],
-        indicatorDots: teamPeople.length > 0 ? aggregateDots(teamPeople) : undefined,
+        ...teamVisuals,
       })
     }
+    const companyVisuals = groupHhgVisuals(companyPeople)
     nodes.push({
       id: `company-${companyName}`,
       kind: 'company',
@@ -223,7 +226,7 @@ function buildCompanyTree(people: Person[], emptyTeams: EmptyTeams = {}): TreeNo
       count: companyPeople.length,
       children: childNodes,
       path: [],
-      indicatorDots: companyPeople.length > 0 ? aggregateDots(companyPeople) : undefined,
+      ...companyVisuals,
     })
   }
 
@@ -231,16 +234,29 @@ function buildCompanyTree(people: Person[], emptyTeams: EmptyTeams = {}): TreeNo
   return nodes
 }
 
-function aggregateDots(people: Person[]): [HHGCenter, HHGCenter?, HHGCenter?] {
-  if (people.length === 0) return ['Head', 'Heart', 'Gut']
-  const counts = { Head: 0, Heart: 0, Gut: 0 }
-  for (const p of people) {
-    counts[p.dominant]++
+/** Average Head / Heart / Gut % across people under a company, team, or tag group. */
+function averageHhgPercents(people: Person[]): { headPercent: number; heartPercent: number; gutPercent: number } {
+  if (people.length === 0) {
+    return { headPercent: 33.33, heartPercent: 33.33, gutPercent: 33.34 }
   }
-  const sorted = (['Head', 'Heart', 'Gut'] as HHGCenter[]).sort(
-    (a, b) => counts[b] - counts[a]
-  )
-  return [sorted[0], sorted[1], sorted[2]]
+  let h = 0
+  let he = 0
+  let g = 0
+  for (const p of people) {
+    h += p.headPercent
+    he += p.heartPercent
+    g += p.gutPercent
+  }
+  const n = people.length
+  return { headPercent: h / n, heartPercent: he / n, gutPercent: g / n }
+}
+
+/** Same ordering/rules as brain combo badge, from group averages (smaller tree dots). */
+function groupHhgVisuals(people: Person[]): { aggregateLabel: string; indicatorDotColors: string[] } | undefined {
+  if (people.length === 0) return undefined
+  const { headPercent, heartPercent, gutPercent } = averageHhgPercents(people)
+  const combo = getBrainCombination(headPercent, heartPercent, gutPercent)
+  return { aggregateLabel: combo.label, indicatorDotColors: combo.colors }
 }
 
 function buildTeamTree(people: Person[]): TreeNode[] {
@@ -253,6 +269,7 @@ function buildTeamTree(people: Person[]): TreeNode[] {
 
   const nodes: TreeNode[] = []
   for (const [teamName, list] of byTeam) {
+    const visuals = groupHhgVisuals(list)
     nodes.push({
       id: `team-${teamName}`,
       kind: 'team',
@@ -267,7 +284,7 @@ function buildTeamTree(people: Person[]): TreeNode[] {
         path: [teamName],
       })),
       path: [],
-      indicatorDots: aggregateDots(list),
+      ...visuals,
     })
   }
   nodes.sort((a, b) => (b.count ?? 0) - (a.count ?? 0))
@@ -292,6 +309,7 @@ function buildTagsTree(people: Person[]): TreeNode[] {
   const nodes: TreeNode[] = []
   for (const [tagName, list] of byTag) {
     const label = tagName === '_untagged' ? 'No tag' : tagName
+    const tagVisuals = groupHhgVisuals(list)
     nodes.push({
       id: `tag-${tagName}`,
       kind: 'tag',
@@ -306,7 +324,7 @@ function buildTagsTree(people: Person[]): TreeNode[] {
         path: [label],
       })),
       path: [],
-      indicatorDots: aggregateDots(list),
+      ...tagVisuals,
     })
   }
   nodes.sort((a, b) => (b.count ?? 0) - (a.count ?? 0))

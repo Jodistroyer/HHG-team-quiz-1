@@ -1,10 +1,15 @@
-/* People Panel - left sidebar for Teams page */
+/* ── Design tokens ───────────────────────────────────────────────────────── */
 .people-panel {
-  --people-bg: #fafafa;
+  --people-bg: #ffffff;
+  --people-surface: #f8fafc;
   --people-text: #1e293b;
   --people-muted: #64748b;
   --people-border: #e2e8f0;
-  --people-accent: #1368ce;
+  --people-accent: #7d3dbd;
+  --people-accent-blue: #1368ce;
+  --people-accent-alpha: rgba(125, 61, 189, 0.1);
+  --people-danger: #e21b3c;
+  --people-radius: 8px;
 
   display: flex;
   flex-direction: column;
@@ -17,57 +22,65 @@
   box-sizing: border-box;
 }
 
-/* PC: start panel lower to clear the top navbar */
-@media (min-width: 769px) {
-  .people-panel {
-    padding-top: 16px;
-  }
-}
+/* Top offset under navbar is handled by .teams__panel (sticky + padding). */
 
+/* ── Header ──────────────────────────────────────────────────────────────── */
 .people-panel__header {
   flex-shrink: 0;
-  padding: 12px 12px 8px;
+  padding: 4px 14px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .people-panel__title {
   margin: 0;
-  font-size: 18px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--people-text);
+  font-family: 'Montserrat', sans-serif;
 }
 
+/* ── Search ──────────────────────────────────────────────────────────────── */
 .people-panel__search {
   flex-shrink: 0;
-  padding: 0 12px 8px;
+  padding: 0 10px 8px;
 }
 
+/* ── Role filter ─────────────────────────────────────────────────────────── */
 .people-panel__filter {
   flex-shrink: 0;
-  padding: 0 12px 8px;
+  padding: 0 10px 8px;
 }
 
+/* ── Action buttons ──────────────────────────────────────────────────────── */
 .people-panel__actions {
   display: flex;
-  gap: 8px;
+  flex-wrap: wrap;
+  gap: 6px;
   flex-shrink: 0;
-  padding: 0 12px 8px;
+  padding: 0 10px 10px;
 }
 
 .people-panel__btn {
-  flex: 1;
-  padding: 8px 10px;
-  font-size: 12px;
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 7px 8px;
+  font-size: 11.5px;
+  font-weight: 600;
   border: 1px solid var(--people-border);
-  border-radius: 6px;
-  background: var(--people-bg);
+  border-radius: var(--people-radius);
+  background: var(--people-surface);
   color: var(--people-text);
   cursor: pointer;
-  transition: background 0.15s, border-color 0.15s;
+  transition: background 120ms, border-color 120ms, color 120ms;
+  white-space: nowrap;
 }
 
 .people-panel__btn:hover {
   background: #f1f5f9;
-  border-color: var(--people-muted);
+  border-color: #94a3b8;
 }
 
 .people-panel__btn--add {
@@ -77,13 +90,22 @@
 }
 
 .people-panel__btn--add:hover {
-  filter: brightness(1.08);
+  background: #6b32a8;
+  border-color: #6b32a8;
 }
 
 .people-panel__btn--secondary {
-  background: var(--people-bg);
+  background: var(--people-surface);
   color: var(--people-text);
-  border-color: var(--people-border);
+}
+
+.people-panel__btn--import {
+  background: var(--people-surface);
+  color: var(--people-muted);
+}
+
+.people-panel__btn--import:hover {
+  color: var(--people-text);
 }
 
 .people-panel__file-input {
@@ -94,39 +116,44 @@
   pointer-events: none;
 }
 
+/* ── View mode toggle – sits inside its own component's css ──────────────── */
 .view-mode-toggle {
   flex-shrink: 0;
-  padding: 0 12px 8px;
+  padding: 0 10px 10px;
 }
 
+/* ── Tree area ───────────────────────────────────────────────────────────── */
 .people-panel__tree-wrap {
   flex: 1 1 0;
   min-height: 200px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  padding: 0 12px;
+  padding: 0 6px;
+  border-top: 1px solid var(--people-border);
 }
 
-/* Footer: fixed height; top buttons don't scroll, Saved Groups + Selected list scroll */
+/* ── Footer ──────────────────────────────────────────────────────────────── */
 .people-panel__footer {
   flex-shrink: 0;
-  height: 280px;
-  min-height: 280px;
-  max-height: 280px;
-  margin-top: 8px;
+  height: 240px;
+  min-height: 240px;
+  max-height: 240px;
+  margin-top: 0;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  padding: 0 12px 12px;
+  padding: 8px 10px 10px;
+  border-top: 1px solid var(--people-border);
 }
 
 .people-panel__footer-buttons {
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
+  gap: 6px;
   padding-bottom: 8px;
-  border-bottom: 1px solid var(--people-border, #e2e8f0);
+  border-bottom: 1px solid var(--people-border);
   margin-bottom: 8px;
 }
 
@@ -137,42 +164,44 @@
   overflow-x: hidden;
 }
 
+/* Save group button */
 .people-panel__save-group-btn {
   flex-shrink: 0;
+  width: 100%;
   margin: 0;
-  padding: 6px 10px;
-  font-size: 11px;
-  border: 1px dashed var(--people-accent);
-  border-radius: 6px;
-  background: rgba(19, 104, 206, 0.06);
+  padding: 7px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1.5px dashed var(--people-accent);
+  border-radius: var(--people-radius);
+  background: var(--people-accent-alpha);
   color: var(--people-accent);
   cursor: pointer;
+  transition: background 120ms;
 }
 
 .people-panel__save-group-btn:hover {
-  background: rgba(19, 104, 206, 0.12);
+  background: rgba(125, 61, 189, 0.16);
 }
 
+/* Export / Delete row */
 .people-panel__footer-actions {
   display: flex;
-  gap: 8px;
-  margin-top: 6px;
+  gap: 6px;
   flex-shrink: 0;
-}
-
-.people-panel__footer-actions:first-child {
-  margin-top: 0;
 }
 
 .people-panel__footer-btn {
   flex: 1;
   padding: 6px 10px;
   font-size: 12px;
-  border: 1px solid var(--people-border, #e2e8f0);
-  border-radius: 6px;
-  background: var(--people-bg, #fff);
-  color: var(--people-text, #1e293b);
+  font-weight: 500;
+  border: 1px solid var(--people-border);
+  border-radius: var(--people-radius);
+  background: var(--people-surface);
+  color: var(--people-text);
   cursor: pointer;
+  transition: background 120ms;
 }
 
 .people-panel__footer-btn:hover {
@@ -180,14 +209,16 @@
 }
 
 .people-panel__footer-btn--danger {
-  color: #e21b3c;
-  border-color: rgba(226, 27, 60, 0.3);
+  color: var(--people-danger);
+  border-color: rgba(226, 27, 60, 0.25);
+  background: rgba(226, 27, 60, 0.04);
 }
 
 .people-panel__footer-btn--danger:hover {
-  background: rgba(226, 27, 60, 0.08);
+  background: rgba(226, 27, 60, 0.1);
 }
 
+/* ── Save-group modal ────────────────────────────────────────────────────── */
 .people-panel__backdrop {
   position: fixed;
   inset: 0;
@@ -195,36 +226,55 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: 1500;
+  /* Portaled to body — same sans stack as .app */
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    'Roboto',
+    'Oxygen',
+    'Ubuntu',
+    'Cantarell',
+    'Fira Sans',
+    'Droid Sans',
+    'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .people-panel__save-group-modal {
   background: var(--people-bg);
-  border-radius: 10px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-  padding: 16px;
-  min-width: 260px;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+  padding: 20px;
+  min-width: 280px;
 }
 
 .people-panel__save-group-title {
-  margin: 0 0 10px;
-  font-size: 16px;
-  font-weight: 600;
+  margin: 0 0 12px;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .people-panel__save-group-input {
   width: 100%;
-  padding: 8px 10px;
+  padding: 9px 11px;
   font-size: 13px;
   border: 1px solid var(--people-border);
-  border-radius: 6px;
-  margin-bottom: 12px;
+  border-radius: var(--people-radius);
+  margin-bottom: 14px;
   box-sizing: border-box;
+  color: var(--people-text);
+  background: var(--people-bg);
 }
 
 .people-panel__save-group-input:focus {
   outline: none;
   border-color: var(--people-accent);
+  box-shadow: 0 0 0 3px rgba(125, 61, 189, 0.15);
 }
 
 .people-panel__save-group-actions {
@@ -234,13 +284,19 @@
 }
 
 .people-panel__save-group-actions button {
-  padding: 8px 14px;
+  padding: 8px 16px;
   font-size: 13px;
-  border-radius: 6px;
+  font-weight: 600;
+  border-radius: var(--people-radius);
   cursor: pointer;
   border: 1px solid var(--people-border);
-  background: var(--people-bg);
+  background: var(--people-surface);
   color: var(--people-text);
+  transition: background 120ms;
+}
+
+.people-panel__save-group-actions button:hover {
+  background: #f1f5f9;
 }
 
 .people-panel__save-group-actions button:last-child {
@@ -249,10 +305,7 @@
   border-color: var(--people-accent);
 }
 
-.people-panel__save-group-actions button:hover {
-  filter: brightness(0.98);
-}
-
 .people-panel__save-group-actions button:last-child:hover {
-  filter: brightness(1.05);
+  background: #6b32a8;
+  border-color: #6b32a8;
 }

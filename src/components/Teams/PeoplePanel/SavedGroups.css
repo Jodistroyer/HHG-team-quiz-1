@@ -1,19 +1,14 @@
-/* No inner scroll; footer scroll area (people-panel__footer-scroll) is the single scroll when content overflows */
 .saved-groups {
-  border-top: 1px solid var(--people-border, #e2e8f0);
-  padding-top: 8px;
-  margin-top: 8px;
-  flex-shrink: 0;
   display: flex;
   flex-direction: column;
 }
 
 .saved-groups__title {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--people-muted, #64748b);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--people-muted, #94a3b8);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.07em;
   margin-bottom: 6px;
   flex-shrink: 0;
 }
@@ -22,48 +17,90 @@
   list-style: none;
   margin: 0;
   padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
 }
 
 .saved-groups__item {
   display: flex;
   align-items: center;
-  gap: 4px;
-  margin-bottom: 2px;
+  gap: 3px;
+  border-radius: 7px;
+  border: 1px solid transparent;
+  transition: border-color 120ms, background 120ms;
+}
+
+.saved-groups__item:hover {
+  background: var(--people-surface, #f8fafc);
+  border-color: var(--people-border, #e2e8f0);
+}
+
+/* Active / selected group */
+.saved-groups__item--active {
+  background: rgba(125, 61, 189, 0.08);
+  border-color: rgba(125, 61, 189, 0.25);
+}
+
+.saved-groups__item--active .saved-groups__btn {
+  color: var(--people-accent, #7d3dbd);
+  font-weight: 700;
+}
+
+.saved-groups__item--active .saved-groups__count {
+  color: var(--people-accent, #7d3dbd);
+  opacity: 0.75;
 }
 
 .saved-groups__btn {
   flex: 1;
   text-align: left;
-  font-size: 12px;
-  padding: 4px 6px;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 6px 8px;
   border: none;
   background: transparent;
-  color: var(--people-accent, #1368ce);
+  color: var(--people-text, #1e293b);
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
 }
 
 .saved-groups__btn:hover {
-  background: rgba(19, 104, 206, 0.08);
+  background: transparent;
 }
 
 .saved-groups__count {
-  color: var(--people-muted, #64748b);
+  color: var(--people-muted, #94a3b8);
+  font-size: 11px;
+  font-weight: 400;
   margin-left: 2px;
+  flex-shrink: 0;
 }
 
 .saved-groups__delete {
-  font-size: 14px;
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
   line-height: 1;
-  padding: 2px 6px;
+  padding: 0;
   border: none;
   background: none;
-  color: var(--people-muted, #64748b);
+  color: #cbd5e1;
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: 5px;
+  transition: background 100ms, color 100ms;
+  margin-right: 3px;
 }
 
 .saved-groups__delete:hover {
-  color: var(--people-text, #1e293b);
-  background: rgba(0, 0, 0, 0.06);
+  color: var(--people-danger, #e21b3c);
+  background: rgba(226, 27, 60, 0.08);
 }

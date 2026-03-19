@@ -4,6 +4,8 @@ import { RadarChart } from './TeamRadarResults/TeamRadarChart'
 import { getBrainCombination } from '../../Quiz/SectionResults/utils'
 import './TeamMap.css'
 import './TeamRadarResults/TeamAllRadarsSection.css'
+// Reuse the same button styling class as the (now removed) PeoplePanel SelectedList.
+import '../PeoplePanel/SelectedList.css'
 
 interface TeamMapProps {
   selectedPeople: Person[]

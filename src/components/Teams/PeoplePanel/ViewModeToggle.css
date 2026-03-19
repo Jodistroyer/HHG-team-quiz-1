@@ -1,37 +1,66 @@
+/* Pill-style segmented tab strip */
 .view-mode-toggle {
-  padding: 6px 0;
+  padding: 0;
 }
 
 .view-mode-toggle__label {
   display: block;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--people-muted, #64748b);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--people-muted, #94a3b8);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
-  margin-bottom: 6px;
+  letter-spacing: 0.07em;
+  margin-bottom: 5px;
+  padding: 0 2px;
 }
 
 .view-mode-toggle__options {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  gap: 3px;
+  background: var(--people-surface, #f8fafc);
+  border: 1px solid var(--people-border, #e2e8f0);
+  border-radius: 8px;
+  padding: 3px;
 }
 
 .view-mode-toggle__option {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
+  flex: 1;
+  display: block;
   cursor: pointer;
-  font-size: 12px;
-  color: var(--people-text, #1e293b);
 }
 
+/* Hide the radio input visually but keep it accessible */
 .view-mode-toggle__input {
-  margin: 0;
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
 }
 
-.view-mode-toggle__input:checked + .view-mode-toggle__text {
+.view-mode-toggle__text {
+  display: block;
+  text-align: center;
+  font-size: 10.5px;
   font-weight: 600;
-  color: var(--people-accent, #1368ce);
+  padding: 4px 2px;
+  border-radius: 5px;
+  color: var(--people-muted, #64748b);
+  transition: background 120ms, color 120ms;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  user-select: none;
+}
+
+.view-mode-toggle__option:hover .view-mode-toggle__text {
+  color: var(--people-text, #1e293b);
+  background: rgba(0, 0, 0, 0.04);
+}
+
+/* Active / checked state */
+.view-mode-toggle__input:checked + .view-mode-toggle__text {
+  background: var(--people-accent, #7d3dbd);
+  color: #fff;
+  font-weight: 700;
 }

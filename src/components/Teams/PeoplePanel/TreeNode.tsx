@@ -1,13 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
-import type { TreeNode as TreeNodeType, HHGCenter } from './types'
+import type { TreeNode as TreeNodeType } from './types'
 import { getPersonIdsUnder } from './data'
 import './TreeNode.css'
-
-const DOT_COLORS: Record<HHGCenter, string> = {
-  Head: '#1368ce',
-  Heart: '#e21b3c',
-  Gut: '#26890c',
-}
 
 interface TreeNodeProps {
   node: TreeNodeType
@@ -190,14 +184,13 @@ export function TreeNode({
                   <span className="tree-node__count"> ({node.count})</span>
                 )}
               </span>
-              {node.indicatorDots && node.indicatorDots.length > 0 && (
-                <span className="tree-node__dots" aria-label={`Tendency: ${node.indicatorDots.join(', ')}`}>
-                  {node.indicatorDots.slice(0, 3).map((c, i) => (
-                    <span
-                      key={i}
-                      className="tree-node__dot"
-                      style={{ backgroundColor: c ? DOT_COLORS[c] : 'transparent' }}
-                    />
+              {node.indicatorDotColors && node.indicatorDotColors.length > 0 && (
+                <span
+                  className="tree-node__dots"
+                  aria-label={node.aggregateLabel ? `Team balance: ${node.aggregateLabel}` : 'Team balance'}
+                >
+                  {node.indicatorDotColors.map((color, i) => (
+                    <span key={i} className="tree-node__dot" style={{ backgroundColor: color }} />
                   ))}
                 </span>
               )}

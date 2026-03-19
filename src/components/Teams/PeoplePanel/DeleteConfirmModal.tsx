@@ -1,3 +1,5 @@
+import { useId } from 'react'
+import { createPortal } from 'react-dom'
 import './DeleteConfirmModal.css'
 
 export interface DeleteImpact {
@@ -23,15 +25,24 @@ export function DeleteConfirmModal({
   onConfirm,
   onCancel,
 }: DeleteConfirmModalProps) {
+  const titleId = useId()
   const hasImpact =
     impact.peopleCount > 0 ||
     (impact.extra?.length ?? 0) > 0 ||
     (impact.groupsRemovedFrom?.length ?? 0) > 0
 
-  return (
-    <div className="delete-confirm-backdrop" onClick={onCancel}>
-      <div className="delete-confirm-modal" onClick={(e) => e.stopPropagation()}>
-        <h3 className="delete-confirm-title">{title}</h3>
+  return createPortal(
+    <div className="delete-confirm-backdrop" onClick={onCancel} role="presentation">
+      <div
+        className="delete-confirm-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <h3 id={titleId} className="delete-confirm-title">
+          {title}
+        </h3>
         <p className="delete-confirm-message">{message}</p>
         {hasImpact && (
           <div className="delete-confirm-impact">
@@ -63,6 +74,7 @@ export function DeleteConfirmModal({
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }

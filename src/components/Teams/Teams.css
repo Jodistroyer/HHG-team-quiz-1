@@ -1,4 +1,8 @@
+/* Navbar offset: tops of library + selected column stick here (desktop). */
 .teams {
+  --teams-sticky-top: 86px;
+  --teams-column-pad: 10px;
+
   display: flex;
   flex: 1;
   min-height: 0;
@@ -16,12 +20,72 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
 }
 
 .teams__main {
   flex: 1;
   min-width: 0;
+  height: 100%;
   padding: 0;
   overflow: hidden;
   display: flex;
+}
+
+/* Desktop: both sidebars use the same sticky top + identical height (shared vars) */
+@media (min-width: 769px) {
+  .teams {
+    --teams-bottom-gap: 16px;
+    /* One height for Teams Library and Selected — keeps columns aligned */
+    --teams-sidebar-height: calc(100dvh - var(--teams-sticky-top) - var(--teams-bottom-gap));
+
+    align-items: stretch;
+    overflow: visible;
+  }
+
+  .teams__panel {
+    position: sticky;
+    top: var(--teams-sticky-top);
+    align-self: flex-start;
+    height: var(--teams-sidebar-height);
+    max-height: var(--teams-sidebar-height);
+    min-height: 0;
+    padding-top: var(--teams-column-pad);
+    box-sizing: border-box;
+  }
+
+  .teams__main {
+    /* visible so sticky roster can use the viewport scrollport */
+    overflow: visible;
+    align-self: stretch;
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    height: 100%;
+    max-height: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .teams {
+    --teams-sticky-top: 0px;
+    --teams-column-pad: 0px;
+    align-items: stretch;
+    overflow: hidden;
+  }
+
+  .teams__panel {
+    position: static;
+    top: auto;
+    height: 100%;
+    max-height: none;
+    padding-top: 0;
+  }
+
+  .teams__main {
+    overflow: hidden;
+    height: 100%;
+    max-height: none;
+    align-self: stretch;
+  }
 }

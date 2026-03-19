@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import type { Person, ViewMode, SavedGroup, TreeNode as TreeNodeType } from './types'
 import type { EmptyTeams } from './data'
 import {
@@ -15,7 +16,6 @@ import { PeopleSearch } from './PeopleSearch'
 import { RoleFilter } from './RoleFilter'
 import { ViewModeToggle } from './ViewModeToggle'
 import { PeopleTree } from './PeopleTree'
-import { SelectedList } from './SelectedList'
 import { SavedGroups } from './SavedGroups'
 import { AddPersonModal } from './AddPersonModal'
 import { ContextMenu, type ContextMenuItem } from './ContextMenu'
@@ -138,10 +138,6 @@ export function PeoplePanel({ onSelectedPeopleChange, onRegisterDeselect, onRegi
 
   const handleSelectionChange = useCallback((ids: Set<string>) => {
     setSelectedIds(ids)
-  }, [])
-
-  const handleClearSelection = useCallback(() => {
-    setSelectedIds(new Set())
   }, [])
 
   const handleAddPerson = useCallback(
@@ -675,12 +671,6 @@ export function PeoplePanel({ onSelectedPeopleChange, onRegisterDeselect, onRegi
             onSelectGroup={handleSelectSavedGroup}
             onDeleteGroup={handleDeleteSavedGroup}
           />
-
-          <SelectedList
-            people={people}
-            selectedIds={selectedIds}
-            onClearSelection={handleClearSelection}
-          />
         </div>
       </div>
 
@@ -695,14 +685,16 @@ export function PeoplePanel({ onSelectedPeopleChange, onRegisterDeselect, onRegi
         />
       )}
 
-      {contextMenu && (
-        <ContextMenu
-          x={contextMenu.x}
-          y={contextMenu.y}
-          items={getContextMenuItems()}
-          onClose={() => setContextMenu(null)}
-        />
-      )}
+      {contextMenu &&
+        createPortal(
+          <ContextMenu
+            x={contextMenu.x}
+            y={contextMenu.y}
+            items={getContextMenuItems()}
+            onClose={() => setContextMenu(null)}
+          />,
+          document.body
+        )}
 
       {deleteConfirm && (
         <DeleteConfirmModal
@@ -714,29 +706,31 @@ export function PeoplePanel({ onSelectedPeopleChange, onRegisterDeselect, onRegi
         />
       )}
 
-      {showSaveGroupPrompt && (
-        <div className="people-panel__backdrop" onClick={() => setShowSaveGroupPrompt(false)}>
-          <div className="people-panel__save-group-modal" onClick={(e) => e.stopPropagation()}>
-            <h3 className="people-panel__save-group-title">Save group</h3>
-            <input
-              type="text"
-              className="people-panel__save-group-input"
-              placeholder="e.g. Cross-Functional Team"
-              value={saveGroupName}
-              onChange={(e) => setSaveGroupName(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleConfirmSaveGroup()}
-            />
-            <div className="people-panel__save-group-actions">
-              <button type="button" onClick={() => setShowSaveGroupPrompt(false)}>
-                Cancel
-              </button>
-              <button type="button" onClick={handleConfirmSaveGroup}>
-                Save
-              </button>
+      {showSaveGroupPrompt &&
+        createPortal(
+          <div className="people-panel__backdrop" onClick={() => setShowSaveGroupPrompt(false)}>
+            <div className="people-panel__save-group-modal" onClick={(e) => e.stopPropagation()}>
+              <h3 className="people-panel__save-group-title">Save group</h3>
+              <input
+                type="text"
+                className="people-panel__save-group-input"
+                placeholder="e.g. Cross-Functional Team"
+                value={saveGroupName}
+                onChange={(e) => setSaveGroupName(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleConfirmSaveGroup()}
+              />
+              <div className="people-panel__save-group-actions">
+                <button type="button" onClick={() => setShowSaveGroupPrompt(false)}>
+                  Cancel
+                </button>
+                <button type="button" onClick={handleConfirmSaveGroup}>
+                  Save
+                </button>
+              </div>
             </div>
-          </div>
-        </div>
-      )}
+          </div>,
+          document.body
+        )}
     </div>
   )
 }
