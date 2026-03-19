@@ -99,6 +99,23 @@
     margin-top: -40px;
     margin-bottom: -40px;
   }
+
+  /*
+   * Teams: don’t pull the page up — the fixed navbar (z-index 1000) was overlapping
+   * the top of the library / Selected columns and hiding their top edges & borders.
+   * Also stretch so sidebars get a stable height.
+   */
+  .app-content:has(.teams) {
+    margin-top: 0;
+    margin-bottom: 0;
+    align-self: stretch;
+    align-items: stretch;
+    min-height: 0;
+  }
+
+  .app:has(.teams) {
+    align-items: stretch;
+  }
 }
 
 /* Scale down by 20% (zoom to 80%) when window is not maximized on PC */

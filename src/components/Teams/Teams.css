@@ -41,8 +41,14 @@
 
     align-items: stretch;
     overflow: visible;
+    /* Space between library card and map so borders aren’t flush / merged visually */
+    gap: 12px;
   }
 
+  /*
+   * Library column: full border + above teams__main in paint order so the map column
+   * never covers the right/top/bottom edge (flex subpixel overlap was hiding lines).
+   */
   .teams__panel {
     position: sticky;
     top: var(--teams-sticky-top);
@@ -52,6 +58,16 @@
     min-height: 0;
     padding-top: var(--teams-column-pad);
     box-sizing: border-box;
+    z-index: 2;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  /* Inner panel border-right would duplicate the wrapper edge */
+  .teams__panel .people-panel {
+    border-right: none;
   }
 
   .teams__main {
@@ -63,6 +79,8 @@
     min-height: 0;
     height: 100%;
     max-height: none;
+    z-index: 1;
+    isolation: isolate;
   }
 }
 
