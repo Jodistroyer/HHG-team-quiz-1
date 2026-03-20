@@ -1,7 +1,8 @@
 /* Navbar offset: tops of library + selected column stick here (desktop). */
 .teams {
   --teams-sticky-top: 86px;
-  --teams-column-pad: 10px;
+  /* Less top inset = slightly taller inner area for library / saved / selected */
+  --teams-column-pad: 6px;
 
   display: flex;
   flex: 1;
@@ -11,9 +12,10 @@
 }
 
 .teams__panel {
-  width: 320px;
-  min-width: 280px;
-  max-width: 420px;
+  /* Library + Saved groups + Selected (two columns inside one PeoplePanel card) */
+  width: min(640px, 52vw);
+  min-width: 320px;
+  max-width: 720px;
   flex-shrink: 0;
   height: 100%;
   min-height: 0;
@@ -21,6 +23,7 @@
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  gap: 0;
 }
 
 .teams__main {
@@ -35,9 +38,13 @@
 /* Desktop: both sidebars use the same sticky top + identical height (shared vars) */
 @media (min-width: 769px) {
   .teams {
-    --teams-bottom-gap: 16px;
+    /* Reserve almost no bottom gap; extra px extends the people panel card downward for all three boxes */
+    --teams-bottom-gap: 0px;
+    --teams-panel-height-extra: 120px;
     /* One height for Teams Library and Selected — keeps columns aligned */
-    --teams-sidebar-height: calc(100dvh - var(--teams-sticky-top) - var(--teams-bottom-gap));
+    --teams-sidebar-height: calc(
+      100dvh - var(--teams-sticky-top) - var(--teams-bottom-gap) + var(--teams-panel-height-extra)
+    );
 
     align-items: stretch;
     overflow: visible;
@@ -46,8 +53,7 @@
   }
 
   /*
-   * Library column: full border + above teams__main in paint order so the map column
-   * never covers the right/top/bottom edge (flex subpixel overlap was hiding lines).
+   * Left column: sticky stack with gap — no single outer card (library + saved groups are separate).
    */
   .teams__panel {
     position: sticky;
@@ -59,15 +65,23 @@
     padding-top: var(--teams-column-pad);
     box-sizing: border-box;
     z-index: 2;
+    /* Clip panel content so inner cards never paint over the map */
+    overflow: hidden;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+  }
+
+  /* Single PeoplePanel card: library + saved groups | selected */
+  .teams__panel > .people-panel {
+    flex: 1 1 0;
+    min-height: 0;
+    width: 100%;
+    z-index: 2;
     background: #fff;
     border: 1px solid #e2e8f0;
     border-radius: 12px;
     overflow: hidden;
-  }
-
-  /* Inner panel border-right would duplicate the wrapper edge */
-  .teams__panel .people-panel {
-    border-right: none;
   }
 
   .teams__main {
@@ -98,6 +112,9 @@
     height: 100%;
     max-height: none;
     padding-top: 0;
+    width: 100%;
+    min-width: 0;
+    max-width: none;
   }
 
   .teams__main {

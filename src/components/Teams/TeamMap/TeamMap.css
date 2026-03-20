@@ -9,6 +9,11 @@
   overflow: hidden;
 }
 
+/* Roster embedded in PeoplePanel — wrapper is layout-transparent */
+.team-map--embedded-roster {
+  display: contents;
+}
+
 /* ─────────────────────────────────────────
    Centre column
 ───────────────────────────────────────── */
@@ -138,7 +143,17 @@
     align-items: stretch;
     height: 100%;
     min-height: 0;
-    gap: 12px;
+    gap: 0;
+  }
+
+  .team-map--center-only .team-map__center {
+    align-self: stretch;
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    overflow-y: auto;
+    z-index: 1;
+    isolation: isolate;
   }
 
   /*
@@ -217,7 +232,8 @@
 }
 
 .team-map__roster-chips {
-  flex: 1;
+  flex: 1 1 0;
+  min-height: 0;
   /* Scroll lives here, not on the outer roster */
   overflow-y: auto;
   overflow-x: hidden;

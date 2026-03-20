@@ -53,7 +53,7 @@ export interface TreeNode {
   path?: string[]
 }
 
-/** Organization view mode. Role is not a hierarchy level; use role filter instead. */
+/** Organization view mode. Role is not a hierarchy level. */
 export type ViewMode = 'company' | 'team' | 'tags' | 'flat'
 
 /** Saved group for quick selection. */

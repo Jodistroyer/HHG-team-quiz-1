@@ -1,0 +1,199 @@
+/* ── Teams Library (people tree + actions) ─────────────────────────────── */
+.teams-library {
+  --people-bg: #ffffff;
+  --people-surface: #f8fafc;
+  --people-text: #1e293b;
+  --people-muted: #64748b;
+  --people-border: #e2e8f0;
+  --people-accent: #7d3dbd;
+  --people-accent-blue: #1368ce;
+  --people-accent-alpha: rgba(125, 61, 189, 0.1);
+  --people-danger: #e21b3c;
+  --people-radius: 8px;
+
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--people-bg);
+  color: var(--people-text);
+  box-sizing: border-box;
+}
+
+/* Top offset under navbar is handled by .teams__panel (sticky + padding). */
+
+/* ── Header ──────────────────────────────────────────────────────────────── */
+.teams-library__header {
+  flex-shrink: 0;
+  padding: 4px 14px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.teams-library__title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--people-text);
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* ── Search ──────────────────────────────────────────────────────────────── */
+.teams-library__search {
+  flex-shrink: 0;
+  padding: 0 10px 8px;
+}
+
+/* ── Action buttons ──────────────────────────────────────────────────────── */
+.teams-library__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  flex-shrink: 0;
+  padding: 0 10px 10px;
+}
+
+.teams-library__btn {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 7px 8px;
+  font-size: 11.5px;
+  font-weight: 600;
+  border: 1px solid var(--people-border);
+  border-radius: var(--people-radius);
+  background: var(--people-surface);
+  color: var(--people-text);
+  cursor: pointer;
+  transition: background 120ms, border-color 120ms, color 120ms;
+  white-space: nowrap;
+}
+
+.teams-library__btn:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+}
+
+.teams-library__btn--add {
+  background: var(--people-accent);
+  color: #fff;
+  border-color: var(--people-accent);
+}
+
+.teams-library__btn--add:hover {
+  background: #6b32a8;
+  border-color: #6b32a8;
+}
+
+.teams-library__btn--secondary {
+  background: var(--people-surface);
+  color: var(--people-text);
+}
+
+.teams-library__btn--import {
+  background: var(--people-surface);
+  color: var(--people-muted);
+}
+
+.teams-library__btn--import:hover {
+  color: var(--people-text);
+}
+
+.teams-library__file-input {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ── View mode toggle – sits inside its own component's css ──────────────── */
+.view-mode-toggle {
+  flex-shrink: 0;
+  padding: 0 10px 10px;
+}
+
+/* ── Tree area ───────────────────────────────────────────────────────────── */
+.teams-library__tree-wrap {
+  flex: 1 1 0;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 0 6px;
+  border-top: 1px solid var(--people-border);
+}
+
+/* ── Footer (actions only — saved groups live in .saved-groups-card) ─────── */
+.teams-library__footer {
+  flex-shrink: 0;
+  margin-top: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 8px 10px 10px;
+  border-top: 1px solid var(--people-border);
+}
+
+.teams-library__footer-buttons {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Save group button */
+.teams-library__save-group-btn {
+  flex-shrink: 0;
+  width: 100%;
+  margin: 0;
+  padding: 7px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1.5px dashed var(--people-accent);
+  border-radius: var(--people-radius);
+  background: var(--people-accent-alpha);
+  color: var(--people-accent);
+  cursor: pointer;
+  transition: background 120ms;
+}
+
+.teams-library__save-group-btn:hover {
+  background: rgba(125, 61, 189, 0.16);
+}
+
+/* Export / Delete row */
+.teams-library__footer-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.teams-library__footer-btn {
+  flex: 1;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid var(--people-border);
+  border-radius: var(--people-radius);
+  background: var(--people-surface);
+  color: var(--people-text);
+  cursor: pointer;
+  transition: background 120ms;
+}
+
+.teams-library__footer-btn:hover {
+  background: #f1f5f9;
+}
+
+.teams-library__footer-btn--danger {
+  color: var(--people-danger);
+  border-color: rgba(226, 27, 60, 0.25);
+  background: rgba(226, 27, 60, 0.04);
+}
+
+.teams-library__footer-btn--danger:hover {
+  background: rgba(226, 27, 60, 0.1);
+}

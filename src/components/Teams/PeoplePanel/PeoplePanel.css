@@ -1,4 +1,4 @@
-/* ── Design tokens ───────────────────────────────────────────────────────── */
+/* ── People panel shell: Teams Library + Saved groups | Selected ─────────── */
 .people-panel {
   --people-bg: #ffffff;
   --people-surface: #f8fafc;
@@ -15,219 +15,171 @@
   flex-direction: column;
   height: 100%;
   min-height: 0;
+  width: 100%;
   overflow: hidden;
-  background: var(--people-bg);
-  border-right: 1px solid var(--people-border);
-  color: var(--people-text);
   box-sizing: border-box;
+  color: var(--people-text);
 }
 
-/* Top offset under navbar is handled by .teams__panel (sticky + padding). */
-
-/* ── Header ──────────────────────────────────────────────────────────────── */
-.people-panel__header {
-  flex-shrink: 0;
-  padding: 4px 14px 10px;
+.people-panel__body {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.people-panel__title {
-  margin: 0;
-  font-size: 15px;
-  font-weight: 800;
-  letter-spacing: -0.01em;
-  color: var(--people-text);
-  font-family: 'Montserrat', sans-serif;
-}
-
-/* ── Search ──────────────────────────────────────────────────────────────── */
-.people-panel__search {
-  flex-shrink: 0;
-  padding: 0 10px 8px;
-}
-
-/* ── Role filter ─────────────────────────────────────────────────────────── */
-.people-panel__filter {
-  flex-shrink: 0;
-  padding: 0 10px 8px;
-}
-
-/* ── Action buttons ──────────────────────────────────────────────────────── */
-.people-panel__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  flex-shrink: 0;
-  padding: 0 10px 10px;
-}
-
-.people-panel__btn {
-  flex: 1 1 auto;
-  min-width: 0;
-  padding: 7px 8px;
-  font-size: 11.5px;
-  font-weight: 600;
-  border: 1px solid var(--people-border);
-  border-radius: var(--people-radius);
-  background: var(--people-surface);
-  color: var(--people-text);
-  cursor: pointer;
-  transition: background 120ms, border-color 120ms, color 120ms;
-  white-space: nowrap;
-}
-
-.people-panel__btn:hover {
-  background: #f1f5f9;
-  border-color: #94a3b8;
-}
-
-.people-panel__btn--add {
-  background: var(--people-accent);
-  color: #fff;
-  border-color: var(--people-accent);
-}
-
-.people-panel__btn--add:hover {
-  background: #6b32a8;
-  border-color: #6b32a8;
-}
-
-.people-panel__btn--secondary {
-  background: var(--people-surface);
-  color: var(--people-text);
-}
-
-.people-panel__btn--import {
-  background: var(--people-surface);
-  color: var(--people-muted);
-}
-
-.people-panel__btn--import:hover {
-  color: var(--people-text);
-}
-
-.people-panel__file-input {
-  position: absolute;
-  width: 0;
-  height: 0;
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* ── View mode toggle – sits inside its own component's css ──────────────── */
-.view-mode-toggle {
-  flex-shrink: 0;
-  padding: 0 10px 10px;
-}
-
-/* ── Tree area ───────────────────────────────────────────────────────────── */
-.people-panel__tree-wrap {
+  flex-direction: row;
+  align-items: stretch;
   flex: 1 1 0;
-  min-height: 200px;
+  min-height: 0;
+  gap: 14px;
+  /* Contain stacking so columns never paint over each other */
+  isolation: isolate;
+  position: relative;
+  z-index: 0;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  padding: 0 6px;
-  border-top: 1px solid var(--people-border);
 }
 
-/* ── Footer ──────────────────────────────────────────────────────────────── */
-.people-panel__footer {
-  flex-shrink: 0;
-  height: 240px;
-  min-height: 240px;
-  max-height: 240px;
-  margin-top: 0;
+/* Left: library + saved groups stack — total height matches Selected column */
+.people-panel__library-stack {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  padding: 8px 10px 10px;
-  border-top: 1px solid var(--people-border);
 }
 
-.people-panel__footer-buttons {
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--people-border);
-  margin-bottom: 8px;
+/* Box 1: Teams Library — own frame, scroll inside tree (taller vs saved groups: ~4 : 1.5) */
+.people-panel__library-stack .teams-library {
+  flex: 4 1 0;
+  min-height: 0;
+  height: auto;
+  align-self: stretch;
+  border: 1px solid var(--people-border);
+  border-radius: 12px;
+  background: var(--people-bg);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.07);
+  overflow: hidden;
 }
 
-.people-panel__footer-scroll {
+.people-panel__library-stack .teams-library__tree-wrap {
+  min-height: 0;
+}
+
+/* Box 2: Saved groups */
+.people-panel__library-stack .saved-groups-card {
+  flex: 1.5 1 0;
+  min-height: 0;
+  height: auto;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.07);
+}
+
+/* Box 3: Selected — same row height; no z-index fight with library column */
+.people-panel__selected {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.people-panel__selected .team-map__roster {
+  width: 100%;
+  max-width: none;
+  flex: 1 1 0;
+  min-height: 0;
+  height: auto;
+  max-height: 100%;
+}
+
+.people-panel__selected .team-map__roster-chips {
   flex: 1 1 0;
   min-height: 0;
   overflow-y: auto;
   overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 
-/* Save group button */
-.people-panel__save-group-btn {
-  flex-shrink: 0;
+@media (min-width: 769px) {
+  .people-panel__selected .team-map__roster {
+    position: relative !important;
+    top: auto !important;
+    align-self: stretch;
+    height: 100% !important;
+    max-height: 100% !important;
+    padding-top: 0 !important;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+    z-index: auto;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.07);
+  }
+}
+
+/* ── Saved groups card ─────────────────────────────────────────────────── */
+.saved-groups-card {
   width: 100%;
+  background: var(--people-bg);
+  border: 1px solid var(--people-border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.saved-groups-card__title {
   margin: 0;
-  padding: 7px 10px;
-  font-size: 12px;
-  font-weight: 600;
-  border: 1.5px dashed var(--people-accent);
-  border-radius: var(--people-radius);
-  background: var(--people-accent-alpha);
-  color: var(--people-accent);
-  cursor: pointer;
-  transition: background 120ms;
-}
-
-.people-panel__save-group-btn:hover {
-  background: rgba(125, 61, 189, 0.16);
-}
-
-/* Export / Delete row */
-.people-panel__footer-actions {
-  display: flex;
-  gap: 6px;
+  padding: 10px 14px 8px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--people-text);
+  border-bottom: 1px solid var(--people-border);
   flex-shrink: 0;
 }
 
-.people-panel__footer-btn {
-  flex: 1;
-  padding: 6px 10px;
+.saved-groups-card__body {
+  flex: 1 1 0;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 8px 10px 10px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.saved-groups-card__empty {
+  margin: 0;
   font-size: 12px;
-  font-weight: 500;
-  border: 1px solid var(--people-border);
-  border-radius: var(--people-radius);
-  background: var(--people-surface);
+  line-height: 1.5;
+  color: var(--people-muted);
+}
+
+.saved-groups-card__empty strong {
   color: var(--people-text);
-  cursor: pointer;
-  transition: background 120ms;
+  font-weight: 600;
 }
 
-.people-panel__footer-btn:hover {
-  background: #f1f5f9;
-}
+/* ── Save-group modal: dim is ::before only (never stacks above the card). Click overlay to close. ─ */
+/* Portal is on document.body — define tokens here (not inherited from .people-panel). */
+.people-panel__save-group-overlay {
+  --people-bg: #ffffff;
+  --people-surface: #f1f5f9;
+  --people-text: #1e293b;
+  --people-muted: #64748b;
+  --people-border: #cbd5e1;
+  --people-accent: #7d3dbd;
+  --people-radius: 8px;
 
-.people-panel__footer-btn--danger {
-  color: var(--people-danger);
-  border-color: rgba(226, 27, 60, 0.25);
-  background: rgba(226, 27, 60, 0.04);
-}
-
-.people-panel__footer-btn--danger:hover {
-  background: rgba(226, 27, 60, 0.1);
-}
-
-/* ── Save-group modal ────────────────────────────────────────────────────── */
-.people-panel__backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.35);
+  z-index: 1500;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1500;
-  /* Portaled to body — same sans stack as .app */
+  isolation: isolate;
+  cursor: pointer;
   font-family:
     -apple-system,
     BlinkMacSystemFont,
@@ -244,68 +196,135 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.people-panel__save-group-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: rgba(0, 0, 0, 0.35);
+  pointer-events: none;
+}
+
 .people-panel__save-group-modal {
+  position: relative;
+  z-index: 1;
+  cursor: default;
   background: var(--people-bg);
+  color: var(--people-text);
   border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
-  padding: 20px;
-  min-width: 280px;
+  border: 1px solid var(--people-border);
+  box-shadow:
+    0 12px 40px rgba(15, 23, 42, 0.18),
+    0 0 0 1px rgba(15, 23, 42, 0.06);
+  padding: 22px 22px 20px;
+  min-width: min(320px, calc(100vw - 32px));
+  max-width: calc(100vw - 32px);
+  box-sizing: border-box;
+  pointer-events: auto;
 }
 
 .people-panel__save-group-title {
-  margin: 0 0 12px;
-  font-size: 15px;
-  font-weight: 700;
+  margin: 0 0 14px;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
   font-family: 'Montserrat', sans-serif;
+  color: var(--people-text);
 }
 
 .people-panel__save-group-input {
   width: 100%;
-  padding: 9px 11px;
-  font-size: 13px;
+  padding: 10px 12px;
+  font-size: 14px;
+  line-height: 1.4;
   border: 1px solid var(--people-border);
   border-radius: var(--people-radius);
-  margin-bottom: 14px;
+  margin-bottom: 18px;
   box-sizing: border-box;
   color: var(--people-text);
   background: var(--people-bg);
 }
 
+.people-panel__save-group-input::placeholder {
+  color: var(--people-muted);
+}
+
 .people-panel__save-group-input:focus {
   outline: none;
   border-color: var(--people-accent);
-  box-shadow: 0 0 0 3px rgba(125, 61, 189, 0.15);
+  box-shadow: 0 0 0 3px rgba(125, 61, 189, 0.2);
 }
 
 .people-panel__save-group-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 8px;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .people-panel__save-group-actions button {
-  padding: 8px 16px;
-  font-size: 13px;
+  min-height: 40px;
+  padding: 0 18px;
+  font-size: 14px;
   font-weight: 600;
   border-radius: var(--people-radius);
   cursor: pointer;
-  border: 1px solid var(--people-border);
-  background: var(--people-surface);
+  border: 1px solid transparent;
+  transition:
+    background 120ms ease,
+    border-color 120ms ease,
+    color 120ms ease,
+    box-shadow 120ms ease;
+}
+
+/* Cancel — outlined, clearly visible */
+.people-panel__save-group-actions button:first-child {
+  background: var(--people-bg);
   color: var(--people-text);
-  transition: background 120ms;
+  border-color: var(--people-border);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
 }
 
-.people-panel__save-group-actions button:hover {
-  background: #f1f5f9;
+.people-panel__save-group-actions button:first-child:hover {
+  background: var(--people-surface);
+  border-color: #94a3b8;
 }
 
+.people-panel__save-group-actions button:first-child:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(125, 61, 189, 0.25);
+}
+
+/* Save — solid accent */
 .people-panel__save-group-actions button:last-child {
   background: var(--people-accent);
-  color: #fff;
+  color: #ffffff;
   border-color: var(--people-accent);
+  box-shadow: 0 1px 3px rgba(125, 61, 189, 0.35);
 }
 
 .people-panel__save-group-actions button:last-child:hover {
   background: #6b32a8;
   border-color: #6b32a8;
+  filter: brightness(1.02);
+}
+
+.people-panel__save-group-actions button:last-child:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 3px rgba(255, 255, 255, 0.9),
+    0 0 0 6px rgba(125, 61, 189, 0.45);
+}
+
+@media (max-width: 768px) {
+  .people-panel__body {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .people-panel__library-stack,
+  .people-panel__selected {
+    flex: 1 1 auto;
+    min-height: min(58vh, 520px);
+  }
 }

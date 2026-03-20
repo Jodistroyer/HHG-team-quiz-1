@@ -1,16 +1,14 @@
-import { useMemo, useState } from 'react'
+import { useMemo, type CSSProperties } from 'react'
 import type { Person, TeamContextKey, TeamContextScores } from '../PeoplePanel/types'
 import { RadarChart } from './TeamRadarResults/TeamRadarChart'
 import { getBrainCombination } from '../../Quiz/SectionResults/utils'
 import './TeamMap.css'
 import './TeamRadarResults/TeamAllRadarsSection.css'
-// Reuse the same button styling class as the (now removed) PeoplePanel SelectedList.
-import '../PeoplePanel/SelectedList.css'
 
 interface TeamMapProps {
   selectedPeople: Person[]
-  onRemovePerson?: (id: string) => void
-  onClearAll?: () => void
+  activeContext: TeamContextKey
+  onActiveContextChange: (context: TeamContextKey) => void
 }
 
 const CONTEXT_TABS: Array<{ key: TeamContextKey; label: string }> = [
@@ -21,27 +19,6 @@ const CONTEXT_TABS: Array<{ key: TeamContextKey; label: string }> = [
 ]
 
 const EMPTY_SCORES: TeamContextScores = { headPercent: 0, heartPercent: 0, gutPercent: 0 }
-
-const DOMINANT_DOT: Record<string, string> = {
-  Head: '#1368ce',
-  Heart: '#e21b3c',
-  Gut: '#26890c',
-}
-
-const DOMINANT_AVATAR: Record<string, { background: string; color: string }> = {
-  Head: { background: '#dbeafe', color: '#1368ce' },
-  Heart: { background: '#fee2e2', color: '#e21b3c' },
-  Gut: { background: '#dcfce7', color: '#26890c' },
-}
-
-function getInitials(name: string): string {
-  return name
-    .split(' ')
-    .map((w) => w[0] ?? '')
-    .slice(0, 2)
-    .join('')
-    .toUpperCase()
-}
 
 function getScoresForContext(person: Person, context: TeamContextKey): TeamContextScores {
   return (
@@ -73,7 +50,7 @@ function averageTeamScores(people: Person[], context: TeamContextKey): TeamConte
   }
 }
 
-function makeBadgeStyle(colors: string[]): React.CSSProperties {
+function makeBadgeStyle(colors: string[]): CSSProperties {
   if (colors.length === 1) return { background: colors[0] }
   if (colors.length === 2)
     return { background: `linear-gradient(90deg, ${colors[0]} 50%, ${colors[1]} 50%)` }
@@ -93,94 +70,20 @@ function OverviewBadge({ scores }: { scores: TeamContextScores }) {
   )
 }
 
-interface MemberChipProps {
-  person: Person
-  context: TeamContextKey
-  onRemove?: (id: string) => void
-}
-
-function MemberChip({ person, context, onRemove }: MemberChipProps) {
-  const scores = getScoresForContext(person, context)
-  const combo = getBrainCombination(scores.headPercent, scores.heartPercent, scores.gutPercent)
-  const dotColor = DOMINANT_DOT[person.dominant] ?? '#94a3b8'
-  const avatarStyle = DOMINANT_AVATAR[person.dominant] ?? { background: '#f1f5f9', color: '#475569' }
-  const meta = [person.team, person.role].filter(Boolean).join(' · ')
-
-  return (
-    <div className="tm-chip">
-      <div className="tm-chip__dot" style={{ background: dotColor }} />
-      <div className="tm-chip__avatar" style={avatarStyle}>
-        {getInitials(person.name)}
-      </div>
-      <div className="tm-chip__info">
-        <div className="tm-chip__name">{person.name}</div>
-        {meta && <div className="tm-chip__meta">{meta}</div>}
-        <div className="tm-chip__badge" style={makeBadgeStyle(combo.colors)}>
-          {combo.label}
-        </div>
-      </div>
-      {onRemove && (
-        <button
-          type="button"
-          className="tm-chip__remove"
-          aria-label={`Remove ${person.name}`}
-          onClick={() => onRemove(person.id)}
-        >
-          ×
-        </button>
-      )}
-    </div>
-  )
-}
-
-export function TeamMap({ selectedPeople, onRemovePerson, onClearAll }: TeamMapProps) {
-  const [activeContext, setActiveContext] = useState<TeamContextKey>('underPressure')
-
+export function TeamMap({ selectedPeople, activeContext, onActiveContextChange }: TeamMapProps) {
   const teamScores = useMemo(
     () => averageTeamScores(selectedPeople, activeContext),
     [selectedPeople, activeContext]
   )
 
   return (
-    <section className="team-map" aria-label="Team Map">
-      {/* ── left roster sidebar ── */}
-      <aside className="team-map__roster" aria-label="Team members">
-        <div className="team-map__roster-header">
-          <div className="team-map__roster-header-left">
-            <h3 className="team-map__roster-title">Selected</h3>
-            <span className="team-map__roster-count">{selectedPeople.length}</span>
-          </div>
-          {onClearAll && selectedPeople.length > 0 && (
-            <button type="button" className="selected-list__clear" onClick={onClearAll}>
-              Clear all
-            </button>
-          )}
-        </div>
-        <div className="team-map__roster-chips">
-          {selectedPeople.length === 0 ? (
-            <p className="team-map__roster-empty">
-              Click people in the panel to add them to your map.
-            </p>
-          ) : (
-            selectedPeople.map((person) => (
-              <MemberChip
-                key={person.id}
-                person={person}
-                context={activeContext}
-                onRemove={onRemovePerson}
-              />
-            ))
-          )}
-        </div>
-      </aside>
-
-      {/* ── centre column ── */}
+    <section className="team-map team-map--center-only" aria-label="Team Map">
       <div className="team-map__center">
         <div className="team-map__shell">
           <header className="team-map__header">
             <h2 className="team-map__title">Team Map</h2>
             <p className="team-map__subtitle">
-              Select people in the left panel to build your team and compare HHG balance by context.
+              Select people in the library to build your team and compare HHG balance by context.
             </p>
           </header>
 
@@ -192,7 +95,7 @@ export function TeamMap({ selectedPeople, onRemovePerson, onClearAll }: TeamMapP
                 role="tab"
                 aria-selected={activeContext === tab.key}
                 className={`team-map__context-tab${activeContext === tab.key ? ' is-active' : ''}`}
-                onClick={() => setActiveContext(tab.key)}
+                onClick={() => onActiveContextChange(tab.key)}
               >
                 {tab.label}
               </button>
@@ -213,7 +116,6 @@ export function TeamMap({ selectedPeople, onRemovePerson, onClearAll }: TeamMapP
           </div>
         </div>
       </div>
-
     </section>
   )
 }

@@ -364,21 +364,6 @@ export function buildTree(people: Person[], viewMode: ViewMode, emptyTeams: Empt
   }
 }
 
-/** All unique role values from people (sorted). Use for role filter dropdown. */
-export function getUniqueRoles(people: Person[]): string[] {
-  const set = new Set<string>()
-  for (const p of people) {
-    if (p.role?.trim()) set.add(p.role.trim())
-  }
-  return Array.from(set).sort()
-}
-
-/** Filter people by role. Pass null/empty to return all. */
-export function filterPeopleByRole(people: Person[], role: string | null): Person[] {
-  if (!role?.trim()) return people
-  return people.filter((p) => (p.role ?? '').trim() === role.trim())
-}
-
 /** Filter people by search (name, company, team, role, tags, dominant). */
 export function filterPeopleBySearch(people: Person[], query: string): Person[] {
   const q = query.trim().toLowerCase()

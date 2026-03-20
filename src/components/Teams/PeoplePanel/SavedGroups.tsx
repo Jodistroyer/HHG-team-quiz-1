@@ -8,9 +8,17 @@ interface SavedGroupsProps {
   people: Person[]
   onSelectGroup: (group: SavedGroup) => void
   onDeleteGroup?: (id: string) => void
+  /** When false, omit the small uppercase heading (e.g. card supplies its own title). */
+  showTitle?: boolean
 }
 
-export function SavedGroups({ groups, people, onSelectGroup, onDeleteGroup }: SavedGroupsProps) {
+export function SavedGroups({
+  groups,
+  people,
+  onSelectGroup,
+  onDeleteGroup,
+  showTitle = true,
+}: SavedGroupsProps) {
   const personIdSet = useMemo(() => new Set(people.map((p) => p.id)), [people])
   const [activeGroupId, setActiveGroupId] = useState<string | null>(null)
 
@@ -23,7 +31,7 @@ export function SavedGroups({ groups, people, onSelectGroup, onDeleteGroup }: Sa
 
   return (
     <div className="saved-groups">
-      <div className="saved-groups__title">Saved Groups</div>
+      {showTitle && <div className="saved-groups__title">Saved Groups</div>}
       <ul className="saved-groups__list">
         {groups.map((g) => {
           const validCount = g.personIds.filter((id) => personIdSet.has(id)).length
