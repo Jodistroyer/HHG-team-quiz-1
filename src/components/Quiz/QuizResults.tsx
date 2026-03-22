@@ -193,11 +193,6 @@ export const QuizResults = ({ overall, sectionSummaries, sections, answers, onSt
 
           <AnswerResults sections={sections} sectionSummaries={sectionSummaries} answers={answers} />
 
-              <div className="quiz-results-actions">
-                <button className="btn btn-primary" onClick={onStartOver}>
-                  Start Over
-                </button>
-              </div>
             </div>
           </div>
         </div>
@@ -209,6 +204,7 @@ export const QuizResults = ({ overall, sectionSummaries, sections, answers, onSt
             sectionSummaries={sectionSummaries}
             sections={sections}
             answers={answers}
+            onStartOver={onStartOver}
           />
         </div>
       </div>

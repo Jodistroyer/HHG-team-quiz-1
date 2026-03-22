@@ -101,7 +101,7 @@
   }
 
   /*
-   * Teams: don’t pull the page up — the fixed navbar (z-index 1000) was overlapping
+   * Teams: don’t pull the page up the fixed navbar (z-index 1000) was overlapping
    * the top of the library / Selected columns and hiding their top edges & borders.
    * Also stretch so sidebars get a stable height.
    */

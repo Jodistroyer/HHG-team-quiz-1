@@ -1,7 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faRotateLeft } from '@fortawesome/free-solid-svg-icons'
 import { NavSection, NavSectionDropdown, SECTION_IDS_LIST } from './Navigation/NavSection'
 import { DownloadJSON } from './DownloadResults/DownloadJSON/DownloadJSON'
 import { DownloadPDF } from './DownloadResults/DownloadPDF/DownloadPDF'
+import { StartOverConfirmModal } from './StartOverConfirmModal'
 import './Sidebar.css'
 
 type AnswerType = 'Head' | 'Heart' | 'Gut'
@@ -39,6 +42,7 @@ interface ResultsSidebarProps {
   sectionSummaries: SectionScores[]
   sections: Section[]
   answers: Record<string, Answer>
+  onStartOver: () => void
 }
 
 const MOBILE_BREAKPOINT = 768
@@ -49,10 +53,18 @@ export function Sidebar ({
   overall,
   sectionSummaries,
   sections,
-  answers
+  answers,
+  onStartOver
 }: ResultsSidebarProps) {
   const [iconOnly, setIconOnly] = useState(false)
   const [currentSectionId, setCurrentSectionId] = useState<string | null>(SECTION_IDS_LIST[0] ?? null)
+  const [showStartOverConfirm, setShowStartOverConfirm] = useState(false)
+
+  const closeStartOverModal = useCallback(() => setShowStartOverConfirm(false), [])
+  const confirmStartOver = useCallback(() => {
+    setShowStartOverConfirm(false)
+    onStartOver()
+  }, [onStartOver])
 
   useEffect(() => {
     const mq = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`)
@@ -99,28 +111,60 @@ export function Sidebar ({
     </div>
   )
 
+  const startOverButton = (
+    <button
+      type="button"
+      className={`btn btn-primary results-sidebar-start-over${iconOnly ? ' results-sidebar-start-over--icon-only' : ''}`}
+      onClick={() => setShowStartOverConfirm(true)}
+      aria-label={iconOnly ? 'Start over' : undefined}
+      title="Start over"
+    >
+      <FontAwesomeIcon icon={faRotateLeft} className="results-sidebar-start-over-icon" aria-hidden />
+      {!iconOnly && <span>Start Over</span>}
+    </button>
+  )
+
+  const sidebarFooter = (
+    <div className="results-sidebar-footer">
+      {startOverButton}
+      {downloadButtons}
+    </div>
+  )
+
+  const startOverModal =
+    showStartOverConfirm ? (
+      <StartOverConfirmModal onCancel={closeStartOverModal} onConfirm={confirmStartOver} />
+    ) : null
+
   if (iconOnly) {
     return (
-      <aside className="results-sidebar results-sidebar-mobile" aria-label="Results navigation and download">
-        <div className="results-sidebar-mobile-bar">
-          <div className="results-sidebar-mobile-left">
-            <NavSectionDropdown currentSectionId={currentSectionId} onSelectSection={setCurrentSectionId} />
+      <>
+        <aside className="results-sidebar results-sidebar-mobile" aria-label="Results navigation and download">
+          <div className="results-sidebar-mobile-bar">
+            <div className="results-sidebar-mobile-left">
+              <NavSectionDropdown currentSectionId={currentSectionId} onSelectSection={setCurrentSectionId} />
+            </div>
+            <div className="results-sidebar-mobile-right">
+              {startOverButton}
+              {downloadButtons}
+            </div>
           </div>
-          <div className="results-sidebar-mobile-right">
-            {downloadButtons}
-          </div>
-        </div>
-      </aside>
+        </aside>
+        {startOverModal}
+      </>
     )
   }
 
   return (
-    <aside className="results-sidebar" aria-label="Results navigation and download">
-      <h2 className="results-sidebar-title">Profile</h2>
-      <div className="results-sidebar-nav">
-        <NavSection currentSectionId={currentSectionId} />
-      </div>
-      {downloadButtons}
-    </aside>
+    <>
+      <aside className="results-sidebar" aria-label="Results navigation and download">
+        <h2 className="results-sidebar-title">Profile</h2>
+        <div className="results-sidebar-nav">
+          <NavSection currentSectionId={currentSectionId} />
+        </div>
+        {sidebarFooter}
+      </aside>
+      {startOverModal}
+    </>
   )
 }
