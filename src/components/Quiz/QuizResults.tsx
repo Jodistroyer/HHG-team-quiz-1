@@ -7,6 +7,7 @@ import { OverallRadar } from './RadarResults/OverallRadar'
 import { AllRadarsSection } from './RadarResults/AllRadarsSection'
 import { AnswerResults } from './AnswerResults/AnswerResults'
 import { Sidebar } from './Sidebar/Sidebar'
+import { ChangeResults } from './ChangeResults/ChangeResults'
 
 type AnswerType = 'Head' | 'Heart' | 'Gut'
 
@@ -183,6 +184,7 @@ export const QuizResults = ({ overall, sectionSummaries, sections, answers, onSt
           </div>
 
           <h3 className="results-section-title">How You Change Across Contexts</h3>
+          <ChangeResults sections={sections} sectionSummaries={sectionSummaries} />
           <SectionResults sections={sections} sectionSummaries={sectionSummaries} />
 
           <AllRadarsSection

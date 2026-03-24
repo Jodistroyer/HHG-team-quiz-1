@@ -661,7 +661,7 @@ function Quiz() {
   const currentSectionIndex = getCurrentSectionIndex()
 
   return (
-    <div className="app">
+    <div className="app quiz-page">
       <div className="container">
         <div className="question-container">
           {/* Horizontal Progress Bar */}

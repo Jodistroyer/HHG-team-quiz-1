@@ -1,3 +1,15 @@
+/*
+ * app-content uses align-items: flex-start on mobile, so a plain .app child
+ * shrink-wraps to content width — long questions widened the whole card + grid.
+ * .quiz-page stretches to the full content area width instead.
+ */
+.quiz-page {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  align-self: stretch;
+}
+
 .container {
   width: 900px;
   max-width: 900px;
@@ -11,6 +23,7 @@
   box-sizing: border-box;
   /* Fixed height so white box never resizes with question/word length */
   height: 588px;
+  min-height: 588px;
   overflow: hidden;
 }
 
@@ -217,15 +230,22 @@
   /* Fixed height so question block never resizes with word length */
   height: 4.2em;
   max-height: 4.2em;
+  min-height: 4.2em;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
+  min-width: 0;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 .question-text-inner {
   display: block;
   width: 100%;
+  min-width: 0;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 .quiz-instructions {
@@ -553,6 +573,7 @@
     padding: 20px;
     border-radius: 12px;
     height: 658px;
+    min-height: 658px;
   }
   
   .options-grid {
@@ -565,10 +586,6 @@
     height: 365px;
   }
   
-  .question-text {
-    max-width: 100%;
-  }
-
   .title {
     font-size: 1.8rem;
   }
@@ -621,8 +638,10 @@
   .question-text {
     font-size: 1.2rem;
     margin-bottom: 16px;
+    max-width: 100%;
     height: 4.2em;
     max-height: 4.2em;
+    min-height: 4.2em;
   }
 
   .quiz-instructions {
@@ -669,6 +688,7 @@
   .container {
     padding: 15px;
     height: 578px;
+    min-height: 578px;
   }
 
   .title {
@@ -710,8 +730,10 @@
   .question-text {
     font-size: 1.1rem;
     margin-bottom: 11px;
+    max-width: 100%;
     height: 4.2em;
     max-height: 4.2em;
+    min-height: 4.2em;
   }
 
   .quiz-instructions {

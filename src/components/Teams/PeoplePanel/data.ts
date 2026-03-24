@@ -1,4 +1,4 @@
-import type { Person, TreeNode, ViewMode, TeamContextScores } from './types'
+import type { HHGCenter, Person, TreeNode, ViewMode, TeamContextScores } from './types'
 import type { QuizExportPayload, PeopleImportPayload } from './types'
 import { getBrainCombination } from '../../Quiz/SectionResults/utils'
 
