@@ -103,10 +103,8 @@ export function TeamMap({ selectedPeople, activeContext, onActiveContextChange }
           </div>
 
           <div className="team-map__overview-card">
-            <div className="team-map__overview-meta">
-              <OverviewBadge scores={teamScores} />
-            </div>
             <div className="team-map__overview-radar">
+              <OverviewBadge scores={teamScores} />
               <RadarChart
                 headPercent={teamScores.headPercent}
                 heartPercent={teamScores.heartPercent}

@@ -206,7 +206,7 @@
   font-weight: 800;
   color: #2d3748;
   margin-top: 44px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   line-height: 1.4;
   text-align: center;
   width: 100%;
@@ -226,6 +226,21 @@
 .question-text-inner {
   display: block;
   width: 100%;
+}
+
+.quiz-instructions {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #718096;
+  text-align: center;
+  margin: 0 0 12px;
+  line-height: 1.35;
+  width: 100%;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
 }
 
 /* Options Grid - Desktop: single row of 3; mobile: 2×2. Fixed row heights and column widths prevent warping. */
@@ -357,8 +372,8 @@
   display: flex;
   justify-content: space-between;
   gap: 15px;
-  margin-top: 30px;
-  margin-bottom: 36px;
+  margin-top: 24px;
+  margin-bottom: 32px;
   width: 800px;
   max-width: 800px;
   margin-left: auto;
@@ -605,9 +620,14 @@
 
   .question-text {
     font-size: 1.2rem;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     height: 4.2em;
     max-height: 4.2em;
+  }
+
+  .quiz-instructions {
+    font-size: 0.9rem;
+    margin-bottom: 10px;
   }
 
   .options-grid {
@@ -626,8 +646,8 @@
   }
 
   .navigation {
-    margin-top: 20px;
-    margin-bottom: 28px;
+    margin-top: 16px;
+    margin-bottom: 24px;
   }
 
   .btn {
@@ -689,9 +709,14 @@
 
   .question-text {
     font-size: 1.1rem;
-    margin-bottom: 15px;
+    margin-bottom: 11px;
     height: 4.2em;
     max-height: 4.2em;
+  }
+
+  .quiz-instructions {
+    font-size: 0.8rem;
+    margin-bottom: 8px;
   }
 
   .options-grid {
@@ -722,8 +747,8 @@
   }
 
   .navigation {
-    margin-top: 15px;
-    margin-bottom: 28px;
+    margin-top: 12px;
+    margin-bottom: 24px;
     gap: 10px;
   }
 

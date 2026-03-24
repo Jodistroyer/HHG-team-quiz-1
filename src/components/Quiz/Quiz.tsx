@@ -735,6 +735,10 @@ function Quiz() {
           <h2 className="question-text">
             <span className="question-text-inner">{currentQuestion.text}</span>
           </h2>
+
+          <p className="quiz-instructions">
+            Choose 1 or 2 choices.
+          </p>
           
           <div className="options-grid">
             {/* Top-left: Blue (Head) */}
