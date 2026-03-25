@@ -1,23 +1,12 @@
-import type { CSSProperties } from 'react'
 import type { ContextComboRow } from './changeResultsLogic'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBriefcase, faChartLine, faFire, faPeopleGroup } from '@fortawesome/free-solid-svg-icons'
+import { faBriefcase, faChartLine, faFire, faPeopleGroup, faDiamond, faHeart, faSquare } from '@fortawesome/free-solid-svg-icons'
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 import '../SectionResults/SectionCard.css'
 import './ChangeResults.css'
 
 interface CombinationAcrossContextsProps {
   rows: ContextComboRow[]
-}
-
-function comboBadgeStyle(colors: string[]): CSSProperties {
-  if (colors.length === 1) return { background: colors[0]! }
-  if (colors.length === 2) {
-    return { background: `linear-gradient(90deg, ${colors[0]} 50%, ${colors[1]} 50%)` }
-  }
-  return {
-    background: `linear-gradient(90deg, ${colors[0]} 33.33%, ${colors[1]} 33.33%, ${colors[1]} 66.66%, ${colors[2]} 66.66%)`,
-  }
 }
 
 function contextIconForTitle(title: string): IconDefinition | null {
@@ -32,6 +21,17 @@ function contextIconForTitle(title: string): IconDefinition | null {
       return faChartLine
     default:
       return null
+  }
+}
+
+function centreIcon(centre: ContextComboRow['centres'][number]): { icon: IconDefinition; className: string } {
+  switch (centre) {
+    case 'Head':
+      return { icon: faDiamond, className: 'change-results-centre-icon change-results-centre-icon--head' }
+    case 'Heart':
+      return { icon: faHeart, className: 'change-results-centre-icon change-results-centre-icon--heart' }
+    case 'Gut':
+      return { icon: faSquare, className: 'change-results-centre-icon change-results-centre-icon--gut' }
   }
 }
 
@@ -53,12 +53,12 @@ export function CombinationAcrossContexts({ rows }: CombinationAcrossContextsPro
               <span className="change-results-context-title">{row.title}</span>
             </dt>
             <dd className="change-results-combo-dd">
-              <div className="change-results-combo-badge-host">
-                <div className="section-card-badges change-results-combo-badges">
-                  <div className="brain-combo-badge" style={comboBadgeStyle(row.colors)}>
-                    {row.rawLabel}
-                  </div>
-                </div>
+              {/* Brain combo badges (rawLabel) intentionally hidden — show centres as icons instead. */}
+              <div className="change-results-centres" aria-label={row.rawLabel}>
+                {row.centres.map((c) => {
+                  const cfg = centreIcon(c)
+                  return <FontAwesomeIcon key={c} icon={cfg.icon} className={cfg.className} />
+                })}
               </div>
             </dd>
           </div>

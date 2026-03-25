@@ -33,20 +33,6 @@
 }
 
 /* Same purple field as .section-card-top so .brain-combo-badge matches section cards (white ring + text). */
-.change-results-combo-badge-host {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: #7d3dbd;
-  border-radius: 999px;
-}
-
-.change-results-combo-badges {
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  margin-bottom: 0;
-}
-
 .change-results-combo-dd {
   display: flex;
   justify-content: flex-end;
@@ -94,6 +80,29 @@
 .change-results-combo-row dd {
   margin: 0;
   min-width: 0;
+}
+
+.change-results-centres {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.change-results-centre-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.change-results-centre-icon--head {
+  color: #1368ce;
+}
+
+.change-results-centre-icon--heart {
+  color: #e21b3c;
+}
+
+.change-results-centre-icon--gut {
+  color: #26890c;
 }
 
 .change-results-insights-block {
@@ -215,10 +224,6 @@
   }
 
   .change-results-combo-dd {
-    justify-content: flex-start;
-  }
-
-  .change-results-combo-badges {
     justify-content: flex-start;
   }
 
