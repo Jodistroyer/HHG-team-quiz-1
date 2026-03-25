@@ -149,8 +149,8 @@ section[id="answers"] {
 }
 
 .section-expanded-content {
-  margin-top: 30px;
-  padding-top: 30px;
+  margin-top: 20px;
+  padding-top: 20px;
   animation: sectionSlideDown 0.3s ease-out;
 }
 

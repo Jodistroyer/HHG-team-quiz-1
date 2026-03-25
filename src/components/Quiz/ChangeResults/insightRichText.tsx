@@ -51,26 +51,26 @@ function Token({ children, className }: { children: ReactNode; className?: strin
 
 /** Longest phrase first (case-insensitive match; output preserves source casing). */
 const SECTION_PHRASES: { needle: string; sectionId: SectionId }[] = [
-  { needle: 'Reflecting on growth', sectionId: 4 },
-  { needle: 'reflecting on growth', sectionId: 4 },
-  { needle: 'Getting Better', sectionId: 4 },
-  { needle: 'Under Pressure', sectionId: 1 },
-  { needle: 'getting better', sectionId: 4 },
-  { needle: 'under pressure', sectionId: 1 },
-  { needle: 'Doing Work', sectionId: 2 },
-  { needle: 'With People', sectionId: 3 },
-  { needle: 'doing work', sectionId: 2 },
-  { needle: 'with people', sectionId: 3 },
-  { needle: 'in the work', sectionId: 2 },
-  { needle: 'with others', sectionId: 3 },
+  { needle: 'Reflecting on growth', sectionId: 4 as SectionId },
+  { needle: 'reflecting on growth', sectionId: 4 as SectionId },
+  { needle: 'Getting Better', sectionId: 4 as SectionId },
+  { needle: 'Under Pressure', sectionId: 1 as SectionId },
+  { needle: 'getting better', sectionId: 4 as SectionId },
+  { needle: 'under pressure', sectionId: 1 as SectionId },
+  { needle: 'Doing Work', sectionId: 2 as SectionId },
+  { needle: 'With People', sectionId: 3 as SectionId },
+  { needle: 'doing work', sectionId: 2 as SectionId },
+  { needle: 'with people', sectionId: 3 as SectionId },
+  { needle: 'in the work', sectionId: 2 as SectionId },
+  { needle: 'with others', sectionId: 3 as SectionId },
 ].sort((a, b) => b.needle.length - a.needle.length)
 
 const CENTRE_PHRASES: { needle: string; centres: Centre[] }[] = [
-  { needle: 'Head + Heart + Gut', centres: ['Head', 'Heart', 'Gut'] },
-  { needle: 'Head, Heart, and Gut', centres: ['Head', 'Heart', 'Gut'] },
-  { needle: 'Head only', centres: ['Head'] },
-  { needle: 'Heart only', centres: ['Heart'] },
-  { needle: 'Gut only', centres: ['Gut'] },
+  { needle: 'Head + Heart + Gut', centres: ['Head', 'Heart', 'Gut'] as Centre[] },
+  { needle: 'Head, Heart, and Gut', centres: ['Head', 'Heart', 'Gut'] as Centre[] },
+  { needle: 'Head only', centres: ['Head'] as Centre[] },
+  { needle: 'Heart only', centres: ['Heart'] as Centre[] },
+  { needle: 'Gut only', centres: ['Gut'] as Centre[] },
 ].sort((a, b) => b.needle.length - a.needle.length)
 
 const PAIR_RE = /^(Head|Heart|Gut) \+ (Head|Heart|Gut)/

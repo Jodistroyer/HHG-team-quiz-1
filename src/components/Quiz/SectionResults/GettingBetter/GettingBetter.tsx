@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTriangleExclamation, faGavel, faBookOpen, faStar } from '@fortawesome/free-solid-svg-icons'
 import { FeedbackStyle } from './FeedbackStyle/FeedbackStyle.tsx'
+import { getBalanceTipBadgeStyle } from '../utils.tsx'
 import '../SectionResults.css'
 import './GettingBetter.css'
 
@@ -219,6 +220,8 @@ const GETTING_BETTER_ARCHETYPES: Record<string, { archetype: string; description
   }
 }
 
+void GETTING_BETTER_ARCHETYPES
+
 const getTier = (percent: number): 'Dominant' | 'Secondary' | 'Weak' => {
   if (percent >= 50) return 'Dominant'
   if (percent >= 35) return 'Secondary'
@@ -281,31 +284,6 @@ const getBalanceTipBadge = (brainCombination: string): string => {
   return map[brainCombination] ?? 'Focus'
 }
 
-const getBalanceTipBadgeStyle = (badgeText: string): React.CSSProperties => {
-  const colorMap: Record<string, string> = {
-    Head: '#1368ce',
-    Heart: '#e21b3c',
-    Gut: '#26890c'
-  }
-
-  if (badgeText === 'Focus') {
-    return { background: '#1e293b' }
-  }
-
-  const parts = badgeText.split('+').map((p) => p.trim()).filter(Boolean)
-  const colors = parts.map((p) => colorMap[p]).filter(Boolean)
-
-  if (colors.length === 1) return { background: colors[0] }
-  if (colors.length === 2) return { background: `linear-gradient(135deg, ${colors[0]} 50%, ${colors[1]} 50%)` }
-  if (colors.length >= 3) {
-    return {
-      background: `linear-gradient(135deg, ${colors[0]} 33.33%, ${colors[1]} 33.33%, ${colors[1]} 66.66%, ${colors[2]} 66.66%)`
-    }
-  }
-
-  return { background: '#1e293b' }
-}
-
 export const GettingBetter = ({ headPercent, heartPercent, gutPercent }: GettingBetterProps) => {
   const combination = getBrainCombination(headPercent, heartPercent, gutPercent)
   const traits = traitDatabase[combination] || traitDatabase['Head']
@@ -323,6 +301,14 @@ export const GettingBetter = ({ headPercent, heartPercent, gutPercent }: Getting
           <blockquote className="section-archetype-quote">"{archetypeData.quote}"</blockquote>
         </div>
       )} */}
+      <div className="intro-grid intro-grid-three">
+        <div className="trait-section">
+          <h4 className="trait-section-title">Who You Are</h4>
+          <p className="trait-content">
+            {traits.whatYouNaturallyTuneInto} {traits.howYouLearnBest} {traits.whatProgressMeansToYou}
+          </p>
+        </div>
+      </div>
       <FeedbackStyle combination={combination} />
       <div className="action-box">
         <h4 className="action-title">
@@ -349,21 +335,6 @@ export const GettingBetter = ({ headPercent, heartPercent, gutPercent }: Getting
             How You Extract Value From Experience
           </h4>
           <p className="card-content">{traits.howYouExtractValueFromExperience}</p>
-        </div>
-      </div>
-
-      <div className="intro-grid intro-grid-three">
-        <div className="trait-section">
-          <h4 className="trait-section-title">What You Naturally Tune Into</h4>
-          <p className="trait-content">{traits.whatYouNaturallyTuneInto}</p>
-        </div>
-        <div className="trait-section">
-          <h4 className="trait-section-title">How You Learn Best</h4>
-          <p className="trait-content">{traits.howYouLearnBest}</p>
-        </div>
-        <div className="trait-section">
-          <h4 className="trait-section-title">What Progress Means to You</h4>
-          <p className="trait-content">{traits.whatProgressMeansToYou}</p>
         </div>
       </div>
 

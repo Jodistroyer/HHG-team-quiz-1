@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleCheck, faTriangleExclamation, faHeart, faUserGroup, faStar } from '@fortawesome/free-solid-svg-icons'
+import { faCircleCheck, faTriangleExclamation, faStar } from '@fortawesome/free-solid-svg-icons'
 import { SocialMap, getSocialMapForScores } from './SocialMap/SocialMap.tsx'
+import { getBalanceTipBadgeStyle } from '../utils.tsx'
 import '../SectionResults.css'
 import './WithPeople.css'
 
@@ -324,6 +325,8 @@ const WITH_PEOPLE_ARCHETYPES: Record<string, { archetype: string; description: s
   }
 }
 
+void WITH_PEOPLE_ARCHETYPES
+
 const getTier = (percent: number): 'Dominant' | 'Secondary' | 'Weak' => {
   if (percent >= 50) return 'Dominant'
   if (percent >= 35) return 'Secondary'
@@ -386,31 +389,6 @@ const getBalanceTipBadge = (brainCombination: string): string => {
   return map[brainCombination] ?? 'Focus'
 }
 
-const getBalanceTipBadgeStyle = (badgeText: string): React.CSSProperties => {
-  const colorMap: Record<string, string> = {
-    Head: '#1368ce',
-    Heart: '#e21b3c',
-    Gut: '#26890c'
-  }
-
-  if (badgeText === 'Focus') {
-    return { background: '#1e293b' }
-  }
-
-  const parts = badgeText.split('+').map((p) => p.trim()).filter(Boolean)
-  const colors = parts.map((p) => colorMap[p]).filter(Boolean)
-
-  if (colors.length === 1) return { background: colors[0] }
-  if (colors.length === 2) return { background: `linear-gradient(135deg, ${colors[0]} 50%, ${colors[1]} 50%)` }
-  if (colors.length >= 3) {
-    return {
-      background: `linear-gradient(135deg, ${colors[0]} 33.33%, ${colors[1]} 33.33%, ${colors[1]} 66.66%, ${colors[2]} 66.66%)`
-    }
-  }
-
-  return { background: '#1e293b' }
-}
-
 export const WithPeople = ({ headPercent, heartPercent, gutPercent }: WithPeopleProps) => {
   const combination = getBrainCombination(headPercent, heartPercent, gutPercent)
   const traits = traitDatabase[combination] || traitDatabase['Head']
@@ -433,6 +411,17 @@ export const WithPeople = ({ headPercent, heartPercent, gutPercent }: WithPeople
           </div>
         </section>
       )} */}
+      {/* Profile: who you are, interaction style, core need — vertical purple line like Doing Work */}
+      <section className="with-people-section with-people-profile">
+        <div className="intro-grid intro-grid-three">
+          <div className="trait-section">
+            <h4 className="trait-section-title">Who You Are</h4>
+            <p className="trait-content">
+              {traits.whoYouAre} {traits.interactionStyle} {traits.coreNeed}
+            </p>
+          </div>
+        </div>
+      </section>
       <SocialMap profile={socialMap} />
       <section className="with-people-section with-people-action">
         <div className="action-box">
@@ -451,48 +440,11 @@ export const WithPeople = ({ headPercent, heartPercent, gutPercent }: WithPeople
       <section className="with-people-section with-people-connection">
         <div className="intro-grid with-people-cards-grid">
           <div className="trait-section with-people-card drawn-to-section">
-            <h4 className="trait-section-title">
-              <span className="card-icon"><FontAwesomeIcon icon={faUserGroup} /></span>
-              Who You're Drawn To
-            </h4>
-            <ul className="trait-bullets">
-              <li>
-                <span className="user-icon"><FontAwesomeIcon icon={faUserGroup} /></span>
-                {traits.whoYoureDrawnTo}
-              </li>
-            </ul>
-          </div>
-          <div className="trait-section with-people-card love-language-section">
-            <h4 className="trait-section-title">
-              <span className="card-icon"><FontAwesomeIcon icon={faHeart} /></span>
-              Love Language
-            </h4>
-            <ul className="trait-bullets">
-              {traits.loveLanguage.map((item, index) => (
-                <li key={index}>
-                  <span className="heart-icon"><FontAwesomeIcon icon={faHeart} /></span>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      {/* Profile: who you are, interaction style, core need — vertical purple line like Doing Work */}
-      <section className="with-people-section with-people-profile">
-        <div className="intro-grid intro-grid-three">
-          <div className="trait-section">
             <h4 className="trait-section-title">Who You Are</h4>
-            <p className="trait-content">{traits.whoYouAre}</p>
-          </div>
-          <div className="trait-section">
-            <h4 className="trait-section-title">Interaction Style</h4>
-            <p className="trait-content">{traits.interactionStyle}</p>
-          </div>
-          <div className="trait-section">
-            <h4 className="trait-section-title">Core Need</h4>
-            <p className="trait-content">{traits.coreNeed}</p>
+            <p className="trait-content">
+              {traits.whoYoureDrawnTo}{' '}
+              {traits.loveLanguage.join(' ')}
+            </p>
           </div>
         </div>
       </section>

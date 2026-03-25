@@ -53,6 +53,11 @@
   padding-left: 1.75rem;
 }
 
+.with-people-content .drawn-to-section.with-people-card .trait-content {
+  color: rgba(255, 255, 255, 0.95);
+  margin: 0;
+}
+
 .with-people-content .love-language-section.with-people-card {
   background: #db2777;
   color: #fff;

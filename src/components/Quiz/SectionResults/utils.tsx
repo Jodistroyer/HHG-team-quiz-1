@@ -1,4 +1,4 @@
-import type { ReactElement } from 'react'
+import type { CSSProperties, ReactElement } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDiamond, faHeart, faSquare, faFire, faBriefcase, faPeopleGroup, faChartLine } from '@fortawesome/free-solid-svg-icons'
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
@@ -63,4 +63,29 @@ export const getBrainCombination = (headPercent: number, heartPercent: number, g
     return { label: `${first.type} + ${second.type}`, colors: [colorMap[first.type], colorMap[second.type]] }
   }
   return { label: `${first.type} Strong`, colors: [colorMap[first.type]] }
+}
+
+export function getBalanceTipBadgeStyle(badgeText: string): CSSProperties {
+  const colorMap: Record<string, string> = {
+    Head: '#1368ce',
+    Heart: '#e21b3c',
+    Gut: '#26890c'
+  }
+  if (badgeText === 'Focus') {
+    return { background: '#1e293b' }
+  }
+  const parts = badgeText.split('+').map((p) => p.trim()).filter(Boolean)
+  const colors = parts.map((p) => colorMap[p]).filter(Boolean)
+  if (colors.length === 1) {
+    return { background: colors[0] }
+  }
+  if (colors.length === 2) {
+    return { background: `linear-gradient(135deg, ${colors[0]} 50%, ${colors[1]} 50%)` }
+  }
+  if (colors.length >= 3) {
+    return {
+      background: `linear-gradient(135deg, ${colors[0]} 33.33%, ${colors[1]} 33.33%, ${colors[1]} 66.66%, ${colors[2]} 66.66%)`
+    }
+  }
+  return { background: '#1e293b' }
 }
