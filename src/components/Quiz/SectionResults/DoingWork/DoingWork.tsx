@@ -190,52 +190,52 @@ const traitDatabase: Record<string, TraitData> = {
 /* Doing Work archetypes: archetype name, description, quote */
 const DOING_WORK_ARCHETYPES: Record<string, { archetype: string; description: string; quote: string }> = {
   'Head': {
-    archetype: 'The Thinker',
+    archetype: 'Thinker',
     description: 'When doing work, your mind is your primary workspace. You process tasks as mental models, filtering out the noise of the office to find the logic underneath. You don\'t work for the "win"; you work for the internal click of a solved puzzle.',
     quote: 'If I see the logic, I own the task.'
   },
   'Head+Gut': {
-    archetype: 'The Tactician',
+    archetype: 'Tactician',
     description: 'When doing work, you operate on a private frequency of efficiency. You aren\'t just completing a checklist; you are maneuvering through a system. You conserve your energy for the moves that actually move the needle for your own goals.',
     quote: 'If I find the leverage, I save my strength.'
   },
   'Head+Heart': {
-    archetype: 'The Diplomat',
+    archetype: 'Diplomat',
     description: 'When doing work, you are constantly calibrating. You feel the social friction of the workplace but use your intellect to keep it from draining you. You stay effective by ensuring your internal values aren\'t compromised by the output.',
     quote: 'If I stay aligned, I stay capable.'
   },
   'Heart': {
-    archetype: 'The Empath',
+    archetype: 'Empath',
     description: 'When doing work, your energy is your currency. You don\'t just "do" a job; you live it. You are hyper-aware of the emotional climate of the team because your own productivity depends on the health of the space you occupy.',
     quote: 'If I feel it, it matters.'
   },
   'Heart+Gut': {
-    archetype: 'The Shepherd',
+    archetype: 'Shepherd',
     description: 'When doing work, you create a circle of responsibility. You don\'t just finish tasks; you hold the line. You work hardest when you feel your contribution is the bedrock that keeps your own environment from collapsing.',
     quote: 'If I hold the weight, I find my worth.'
   },
   'Heart+Head': {
-    archetype: 'The Advisor',
+    archetype: 'Advisor',
     description: 'When doing work, you seek the "reason" behind the "what." You need the big picture to feel grounded. You aren\'t just an employee; you are an interpreter who works best when the path ahead makes human sense to you personally.',
     quote: 'If I see the \'why\', I can do the \'how\'.'
   },
   'Gut': {
-    archetype: 'The Doer',
+    archetype: 'Doer',
     description: 'When doing work, your body leads. Sitting in meetings feels like stagnation; doing feels like relief. You measure your success by the physical momentum you build throughout the day, trusting your reflexes over the manual.',
     quote: 'If I\'m moving, I\'m winning.'
   },
   'Gut+Head': {
-    archetype: 'The Engineer',
+    archetype: 'Engineer',
     description: 'When doing work, you are driven by the irritation of inefficiency. You fix systems because broken processes grate on your nerves. Your "hard work" is a personal quest to make the world run smoother for your own sanity.',
     quote: 'If I fix the flow, I find my peace.'
   },
   'Gut+Heart': {
-    archetype: 'The Hero',
+    archetype: 'Hero',
     description: 'When doing work, you are fueled by personal conviction. You don\'t wait for permission because your internal "must" is louder than any pressure. You take the lead because sitting idle during a crisis feels like losing a piece of yourself.',
     quote: 'If I step up, I feel right.'
   },
   'Head+Heart+Gut': {
-    archetype: 'The Sovereign',
+    archetype: 'Sovereign',
     description: 'When doing work, you are the ultimate filter. You listen to the data, the people, and your gut, but the final command comes from your center. You don\'t work for the job; the job is the current expression of your personal mastery.',
     quote: 'If I choose it, I command it.'
   }
@@ -333,12 +333,12 @@ export const DoingWork = ({ headPercent, heartPercent, gutPercent }: DoingWorkPr
   const traits = traitDatabase[combination] || traitDatabase['Head']
   const balanceTipBadge = getBalanceTipBadge(traits.brainCombination)
   const balanceTipBadgeStyle = getBalanceTipBadgeStyle(balanceTipBadge)
-  const archetypeData = DOING_WORK_ARCHETYPES[combination]
+  // const archetypeData = DOING_WORK_ARCHETYPES[combination]
   const executionPattern = getWorkStyleForScores(headPercent, heartPercent, gutPercent)
 
   return (
     <div className="under-pressure-content">
-      {archetypeData && (
+      {/* {archetypeData && (
         <div className="section-archetype-block">
           <h3 className="section-archetype-name">{archetypeData.archetype}</h3>
           {archetypeData.description && (
@@ -346,7 +346,7 @@ export const DoingWork = ({ headPercent, heartPercent, gutPercent }: DoingWorkPr
           )}
           <blockquote className="section-archetype-quote">"{archetypeData.quote}"</blockquote>
         </div>
-      )}
+      )} */}
       <WorkStyle profile={executionPattern} />
       <div className="action-box">
         <h4 className="action-title">

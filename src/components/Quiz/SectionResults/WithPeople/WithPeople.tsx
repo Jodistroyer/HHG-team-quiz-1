@@ -273,52 +273,52 @@ const traitDatabase: Record<string, TraitData> = {
 /* With People archetypes: archetype name, description, quote */
 const WITH_PEOPLE_ARCHETYPES: Record<string, { archetype: string; description: string; quote: string }> = {
   'Head': {
-    archetype: 'The Thinker',
+    archetype: 'Thinker',
     description: 'With people, you are a silent cartographer. You map the room and decode intentions from a distance to ensure you aren\'t blindsided. You don\'t need to be the center of attention; you need to understand the architecture of the conversation.',
     quote: 'If I understand the room, I can inhabit it.'
   },
   'Head+Gut': {
-    archetype: 'The Tactician',
+    archetype: 'Tactician',
     description: 'With people, you value direct and purposeful interaction. You don\'t feel drawn to endless small talk; you engage when there is something real to exchange, solve, or move forward. Your presence feels intentional, and others sense that when you speak, it carries clarity and direction.',
     quote: 'If I speak, it counts.'
   },
   'Head+Heart': {
-    archetype: 'The Diplomat',
+    archetype: 'Diplomat',
     description: 'With people, you notice emotional shifts and instinctively move to clarify them. You don\'t absorb tension; you translate it into words people can understand. By balancing empathy with perspective, you help conversations stay grounded and relationships remain steady.',
     quote: 'If I stay centered, I stay clear.'
   },
   'Heart': {
-    archetype: 'The Empath',
+    archetype: 'Empath',
     description: 'With people, you are a mirror. You don\'t just hear words; you absorb the underlying frequency of the person in front of you. This connection is your greatest gift and your greatest drain, as you struggle to stay "you" while feeling "them."',
     quote: 'If I sense it, I pay attention.'
   },
   'Heart+Gut': {
-    archetype: 'The Shepherd',
+    archetype: 'Shepherd',
     description: 'With people, you are emotionally engaged and responsive. You don\'t just "hang out"; you notice when tension, disrespect, or imbalance enters the space. Loyalty moves you to speak up, stand beside others, and help bring the relationship back into harmony.',
     quote: 'If something feels off, I speak up.'
   },
   'Heart+Head': {
-    archetype: 'The Advisor',
+    archetype: 'Advisor',
     description: 'With people, you are drawn to understanding the meaning behind their experiences. You don\'t just listen to what happened; you help shape perspective around it. Connection grows through shared reflection, where insight and empathy meet to bring clarity to the moment.',    
     quote: 'If there’s perspective, there’s peace.'
   },
   'Gut': {
-    archetype: 'The Doer',
+    archetype: 'Doer',
     description: 'With people, you are an engine in a room full of brakes. You have little patience for social posturing or endless debate. You feel most "yourself" when you are doing something active alongside others, rather than just talking about it.',
     quote: 'If we are moving, we are aligned.'
   },
   'Gut+Head': {
-    archetype: 'The Engineer',
+    archetype: 'Engineer',
     description: 'With people, you look for the mechanics of the group. You see the friction in how people interact and instinctively want to fix the "clogs" in communication. You value people who are functional, direct, and low-maintenance.',
     quote: 'If it works, I\'m comfortable.'
   },
   'Gut+Heart': {
-    archetype: 'The Hero',
+    archetype: 'Hero',
     description: 'With people, you are the first responder. You don\'t wait for an invitation to help; you step forward when something needs momentum. You read emotional dips quickly and move to support, stabilize, or carry the moment so others don\'t have to hesitate.',    
     quote: 'If no one moves, I will.'
   },
   'Head+Heart+Gut': {
-    archetype: 'The Sovereign',
+    archetype: 'Sovereign',
     description: 'With people, you are your own anchor. You acknowledge the social data, feel the emotional weight, and trust your gut, but you never let the crowd dictate your tempo. You are present, but you are never "lost" in the group.',
     quote: 'If I am myself, I am enough.'
   }
@@ -416,13 +416,13 @@ export const WithPeople = ({ headPercent, heartPercent, gutPercent }: WithPeople
   const traits = traitDatabase[combination] || traitDatabase['Head']
   const balanceTipBadge = getBalanceTipBadge(traits.brainCombination)
   const balanceTipBadgeStyle = getBalanceTipBadgeStyle(balanceTipBadge)
-  const archetypeData = WITH_PEOPLE_ARCHETYPES[combination]
+  // const archetypeData = WITH_PEOPLE_ARCHETYPES[combination]
   const socialMap = getSocialMapForScores(headPercent, heartPercent, gutPercent)
 
   return (
     <div className="under-pressure-content with-people-content">
       {/* Hero: archetype + quote — top-level focus */}
-      {archetypeData && (
+      {/* {archetypeData && (
         <section className="with-people-section with-people-hero">
           <div className="section-archetype-block">
             <h3 className="section-archetype-name">{archetypeData.archetype}</h3>
@@ -432,7 +432,7 @@ export const WithPeople = ({ headPercent, heartPercent, gutPercent }: WithPeople
             <blockquote className="section-archetype-quote">"{archetypeData.quote}"</blockquote>
           </div>
         </section>
-      )}
+      )} */}
       <SocialMap profile={socialMap} />
       <section className="with-people-section with-people-action">
         <div className="action-box">

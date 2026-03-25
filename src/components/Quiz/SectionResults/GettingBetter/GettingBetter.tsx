@@ -168,52 +168,52 @@ const traitDatabase: Record<string, TraitData> = {
 /* Getting Better archetypes: archetype name, description, quote */
 const GETTING_BETTER_ARCHETYPES: Record<string, { archetype: string; description: string; quote: string }> = {
   'Head': {
-    archetype: 'The Thinker',
+    archetype: 'Thinker',
     description: 'When getting better, you analyze every step. You study systems, dissect mistakes, and refine strategies. Improvement comes from understanding, not repetition. You measure progress with insight.',
     quote: 'Complexity is just a puzzle waiting for the right lens.'
   },
   'Head+Gut': {
-    archetype: 'The Tactician',
+    archetype: 'Tactician',
     description: 'When getting better, you plan growth like a campaign. Every action is deliberate, every experiment purposeful. You learn fastest when you combine strategy with instinct. Success is a calculated trajectory.',
     quote: 'Precision outpaces effort every single time.'
   },
   'Head+Heart': {
-    archetype: 'The Diplomat',
+    archetype: 'Diplomat',
     description: 'When getting better, you consider both knowledge and relationships. You grow by understanding others and yourself. Improvement is not just skill, but harmony in application. You balance learning with empathy.',
     quote: 'The strongest bridge is built with both data and trust.'
   },
   'Heart': {
-    archetype: 'The Empath',
+    archetype: 'Empath',
     description: 'When getting better, you feel your progress deeply. You learn through connection and reflection. Emotions guide what matters and where change is needed. Personal growth is meaningful only when it touches others.',
     quote: 'Growth isn\'t measured in inches, but in depth.'
   },
   'Heart+Gut': {
-    archetype: 'The Shepherd',
+    archetype: 'Shepherd',
     description: 'When getting better, you focus on impact over technique. You grow by protecting, serving, and supporting. Improvement is measured by how well you help others and stand strong for them.',
     quote: 'The circle is only as strong as the one holding the gate.'
   },
   'Heart+Head': {
-    archetype: 'The Advisor',
+    archetype: 'Advisor',
     description: 'When getting better, you study both theory and human nature. You learn how to guide, how to see patterns, and how to communicate insight. Growth is about becoming a resource others can rely on.',
     quote: 'Wisdom is knowing which truth the moment requires.'
   },
   'Gut': {
-    archetype: 'The Doer',
+    archetype: 'Doer',
     description: 'When getting better, you learn by doing. Practice is your teacher, and mistakes are fuel. You improve fastest when you act, adjust, and act again. Theory without action is wasted time.',
     quote: 'Sweat is the best feedback loop.'
   },
   'Gut+Head': {
-    archetype: 'The Engineer',
+    archetype: 'Engineer',
     description: 'When getting better, you optimize yourself like a system. You analyze performance, identify inefficiencies, and redesign processes. Improvement is measurable, structured, and iterative.',
     quote: 'If the output is flawed, redesign the engine.'
   },
   'Gut+Heart': {
-    archetype: 'The Hero',
+    archetype: 'Hero',
     description: 'When getting better, you push through fear and discomfort. You grow by confronting challenges directly and supporting others in the process. Courage and care accelerate your progress.',
     quote: 'True power is being the calm in someone else\'s storm.'
   },
   'Head+Heart+Gut': {
-    archetype: 'The Sovereign',
+    archetype: 'Sovereign',
     description: 'When getting better, you integrate mind, heart, and instinct. You reflect, feel, and act in balance. Learning is holistic, and growth touches both skill and character. You evolve with awareness and purpose.',
     quote: 'Mastery is the alignment of thought, feeling, and finish.'
   }
@@ -311,10 +311,10 @@ export const GettingBetter = ({ headPercent, heartPercent, gutPercent }: Getting
   const traits = traitDatabase[combination] || traitDatabase['Head']
   const balanceTipBadge = getBalanceTipBadge(traits.brainCombination)
   const balanceTipBadgeStyle = getBalanceTipBadgeStyle(balanceTipBadge)
-  const archetypeData = GETTING_BETTER_ARCHETYPES[combination]
+  // const archetypeData = GETTING_BETTER_ARCHETYPES[combination]
   return (
     <div className="under-pressure-content getting-better-content">
-      {archetypeData && (
+      {/* {archetypeData && (
         <div className="section-archetype-block">
           <h3 className="section-archetype-name">{archetypeData.archetype}</h3>
           {archetypeData.description && (
@@ -322,7 +322,7 @@ export const GettingBetter = ({ headPercent, heartPercent, gutPercent }: Getting
           )}
           <blockquote className="section-archetype-quote">"{archetypeData.quote}"</blockquote>
         </div>
-      )}
+      )} */}
       <FeedbackStyle combination={combination} />
       <div className="action-box">
         <h4 className="action-title">

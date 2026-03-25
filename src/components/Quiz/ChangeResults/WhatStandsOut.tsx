@@ -1,4 +1,5 @@
 import type { Insight } from './changeResultsLogic'
+import { insightRichText } from './insightRichText'
 import './ChangeResults.css'
 
 interface WhatStandsOutProps {
@@ -14,8 +15,8 @@ export function WhatStandsOut({ insights }: WhatStandsOutProps) {
       <ul className="change-results-insight-list">
         {insights.map((item) => (
           <li key={`${item.headline}-${item.body}`} className="change-results-insight-item">
-            <span className="change-results-insight-headline">{item.headline}</span>
-            <span className="change-results-insight-body">{item.body}</span>
+            <span className="change-results-insight-headline">{insightRichText(item.headline)}</span>
+            <span className="change-results-insight-body">{insightRichText(item.body)}</span>
           </li>
         ))}
       </ul>

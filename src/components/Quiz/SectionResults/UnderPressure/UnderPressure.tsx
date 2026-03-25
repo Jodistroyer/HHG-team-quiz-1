@@ -201,56 +201,58 @@ const traitDatabase: Record<string, TraitData> = {
 /* Under Pressure archetypes: archetype name, description, quote */
 const UNDER_PRESSURE_ARCHETYPES: Record<string, { archetype: string; description: string; quote: string }> = {
   'Head': {
-    archetype: 'The Thinker',
+    archetype: 'Thinker',
     description: 'Under pressure, you retreat. Your inner world becomes a quiet, cold laboratory where you dissect the problem without the interference of feeling. You don\'t seek comfort; you seek a clear line of sight.',
     quote: 'If I see it clearly, I can hold it.'
   },
   'Head+Gut': {
-    archetype: 'The Tactician',
+    archetype: 'Tactician',
     description: 'Under pressure, your vision narrows. Your pulse slows as you hunt for the opening. You aren\'t wondering if you will succeed, only when. Your body becomes a sharpened tool for your intent.',
     quote: 'If I am steady, I am ready.'
   },
   'Head+Heart': {
-    archetype: 'The Diplomat',
+    archetype: 'Diplomat',
     description: 'Under pressure, you are a bridge under heavy weight. You feel the strain of the tension, but you hold yourself steady so the truth doesn\'t snap. You prioritize your own composure to keep your judgment intact.',
     quote: 'If I stay whole, I stay true.'
   },
   'Heart': {
-    archetype: 'The Empath',
+    archetype: 'Empath',
     description: 'Under pressure, you become porous. The world\'s pain enters you, making it hard to tell where the stress ends and you begin. You struggle to stay upright, finding your worth in staying present through the ache.',
     quote: 'If I feel it, it matters.'
   },
   'Heart+Gut': {
-    archetype: 'The Shepherd',
+    archetype: 'Shepherd',
     description: 'Under pressure, your skin thickens. You feel a fierce, internal "No" to the threat. Your fear transforms into an iron wall; you don\'t care about the cost to yourself as long as the line holds.',
     quote: 'If I stand firm, I am safe.'
   },
   'Heart+Head': {
-    archetype: 'The Advisor',
+    archetype: 'Advisor',
     description: 'Under pressure, you lift your gaze. You feel the panic rising, so you look toward something permanent. You talk yourself through the dark by remembering that this moment is only a fragment of the whole.',
     quote: 'If I look beyond, I can breathe.'
   },
   'Gut': {
-    archetype: 'The Doer',
+    archetype: 'Doer',
     description: 'Under pressure, your blood catches fire. Thinking feels like suffocating; moving feels like breathing. You don\'t need a plan; you need an outlet. You trust your reflexes more than your thoughts.',
     quote: 'If I move, I am alive.'
   },
   'Gut+Head': {
-    archetype: 'The Engineer',
+    archetype: 'Engineer',
     description: 'Under pressure, you become a machine. You feel the friction of chaos and instinctively move to fix the gears. You compartmentalize your heart to maximize your hands. Efficiency is your only relief.',
     quote: 'If I can fix it, I can face it.'
   },
   'Gut+Heart': {
-    archetype: 'The Hero',
+    archetype: 'Hero',
     description: 'Under pressure, you feel a surge of "Must." It isn\'t a choice; it\'s a physical requirement to step into the gap. Your fear is simply the fuel you use to ignite your resolve.',
     quote: 'If I act, I am enough.'
   },
   'Head+Heart+Gut': {
-    archetype: 'The Sovereign',
+    archetype: 'Sovereign',
     description: 'Under pressure, you return to your center. You acknowledge the data and feel the weight, but you allow neither to drive. You are the pilot, not the plane; you choose your response rather than reacting.',
     quote: 'If I choose, I am free.'
   }
 }
+
+void UNDER_PRESSURE_ARCHETYPES
 
 const getTier = (percent: number): 'Dominant' | 'Secondary' | 'Weak' => {
   if (percent >= 50) return 'Dominant'
@@ -344,12 +346,12 @@ export const UnderPressure = ({ headPercent, heartPercent, gutPercent }: UnderPr
   const traits = traitDatabase[combination] || traitDatabase['Head']
   const balanceTipBadge = getBalanceTipBadge(traits.brainCombination)
   const balanceTipBadgeStyle = getBalanceTipBadgeStyle(balanceTipBadge)
-  const archetypeData = UNDER_PRESSURE_ARCHETYPES[combination]
+  // const archetypeData = UNDER_PRESSURE_ARCHETYPES[combination]
   const pressureProfile = getPressureProfileForScores(headPercent, heartPercent, gutPercent)
 
   return (
     <div className="under-pressure-content">
-      {archetypeData && (
+      {/* {archetypeData && (
         <div className="section-archetype-block">
           <h3 className="section-archetype-name">{archetypeData.archetype}</h3>
           {archetypeData.description && (
@@ -357,7 +359,7 @@ export const UnderPressure = ({ headPercent, heartPercent, gutPercent }: UnderPr
           )}
           <blockquote className="section-archetype-quote">"{archetypeData.quote}"</blockquote>
         </div>
-      )}
+      )} */}
       <PressureProfile profile={pressureProfile} />
       <div className="action-box">
         <h4 className="action-title">

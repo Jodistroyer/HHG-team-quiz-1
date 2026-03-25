@@ -404,7 +404,7 @@ export function computeInsights(facts: ChangeFacts, maxInsights = INSIGHT_TARGET
     if (minIdx.length === 1 && minIdx[0] === 0 && minCentres < maxCentres) {
       const pTitle = rows[0]!.title
       candidates.push({
-        headline: 'You narrow under pressure',
+        headline: 'You narrow Under Pressure',
         body: `${pTitle} is where you use the fewest active centres: ${rows[0]!.shortLabel}.`,
         priority: 70,
       })

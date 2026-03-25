@@ -45,7 +45,7 @@ export const getBrainCombinationKey = (headPercent: number, heartPercent: number
 
 const PRESSURE_PROFILES: Record<string, PressureProfileData> = {
   Head: {
-    pressureProfile: 'The Pure Analyst',
+    pressureProfile: 'Pure Analyst',
     hhgCombination: 'Head only',
     dominantStyle: 'Logic-first',
     emotionalTrigger: 'Ambiguity, irrationality',
@@ -59,7 +59,7 @@ const PRESSURE_PROFILES: Record<string, PressureProfileData> = {
     speakTheirLanguage: 'Specifics. Details. Data'
   },
   'Head+Gut': {
-    pressureProfile: 'The Strategic Commander',
+    pressureProfile: 'Strategic Commander',
     hhgCombination: 'Head + Gut',
     dominantStyle: 'Logical but decisive',
     emotionalTrigger: 'Loss of control, indecisiveness',
@@ -73,7 +73,7 @@ const PRESSURE_PROFILES: Record<string, PressureProfileData> = {
     speakTheirLanguage: 'Direct statements supported by reasoning'
   },
   'Head+Heart': {
-    pressureProfile: 'The Data-Driven Harmonizer',
+    pressureProfile: 'Data-Driven Harmonizer',
     hhgCombination: 'Head + Heart',
     dominantStyle: 'Logically caring',
     emotionalTrigger: 'Emotionally overwhelmed, conflict',
@@ -87,7 +87,7 @@ const PRESSURE_PROFILES: Record<string, PressureProfileData> = {
     speakTheirLanguage: 'Clear and Context-Aware explanations'
   },
   Heart: {
-    pressureProfile: 'The Emotional Empath',
+    pressureProfile: 'Emotional Empath',
     hhgCombination: 'Heart only',
     dominantStyle: 'Connection-first',
     emotionalTrigger: 'Conflict, betrayal, isolation',
@@ -101,7 +101,7 @@ const PRESSURE_PROFILES: Record<string, PressureProfileData> = {
     speakTheirLanguage: 'Generalities. Big picture feelings'
   },
   'Heart+Gut': {
-    pressureProfile: 'The Intuitive Counselor',
+    pressureProfile: 'Intuitive Counselor',
     hhgCombination: 'Heart + Gut',
     dominantStyle: 'Emotional but active',
     emotionalTrigger: 'Disrespect, chaos, being unheard',
@@ -115,7 +115,7 @@ const PRESSURE_PROFILES: Record<string, PressureProfileData> = {
     speakTheirLanguage: 'Direct but emotionally charged'
   },
   'Heart+Head': {
-    pressureProfile: 'The Sentimental Thinker',
+    pressureProfile: 'Sentimental Thinker',
     hhgCombination: 'Heart + Head',
     dominantStyle: 'Feeling-based logic',
     emotionalTrigger: 'Disregard of values, over-analysis',
@@ -129,7 +129,7 @@ const PRESSURE_PROFILES: Record<string, PressureProfileData> = {
     speakTheirLanguage: 'Reflective. Layered explanations'
   },
   Gut: {
-    pressureProfile: 'The Instinctive Doer',
+    pressureProfile: 'Instinctive Doer',
     hhgCombination: 'Gut only',
     dominantStyle: 'Action-first',
     emotionalTrigger: 'Delay, powerlessness, lack of clarity',
@@ -143,7 +143,7 @@ const PRESSURE_PROFILES: Record<string, PressureProfileData> = {
     speakTheirLanguage: 'Direct statements. Short commands'
   },
   'Gut+Head': {
-    pressureProfile: 'The Loyal Implementer',
+    pressureProfile: 'Loyal Implementer',
     hhgCombination: 'Gut + Head',
     dominantStyle: 'Practical strategist',
     emotionalTrigger: 'Disorganized plans, unclear roles',
@@ -157,7 +157,7 @@ const PRESSURE_PROFILES: Record<string, PressureProfileData> = {
     speakTheirLanguage: 'Specific tasks. Clear responsibilities'
   },
   'Gut+Heart': {
-    pressureProfile: 'The Heroic Caretaker',
+    pressureProfile: 'Heroic Caretaker',
     hhgCombination: 'Gut + Heart',
     dominantStyle: 'Protector of people',
     emotionalTrigger: 'Betrayal, perceived injustice',
@@ -171,7 +171,7 @@ const PRESSURE_PROFILES: Record<string, PressureProfileData> = {
     speakTheirLanguage: 'Direct but emotional'
   },
   'Head+Heart+Gut': {
-    pressureProfile: 'The Balanced Visionary',
+    pressureProfile: 'Balanced Visionary',
     hhgCombination: 'Head + Heart + Gut',
     dominantStyle: 'Holistic leader',
     emotionalTrigger: 'Misalignment in purpose or execution',
