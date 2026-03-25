@@ -1,5 +1,8 @@
 import type { CSSProperties } from 'react'
 import type { ContextComboRow } from './changeResultsLogic'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBriefcase, faChartLine, faFire, faPeopleGroup } from '@fortawesome/free-solid-svg-icons'
+import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 import '../SectionResults/SectionCard.css'
 import './ChangeResults.css'
 
@@ -17,6 +20,21 @@ function comboBadgeStyle(colors: string[]): CSSProperties {
   }
 }
 
+function contextIconForTitle(title: string): IconDefinition | null {
+  switch (title.trim().toLowerCase()) {
+    case 'under pressure':
+      return faFire
+    case 'doing work':
+      return faBriefcase
+    case 'with people':
+      return faPeopleGroup
+    case 'getting better':
+      return faChartLine
+    default:
+      return null
+  }
+}
+
 export function CombinationAcrossContexts({ rows }: CombinationAcrossContextsProps) {
   if (rows.length === 0) return null
 
@@ -26,7 +44,14 @@ export function CombinationAcrossContexts({ rows }: CombinationAcrossContextsPro
       <dl className="change-results-combo-list">
         {rows.map((row) => (
           <div key={row.title} className="change-results-combo-row">
-            <dt>{row.title}</dt>
+            <dt>
+              {contextIconForTitle(row.title) && (
+                <span className="change-results-context-icon" aria-hidden="true">
+                  <FontAwesomeIcon icon={contextIconForTitle(row.title)!} />
+                </span>
+              )}
+              <span className="change-results-context-title">{row.title}</span>
+            </dt>
             <dd className="change-results-combo-dd">
               <div className="change-results-combo-badge-host">
                 <div className="section-card-badges change-results-combo-badges">

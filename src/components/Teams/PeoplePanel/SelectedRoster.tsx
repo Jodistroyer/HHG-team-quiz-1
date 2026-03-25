@@ -33,6 +33,13 @@ function getInitials(name: string): string {
 }
 
 function getScoresForContext(person: Person, context: TeamContextKey): TeamContextScores {
+  if (context === 'overall') {
+    return {
+      headPercent: person.headPercent,
+      heartPercent: person.heartPercent,
+      gutPercent: person.gutPercent,
+    }
+  }
   return (
     person.contextScores?.[context] ?? {
       headPercent: person.headPercent,

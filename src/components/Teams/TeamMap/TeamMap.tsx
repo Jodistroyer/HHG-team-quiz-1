@@ -12,6 +12,7 @@ interface TeamMapProps {
 }
 
 const CONTEXT_TABS: Array<{ key: TeamContextKey; label: string }> = [
+  { key: 'overall', label: 'Overall' },
   { key: 'underPressure', label: 'Under Pressure' },
   { key: 'doingWork', label: 'Doing Work' },
   { key: 'withPeople', label: 'With People' },
@@ -21,6 +22,13 @@ const CONTEXT_TABS: Array<{ key: TeamContextKey; label: string }> = [
 const EMPTY_SCORES: TeamContextScores = { headPercent: 0, heartPercent: 0, gutPercent: 0 }
 
 function getScoresForContext(person: Person, context: TeamContextKey): TeamContextScores {
+  if (context === 'overall') {
+    return {
+      headPercent: person.headPercent,
+      heartPercent: person.heartPercent,
+      gutPercent: person.gutPercent,
+    }
+  }
   return (
     person.contextScores?.[context] ?? {
       headPercent: person.headPercent,

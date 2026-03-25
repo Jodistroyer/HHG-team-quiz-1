@@ -26,7 +26,7 @@ export interface Person {
   contextScores?: Partial<Record<TeamContextKey, TeamContextScores>>
 }
 
-export type TeamContextKey = 'underPressure' | 'doingWork' | 'withPeople' | 'gettingBetter'
+export type TeamContextKey = 'overall' | 'underPressure' | 'doingWork' | 'withPeople' | 'gettingBetter'
 
 export interface TeamContextScores {
   headPercent: number

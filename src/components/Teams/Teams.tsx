@@ -6,7 +6,7 @@ import './Teams.css'
 
 function Teams() {
   const [selectedPeople, setSelectedPeople] = useState<Person[]>([])
-  const [activeContext, setActiveContext] = useState<TeamContextKey>('underPressure')
+  const [activeContext, setActiveContext] = useState<TeamContextKey>('overall')
   const deselectRef = useRef<(id: string) => void>(() => {})
   const clearAllRef = useRef<() => void>(() => {})
 

@@ -72,6 +72,23 @@
   font-weight: 700;
   font-size: 0.95rem;
   color: #334155;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-width: 0;
+}
+
+.change-results-context-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.15rem;
+  flex: 0 0 1.15rem;
+  color: #7d3dbd;
+}
+
+.change-results-context-title {
+  min-width: 0;
 }
 
 .change-results-combo-row dd {
