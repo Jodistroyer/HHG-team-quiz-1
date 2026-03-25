@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTriangleExclamation, faGavel, faBookOpen, faStar } from '@fortawesome/free-solid-svg-icons'
+import { faTriangleExclamation, faStar } from '@fortawesome/free-solid-svg-icons'
 import { FeedbackStyle } from './FeedbackStyle/FeedbackStyle.tsx'
 import { getBalanceTipBadgeStyle } from '../utils.tsx'
 import '../SectionResults.css'
@@ -18,8 +18,6 @@ interface TraitData {
   whatYouNaturallyTuneInto: string
   howYouLearnBest: string
   whatProgressMeansToYou: string
-  howYouJudgeYourOwnPerformance: string
-  howYouExtractValueFromExperience: string
   challengesToOvercome: string[]
   balanceTip: string
   colors: string[]
@@ -31,8 +29,6 @@ const traitDatabase: Record<string, TraitData> = {
     whatYouNaturallyTuneInto: 'Information gaps, inconsistencies, logic, and structure.',
     howYouLearnBest: 'Clear frameworks, theories, models, and time to think alone.',
     whatProgressMeansToYou: 'Becoming more correct, precise, and knowledgeable.',
-    howYouJudgeYourOwnPerformance: 'By comparing outcomes to logic, standards, or ideal models.',
-    howYouExtractValueFromExperience: 'You analyze what worked, what didn\'t, and why. Often abstracting lessons into rules or systems.',
     challengesToOvercome: [
       'Overthinking',
       'Perfectionism',
@@ -46,8 +42,6 @@ const traitDatabase: Record<string, TraitData> = {
     whatYouNaturallyTuneInto: 'Emotional responses, reactions of others, and relational impact.',
     howYouLearnBest: 'Safe, supportive environments with encouragement and dialogue.',
     whatProgressMeansToYou: 'Feeling more confident, understood, and connected.',
-    howYouJudgeYourOwnPerformance: 'By how situations felt and how relationships were affected.',
-    howYouExtractValueFromExperience: 'You replay experiences emotionally, learning through empathy and resonance.',
     challengesToOvercome: [
       'Avoiding discomfort or critical feedback'
     ],
@@ -59,8 +53,6 @@ const traitDatabase: Record<string, TraitData> = {
     whatYouNaturallyTuneInto: 'Immediate results, physical feedback, wins and losses.',
     howYouLearnBest: 'Hands-on experience, repetition, trial and error.',
     whatProgressMeansToYou: 'Moving faster, stronger, and more confidently.',
-    howYouJudgeYourOwnPerformance: 'By whether you took action and survived the result.',
-    howYouExtractValueFromExperience: 'You learn fast by doing, adjusting instinctively without much reflection.',
     challengesToOvercome: [
       'Repeating mistakes',
       'Ignoring feedback'
@@ -73,8 +65,6 @@ const traitDatabase: Record<string, TraitData> = {
     whatYouNaturallyTuneInto: 'Signals of what\'s working or failing in real time.',
     howYouLearnBest: 'Learning by testing ideas, adjusting strategies, and iterating.',
     whatProgressMeansToYou: 'Faster execution with better outcomes.',
-    howYouJudgeYourOwnPerformance: 'By whether your decision moved things forward effectively.',
-    howYouExtractValueFromExperience: 'You test ideas in action, refine based on results, and move on quickly.',
     challengesToOvercome: [
       'Acting before learning fully',
       'Skipping reflection'
@@ -87,8 +77,6 @@ const traitDatabase: Record<string, TraitData> = {
     whatYouNaturallyTuneInto: 'Meaning behind actions. How logic connects to values and people.',
     howYouLearnBest: 'Structured learning paired with discussion or reflection.',
     whatProgressMeansToYou: 'Making smarter decisions that align with values.',
-    howYouJudgeYourOwnPerformance: 'By whether the outcome was both fair and effective.',
-    howYouExtractValueFromExperience: 'You reflect deeply, integrating lessons into principles that guide future behavior.',
     challengesToOvercome: [
       'Over-reflection',
       'Delayed decisions'
@@ -101,8 +89,6 @@ const traitDatabase: Record<string, TraitData> = {
     whatYouNaturallyTuneInto: 'Emotional intensity and moments that feel meaningful or urgent.',
     howYouLearnBest: 'Learning through action, experience, and emotional feedback.',
     whatProgressMeansToYou: 'Feeling stronger, braver, and more aligned with values.',
-    howYouJudgeYourOwnPerformance: 'By how true and empowering the action felt.',
-    howYouExtractValueFromExperience: 'You learn from emotional highs and lows, adjusting instinctively.',
     challengesToOvercome: [
       'Impulsiveness',
       'Skipping structured learning'
@@ -115,8 +101,6 @@ const traitDatabase: Record<string, TraitData> = {
     whatYouNaturallyTuneInto: 'Emotional meaning filtered through reflection and understanding.',
     howYouLearnBest: 'Guided reflection, mentoring, journaling, and discussion.',
     whatProgressMeansToYou: 'Balanced growth. Doing better while staying true to self.',
-    howYouJudgeYourOwnPerformance: 'By whether you handled situations with fairness and care.',
-    howYouExtractValueFromExperience: 'You distill emotional experiences into insights about people and values.',
     challengesToOvercome: [
       'Trying to grow "perfectly"'
     ],
@@ -128,8 +112,6 @@ const traitDatabase: Record<string, TraitData> = {
     whatYouNaturallyTuneInto: 'Patterns between action and outcome.',
     howYouLearnBest: 'Practice + analysis, simulations, challenges.',
     whatProgressMeansToYou: 'Becoming more effective and decisive.',
-    howYouJudgeYourOwnPerformance: 'By whether actions produced repeatable success.',
-    howYouExtractValueFromExperience: 'You convert experience into tactics and strategies.',
     challengesToOvercome: [
       'Over-optimizing',
       'Skipping emotional context'
@@ -142,8 +124,6 @@ const traitDatabase: Record<string, TraitData> = {
     whatYouNaturallyTuneInto: 'How actions impact people and emotional outcomes.',
     howYouLearnBest: 'Learning through meaningful action and shared experience.',
     whatProgressMeansToYou: 'Acting with courage while staying connected to others.',
-    howYouJudgeYourOwnPerformance: 'By whether actions protected or helped what you care about.',
-    howYouExtractValueFromExperience: 'You internalize lessons through emotional memory and instinct.',
     challengesToOvercome: [
       'Acting on emotion alone'
     ],
@@ -155,8 +135,6 @@ const traitDatabase: Record<string, TraitData> = {
     whatYouNaturallyTuneInto: 'Systems, people, and real-world feedback simultaneously.',
     howYouLearnBest: 'Integrated learning: thinking, feeling, and doing together.',
     whatProgressMeansToYou: 'Becoming more whole, capable, and adaptable.',
-    howYouJudgeYourOwnPerformance: 'By balance. Results, meaning, and alignment all considered.',
-    howYouExtractValueFromExperience: 'You synthesize experience into wisdom, not just lessons.',
     challengesToOvercome: [
       'Overload',
       'Self-pressure to grow in all areas at once'
@@ -319,23 +297,6 @@ export const GettingBetter = ({ headPercent, heartPercent, gutPercent }: Getting
           <span className="balance-tip-badge" style={balanceTipBadgeStyle}>{balanceTipBadge}</span>
         </h4>
         <p className="action-content">{traits.balanceTip}</p>
-      </div>
-      <div className="pair-cards">
-        <div className="info-card performance-card pair-card-teal">
-          <h4 className="card-title">
-            <span className="card-icon"><FontAwesomeIcon icon={faGavel} /></span>
-            How You Judge Your Own Performance
-          </h4>
-          <p className="card-content">{traits.howYouJudgeYourOwnPerformance}</p>
-        </div>
-
-        <div className="info-card experience-card pair-card-blue">
-          <h4 className="card-title">
-            <span className="card-icon"><FontAwesomeIcon icon={faBookOpen} /></span>
-            How You Extract Value From Experience
-          </h4>
-          <p className="card-content">{traits.howYouExtractValueFromExperience}</p>
-        </div>
       </div>
 
       <div className="full-width-cards">
