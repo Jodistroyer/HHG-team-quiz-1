@@ -11,6 +11,8 @@ export interface SocialMapData {
   energizers: string
   drainers: string
   humorStyle: string
+  whoYoureDrawnTo: string
+  loveLanguage: string[]
 }
 
 const SOCIAL_MAP_DATA: Record<string, SocialMapData> = {
@@ -21,7 +23,10 @@ const SOCIAL_MAP_DATA: Record<string, SocialMapData> = {
     howToDiscussSeriousTopics: 'Clear structure. Strong logic. Calm tone',
     energizers: 'Smart ideas. Strategy. Solving hard problems',
     drainers: 'Emotional drama. Disorganized people. Repeating themselves',
-    humorStyle: 'Dry. Sarcastic. Clever wordplay'
+    humorStyle: 'Dry. Sarcastic. Clever wordplay',
+    whoYoureDrawnTo:
+      'People who are patient, rational, and can value your ideas without taking offense at your bluntness.',
+    loveLanguage: ['Acts of competence and reliability', 'Being needed for advice or insight'],
   },
   'Head+Gut': {
     speedOfAnswer: 'Fast but calculated',
@@ -30,7 +35,9 @@ const SOCIAL_MAP_DATA: Record<string, SocialMapData> = {
     howToDiscussSeriousTopics: 'Be direct. Recognize competence. Focus on results',
     energizers: 'Winning. Control. Strategic results',
     drainers: 'Incompetence. Delay. Lack of discipline',
-    humorStyle: 'Sharp. Bold. Cutting'
+    humorStyle: 'Sharp. Bold. Cutting',
+    whoYoureDrawnTo: 'People who are competent, self-reliant, and appreciate decisiveness.',
+    loveLanguage: ['Respect and recognition for their decisiveness', 'Shared adventures or challenges'],
   },
   'Head+Heart': {
     speedOfAnswer: 'Moderate and filtered',
@@ -39,7 +46,9 @@ const SOCIAL_MAP_DATA: Record<string, SocialMapData> = {
     howToDiscussSeriousTopics: 'Show the logic. Acknowledge their feelings',
     energizers: 'Smart collaboration. Clear thinking together.',
     drainers: 'Tension. Harsh environments',
-    humorStyle: 'Light. Situational. Gentle sarcasm'
+    humorStyle: 'Light. Situational. Gentle sarcasm',
+    whoYoureDrawnTo: 'People who are reflective, emotionally aware, and appreciate thoughtful reasoning.',
+    loveLanguage: ['Thoughtful gestures', 'Quality time', 'Verbal affirmation grounded in insight'],
   },
   Heart: {
     speedOfAnswer: 'Moderate but filtered. They consider how it affects others',
@@ -48,7 +57,9 @@ const SOCIAL_MAP_DATA: Record<string, SocialMapData> = {
     howToDiscussSeriousTopics: 'Calm tone. Do not embarrass them publicly',
     energizers: 'Connection. Appreciation. Meaningful talks',
     drainers: 'Conflict. Emotional distance. Harsh criticism',
-    humorStyle: 'Playful. Relatable.'
+    humorStyle: 'Playful. Relatable.',
+    whoYoureDrawnTo: 'People who are warm, communicative, and appreciative of emotional depth.',
+    loveLanguage: ['Emotional attention', 'Affirmation', 'Care', 'Consideration'],
   },
   'Heart+Gut': {
     speedOfAnswer: 'Fast when values are triggered. Slower when emotional',
@@ -57,7 +68,9 @@ const SOCIAL_MAP_DATA: Record<string, SocialMapData> = {
     howToDiscussSeriousTopics: 'Speak clearly about values. Be sincere and firm',
     energizers: 'Helping others. Purposeful action',
     drainers: 'Toxic people. Value conflicts',
-    humorStyle: 'Protective. Teasing'
+    humorStyle: 'Protective. Teasing',
+    whoYoureDrawnTo: 'People who are courageous, emotionally expressive, and active.',
+    loveLanguage: ['Acts of loyalty', 'Devotion', 'Physical support', 'Protection'],
   },
   'Heart+Head': {
     speedOfAnswer: 'Slow. Reflective',
@@ -66,7 +79,9 @@ const SOCIAL_MAP_DATA: Record<string, SocialMapData> = {
     howToDiscussSeriousTopics: 'Be patient. Give time to think',
     energizers: 'Deep conversations. Insightful ideas',
     drainers: 'Pressure. Surface level talk',
-    humorStyle: 'Gentle. Thoughtful'
+    humorStyle: 'Gentle. Thoughtful',
+    whoYoureDrawnTo: 'People who are reflective, fair-minded, and emotionally intelligent.',
+    loveLanguage: ['Verbal affirmation', 'Shared experiences', 'Mutual understanding'],
   },
   Gut: {
     speedOfAnswer: 'Fast. Instinctive. Direct',
@@ -75,7 +90,9 @@ const SOCIAL_MAP_DATA: Record<string, SocialMapData> = {
     howToDiscussSeriousTopics: 'Be direct. Be confident. Get to the point',
     energizers: 'Action. Momentum. Visible progress',
     drainers: 'Inaction. Long debates. Passive behavior',
-    humorStyle: 'Bold. Teasing. Sometimes dark'
+    humorStyle: 'Bold. Teasing. Sometimes dark',
+    whoYoureDrawnTo: 'People who are independent, energetic, and confident.',
+    loveLanguage: ['Physical engagement', 'Adventure', 'Direct support'],
   },
   'Gut+Head': {
     speedOfAnswer: 'Fast but controlled',
@@ -84,7 +101,10 @@ const SOCIAL_MAP_DATA: Record<string, SocialMapData> = {
     howToDiscussSeriousTopics: 'Recognize effort. Offer practical solutions',
     energizers: 'Defined goals. Strong execution. Recognition.',
     drainers: 'Doing everything alone',
-    humorStyle: 'Dry. Subtle'
+    humorStyle: 'Dry. Subtle',
+    whoYoureDrawnTo:
+      'People who are competent, independent, and capable of handling action-oriented environments.',
+    loveLanguage: ['Recognition', 'Practical support', 'Shared challenges'],
   },
   'Gut+Heart': {
     speedOfAnswer: 'Fast when emotions run strong',
@@ -93,7 +113,9 @@ const SOCIAL_MAP_DATA: Record<string, SocialMapData> = {
     howToDiscussSeriousTopics: 'Do not question their commitment. Set clear boundaries',
     energizers: 'Challenge. Intensity. Personal resolve.',
     drainers: 'Carrying others\' burdens',
-    humorStyle: 'Playful but intense'
+    humorStyle: 'Playful but intense',
+    whoYoureDrawnTo: 'People who are emotionally expressive, courageous, and energetic.',
+    loveLanguage: ['Caring actions', 'Loyalty', 'Physical engagement'],
   },
   'Head+Heart+Gut': {
     speedOfAnswer: 'Moderate. Adjusts to situation',
@@ -102,7 +124,9 @@ const SOCIAL_MAP_DATA: Record<string, SocialMapData> = {
     howToDiscussSeriousTopics: 'Clarify priorities. Reduce noise. Give clear direction',
     energizers: 'Big vision. Long-term pursuit.',
     drainers: 'Constant demands. Context switching',
-    humorStyle: 'Situational. Adaptive'
+    humorStyle: 'Situational. Adaptive',
+    whoYoureDrawnTo: 'People who are insightful, emotionally aware, adaptable, and supportive.',
+    loveLanguage: ['Combination of affirmation', 'Thoughtful action', 'Shared meaningful experiences'],
   }
 }
 
@@ -162,6 +186,20 @@ export const SocialMap = ({ profile }: SocialMapProps) => {
           <tr>
             <th scope="row">Humor style</th>
             <td>{profile.humorStyle}</td>
+          </tr>
+          <tr>
+            <th scope="row">Drawn to</th>
+            <td>{profile.whoYoureDrawnTo}</td>
+          </tr>
+          <tr>
+            <th scope="row">Love language</th>
+            <td>
+              <ul className="social-map-list">
+                {profile.loveLanguage.map((item, index) => (
+                  <li key={`${item}-${index}`}>{item}</li>
+                ))}
+              </ul>
+            </td>
           </tr>
         </tbody>
       </table>

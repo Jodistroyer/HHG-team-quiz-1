@@ -42,7 +42,8 @@
   color: #fff;
 }
 
-.with-people-content .drawn-to-section.with-people-card .trait-section-title,
+.with-people-content .drawn-to-section.with-people-card .with-people-card-title,
+.with-people-content .drawn-to-section.with-people-card .with-people-card-title__icon,
 .with-people-content .drawn-to-section.with-people-card .card-icon,
 .with-people-content .drawn-to-section.with-people-card .user-icon {
   color: #fff;
@@ -58,12 +59,23 @@
   margin: 0;
 }
 
+.with-people-content .with-people-love-language-list {
+  margin-top: 0.4rem;
+  padding-left: 1.25rem;
+  list-style: disc;
+}
+
+.with-people-content .drawn-to-section.with-people-card .with-people-love-language-list {
+  color: rgba(255, 255, 255, 0.95);
+}
+
 .with-people-content .love-language-section.with-people-card {
   background: #db2777;
   color: #fff;
 }
 
-.with-people-content .love-language-section.with-people-card .trait-section-title,
+.with-people-content .love-language-section.with-people-card .with-people-card-title,
+.with-people-content .love-language-section.with-people-card .with-people-card-title__icon,
 .with-people-content .love-language-section.with-people-card .card-icon,
 .with-people-content .love-language-section.with-people-card .heart-icon {
   color: #fff;
@@ -74,8 +86,31 @@
   padding-left: 1.75rem;
 }
 
-.with-people-content .with-people-card .trait-section-title {
+.with-people-content .with-people-card .with-people-card-title {
   margin-bottom: 0.75rem;
+}
+
+.with-people-content .with-people-card-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.5rem 0;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: currentColor;
+}
+
+.with-people-content .with-people-card-title__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.1rem;
+  flex: 0 0 1.1rem;
+}
+
+.with-people-content .with-people-card-title__text {
+  min-width: 0;
 }
 
 .with-people-content .with-people-profile .intro-grid-three {
@@ -94,22 +129,7 @@
   margin-top: 0.5rem;
 }
 
-.with-people-content .love-language-section .trait-section-title,
-.with-people-content .drawn-to-section .trait-section-title {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.with-people-content .love-language-section .trait-section-title,
-.with-people-content .love-language-section .card-icon {
-  color: #db2777;
-}
-
-.with-people-content .drawn-to-section .trait-section-title,
-.with-people-content .drawn-to-section .card-icon {
-  color: #0284c7;
-}
+/* Note: card titles use .with-people-card-title (not .trait-section-title) to avoid sharing styles with other trait headers. */
 
 .with-people-content .love-language-section .trait-bullets,
 .with-people-content .drawn-to-section .trait-bullets {

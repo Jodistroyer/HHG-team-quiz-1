@@ -436,19 +436,6 @@ export const WithPeople = ({ headPercent, heartPercent, gutPercent }: WithPeople
         </div>
       </section>
 
-      {/* Connection: who you're drawn to + love language — card-style blocks */}
-      <section className="with-people-section with-people-connection">
-        <div className="intro-grid with-people-cards-grid">
-          <div className="trait-section with-people-card drawn-to-section">
-            <h4 className="trait-section-title">Who You Are</h4>
-            <p className="trait-content">
-              {traits.whoYoureDrawnTo}{' '}
-              {traits.loveLanguage.join(' ')}
-            </p>
-          </div>
-        </div>
-      </section>
-
       {/* Strengths & risks — bento cards with clear separation */}
       <section className="with-people-section with-people-strengths-risks">
         <div className="bento-cards">
