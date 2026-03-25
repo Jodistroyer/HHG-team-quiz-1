@@ -118,15 +118,6 @@ export const QuizResults = ({ overall, sectionSummaries, sections, answers, onSt
             <div className="overall-result">
               {(() => {
                 const combo = getBrainCombination(overall.headPercent, overall.heartPercent, overall.gutPercent)
-                const getBadgeStyle = () => {
-                  if (combo.colors.length === 1) {
-                    return { background: combo.colors[0] }
-                  } else if (combo.colors.length === 2) {
-                    return { background: `linear-gradient(135deg, ${combo.colors[0]} 45%, ${combo.colors[1]} 45%)` }
-                  } else {
-                    return { background: `linear-gradient(135deg, ${combo.colors[0]} 33.33%, ${combo.colors[1]} 33.33%, ${combo.colors[1]} 66.66%, ${combo.colors[2]} 66.66%)` }
-                  }
-                }
                 const isLongLabel = combo.label === 'Head + Heart + Gut'
                 const archetypeData = OVERALL_ARCHETYPES[combo.label]
                 return (
@@ -141,15 +132,10 @@ export const QuizResults = ({ overall, sectionSummaries, sections, answers, onSt
                           >
                             {getBrainIcons(combo.label, 'large')}
                           </div>
-                          {/* <div
-                            className={`overall-brain-badge ${isLongLabel ? 'long-label' : ''}`}
-                            style={getBadgeStyle()}
-                          >
-                            {combo.label}
-                          </div> */}
+                          {/* <div className={`overall-brain-badge ${isLongLabel ? 'long-label' : ''}`}>{combo.label}</div> */}
                         </div>
                         <p className="overall-archetype-description">{archetypeData.description}</p>
-                        <blockquote className="overall-archetype-quote">"{archetypeData.quote}"</blockquote>
+                        {/* <blockquote className="overall-archetype-quote">"{archetypeData.quote}"</blockquote> */}
                       </div>
                     )}
                     {!archetypeData && (
@@ -160,12 +146,7 @@ export const QuizResults = ({ overall, sectionSummaries, sections, answers, onSt
                         >
                           {getBrainIcons(combo.label, 'large')}
                         </div>
-                        {/* <div
-                          className={`overall-brain-badge ${isLongLabel ? 'long-label' : ''}`}
-                          style={getBadgeStyle()}
-                        >
-                          {combo.label}
-                        </div> */}
+                        {/* <div className={`overall-brain-badge ${isLongLabel ? 'long-label' : ''}`}>{combo.label}</div> */}
                       </div>
                     )}
                   </div>
