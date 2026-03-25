@@ -4,7 +4,9 @@
 }
 
 .view-mode-toggle__label {
-  display: block;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   font-size: 10px;
   font-weight: 700;
   color: var(--people-muted, #94a3b8);
@@ -12,6 +14,14 @@
   letter-spacing: 0.07em;
   margin-bottom: 5px;
   padding: 0 2px;
+  line-height: 1.1;
+}
+
+.view-mode-toggle__label-icon {
+  width: 1em;
+  height: 1em;
+  flex: 0 0 auto;
+  color: var(--people-muted, #94a3b8);
 }
 
 .view-mode-toggle__options {

@@ -39,6 +39,17 @@
   letter-spacing: -0.01em;
   color: var(--people-text);
   font-family: 'Montserrat', sans-serif;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1.1;
+}
+
+.teams-library__title-icon {
+  width: 1em;
+  height: 1em;
+  flex: 0 0 auto;
+  color: var(--people-muted);
 }
 
 /* ── Search ──────────────────────────────────────────────────────────────── */
@@ -69,6 +80,10 @@
   cursor: pointer;
   transition: background 120ms, border-color 120ms, color 120ms;
   white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
 }
 
 .teams-library__btn:hover {
@@ -158,6 +173,10 @@
   color: var(--people-accent);
   cursor: pointer;
   transition: background 120ms;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 .teams-library__save-group-btn:hover {
@@ -182,6 +201,18 @@
   color: var(--people-text);
   cursor: pointer;
   transition: background 120ms;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.teams-library__btn-icon {
+  width: 1em;
+  height: 1em;
+  flex: 0 0 auto;
+  color: currentColor;
+  opacity: 0.92;
 }
 
 .teams-library__footer-btn:hover {

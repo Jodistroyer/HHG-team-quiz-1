@@ -1,4 +1,6 @@
 import type { ViewMode } from './types'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowUpWideShort } from '@fortawesome/free-solid-svg-icons'
 import './ViewModeToggle.css'
 
 const VIEW_LABELS: Record<ViewMode, string> = {
@@ -16,7 +18,10 @@ interface ViewModeToggleProps {
 export function ViewModeToggle({ value, onChange }: ViewModeToggleProps) {
   return (
     <div className="view-mode-toggle">
-      <span className="view-mode-toggle__label">Organize by:</span>
+      <span className="view-mode-toggle__label">
+        <FontAwesomeIcon icon={faArrowUpWideShort} className="view-mode-toggle__label-icon" aria-hidden />
+        Organize by:
+      </span>
       <div className="view-mode-toggle__options" role="radiogroup" aria-label="Organization view">
         {(Object.keys(VIEW_LABELS) as ViewMode[]).map((mode) => (
           <label key={mode} className="view-mode-toggle__option">

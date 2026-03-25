@@ -2,6 +2,16 @@ import { PeopleSearch } from './PeopleSearch'
 import { ViewModeToggle } from './ViewModeToggle'
 import { PeopleTree } from './PeopleTree'
 import type { TeamsDirectoryApi } from './useTeamsDirectory'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+  faBookOpen,
+  faBuilding,
+  faDownload,
+  faFileImport,
+  faFloppyDisk,
+  faTrash,
+  faUserPlus,
+} from '@fortawesome/free-solid-svg-icons'
 import './TeamsLibrary.css'
 
 export interface TeamsLibraryProps {
@@ -43,7 +53,10 @@ export function TeamsLibrary({ api }: TeamsLibraryProps) {
   return (
     <div className="teams-library">
       <header className="teams-library__header">
-        <h2 className="teams-library__title">Teams Library</h2>
+        <h2 className="teams-library__title">
+          <FontAwesomeIcon icon={faBookOpen} className="teams-library__title-icon" aria-hidden />
+          Teams Library
+        </h2>
       </header>
 
       <div className="teams-library__search">
@@ -52,13 +65,16 @@ export function TeamsLibrary({ api }: TeamsLibraryProps) {
 
       <div className="teams-library__actions">
         <button type="button" className="teams-library__btn teams-library__btn--add" onClick={() => openAddPerson()}>
-          + Add Person
+          <FontAwesomeIcon icon={faUserPlus} className="teams-library__btn-icon" aria-hidden />
+          Add Person
         </button>
         <button type="button" className="teams-library__btn teams-library__btn--secondary" onClick={handleNewCompany}>
-          + Add Company
+          <FontAwesomeIcon icon={faBuilding} className="teams-library__btn-icon" aria-hidden />
+          Add Company
         </button>
         <button type="button" className="teams-library__btn teams-library__btn--import" onClick={handleImportJson}>
-          + Import JSON
+          <FontAwesomeIcon icon={faFileImport} className="teams-library__btn-icon" aria-hidden />
+          Import JSON
         </button>
         <input
           ref={fileInputRef}
@@ -99,6 +115,7 @@ export function TeamsLibrary({ api }: TeamsLibraryProps) {
         <div className="teams-library__footer-buttons">
           {selectedCount >= 2 && (
             <button type="button" className="teams-library__save-group-btn" onClick={handleSaveGroup}>
+              <FontAwesomeIcon icon={faFloppyDisk} className="teams-library__btn-icon" aria-hidden />
               Save as group ({selectedCount})
             </button>
           )}
@@ -106,6 +123,7 @@ export function TeamsLibrary({ api }: TeamsLibraryProps) {
           {selectedCount >= 1 && (
             <div className="teams-library__footer-actions">
               <button type="button" className="teams-library__footer-btn" onClick={handleMultiSelectExport}>
+                <FontAwesomeIcon icon={faDownload} className="teams-library__btn-icon" aria-hidden />
                 Export
               </button>
               <button
@@ -113,6 +131,7 @@ export function TeamsLibrary({ api }: TeamsLibraryProps) {
                 className="teams-library__footer-btn teams-library__footer-btn--danger"
                 onClick={handleMultiSelectDelete}
               >
+                <FontAwesomeIcon icon={faTrash} className="teams-library__btn-icon" aria-hidden />
                 Delete
               </button>
             </div>

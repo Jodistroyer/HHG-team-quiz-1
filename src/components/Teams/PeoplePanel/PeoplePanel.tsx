@@ -7,6 +7,8 @@ import { AddPersonModal } from './AddPersonModal'
 import { ContextMenu } from './ContextMenu'
 import { DeleteConfirmModal } from './DeleteConfirmModal'
 import { useTeamsDirectory, type UseTeamsDirectoryProps } from './useTeamsDirectory'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBookmark } from '@fortawesome/free-solid-svg-icons'
 import './PeoplePanel.css'
 
 export interface PeoplePanelProps extends UseTeamsDirectoryProps {
@@ -30,7 +32,10 @@ export function PeoplePanel({
           <TeamsLibrary api={api} />
 
           <section className="saved-groups-card" aria-label="Saved groups">
-            <h3 className="saved-groups-card__title">Saved groups</h3>
+            <h3 className="saved-groups-card__title">
+              <FontAwesomeIcon icon={faBookmark} className="people-panel__title-icon" aria-hidden />
+              Saved groups
+            </h3>
             <div className="saved-groups-card__body">
               {api.savedGroups.length === 0 ? (
                 <p className="saved-groups-card__empty">

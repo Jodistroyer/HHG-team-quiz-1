@@ -1,6 +1,8 @@
 import type { CSSProperties } from 'react'
 import type { Person, TeamContextKey, TeamContextScores } from './types'
 import { getBrainCombination } from '../../Quiz/SectionResults/utils'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUsers } from '@fortawesome/free-solid-svg-icons'
 import '../TeamMap/TeamMap.css'
 import './SelectedList.css'
 
@@ -107,7 +109,10 @@ export function SelectedRoster({ selectedPeople, activeContext, onRemovePerson, 
       <aside className="team-map__roster" aria-label="Selected team members">
         <div className="team-map__roster-header">
           <div className="team-map__roster-header-left">
-            <h3 className="team-map__roster-title">Selected</h3>
+            <h3 className="team-map__roster-title">
+              <FontAwesomeIcon icon={faUsers} className="people-panel__title-icon" aria-hidden />
+              Selected
+            </h3>
             <span className="team-map__roster-count">{selectedPeople.length}</span>
           </div>
           {onClearAll && selectedPeople.length > 0 && (
