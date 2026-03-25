@@ -74,7 +74,7 @@ const traitDatabase: Record<string, TraitData> = {
   },
   'Head+Gut': {
     brainCombination: 'Head + Gut',
-    whoYouAre: 'You combine thinking with action—analyze first, then move quickly.',
+    whoYouAre: 'You combine thinking with action. Analyze first, then move quickly.',
     yourWorkStyle: 'Decisive, fast-moving, flexible, enjoys challenges.',
     yourStrengths: [
       'Quick problem-solving',

@@ -121,6 +121,33 @@ function missingCentresInsight(missing: Centre[]): Insight {
   }
 }
 
+/** When one centre appears in 3 or 4 contexts (unique leader). */
+const LEADS_BODY: Record<Centre, { three: string; four: string }> = {
+  Head: {
+    three:
+      'Head shows up in 3 of your 4 contexts, making it a strong and consistent part of how you approach situations, often guiding you to think things through and rely on clarity and understanding before acting.',
+    four:
+      'Head shows up in all four contexts, making it a strong and consistent part of how you approach situations, often guiding you to think things through and rely on clarity and understanding before acting.',
+  },
+  Heart: {
+    three:
+      'Heart shows up in 3 of your 4 contexts, making it a strong and consistent part of how you approach situations, often guiding you by what your values and feels right and meaningful.',
+    four:
+      'Heart shows up in all four contexts, making it a strong and consistent part of how you approach situations, often guiding you not just by what works, but by what feels right and meaningful.',
+  },
+  Gut: {
+    three:
+      'Gut shows up in 3 of your 4 contexts, making it a strong and consistent part of how you approach situations, often guiding you to trust yourself and act with ease without overthinking every step.',
+    four:
+      'Gut shows up in all four contexts, making it a strong and consistent part of how you approach situations, often guiding you to trust yourself and act with ease without overthinking every step.',
+  },
+}
+
+function dominantLeadsBody(centre: Centre, maxC: number): string {
+  const t = LEADS_BODY[centre]
+  return maxC >= 4 ? t.four : t.three
+}
+
 const INSIGHT_TARGET_COUNT = 3
 
 function insightKey(i: Insight): string {
@@ -267,7 +294,7 @@ function pushCoolGapFillers(candidates: Insight[], facts: ChangeFacts): void {
         })
       }
       break
-    }
+    } 
   }
 
   const uniqueKeys = new Set(comboKeys)
@@ -346,7 +373,7 @@ export function computeInsights(facts: ChangeFacts, maxInsights = INSIGHT_TARGET
     const c = tops[0]!
     candidates.push({
       headline: `${c} leads`,
-      body: `${c} shows up in ${maxC} of your 4 contexts, making it a strong and consistent part of how you approach situations.`,
+      body: dominantLeadsBody(c, maxC),
       priority: 85,
     })
   }
