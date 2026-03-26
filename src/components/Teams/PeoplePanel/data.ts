@@ -7,13 +7,46 @@ export function nextId(prefix = 'person'): string {
   return `${prefix}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`
 }
 
+function toNumber(value: unknown, fallback: number): number {
+  return typeof value === 'number' && Number.isFinite(value) ? value : fallback
+}
+
+function getDominantAndSecondary(
+  headPercent: number,
+  heartPercent: number,
+  gutPercent: number
+): { dominant: HHGCenter; secondaryBrain: HHGCenter | null } {
+  const scores: Array<{ type: HHGCenter; value: number }> = [
+    { type: 'Head' as HHGCenter, value: headPercent },
+    { type: 'Heart' as HHGCenter, value: heartPercent },
+    { type: 'Gut' as HHGCenter, value: gutPercent },
+  ].sort((a, b) => b.value - a.value)
+
+  return {
+    dominant: scores[0]?.type ?? 'Head',
+    secondaryBrain: scores[1] && scores[1].value > 0 ? scores[1].type : null,
+  }
+}
+
 /** Parse quiz export JSON into a single Person (e.g. "Send to People Panel"). */
 export function personFromQuizExport(
   data: QuizExportPayload,
   name: string = 'Imported'
 ): Person {
   const nd = data.naturalDefault
-  const sectionSummaries = data.sectionSummaries ?? []
+  const sectionSummaries =
+    data.sectionSummaries?.length
+      ? data.sectionSummaries
+      : (data.sections ?? []).map((section) => ({
+          sectionId: section.id,
+          sectionTitle: section.title,
+          headPercent: toNumber(section.scores?.headPercent, 33.33),
+          heartPercent: toNumber(section.scores?.heartPercent, 33.33),
+          gutPercent: toNumber(section.scores?.gutPercent, 33.34),
+          combinationLabel: section.scores
+            ? getBrainCombination(section.scores.headPercent, section.scores.heartPercent, section.scores.gutPercent).label
+            : 'Head + Heart + Gut',
+        }))
   const toContext = (idx: number): TeamContextScores | undefined => {
     const section = sectionSummaries[idx]
     if (!section) return undefined
@@ -35,6 +68,11 @@ export function personFromQuizExport(
   if (withPeople) contextScores.withPeople = withPeople
   if (gettingBetter) contextScores.gettingBetter = gettingBetter
 
+  const headPercent = toNumber(nd.headPercent, 33.33)
+  const heartPercent = toNumber(nd.heartPercent, 33.33)
+  const gutPercent = toNumber(nd.gutPercent, 33.34)
+  const derived = getDominantAndSecondary(headPercent, heartPercent, gutPercent)
+
   return {
     id: nextId('import'),
     name: data.name ?? name,
@@ -42,11 +80,11 @@ export function personFromQuizExport(
     team: undefined,
     role: undefined,
     tags: [],
-    headPercent: nd.headPercent ?? 33.33,
-    heartPercent: nd.heartPercent ?? 33.33,
-    gutPercent: nd.gutPercent ?? 33.34,
-    dominant: nd.dominant ?? (nd.headPercent >= nd.heartPercent && nd.headPercent >= nd.gutPercent ? 'Head' : nd.heartPercent >= nd.gutPercent ? 'Heart' : 'Gut'),
-    secondaryBrain: nd.secondaryBrain ?? null,
+    headPercent,
+    heartPercent,
+    gutPercent,
+    dominant: derived.dominant,
+    secondaryBrain: derived.secondaryBrain,
     contextScores,
   }
 }
@@ -77,6 +115,7 @@ export function peopleFromImport(data: unknown): Person[] {
       gutPercent: p.gutPercent ?? 33.34,
       dominant: getDominant(),
       secondaryBrain: p.secondaryBrain ?? null,
+      contextScores: p.contextScores,
     }
   })
 }

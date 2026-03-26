@@ -77,6 +77,7 @@ export function PeoplePanel({
           initialCompany={api.addPersonPreFill.company}
           initialTeam={api.addPersonPreFill.team}
           personToEdit={api.editingPerson}
+          existingPeople={api.people}
         />
       )}
 

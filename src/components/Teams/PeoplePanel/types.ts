@@ -1,3 +1,5 @@
+export type { QuizExportPayload } from '../../Quiz/quizExport'
+
 /** HHG center type (Head / Heart / Gut) */
 export type HHGCenter = 'Head' | 'Heart' | 'Gut'
 
@@ -63,28 +65,6 @@ export interface SavedGroup {
   personIds: string[]
 }
 
-/** Quiz JSON export shape (for Import JSON). */
-export interface QuizExportNaturalDefault {
-  headPercent: number
-  heartPercent: number
-  gutPercent: number
-  combinationLabel?: string
-  dominant?: HHGCenter
-  secondaryBrain?: HHGCenter | null
-}
-
-export interface QuizExportPayload {
-  exportedAt?: string
-  naturalDefault: QuizExportNaturalDefault
-  sectionSummaries?: Array<{
-    headPercent: number
-    heartPercent: number
-    gutPercent: number
-    combinationLabel?: string
-  }>
-  name?: string
-}
-
 /** Bulk people import format. */
 export interface PeopleImportPayload {
   people: Array<{
@@ -99,5 +79,6 @@ export interface PeopleImportPayload {
     gutPercent: number
     dominant?: HHGCenter
     secondaryBrain?: HHGCenter | null
+    contextScores?: Partial<Record<TeamContextKey, TeamContextScores>>
   }>
 }

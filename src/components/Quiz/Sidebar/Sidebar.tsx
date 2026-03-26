@@ -4,6 +4,7 @@ import { faRotateLeft } from '@fortawesome/free-solid-svg-icons'
 import { NavSection, NavSectionDropdown, SECTION_IDS_LIST } from './Navigation/NavSection'
 import { DownloadJSON } from './DownloadResults/DownloadJSON/DownloadJSON'
 import { DownloadPDF } from './DownloadResults/DownloadPDF/DownloadPDF'
+import { SaveToTeams } from './DownloadResults/SaveToTeams/SaveToTeams'
 import { StartOverConfirmModal } from './StartOverConfirmModal'
 import './Sidebar.css'
 
@@ -100,6 +101,13 @@ export function Sidebar ({
 
   const downloadButtons = (
     <div className="results-sidebar-downloads">
+      <SaveToTeams
+        overall={overall}
+        sectionSummaries={sectionSummaries}
+        sections={sections}
+        answers={answers}
+        iconOnly={iconOnly}
+      />
       <DownloadJSON
         overall={overall}
         sectionSummaries={sectionSummaries}

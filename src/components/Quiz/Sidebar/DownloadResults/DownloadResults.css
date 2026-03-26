@@ -1,8 +1,7 @@
 /* Shared styling for Download JSON and Download PDF buttons – content left-aligned */
 .btn-download-json,
-.btn-download-pdf {
-  background: #5a4a6a;
-  color: #fff;
+.btn-download-pdf,
+.btn-save-to-teams {
   border: none;
   min-width: 11rem;
   white-space: nowrap;
@@ -18,14 +17,16 @@
 }
 
 .btn-download-json:focus-visible,
-.btn-download-pdf:focus-visible {
+.btn-download-pdf:focus-visible,
+.btn-save-to-teams:focus-visible {
   outline: 2px solid #7d3dbd;
   outline-offset: 2px;
 }
 
 @media (max-width: 588px) {
   .btn-download-json,
-  .btn-download-pdf {
+  .btn-download-pdf,
+  .btn-save-to-teams {
     min-width: 0;
     padding-left: 0.6rem;
     padding-right: 0.75rem;
@@ -34,12 +35,14 @@
 }
 
 .btn-download-json .btn-download-icon,
-.btn-download-pdf .btn-download-icon {
+.btn-download-pdf .btn-download-icon,
+.btn-save-to-teams .btn-download-icon {
   margin-right: 0.35em;
 }
 
 .btn-download-json.btn-download-icon-only .btn-download-icon,
-.btn-download-pdf.btn-download-icon-only .btn-download-icon {
+.btn-download-pdf.btn-download-icon-only .btn-download-icon,
+.btn-save-to-teams.btn-download-icon-only .btn-download-icon {
   margin-right: 0.5em;
 }
 

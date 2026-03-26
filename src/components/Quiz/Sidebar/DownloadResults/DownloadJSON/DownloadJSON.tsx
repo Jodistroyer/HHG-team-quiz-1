@@ -1,44 +1,21 @@
 import { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDownload, faSpinner } from '@fortawesome/free-solid-svg-icons'
-import { getBrainCombination } from '../../../SectionResults/utils'
+import {
+  buildQuizExportPayload,
+  type QuizAnswer,
+  type QuizOverallScores as OverallScores,
+  type QuizSection as Section,
+  type QuizSectionScores as SectionScores,
+} from '../../../quizExport'
 import '../DownloadResults.css'
 import './DownloadJSON.css'
-
-type AnswerType = 'Head' | 'Heart' | 'Gut'
-
-interface OverallScores {
-  headPercent: number
-  heartPercent: number
-  gutPercent: number
-  dominant: 'Head' | 'Heart' | 'Gut'
-  secondaryBrain: 'Head' | 'Heart' | 'Gut' | null
-}
-
-interface SectionScores {
-  headPercent: number
-  heartPercent: number
-  gutPercent: number
-  dominant: 'Head' | 'Heart' | 'Gut'
-  secondaryBrain: 'Head' | 'Heart' | 'Gut' | null
-}
-
-interface Section {
-  id: number
-  title: string
-  questions: { id: string; text: string; options: { label: string; type: AnswerType }[] }[]
-}
-
-interface Answer {
-  firstChoice: AnswerType | null
-  secondChoice: AnswerType | null
-}
 
 interface DownloadJSONProps {
   overall: OverallScores
   sectionSummaries: SectionScores[]
   sections: Section[]
-  answers: Record<string, Answer>
+  answers: Record<string, QuizAnswer>
   /** On mobile show only icon + "JSON" (no "Download" word) */
   iconOnly?: boolean
 }
@@ -49,35 +26,7 @@ export function DownloadJSON ({ overall, sectionSummaries, sections, answers, ic
   const handleDownload = () => {
     if (loading) return
     setLoading(true)
-    const combo = getBrainCombination(overall.headPercent, overall.heartPercent, overall.gutPercent)
-    const payload = {
-      exportedAt: new Date().toISOString(),
-      naturalDefault: {
-        headPercent: overall.headPercent,
-        heartPercent: overall.heartPercent,
-        gutPercent: overall.gutPercent,
-        combinationLabel: combo.label
-      },
-      sectionSummaries: sectionSummaries.map((s, i) => ({
-        sectionId: sections[i]?.id,
-        sectionTitle: sections[i]?.title,
-        headPercent: s.headPercent,
-        heartPercent: s.heartPercent,
-        gutPercent: s.gutPercent,
-        combinationLabel: getBrainCombination(s.headPercent, s.heartPercent, s.gutPercent).label
-      })),
-      sections: sections.map((sec, idx) => ({
-        id: sec.id,
-        title: sec.title,
-        scores: sectionSummaries[idx] ?? null,
-        questions: sec.questions.map(q => ({
-          id: q.id,
-          text: q.text,
-          answer: answers[q.id] ?? { firstChoice: null, secondChoice: null }
-        }))
-      })),
-      answers: answers
-    }
+    const payload = buildQuizExportPayload(overall, sectionSummaries, sections, answers)
     const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
