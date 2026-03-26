@@ -445,13 +445,14 @@
 }
 
 .add-person-modal__btn--primary {
-  background: var(--people-accent, #1368ce);
+  background: #7d3dbd;
   color: #fff;
-  border-color: var(--people-accent, #1368ce);
+  border-color: #7d3dbd;
 }
 
 .add-person-modal__btn--primary:hover {
-  filter: brightness(1.05);
+  background: #6b2fa3;
+  border-color: #6b2fa3;
 }
 
 .add-person-modal__btn--secondary {

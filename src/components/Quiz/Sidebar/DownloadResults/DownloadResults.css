@@ -11,10 +11,31 @@
   padding-right: 1.5rem;
 }
 
+.btn-save-to-teams {
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+  transform: none;
+  border-bottom: none;
+}
+
 .btn-download-json:hover,
 .btn-download-pdf:hover {
   background: #d97ac5;
   color: #fff;
+}
+
+.btn-save-to-teams:hover,
+.btn-save-to-teams:active {
+  transform: none;
+  animation: none;
+  border-bottom: none;
+}
+
+.btn-save-to-teams:hover:not(:disabled),
+.btn-save-to-teams:active:not(:disabled) {
+  border-bottom: none;
 }
 
 .btn-download-json:focus-visible,

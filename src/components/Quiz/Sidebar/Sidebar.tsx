@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faRotateLeft } from '@fortawesome/free-solid-svg-icons'
+import { faDownload, faRotateLeft } from '@fortawesome/free-solid-svg-icons'
 import { NavSection, NavSectionDropdown, SECTION_IDS_LIST } from './Navigation/NavSection'
 import { DownloadJSON } from './DownloadResults/DownloadJSON/DownloadJSON'
 import { DownloadPDF } from './DownloadResults/DownloadPDF/DownloadPDF'
@@ -58,8 +58,10 @@ export function Sidebar ({
   onStartOver
 }: ResultsSidebarProps) {
   const [iconOnly, setIconOnly] = useState(false)
+  const [compactDownloads, setCompactDownloads] = useState(false)
   const [currentSectionId, setCurrentSectionId] = useState<string | null>(SECTION_IDS_LIST[0] ?? null)
   const [showStartOverConfirm, setShowStartOverConfirm] = useState(false)
+  const [showDownloadOptions, setShowDownloadOptions] = useState(false)
 
   const closeStartOverModal = useCallback(() => setShowStartOverConfirm(false), [])
   const confirmStartOver = useCallback(() => {
@@ -70,6 +72,18 @@ export function Sidebar ({
   useEffect(() => {
     const mq = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`)
     const update = () => setIconOnly(mq.matches)
+    update()
+    mq.addEventListener('change', update)
+    return () => mq.removeEventListener('change', update)
+  }, [])
+
+  useEffect(() => {
+    const mq = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`)
+    const update = () => {
+      const matches = mq.matches
+      setCompactDownloads(matches)
+      if (!matches) setShowDownloadOptions(false)
+    }
     update()
     mq.addEventListener('change', update)
     return () => mq.removeEventListener('change', update)
@@ -99,7 +113,7 @@ export function Sidebar ({
     return () => window.removeEventListener('scroll', updateCurrent)
   }, [])
 
-  const downloadButtons = (
+  const directDownloadButtons = (
     <div className="results-sidebar-downloads">
       <SaveToTeams
         overall={overall}
@@ -119,6 +133,27 @@ export function Sidebar ({
     </div>
   )
 
+  const compactMobileDownloads = (
+    <div className="results-sidebar-downloads results-sidebar-downloads--compact">
+      <SaveToTeams
+        overall={overall}
+        sectionSummaries={sectionSummaries}
+        sections={sections}
+        answers={answers}
+        iconOnly={iconOnly}
+      />
+      <button
+        type="button"
+        className="btn btn-primary results-sidebar-download-trigger"
+        onClick={() => setShowDownloadOptions(true)}
+        aria-label="Open download options"
+        title="Download options"
+      >
+        <FontAwesomeIcon icon={faDownload} className="results-sidebar-download-trigger-icon" aria-hidden />
+      </button>
+    </div>
+  )
+
   const startOverButton = (
     <button
       type="button"
@@ -134,8 +169,9 @@ export function Sidebar ({
 
   const sidebarFooter = (
     <div className="results-sidebar-footer">
-      {startOverButton}
-      {downloadButtons}
+      <div className="results-sidebar-footer-section results-sidebar-footer-section--downloads">{directDownloadButtons}</div>
+      <div className="results-sidebar-footer-divider" aria-hidden />
+      <div className="results-sidebar-footer-section results-sidebar-footer-section--reset">{startOverButton}</div>
     </div>
   )
 
@@ -143,6 +179,43 @@ export function Sidebar ({
     showStartOverConfirm ? (
       <StartOverConfirmModal onCancel={closeStartOverModal} onConfirm={confirmStartOver} />
     ) : null
+
+  const downloadOptionsModal = showDownloadOptions ? (
+    <div className="results-sidebar-download-modal-backdrop" onClick={() => setShowDownloadOptions(false)} role="presentation">
+      <div
+        className="results-sidebar-download-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="results-sidebar-download-modal-title"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <h3 id="results-sidebar-download-modal-title" className="results-sidebar-download-modal-title">
+          Download options
+        </h3>
+        <div className="results-sidebar-download-modal-actions">
+          <div onClick={() => setShowDownloadOptions(false)}>
+            <DownloadJSON
+              overall={overall}
+              sectionSummaries={sectionSummaries}
+              sections={sections}
+              answers={answers}
+              iconOnly={false}
+            />
+          </div>
+          <div onClick={() => setShowDownloadOptions(false)}>
+            <DownloadPDF containerRef={containerRef} iconOnly={false} />
+          </div>
+        </div>
+        <button
+          type="button"
+          className="results-sidebar-download-modal-close"
+          onClick={() => setShowDownloadOptions(false)}
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  ) : null
 
   if (iconOnly) {
     return (
@@ -154,11 +227,12 @@ export function Sidebar ({
             </div>
             <div className="results-sidebar-mobile-right">
               {startOverButton}
-              {downloadButtons}
+              {compactDownloads ? compactMobileDownloads : directDownloadButtons}
             </div>
           </div>
         </aside>
         {startOverModal}
+        {downloadOptionsModal}
       </>
     )
   }
@@ -173,6 +247,7 @@ export function Sidebar ({
         {sidebarFooter}
       </aside>
       {startOverModal}
+      {downloadOptionsModal}
     </>
   )
 }

@@ -219,12 +219,13 @@
   }
 
   .change-results-combo-row {
-    grid-template-columns: 1fr;
-    gap: 10px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 12px 16px;
+    align-items: center;
   }
 
   .change-results-combo-dd {
-    justify-content: flex-start;
+    justify-content: flex-end;
   }
 
   .change-results-insights-block {

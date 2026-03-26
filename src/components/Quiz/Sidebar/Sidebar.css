@@ -30,7 +30,18 @@
   border-top: 1px solid #e2e8f0;
   display: flex;
   flex-direction: column;
+  gap: 14px;
+}
+
+.results-sidebar-footer-section {
+  display: flex;
+  flex-direction: column;
   gap: 10px;
+}
+
+.results-sidebar-footer-divider {
+  height: 1px;
+  background: #e2e8f0;
 }
 
 .results-sidebar-start-over {
@@ -57,6 +68,83 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.results-sidebar-download-trigger {
+  width: auto;
+  min-width: 2.5rem;
+  max-width: none;
+  padding-left: 0.65rem;
+  padding-right: 0.65rem;
+  flex: 0 0 auto;
+  justify-content: center !important;
+}
+
+.results-sidebar-download-trigger-icon {
+  flex-shrink: 0;
+}
+
+.results-sidebar-download-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.48);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 1400;
+}
+
+.results-sidebar-download-modal {
+  width: min(100%, 360px);
+  border-radius: 16px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  box-shadow:
+    0 20px 50px rgba(15, 23, 42, 0.22),
+    0 2px 8px rgba(15, 23, 42, 0.08);
+  padding: 20px;
+}
+
+.results-sidebar-download-modal-title {
+  margin: 0 0 14px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #1e293b;
+}
+
+.results-sidebar-download-modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.results-sidebar-download-modal-actions > div {
+  width: 100%;
+}
+
+.results-sidebar-download-modal-actions .btn {
+  width: 100%;
+  max-width: none;
+  justify-content: center !important;
+  text-align: center;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.results-sidebar-download-modal-close {
+  width: 100%;
+  margin-top: 14px;
+  padding: 10px 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  background: #fff;
+  color: #475569;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
 }
 
 /* Mobile: top bar with section dropdown (left) + download buttons (right) */
@@ -103,6 +191,10 @@
     padding-top: 0;
     border-top: none;
     gap: 8px;
+  }
+
+  .results-sidebar-mobile-right .results-sidebar-downloads--compact {
+    align-items: center;
   }
 
   .results-sidebar-mobile-right .results-sidebar-start-over--icon-only {
