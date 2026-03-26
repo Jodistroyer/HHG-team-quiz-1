@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFileImport } from '@fortawesome/free-solid-svg-icons'
+import { faBriefcase, faBuilding, faChartSimple, faFileImport, faFloppyDisk, faTag, faUser, faUsers } from '@fortawesome/free-solid-svg-icons'
 import type { Person, HHGCenter, TeamContextScores, TeamContextKey, QuizExportPayload } from './types'
 import { isQuizExport, nextId, personFromQuizExport } from './data'
 import { getBrainCombination, getBrainIcons } from '../../Quiz/SectionResults/utils'
@@ -30,6 +30,7 @@ const SECTION_CONFIG: Array<{ key: Exclude<TeamContextKey, 'overall'>; label: st
   { key: 'withPeople', label: 'With People' },
   { key: 'gettingBetter', label: 'Getting Better' },
 ]
+type SuggestionField = 'company' | 'team' | 'role' | null
 
 function cloneTriple(triple: TeamContextScores = DEFAULT_TRIPLE): TeamContextScores {
   return {
@@ -75,6 +76,7 @@ export function AddPersonModal({
     defaultContextScores
   )
   const [importError, setImportError] = useState('')
+  const [openSuggestions, setOpenSuggestions] = useState<SuggestionField>(null)
 
   const applyImportedProfile = (person: Person) => {
     setName(person.name ?? '')
@@ -177,11 +179,63 @@ export function AddPersonModal({
 
   const describeExisting = (value: string, options: string[], noun: string) => {
     const trimmed = value.trim()
-    if (!trimmed) return `Enter a ${noun}.`
+    if (!trimmed) return { label: 'Suggested', tone: 'suggested' as const }
     return options.some((option) => option.toLowerCase() === trimmed.toLowerCase())
-      ? `Existing ${noun}.`
-      : `New ${noun}.`
+      ? { label: `Existing ${noun}`, tone: 'existing' as const }
+      : { label: `New ${noun}`, tone: 'new' as const }
   }
+
+  const filterSuggestions = (options: string[], query: string) => {
+    const trimmed = query.trim().toLowerCase()
+    if (!trimmed) return options.slice(0, 8)
+    return options.filter((option) => option.toLowerCase().includes(trimmed)).slice(0, 8)
+  }
+
+  const companyStatus = describeExisting(company, existingCompanies, 'company')
+  const teamStatus = describeExisting(team, existingTeams, 'team')
+  const roleStatus = describeExisting(role, existingRoles, 'role')
+
+  const companySuggestions = useMemo(() => filterSuggestions(existingCompanies, company), [existingCompanies, company])
+  const teamSuggestions = useMemo(() => filterSuggestions(existingTeams, team), [existingTeams, team])
+  const roleSuggestions = useMemo(() => filterSuggestions(existingRoles, role), [existingRoles, role])
+
+  const normalizedTags = useMemo(
+    () =>
+      tagsStr
+        .split(/[,;]/)
+        .map((tag) => tag.trim().toLowerCase())
+        .filter(Boolean)
+        .sort(),
+    [tagsStr]
+  )
+
+  const duplicateMatch = useMemo(() => {
+    const normalize = (value?: string) => (value ?? '').trim().toLowerCase()
+    const sameTriple = (a: TeamContextScores | undefined, b: TeamContextScores | undefined) =>
+      Math.abs((a?.headPercent ?? DEFAULT_TRIPLE.headPercent) - (b?.headPercent ?? DEFAULT_TRIPLE.headPercent)) < 0.01 &&
+      Math.abs((a?.heartPercent ?? DEFAULT_TRIPLE.heartPercent) - (b?.heartPercent ?? DEFAULT_TRIPLE.heartPercent)) < 0.01 &&
+      Math.abs((a?.gutPercent ?? DEFAULT_TRIPLE.gutPercent) - (b?.gutPercent ?? DEFAULT_TRIPLE.gutPercent)) < 0.01
+
+    return existingPeople.find((person) => {
+      if (personToEdit && person.id === personToEdit.id) return false
+      const personTags = [...(person.tags ?? [])].map((tag) => tag.trim().toLowerCase()).filter(Boolean).sort()
+      return (
+        normalize(person.name) === normalize(name) &&
+        normalize(person.company) === normalize(company) &&
+        normalize(person.team) === normalize(team) &&
+        normalize(person.role) === normalize(role) &&
+        JSON.stringify(personTags) === JSON.stringify(normalizedTags) &&
+        sameTriple(
+          { headPercent: person.headPercent, heartPercent: person.heartPercent, gutPercent: person.gutPercent },
+          overallTriple
+        ) &&
+        sameTriple(person.contextScores?.underPressure, contextScores.underPressure) &&
+        sameTriple(person.contextScores?.doingWork, contextScores.doingWork) &&
+        sameTriple(person.contextScores?.withPeople, contextScores.withPeople) &&
+        sameTriple(person.contextScores?.gettingBetter, contextScores.gettingBetter)
+      )
+    })
+  }, [company, contextScores, existingPeople, name, normalizedTags, overallTriple, personToEdit, role, team])
 
   const summaryCards = useMemo(
     () => [
@@ -251,7 +305,10 @@ export function AddPersonModal({
   return createPortal(
     <div className="add-person-modal__backdrop" onClick={onClose} role="dialog" aria-modal="true" aria-labelledby="add-person-title">
       <div className="add-person-modal" onClick={(e) => e.stopPropagation()}>
-        <h2 id="add-person-title" className="add-person-modal__title">{resolvedTitle}</h2>
+        <h2 id="add-person-title" className="add-person-modal__title">
+          <FontAwesomeIcon icon={faUsers} className="add-person-modal__title-icon" aria-hidden />
+          <span>{resolvedTitle}</span>
+        </h2>
         <form onSubmit={handleSubmit} className="add-person-modal__form">
           <div className="add-person-modal__toolbar">
             <button
@@ -262,6 +319,15 @@ export function AddPersonModal({
               <FontAwesomeIcon icon={faFileImport} aria-hidden />
               <span>Import Quiz JSON</span>
             </button>
+            <div className="add-person-modal__toolbar-actions">
+              <button type="button" onClick={onClose} className="add-person-modal__btn add-person-modal__btn--secondary">
+                Cancel
+              </button>
+              <button type="submit" className="add-person-modal__btn add-person-modal__btn--primary">
+                <FontAwesomeIcon icon={faFloppyDisk} className="add-person-modal__btn-icon" aria-hidden />
+                {resolvedSubmitLabel}
+              </button>
+            </div>
             <input
               ref={fileInputRef}
               type="file"
@@ -271,103 +337,221 @@ export function AddPersonModal({
             />
           </div>
           {importError && <p className="add-person-modal__error">{importError}</p>}
-          <label>
-            Name *
+          {duplicateMatch && (
+            <div className="add-person-modal__notice add-person-modal__notice--warning" role="status">
+              <p className="add-person-modal__notice-title">This looks like a pre-existing person.</p>
+              <ul className="add-person-modal__notice-list">
+                <li>
+                  Name: <strong>{duplicateMatch.name}</strong>
+                </li>
+                {duplicateMatch.company ? (
+                  <li>
+                    Company: <strong>{duplicateMatch.company}</strong>
+                  </li>
+                ) : null}
+                {duplicateMatch.team ? (
+                  <li>
+                    Team: <strong>{duplicateMatch.team}</strong>
+                  </li>
+                ) : null}
+                {duplicateMatch.role ? (
+                  <li>
+                    Role: <strong>{duplicateMatch.role}</strong>
+                  </li>
+                ) : null}
+              </ul>
+              <p className="add-person-modal__notice-copy">
+                Saving will add a new entry and will not override the existing one.
+              </p>
+            </div>
+          )}
+          <label className="add-person-modal__field">
+            <span className="add-person-modal__label-text">
+              <FontAwesomeIcon icon={faUser} className="add-person-modal__label-icon" aria-hidden />
+              <span>Name *</span>
+            </span>
             <input
               type="text"
               value={name}
+              onFocus={() => setOpenSuggestions(null)}
               onChange={(e) => setName(e.target.value)}
               placeholder="e.g. Alex Rivera"
               autoFocus
             />
           </label>
-          <label>
-            Company
-            <input
-              type="text"
-              list="add-person-existing-companies"
-              value={company}
-              onChange={(e) => setCompany(e.target.value)}
-              placeholder="e.g. Acme Corp"
-            />
-            <span className="add-person-modal__hint">{describeExisting(company, existingCompanies, 'company')}</span>
+          <label className="add-person-modal__field">
+            <span className="add-person-modal__label-row">
+              <span className="add-person-modal__label-text">
+                <FontAwesomeIcon icon={faBuilding} className="add-person-modal__label-icon" aria-hidden />
+                <span>Company</span>
+              </span>
+              <span className={`add-person-modal__hint add-person-modal__hint--${companyStatus.tone}`}>
+                {companyStatus.label}
+              </span>
+            </span>
+            <div className="add-person-modal__suggestion-wrap">
+              <input
+                type="text"
+                value={company}
+                onFocus={() => setOpenSuggestions('company')}
+                onBlur={() => window.setTimeout(() => setOpenSuggestions((current) => (current === 'company' ? null : current)), 120)}
+                onChange={(e) => setCompany(e.target.value)}
+                placeholder="e.g. Acme Corp"
+              />
+              {openSuggestions === 'company' && companySuggestions.length > 0 && (
+                <div className="add-person-modal__suggestions" role="listbox" aria-label="Existing companies">
+                  {companySuggestions.map((value) => (
+                    <button
+                      key={value}
+                      type="button"
+                      className="add-person-modal__suggestion-item"
+                      onMouseDown={(e) => {
+                        e.preventDefault()
+                        setCompany(value)
+                        setOpenSuggestions(null)
+                      }}
+                    >
+                      {value}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </label>
-          <label>
-            Team
-            <input
-              type="text"
-              list="add-person-existing-teams"
-              value={team}
-              onChange={(e) => setTeam(e.target.value)}
-              placeholder="e.g. Engineering"
-            />
-            <span className="add-person-modal__hint">{describeExisting(team, existingTeams, 'team')}</span>
+          <label className="add-person-modal__field">
+            <span className="add-person-modal__label-row">
+              <span className="add-person-modal__label-text">
+                <FontAwesomeIcon icon={faUsers} className="add-person-modal__label-icon" aria-hidden />
+                <span>Team</span>
+              </span>
+              <span className={`add-person-modal__hint add-person-modal__hint--${teamStatus.tone}`}>
+                {teamStatus.label}
+              </span>
+            </span>
+            <div className="add-person-modal__suggestion-wrap">
+              <input
+                type="text"
+                value={team}
+                onFocus={() => setOpenSuggestions('team')}
+                onBlur={() => window.setTimeout(() => setOpenSuggestions((current) => (current === 'team' ? null : current)), 120)}
+                onChange={(e) => setTeam(e.target.value)}
+                placeholder="e.g. Engineering"
+              />
+              {openSuggestions === 'team' && teamSuggestions.length > 0 && (
+                <div className="add-person-modal__suggestions" role="listbox" aria-label="Existing teams">
+                  {teamSuggestions.map((value) => (
+                    <button
+                      key={value}
+                      type="button"
+                      className="add-person-modal__suggestion-item"
+                      onMouseDown={(e) => {
+                        e.preventDefault()
+                        setTeam(value)
+                        setOpenSuggestions(null)
+                      }}
+                    >
+                      {value}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </label>
-          <label>
-            Role
-            <input
-              type="text"
-              list="add-person-existing-roles"
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-              placeholder="e.g. Backend Engineer"
-            />
-            <span className="add-person-modal__hint">{describeExisting(role, existingRoles, 'role')}</span>
+          <label className="add-person-modal__field">
+            <span className="add-person-modal__label-row">
+              <span className="add-person-modal__label-text">
+                <FontAwesomeIcon icon={faBriefcase} className="add-person-modal__label-icon" aria-hidden />
+                <span>Role</span>
+              </span>
+              <span className={`add-person-modal__hint add-person-modal__hint--${roleStatus.tone}`}>
+                {roleStatus.label}
+              </span>
+            </span>
+            <div className="add-person-modal__suggestion-wrap">
+              <input
+                type="text"
+                value={role}
+                onFocus={() => setOpenSuggestions('role')}
+                onBlur={() => window.setTimeout(() => setOpenSuggestions((current) => (current === 'role' ? null : current)), 120)}
+                onChange={(e) => setRole(e.target.value)}
+                placeholder="e.g. Backend Engineer"
+              />
+              {openSuggestions === 'role' && roleSuggestions.length > 0 && (
+                <div className="add-person-modal__suggestions" role="listbox" aria-label="Existing roles">
+                  {roleSuggestions.map((value) => (
+                    <button
+                      key={value}
+                      type="button"
+                      className="add-person-modal__suggestion-item"
+                      onMouseDown={(e) => {
+                        e.preventDefault()
+                        setRole(value)
+                        setOpenSuggestions(null)
+                      }}
+                    >
+                      {value}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </label>
-          <label>
-            Tags (comma-separated)
+          <label className="add-person-modal__field">
+            <span className="add-person-modal__label-text">
+              <FontAwesomeIcon icon={faTag} className="add-person-modal__label-icon" aria-hidden />
+              <span>Tags (comma-separated)</span>
+            </span>
             <input
               type="text"
               value={tagsStr}
+              onFocus={() => setOpenSuggestions(null)}
               onChange={(e) => setTagsStr(e.target.value)}
               placeholder="e.g. Leadership, AI Initiative"
             />
           </label>
           <section className="add-person-modal__summary">
-            <h3 className="add-person-modal__summary-title">HHG Summary</h3>
+            <h3 className="add-person-modal__summary-title">
+              <FontAwesomeIcon icon={faChartSimple} className="add-person-modal__summary-title-icon" aria-hidden />
+              <span>HHG Summary</span>
+            </h3>
             <div className="add-person-modal__summary-list">
               {summaryCards.map(({ label, scores }) => {
                 const combo = getBrainCombination(scores.headPercent, scores.heartPercent, scores.gutPercent)
+                const bars = [
+                  { label: 'Head', percent: scores.headPercent, className: 'add-person-modal__bar-fill--head' },
+                  { label: 'Heart', percent: scores.heartPercent, className: 'add-person-modal__bar-fill--heart' },
+                  { label: 'Gut', percent: scores.gutPercent, className: 'add-person-modal__bar-fill--gut' },
+                ]
                 return (
                   <div key={label} className="add-person-modal__summary-card">
                     <div className="add-person-modal__summary-top">
-                      <span className="add-person-modal__summary-label">{label}</span>
-                      <span className="add-person-modal__summary-icons">{getBrainIcons(combo.label)}</span>
+                      <div className="add-person-modal__summary-heading">
+                        <span className="add-person-modal__summary-label">{label}</span>
+                        <span className="add-person-modal__summary-icons">{getBrainIcons(combo.label)}</span>
+                      </div>
                     </div>
-                    <div className="add-person-modal__summary-row">
-                      <span>Head {scores.headPercent.toFixed(1)}%</span>
-                      <span>Heart {scores.heartPercent.toFixed(1)}%</span>
-                      <span>Gut {scores.gutPercent.toFixed(1)}%</span>
+                    <div className="add-person-modal__summary-combo-row">
+                      <div className="add-person-modal__summary-combo">{combo.label.toUpperCase()}</div>
                     </div>
-                    <div className="add-person-modal__summary-combo">{combo.label}</div>
+                    <div className="add-person-modal__summary-bars">
+                      {bars.map((bar) => (
+                        <div key={bar.label} className="add-person-modal__bar-row">
+                          <span className="add-person-modal__bar-label">{bar.label}</span>
+                          <div className="add-person-modal__bar-track" aria-hidden="true">
+                            <div
+                              className={`add-person-modal__bar-fill ${bar.className}`}
+                              style={{ width: `${Math.max(0, Math.min(100, bar.percent))}%` }}
+                            />
+                          </div>
+                          <span className="add-person-modal__bar-value">{bar.percent.toFixed(0)}%</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 )
               })}
             </div>
           </section>
-          <datalist id="add-person-existing-companies">
-            {existingCompanies.map((value) => (
-              <option key={value} value={value} />
-            ))}
-          </datalist>
-          <datalist id="add-person-existing-teams">
-            {existingTeams.map((value) => (
-              <option key={value} value={value} />
-            ))}
-          </datalist>
-          <datalist id="add-person-existing-roles">
-            {existingRoles.map((value) => (
-              <option key={value} value={value} />
-            ))}
-          </datalist>
-          <div className="add-person-modal__actions">
-            <button type="button" onClick={onClose} className="add-person-modal__btn add-person-modal__btn--secondary">
-              Cancel
-            </button>
-            <button type="submit" className="add-person-modal__btn add-person-modal__btn--primary">
-              {resolvedSubmitLabel}
-            </button>
-          </div>
         </form>
       </div>
     </div>,

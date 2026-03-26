@@ -1,6 +1,6 @@
 import type { ViewMode } from './types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowUpWideShort } from '@fortawesome/free-solid-svg-icons'
+import { faArrowUpWideShort, faList, faTags, faUsers } from '@fortawesome/free-solid-svg-icons'
 import './ViewModeToggle.css'
 
 const VIEW_LABELS: Record<ViewMode, string> = {
@@ -8,6 +8,12 @@ const VIEW_LABELS: Record<ViewMode, string> = {
   team: 'Team',
   tags: 'Tags',
   flat: 'List',
+}
+
+const VIEW_ICONS: Partial<Record<ViewMode, typeof faList>> = {
+  team: faUsers,
+  tags: faTags,
+  flat: faList,
 }
 
 interface ViewModeToggleProps {
@@ -33,7 +39,12 @@ export function ViewModeToggle({ value, onChange }: ViewModeToggleProps) {
               onChange={() => onChange(mode)}
               className="view-mode-toggle__input"
             />
-            <span className="view-mode-toggle__text">{VIEW_LABELS[mode]}</span>
+            <span className="view-mode-toggle__text">
+              {VIEW_ICONS[mode] ? (
+                <FontAwesomeIcon icon={VIEW_ICONS[mode]} className="view-mode-toggle__text-icon" aria-hidden />
+              ) : null}
+              <span>{VIEW_LABELS[mode]}</span>
+            </span>
           </label>
         ))}
       </div>

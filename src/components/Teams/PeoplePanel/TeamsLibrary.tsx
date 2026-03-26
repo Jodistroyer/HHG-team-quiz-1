@@ -7,7 +7,6 @@ import {
   faBookOpen,
   faBuilding,
   faDownload,
-  faFileImport,
   faFloppyDisk,
   faTrash,
   faUserPlus,
@@ -40,9 +39,6 @@ export function TeamsLibrary({ api }: TeamsLibraryProps) {
     handleRenameCommit,
     openAddPerson,
     handleNewCompany,
-    handleImportJson,
-    fileInputRef,
-    handleFileChange,
     handleSaveGroup,
     handleMultiSelectExport,
     handleMultiSelectDelete,
@@ -72,18 +68,6 @@ export function TeamsLibrary({ api }: TeamsLibraryProps) {
           <FontAwesomeIcon icon={faBuilding} className="teams-library__btn-icon" aria-hidden />
           Add Company
         </button>
-        <button type="button" className="teams-library__btn teams-library__btn--import" onClick={handleImportJson}>
-          <FontAwesomeIcon icon={faFileImport} className="teams-library__btn-icon" aria-hidden />
-          Import JSON
-        </button>
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept=".json,application/json"
-          className="teams-library__file-input"
-          onChange={handleFileChange}
-          aria-hidden
-        />
       </div>
 
       <ViewModeToggle value={viewMode} onChange={setViewMode} />
@@ -116,7 +100,7 @@ export function TeamsLibrary({ api }: TeamsLibraryProps) {
           {selectedCount >= 2 && (
             <button type="button" className="teams-library__save-group-btn" onClick={handleSaveGroup}>
               <FontAwesomeIcon icon={faFloppyDisk} className="teams-library__btn-icon" aria-hidden />
-              Save as group ({selectedCount})
+              Save as Template ({selectedCount})
             </button>
           )}
 

@@ -50,8 +50,10 @@
 }
 
 .view-mode-toggle__text {
-  display: block;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   font-family: 'Montserrat', sans-serif;
   font-size: 10.5px;
   font-weight: 600;
@@ -63,6 +65,12 @@
   overflow: hidden;
   text-overflow: ellipsis;
   user-select: none;
+}
+
+.view-mode-toggle__text-icon {
+  width: 0.85rem;
+  height: 0.85rem;
+  flex: 0 0 auto;
 }
 
 .view-mode-toggle__option:hover .view-mode-toggle__text {

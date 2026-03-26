@@ -13,7 +13,8 @@
 
 .btn-download-json:hover,
 .btn-download-pdf:hover {
-  background: #4a3a5a;
+  background: #d97ac5;
+  color: #fff;
 }
 
 .btn-download-json:focus-visible,

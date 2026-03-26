@@ -34,7 +34,7 @@ export function PeoplePanel({
           <section className="saved-groups-card" aria-label="Saved groups">
             <h3 className="saved-groups-card__title">
               <FontAwesomeIcon icon={faBookmark} className="people-panel__title-icon" aria-hidden />
-              Saved groups
+              Templates
             </h3>
             <div className="saved-groups-card__body">
               {api.savedGroups.length === 0 ? (
