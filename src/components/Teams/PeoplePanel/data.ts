@@ -204,6 +204,7 @@ function buildCompanyTree(people: Person[], emptyTeams: EmptyTeams = {}): TreeNo
         children: [],
         person: p,
         path: [companyName, teamName === '_' ? undefined : teamName].filter(Boolean) as string[],
+        ...personHhgVisuals(p),
       }))
 
       const teamLabel = teamName === '_' ? 'Other' : teamName
@@ -259,6 +260,11 @@ function groupHhgVisuals(people: Person[]): { aggregateLabel: string; indicatorD
   return { aggregateLabel: combo.label, indicatorDotColors: combo.colors }
 }
 
+function personHhgVisuals(person: Person): { aggregateLabel: string; indicatorDotColors: string[] } {
+  const combo = getBrainCombination(person.headPercent, person.heartPercent, person.gutPercent)
+  return { aggregateLabel: combo.label, indicatorDotColors: combo.colors }
+}
+
 function buildTeamTree(people: Person[]): TreeNode[] {
   const byTeam = new Map<string, Person[]>()
   for (const p of people) {
@@ -282,6 +288,7 @@ function buildTeamTree(people: Person[]): TreeNode[] {
         children: [],
         person: p,
         path: [teamName],
+        ...personHhgVisuals(p),
       })),
       path: [],
       ...visuals,
@@ -322,6 +329,7 @@ function buildTagsTree(people: Person[]): TreeNode[] {
         children: [],
         person: p,
         path: [label],
+        ...personHhgVisuals(p),
       })),
       path: [],
       ...tagVisuals,
@@ -339,6 +347,7 @@ function buildFlatTree(people: Person[]): TreeNode[] {
     children: [],
     person: p,
     path: [],
+    ...personHhgVisuals(p),
   }))
 }
 

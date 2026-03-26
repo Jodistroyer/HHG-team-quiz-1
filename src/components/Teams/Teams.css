@@ -40,7 +40,7 @@
   .teams {
     /* Reserve almost no bottom gap; extra px extends the people panel card downward for all three boxes */
     --teams-bottom-gap: 0px;
-    --teams-panel-height-extra: 120px;
+    --teams-panel-height-extra: 140px;
     /* One height for Teams Library and Selected — keeps columns aligned */
     --teams-sidebar-height: calc(
       100dvh - var(--teams-sticky-top) - var(--teams-bottom-gap) + var(--teams-panel-height-extra)

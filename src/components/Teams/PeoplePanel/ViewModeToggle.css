@@ -7,6 +7,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  font-family: 'Montserrat', sans-serif;
   font-size: 10px;
   font-weight: 700;
   color: var(--people-muted, #94a3b8);
@@ -51,6 +52,7 @@
 .view-mode-toggle__text {
   display: block;
   text-align: center;
+  font-family: 'Montserrat', sans-serif;
   font-size: 10.5px;
   font-weight: 600;
   padding: 4px 2px;

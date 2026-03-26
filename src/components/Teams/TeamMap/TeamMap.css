@@ -9,6 +9,17 @@
   overflow: hidden;
 }
 
+@keyframes teamMapFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Roster embedded in PeoplePanel — wrapper is layout-transparent */
 .team-map--embedded-roster {
   display: contents;
@@ -40,6 +51,7 @@
   max-width: 100%;
   min-width: 0;
   box-sizing: border-box;
+  animation: teamMapFadeIn 0.35s ease-out;
 }
 
 .team-map-results .final-summary {
@@ -318,8 +330,9 @@
 }
 
 .tm-chip__name {
+  font-family: 'Montserrat', sans-serif;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 700;
   color: #1e293b;
   white-space: nowrap;
   overflow: hidden;

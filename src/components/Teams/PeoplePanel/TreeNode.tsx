@@ -187,7 +187,7 @@ export function TreeNode({
               {node.indicatorDotColors && node.indicatorDotColors.length > 0 && (
                 <span
                   className="tree-node__dots"
-                  aria-label={node.aggregateLabel ? `Team balance: ${node.aggregateLabel}` : 'Team balance'}
+                  aria-label={node.aggregateLabel ? `HHG balance: ${node.aggregateLabel}` : 'HHG balance'}
                 >
                   {node.indicatorDotColors.map((color, i) => (
                     <span key={i} className="tree-node__dot" style={{ backgroundColor: color }} />

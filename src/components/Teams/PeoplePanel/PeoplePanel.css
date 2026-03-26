@@ -276,6 +276,7 @@
 .people-panel__save-group-actions button {
   min-height: 40px;
   padding: 0 18px;
+  font-family: 'Montserrat', sans-serif;
   font-size: 14px;
   font-weight: 600;
   border-radius: var(--people-radius);

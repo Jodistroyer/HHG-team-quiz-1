@@ -71,6 +71,7 @@
   flex: 1 1 auto;
   min-width: 0;
   padding: 7px 8px;
+  font-family: 'Montserrat', sans-serif;
   font-size: 11.5px;
   font-weight: 600;
   border: 1px solid var(--people-border);
@@ -165,6 +166,7 @@
   width: 100%;
   margin: 0;
   padding: 7px 10px;
+  font-family: 'Montserrat', sans-serif;
   font-size: 12px;
   font-weight: 600;
   border: 1.5px dashed var(--people-accent);
@@ -193,6 +195,7 @@
 .teams-library__footer-btn {
   flex: 1;
   padding: 6px 10px;
+  font-family: 'Montserrat', sans-serif;
   font-size: 12px;
   font-weight: 500;
   border: 1px solid var(--people-border);

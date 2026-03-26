@@ -171,6 +171,31 @@ export function buildTeamWhatStandsOut(facts: ChangeFacts): Insight[] {
     )
   }
 
+  if (out.length < INSIGHT_TARGET) {
+    const centreFootprint = (['Head', 'Heart', 'Gut'] as const)
+      .map((centre) => {
+        const titles = contextsWithCentre(centre)
+        return `${centre}: ${titles.length > 0 ? joinTitles(titles) : 'nowhere'}`
+      })
+      .join('; ')
+
+    add('Centre footprint across the map', `${centreFootprint}.`, 34)
+  }
+
+  if (out.length < INSIGHT_TARGET) {
+    add('Full context map', `${rows.map(rowSummary).join('; ')}.`, 33)
+  }
+
+  if (out.length < INSIGHT_TARGET) {
+    const ordered = rows
+      .map((row, i) => ({ row, width: centreCountByContext[i] ?? row.centres.length }))
+      .sort((a, b) => b.width - a.width || a.row.title.localeCompare(b.row.title))
+      .map(({ row, width }) => `${row.title} (${width}: ${row.shortLabel})`)
+      .join('; ')
+
+    add('Context width order', ordered, 32)
+  }
+
   out.sort((a, b) => b.priority - a.priority)
   return out.slice(0, INSIGHT_TARGET)
 }

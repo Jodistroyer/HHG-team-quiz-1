@@ -24,7 +24,9 @@
 }
 
 .context-menu__item {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   width: 100%;
   text-align: left;
   padding: 8px 14px;
@@ -35,8 +37,25 @@
   cursor: pointer;
 }
 
+.context-menu__item-icon {
+  width: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--people-muted, #64748b);
+}
+
+.context-menu__item-label {
+  min-width: 0;
+}
+
 .context-menu__item:hover:not(:disabled) {
   background: rgba(19, 104, 206, 0.08);
+}
+
+.context-menu__item:hover:not(:disabled) .context-menu__item-icon {
+  color: var(--people-accent, #7d3dbd);
 }
 
 .context-menu__item:disabled {

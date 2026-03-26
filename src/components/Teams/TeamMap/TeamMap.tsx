@@ -59,6 +59,10 @@ function averageTeamScores(people: Person[], context: TeamContextKey): TeamConte
 
 export function TeamMap({ selectedPeople }: TeamMapProps) {
   const overallScores = useMemo(() => averageTeamScores(selectedPeople, 'overall'), [selectedPeople])
+  const selectionAnimationKey = useMemo(
+    () => selectedPeople.map((person) => person.id).sort().join('|') || 'empty-team',
+    [selectedPeople]
+  )
 
   const changeFacts = useMemo(() => {
     if (selectedPeople.length === 0) return null
@@ -79,7 +83,7 @@ export function TeamMap({ selectedPeople }: TeamMapProps) {
         <div className="team-map-results__inner">
           <h1 className="title">Your Team Profile</h1>
 
-          <div className="final-summary">
+          <div key={selectionAnimationKey} className="final-summary">
             <div data-team-section="natural-default">
               <h3 className="results-section-title">Natural Default</h3>
               {!hasTeam ? (
