@@ -103,7 +103,12 @@ function MemberChip({
 }
 
 /** Selected members list (same chip UI as Team Map roster). Lives inside PeoplePanel. */
-export function SelectedRoster({ selectedPeople, activeContext, onRemovePerson, onClearAll }: SelectedRosterProps) {
+export function SelectedRoster({
+  selectedPeople,
+  activeContext,
+  onRemovePerson,
+  onClearAll,
+}: SelectedRosterProps) {
   return (
     <div className="team-map team-map--embedded-roster">
       <aside className="team-map__roster" aria-label="Selected team members">

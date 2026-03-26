@@ -6,7 +6,7 @@ import './Teams.css'
 
 function Teams() {
   const [selectedPeople, setSelectedPeople] = useState<Person[]>([])
-  const [activeContext, setActiveContext] = useState<TeamContextKey>('overall')
+  const activeContext: TeamContextKey = 'overall'
   const deselectRef = useRef<(id: string) => void>(() => {})
   const clearAllRef = useRef<() => void>(() => {})
 
@@ -23,11 +23,7 @@ function Teams() {
         />
       </aside>
       <main className="teams__main">
-        <TeamMap
-          selectedPeople={selectedPeople}
-          activeContext={activeContext}
-          onActiveContextChange={setActiveContext}
-        />
+        <TeamMap selectedPeople={selectedPeople} />
       </main>
     </div>
   )
