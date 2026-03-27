@@ -1,3 +1,15 @@
+.change-results-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-bottom: 20px;
+  min-width: 0;
+}
+
+.change-results-stack > .change-results-card {
+  margin-bottom: 0;
+}
+
 .change-results-card {
   background: #fff;
   border: 1px solid #e2e8f0;
@@ -26,7 +38,7 @@
 }
 
 .change-results-combo-block {
-  margin-bottom: 34px;
+  margin-bottom: 0;
 }
 
 .change-results-combo-list {
@@ -111,8 +123,8 @@
 
 .change-results-insights-block {
   margin-top: 0;
-  padding-top: 28px;
-  border-top: 1px solid #e2e8f0;
+  padding-top: 0;
+  border-top: none;
 }
 
 .change-results-insights-block .results-section-title {
@@ -227,10 +239,6 @@
 
   .change-results-combo-dd {
     justify-content: flex-end;
-  }
-
-  .change-results-insights-block {
-    padding-top: 22px;
   }
 
   .change-results-insight-item {

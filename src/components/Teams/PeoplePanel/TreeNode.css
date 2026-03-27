@@ -71,6 +71,10 @@
   font-size: 13px;
 }
 
+.tree-node__title--group {
+  font-family: 'Montserrat', sans-serif;
+}
+
 .tree-node__count {
   color: var(--people-muted, #94a3b8);
   font-weight: 400;

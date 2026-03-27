@@ -195,7 +195,7 @@ export function TeamMap({ selectedPeople }: TeamMapProps) {
             </section>
 
             <section className="team-map-results__section">
-              <TeamSectionHeader title="How Your Team Changes Across Contexts" icon={faArrowsRotate} />
+              <TeamSectionHeader title="Team Changes Across Contexts" icon={faArrowsRotate} />
               {!hasTeam || !changeFacts ? (
                 <div className="team-map-results__empty-card team-map-results__empty-card--tight">
                   <p className="team-map-results__empty-text">
@@ -206,10 +206,12 @@ export function TeamMap({ selectedPeople }: TeamMapProps) {
               ) : (
                 <div
                   id="team-change-across-contexts"
-                  className="change-results-card"
+                  className="change-results-stack"
                   data-team-section="change-across-contexts"
                 >
-                  <CombinationAcrossContexts rows={changeFacts.rows} />
+                  <div className="change-results-card change-results-card--combo">
+                    <CombinationAcrossContexts rows={changeFacts.rows} />
+                  </div>
                   <WhatStandsOut insights={teamInsights} />
                 </div>
               )}

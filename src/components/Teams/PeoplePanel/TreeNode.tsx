@@ -127,6 +127,11 @@ export function TreeNode({
     (onContextMenu || onQuickAdd) &&
     !isEditing
 
+  const titleClassName =
+    node.kind === 'company' || node.kind === 'team'
+      ? 'tree-node__title tree-node__title--group'
+      : 'tree-node__title'
+
   return (
     <div
       className={`tree-node tree-node--depth-${depth} ${isDropTarget ? 'tree-node--drop-target' : ''} ${isDragging ? 'tree-node--dragging' : ''}`}
@@ -178,7 +183,7 @@ export function TreeNode({
             />
           ) : (
             <>
-              <span className="tree-node__title">
+              <span className={titleClassName}>
                 {node.label}
                 {node.count != null && node.count > 0 && (
                   <span className="tree-node__count"> ({node.count})</span>

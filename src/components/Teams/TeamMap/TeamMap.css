@@ -73,6 +73,7 @@
 }
 
 .team-map-results__section .bento-grid,
+.team-map-results__section .change-results-stack,
 .team-map-results__section .change-results-card,
 .team-map-results__section .team-map-results__empty-card {
   margin-bottom: 0;

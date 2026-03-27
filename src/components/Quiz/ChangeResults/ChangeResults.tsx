@@ -27,8 +27,10 @@ export function ChangeResults({ sectionSummaries, sections }: ChangeResultsProps
   if (facts.rows.length === 0) return null
 
   return (
-    <div className="change-results-card">
-      <CombinationAcrossContexts rows={facts.rows} />
+    <div className="change-results-stack">
+      <div className="change-results-card change-results-card--combo">
+        <CombinationAcrossContexts rows={facts.rows} />
+      </div>
       <WhatStandsOut insights={insights} />
     </div>
   )
