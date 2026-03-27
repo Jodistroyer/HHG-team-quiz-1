@@ -58,69 +58,66 @@ export const QuizResults = ({ overall, sectionSummaries, sections, answers, onSt
             <h1 className="title">Your Profile:</h1>
 
             <div className="final-summary" ref={resultsContainerRef}>
-          <div data-pdf-section="natural-default">
-            <h3 className="results-section-title">Natural Default</h3>
-            <div className="bento-grid">
-            <div className="overall-result">
-              {(() => {
-                const combo = getBrainCombination(overall.headPercent, overall.heartPercent, overall.gutPercent)
-                const isLongLabel = combo.label === 'Head + Heart + Gut'
-                const archetypeData = OVERALL_ARCHETYPES[combo.label]
-                return (
-                  <div className="overall-result-inner">
-                    {archetypeData && (
-                      <div className="overall-archetype">
-                        <h3 className="overall-archetype-name">{archetypeData.archetype}</h3>
-                        <div className="overall-badges-row">
-                          <div
-                            className={`overall-icon-badge ${isLongLabel ? 'long-label' : ''}`}
-                            style={{ background: 'transparent' }}
-                          >
-                            {getBrainIcons(combo.label, 'large')}
+              <div data-pdf-section="natural-default">
+                <h3 className="results-section-title">Natural Default</h3>
+                {(() => {
+                  const combo = getBrainCombination(overall.headPercent, overall.heartPercent, overall.gutPercent)
+                  const isLongLabel = combo.label === 'Head + Heart + Gut'
+                  const archetypeData = OVERALL_ARCHETYPES[combo.label]
+                  return (
+                    <>
+                      <div className="bento-grid quiz-results__natural-default-grid">
+                        <div className="quiz-results__natural-default-hero">
+                          <div className="quiz-results__natural-default-meta">
+                            {archetypeData && (
+                              <p className="quiz-results__natural-default-label">{archetypeData.archetype}</p>
+                            )}
+                            <div className="overall-badges-row quiz-results__natural-default-badges">
+                              <div
+                                className={`overall-icon-badge ${isLongLabel ? 'long-label' : ''}`}
+                                style={{ background: 'transparent' }}
+                              >
+                                {getBrainIcons(combo.label, 'large')}
+                              </div>
+                            </div>
                           </div>
-                          {/* <div className={`overall-brain-badge ${isLongLabel ? 'long-label' : ''}`}>{combo.label}</div> */}
+                          <h3 className="quiz-results__natural-default-title">
+                            {archetypeData?.headline ?? combo.label}
+                          </h3>
                         </div>
-                        <p className="overall-archetype-description">{archetypeData.description}</p>
-                        {/* <blockquote className="overall-archetype-quote">"{archetypeData.quote}"</blockquote> */}
-                      </div>
-                    )}
-                    {!archetypeData && (
-                      <div className="overall-badges-row">
-                        <div
-                          className={`overall-icon-badge ${isLongLabel ? 'long-label' : ''}`}
-                          style={{ background: 'transparent' }}
-                        >
-                          {getBrainIcons(combo.label, 'large')}
-                        </div>
-                        {/* <div className={`overall-brain-badge ${isLongLabel ? 'long-label' : ''}`}>{combo.label}</div> */}
-                      </div>
-                    )}
-                  </div>
-                )
-              })()}
-            </div>
 
-            <div className="overall-breakdown">
-              <OverallRadar
-                headPercent={overall.headPercent}
-                heartPercent={overall.heartPercent}
-                gutPercent={overall.gutPercent}
+                        <div className="overall-breakdown">
+                          <OverallRadar
+                            headPercent={overall.headPercent}
+                            heartPercent={overall.heartPercent}
+                            gutPercent={overall.gutPercent}
+                          />
+                        </div>
+                      </div>
+
+                      {archetypeData && (
+                        <div className="quiz-results__natural-default-body">
+                          <p className="overall-archetype-description quiz-results__natural-default-description">
+                            {archetypeData.description}
+                          </p>
+                        </div>
+                      )}
+                    </>
+                  )
+                })()}
+              </div>
+
+              <h3 className="results-section-title">How You Change Across Contexts</h3>
+              <ChangeResults sections={sections} sectionSummaries={sectionSummaries} />
+              <SectionResults sections={sections} sectionSummaries={sectionSummaries} />
+
+              <AllRadarsSection
+                overall={overall}
+                sectionSummaries={sectionSummaries}
+                sections={sections}
               />
-            </div>
-          </div>
-          </div>
 
-          <h3 className="results-section-title">How You Change Across Contexts</h3>
-          <ChangeResults sections={sections} sectionSummaries={sectionSummaries} />
-          <SectionResults sections={sections} sectionSummaries={sectionSummaries} />
-
-          <AllRadarsSection
-            overall={overall}
-            sectionSummaries={sectionSummaries}
-            sections={sections}
-          />
-
-          <AnswerResults sections={sections} sectionSummaries={sectionSummaries} answers={answers} />
+              <AnswerResults sections={sections} sectionSummaries={sectionSummaries} answers={answers} />
 
             </div>
           </div>
