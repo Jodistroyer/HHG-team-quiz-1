@@ -1,12 +1,20 @@
 import { useMemo } from 'react'
+import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowsRotate, faCompass } from '@fortawesome/free-solid-svg-icons'
 import type { Person, TeamContextKey, TeamContextScores } from '../PeoplePanel/types'
 import { buildFacts } from '../../Quiz/ChangeResults/changeResultsLogic'
 import { CombinationAcrossContexts } from '../../Quiz/ChangeResults/CombinationAcrossContexts'
 import { WhatStandsOut } from '../../Quiz/ChangeResults/WhatStandsOut'
-import { OverallRadar } from '../../Quiz/RadarResults/OverallRadar'
-import { getBrainCombination, getBrainIcons } from '../../Quiz/SectionResults/utils.tsx'
+import { SECTION_ICONS, getBrainCombination, getBrainIcons } from '../../Quiz/SectionResults/utils.tsx'
 import { TEAM_ARCHETYPES } from './teamArchetypes'
 import { buildTeamWhatStandsOut } from './teamChangeInsights'
+import { TeamDoingWork } from './TeamInsights/TeamDoingWork'
+import { TeamGettingBetter } from './TeamInsights/TeamGettingBetter'
+import { TeamUnderPressure } from './TeamInsights/TeamUnderPressure'
+import { TeamWithPeople } from './TeamInsights/TeamWithPeople'
+import { RadarChart as TeamRadarChart } from './TeamRadarResults/TeamRadarChart'
+import '../../Quiz/RadarResults/OverallRadar.css'
 import '../../Quiz/QuizResults.css'
 import '../../Quiz/ChangeResults/ChangeResults.css'
 import './TeamMap.css'
@@ -15,10 +23,46 @@ interface TeamMapProps {
   selectedPeople: Person[]
 }
 
+interface TeamSectionHeaderProps {
+  title: string
+  icon: IconDefinition
+}
+
+interface TeamCardHeaderProps {
+  title: string
+  icon: IconDefinition
+}
+
 const SITUATIONAL_CONTEXTS: TeamContextKey[] = ['underPressure', 'doingWork', 'withPeople', 'gettingBetter']
 const SITUATIONAL_TITLES = ['Under Pressure', 'Doing Work', 'With People', 'Getting Better']
 
 const EMPTY_SCORES: TeamContextScores = { headPercent: 0, heartPercent: 0, gutPercent: 0 }
+
+function TeamSectionHeader({ title, icon }: TeamSectionHeaderProps) {
+  return (
+    <div className="team-map-results__section-heading">
+      <h3 className="results-section-title team-map-results__section-title">
+        <span className="team-map-results__section-icon" aria-hidden>
+          <FontAwesomeIcon icon={icon} />
+        </span>
+        <span>{title}</span>
+      </h3>
+    </div>
+  )
+}
+
+function TeamCardHeader({ title, icon }: TeamCardHeaderProps) {
+  return (
+    <div className="team-map-results__card-header">
+      <h3 className="results-section-title team-map-results__card-title">
+        <span className="team-map-results__section-icon" aria-hidden>
+          <FontAwesomeIcon icon={icon} />
+        </span>
+        <span>{title}</span>
+      </h3>
+    </div>
+  )
+}
 
 function getScoresForContext(person: Person, context: TeamContextKey): TeamContextScores {
   if (context === 'overall') {
@@ -59,6 +103,10 @@ function averageTeamScores(people: Person[], context: TeamContextKey): TeamConte
 
 export function TeamMap({ selectedPeople }: TeamMapProps) {
   const overallScores = useMemo(() => averageTeamScores(selectedPeople, 'overall'), [selectedPeople])
+  const underPressureScores = useMemo(() => averageTeamScores(selectedPeople, 'underPressure'), [selectedPeople])
+  const doingWorkScores = useMemo(() => averageTeamScores(selectedPeople, 'doingWork'), [selectedPeople])
+  const withPeopleScores = useMemo(() => averageTeamScores(selectedPeople, 'withPeople'), [selectedPeople])
+  const gettingBetterScores = useMemo(() => averageTeamScores(selectedPeople, 'gettingBetter'), [selectedPeople])
   const selectionAnimationKey = useMemo(
     () => selectedPeople.map((person) => person.id).sort().join('|') || 'empty-team',
     [selectedPeople]
@@ -84,8 +132,8 @@ export function TeamMap({ selectedPeople }: TeamMapProps) {
           <h1 className="title">Your Team Profile</h1>
 
           <div key={selectionAnimationKey} className="final-summary">
-            <div data-team-section="natural-default">
-              <h3 className="results-section-title">Natural Default</h3>
+            <section className="team-map-results__section" data-team-section="natural-default">
+              <TeamSectionHeader title="Natural Default" icon={faCompass} />
               {!hasTeam ? (
                 <div className="team-map-results__empty-card">
                   <p className="team-map-results__empty-text">
@@ -93,79 +141,163 @@ export function TeamMap({ selectedPeople }: TeamMapProps) {
                     read as the quiz, averaged across selected members, with team (not individual) wording.
                   </p>
                 </div>
-              ) : (
-                <div className="bento-grid">
-                  <div className="overall-result">
-                    {(() => {
-                      const combo = getBrainCombination(
-                        overallScores.headPercent,
-                        overallScores.heartPercent,
-                        overallScores.gutPercent
-                      )
-                      const isLongLabel = combo.label === 'Head + Heart + Gut'
-                      const archetypeData = TEAM_ARCHETYPES[combo.label]
-                      return (
-                        <div className="overall-result-inner">
-                          <p className="team-map-results__archetype-note">Average of {selectedPeople.length} selected people</p>
+              ) : (() => {
+                const combo = getBrainCombination(
+                  overallScores.headPercent,
+                  overallScores.heartPercent,
+                  overallScores.gutPercent
+                )
+                const isLongLabel = combo.label === 'Head + Heart + Gut'
+                const archetypeData = TEAM_ARCHETYPES[combo.label]
+                return (
+                  <>
+                    <div className="bento-grid team-map-results__natural-default-grid">
+                      <div className="team-map-results__natural-default-hero">
+                        <div className="team-map-results__natural-default-meta">
                           {archetypeData && (
-                            <div className="overall-archetype">
-                              <h3 className="overall-archetype-name">{archetypeData.archetype}</h3>
-                              <div className="overall-badges-row">
-                                <div
-                                  className={`overall-icon-badge ${isLongLabel ? 'long-label' : ''}`}
-                                  style={{ background: 'transparent' }}
-                                >
-                                  {getBrainIcons(combo.label, 'large')}
-                                </div>
-                              </div>
-                              <p className="overall-archetype-description">{archetypeData.description}</p>
-                            </div>
+                            <p className="team-map-results__natural-default-label">{archetypeData.archetype}</p>
                           )}
-                          {!archetypeData && (
-                            <div className="overall-badges-row">
-                              <div
-                                className={`overall-icon-badge ${isLongLabel ? 'long-label' : ''}`}
-                                style={{ background: 'transparent' }}
-                              >
-                                {getBrainIcons(combo.label, 'large')}
-                              </div>
+                          <div className="overall-badges-row team-map-results__natural-default-badges">
+                            <div
+                              className={`overall-icon-badge ${isLongLabel ? 'long-label' : ''}`}
+                              style={{ background: 'transparent' }}
+                            >
+                              {getBrainIcons(combo.label, 'large')}
                             </div>
-                          )}
+                          </div>
                         </div>
-                      )
-                    })()}
-                  </div>
+                        <h3 className="team-map-results__natural-default-title">
+                          {archetypeData?.headline ?? combo.label}
+                        </h3>
+                      </div>
 
-                  <div className="overall-breakdown">
-                    <OverallRadar
-                      headPercent={overallScores.headPercent}
-                      heartPercent={overallScores.heartPercent}
-                      gutPercent={overallScores.gutPercent}
-                      balanceLabel="Team balance (average)"
-                    />
-                  </div>
+                      <div className="overall-breakdown">
+                        <h3 className="overall-breakdown-label">Team balance</h3>
+                        <div className="radar-chart-container">
+                          <TeamRadarChart
+                            headPercent={overallScores.headPercent}
+                            heartPercent={overallScores.heartPercent}
+                            gutPercent={overallScores.gutPercent}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    {archetypeData && (
+                      <div className="team-map-results__natural-default-body">
+                        <p className="overall-archetype-description team-map-results__natural-default-description">
+                          {archetypeData.description}
+                        </p>
+                      </div>
+                    )}
+                  </>
+                )
+              })()}
+            </section>
+
+            <section className="team-map-results__section">
+              <TeamSectionHeader title="How Your Team Changes Across Contexts" icon={faArrowsRotate} />
+              {!hasTeam || !changeFacts ? (
+                <div className="team-map-results__empty-card team-map-results__empty-card--tight">
+                  <p className="team-map-results__empty-text">
+                    Add at least one person to see how the team&apos;s average combination shifts between Under
+                    Pressure, Doing Work, With People, and Getting Better.
+                  </p>
+                </div>
+              ) : (
+                <div
+                  id="team-change-across-contexts"
+                  className="change-results-card"
+                  data-team-section="change-across-contexts"
+                >
+                  <CombinationAcrossContexts rows={changeFacts.rows} />
+                  <WhatStandsOut insights={teamInsights} />
                 </div>
               )}
-            </div>
+            </section>
 
-            <h3 className="results-section-title">How Your Team Changes Across Contexts</h3>
-            {!hasTeam || !changeFacts ? (
-              <div className="team-map-results__empty-card team-map-results__empty-card--tight">
-                <p className="team-map-results__empty-text">
-                  Add at least one person to see how the team&apos;s average combination shifts between Under
-                  Pressure, Doing Work, With People, and Getting Better.
-                </p>
-              </div>
-            ) : (
-              <div
-                id="team-change-across-contexts"
-                className="change-results-card"
-                data-team-section="change-across-contexts"
-              >
-                <CombinationAcrossContexts rows={changeFacts.rows} comboHeading="Team combination across contexts" />
-                <WhatStandsOut insights={teamInsights} />
-              </div>
-            )}
+            <section className="team-map-results__section">
+              {!hasTeam ? (
+                <div className="change-results-card team-map-results__context-card">
+                  <TeamCardHeader title="Under Pressure" icon={SECTION_ICONS[1]} />
+                  <p className="team-map-results__empty-text">
+                    Add at least one person to see how this team tends to behave under pressure, based on the
+                    average HHG balance in that context.
+                  </p>
+                </div>
+              ) : (
+                <div className="change-results-card team-map-results__context-card" data-team-section="under-pressure-insight">
+                  <TeamCardHeader title="Under Pressure" icon={SECTION_ICONS[1]} />
+                  <TeamUnderPressure
+                    headPercent={underPressureScores.headPercent}
+                    heartPercent={underPressureScores.heartPercent}
+                    gutPercent={underPressureScores.gutPercent}
+                  />
+                </div>
+              )}
+            </section>
+
+            <section className="team-map-results__section">
+              {!hasTeam ? (
+                <div className="change-results-card team-map-results__context-card">
+                  <TeamCardHeader title="Doing Work" icon={SECTION_ICONS[2]} />
+                  <p className="team-map-results__empty-text">
+                    Add at least one person to see how this team tends to approach work, based on the average HHG
+                    balance in that context.
+                  </p>
+                </div>
+              ) : (
+                <div className="change-results-card team-map-results__context-card" data-team-section="doing-work-insight">
+                  <TeamCardHeader title="Doing Work" icon={SECTION_ICONS[2]} />
+                  <TeamDoingWork
+                    headPercent={doingWorkScores.headPercent}
+                    heartPercent={doingWorkScores.heartPercent}
+                    gutPercent={doingWorkScores.gutPercent}
+                  />
+                </div>
+              )}
+            </section>
+
+            <section className="team-map-results__section">
+              {!hasTeam ? (
+                <div className="change-results-card team-map-results__context-card">
+                  <TeamCardHeader title="With People" icon={SECTION_ICONS[3]} />
+                  <p className="team-map-results__empty-text">
+                    Add at least one person to see how this team tends to show up with people, based on the
+                    average HHG balance in that context.
+                  </p>
+                </div>
+              ) : (
+                <div className="change-results-card team-map-results__context-card" data-team-section="with-people-insight">
+                  <TeamCardHeader title="With People" icon={SECTION_ICONS[3]} />
+                  <TeamWithPeople
+                    headPercent={withPeopleScores.headPercent}
+                    heartPercent={withPeopleScores.heartPercent}
+                    gutPercent={withPeopleScores.gutPercent}
+                  />
+                </div>
+              )}
+            </section>
+
+            <section className="team-map-results__section">
+              {!hasTeam ? (
+                <div className="change-results-card team-map-results__context-card">
+                  <TeamCardHeader title="Getting Better" icon={SECTION_ICONS[4]} />
+                  <p className="team-map-results__empty-text">
+                    Add at least one person to see how this team tends to grow and improve, based on the average
+                    HHG balance in that context.
+                  </p>
+                </div>
+              ) : (
+                <div className="change-results-card team-map-results__context-card" data-team-section="getting-better-insight">
+                  <TeamCardHeader title="Getting Better" icon={SECTION_ICONS[4]} />
+                  <TeamGettingBetter
+                    headPercent={gettingBetterScores.headPercent}
+                    heartPercent={gettingBetterScores.heartPercent}
+                    gutPercent={gettingBetterScores.gutPercent}
+                  />
+                </div>
+              )}
+            </section>
           </div>
 
         </div>

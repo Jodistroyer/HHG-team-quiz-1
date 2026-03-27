@@ -1,4 +1,4 @@
-.radar-chart {
+.team-radar-chart.radar-chart {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -10,7 +10,7 @@
   overflow: visible;
 }
 
-.radar-chart svg {
+.team-radar-chart svg {
   width: 100%;
   height: auto;
   max-width: 100%;
@@ -20,7 +20,7 @@
 }
 
 /* Labels overlay: HTML outside SVG so text and percentages always render; above SVG */
-.radar-chart-labels {
+.team-radar-chart .radar-chart-labels {
   position: absolute;
   inset: 0;
   pointer-events: none;
@@ -32,7 +32,7 @@
   overflow: visible;
 }
 
-.radar-chart-label {
+.team-radar-chart .radar-chart-label {
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -49,7 +49,7 @@
 }
 
 /* Wrapper: room for icon (no clip), then scale down so icon displays small */
-.radar-chart-icon-wrap {
+.team-radar-chart .radar-chart-icon-wrap {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -66,7 +66,7 @@
 }
 
 /* Icon centered above Head / Heart / Gut label; inherit label color so icon is visible */
-.radar-chart-label .radar-chart-label-icon {
+.team-radar-chart .radar-chart-label .radar-chart-label-icon {
   display: block;
   flex-shrink: 0;
   color: inherit;
@@ -74,20 +74,20 @@
   contain: none;
 }
 
-.radar-chart-label .radar-chart-label-icon svg {
+.team-radar-chart .radar-chart-label .radar-chart-label-icon svg {
   fill: currentColor;
   overflow: visible !important;
   display: block;
   contain: none;
 }
 
-.radar-chart-label-name,
-.radar-chart-label-value {
+.team-radar-chart .radar-chart-label-name,
+.team-radar-chart .radar-chart-label-value {
   text-align: center;
 }
 
 /* FA icon container: larger viewport so path overflow is never clipped */
-.radar-chart-label .radar-chart-label-icon {
+.team-radar-chart .radar-chart-label .radar-chart-label-icon {
   width: 48px !important;
   height: 48px !important;
   min-width: 48px !important;
@@ -98,7 +98,7 @@
 }
 
 /* 48px viewport = no cutoff; wrap scale shrinks the whole icon */
-.radar-chart-label .radar-chart-label-icon svg {
+.team-radar-chart .radar-chart-label .radar-chart-label-icon svg {
   width: 48px !important;
   height: 48px !important;
   min-width: 48px !important;
@@ -108,75 +108,85 @@
   overflow: visible !important;
 }
 
-.radar-chart-label-name {
+.team-radar-chart .radar-chart-label-name {
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.03em;
 }
 
-.radar-chart-label-value {
+.team-radar-chart .radar-chart-label-value {
   font-size: 14px;
   margin-top: 2px;
 }
 
 /* Head: top center of triangle */
-.radar-chart-label-head {
-  top: 8%;
+.team-radar-chart .radar-chart-label-head {
+  top: 1%;
   left: 50%;
   transform: translate(-50%, 0);
   color: #1368ce;
 }
 
 /* Heart: bottom left */
-.radar-chart-label-heart {
-  bottom: 8%;
-  left: 12%;
+.team-radar-chart .radar-chart-label-heart {
+  bottom: 4%;
+  left: 8%;
   transform: translate(0, 0);
   color: #e21b3c;
 }
 
 /* Gut: bottom right */
-.radar-chart-label-gut {
-  bottom: 8%;
-  right: 12%;
+.team-radar-chart .radar-chart-label-gut {
+  bottom: 4%;
+  right: 8%;
   left: auto;
   transform: translate(0, 0);
   color: #26890c;
 }
 
-.radar-chart-label-head .radar-chart-label-value,
-.radar-chart-label-heart .radar-chart-label-value,
-.radar-chart-label-gut .radar-chart-label-value {
+.team-radar-chart .radar-chart-label-head .radar-chart-label-value,
+.team-radar-chart .radar-chart-label-heart .radar-chart-label-value,
+.team-radar-chart .radar-chart-label-gut .radar-chart-label-value {
   color: inherit;
 }
 
 /* Mobile: slightly larger icon, Head label higher, tighter spacing */
 @media (max-width: 588px) {
-  .radar-chart-label {
+  .team-radar-chart .radar-chart-label {
     font-size: 10px;
   }
 
-  .radar-chart-label-name {
+  .team-radar-chart .radar-chart-label-name {
     font-size: 10px;
   }
 
-  .radar-chart-label-value {
+  .team-radar-chart .radar-chart-label-value {
     font-size: 11px;
     margin-top: 1px;
   }
 
   /* Head label higher so it isn’t too low on mobile */
-  .radar-chart-label-head {
-    top: 4%;
+  .team-radar-chart .radar-chart-label-head {
+    top: 1%;
+  }
+
+  .team-radar-chart .radar-chart-label-heart {
+    bottom: 2%;
+    left: 6%;
+  }
+
+  .team-radar-chart .radar-chart-label-gut {
+    bottom: 2%;
+    right: 6%;
   }
 
   /* Slightly larger icon on mobile (scale 0.5 = ~24px), less gap below icon */
-  .radar-chart-icon-wrap {
+  .team-radar-chart .radar-chart-icon-wrap {
     transform: scale(0.5);
     margin-bottom: 0;
   }
 
-  .radar-chart-label .radar-chart-label-icon {
+  .team-radar-chart .radar-chart-label .radar-chart-label-icon {
     width: 48px !important;
     height: 48px !important;
     min-width: 48px !important;
@@ -185,7 +195,7 @@
     max-height: 48px !important;
   }
 
-  .radar-chart-label .radar-chart-label-icon svg {
+  .team-radar-chart .radar-chart-label .radar-chart-label-icon svg {
     width: 48px !important;
     height: 48px !important;
     min-width: 48px !important;

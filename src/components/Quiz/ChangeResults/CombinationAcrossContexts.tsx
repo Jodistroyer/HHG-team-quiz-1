@@ -7,8 +7,6 @@ import './ChangeResults.css'
 
 interface CombinationAcrossContextsProps {
   rows: ContextComboRow[]
-  /** Defaults to "Your combination across contexts" (quiz). Use "Team combination…" on Teams. */
-  comboHeading?: string
 }
 
 function contextIconForTitle(title: string): IconDefinition | null {
@@ -37,12 +35,11 @@ function centreIcon(centre: ContextComboRow['centres'][number]): { icon: IconDef
   }
 }
 
-export function CombinationAcrossContexts({ rows, comboHeading = 'Your combination across contexts' }: CombinationAcrossContextsProps) {
+export function CombinationAcrossContexts({ rows }: CombinationAcrossContextsProps) {
   if (rows.length === 0) return null
 
   return (
     <div className="change-results-combo-block">
-      <h4 className="change-results-subtitle">{comboHeading}</h4>
       <dl className="change-results-combo-list">
         {rows.map((row) => (
           <div key={row.title} className="change-results-combo-row">

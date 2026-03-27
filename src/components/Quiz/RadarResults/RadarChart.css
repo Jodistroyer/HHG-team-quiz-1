@@ -121,7 +121,7 @@
 
 /* Head: top center of triangle */
 .radar-chart-label-head {
-  top: 8%;
+  top: 4%;
   left: 50%;
   transform: translate(-50%, 0);
   color: #1368ce;
@@ -129,16 +129,16 @@
 
 /* Heart: bottom left */
 .radar-chart-label-heart {
-  bottom: 8%;
-  left: 12%;
+  bottom: 4%;
+  left: 8%;
   transform: translate(0, 0);
   color: #e21b3c;
 }
 
 /* Gut: bottom right */
 .radar-chart-label-gut {
-  bottom: 8%;
-  right: 12%;
+  bottom: 4%;
+  right: 8%;
   left: auto;
   transform: translate(0, 0);
   color: #26890c;
@@ -167,7 +167,17 @@
 
   /* Head label higher so it isn’t too low on mobile */
   .radar-chart-label-head {
-    top: 4%;
+    top: 1%;
+  }
+
+  .radar-chart-label-heart {
+    bottom: 2%;
+    left: 6%;
+  }
+
+  .radar-chart-label-gut {
+    bottom: 2%;
+    right: 6%;
   }
 
   /* Slightly larger icon on mobile (scale 0.5 = ~24px), less gap below icon */

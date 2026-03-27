@@ -1,0 +1,151 @@
+.team-context-insight {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.team-context-insight__hero {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 36px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 12px 40px rgba(0, 0, 0, 0.08);
+}
+
+.team-context-insight__combo-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.team-context-insight__icons {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.team-context-insight__title {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: #1e293b;
+}
+
+.team-context-insight__card-text {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  color: #475569;
+  line-height: 1.7;
+}
+
+.team-context-insight__card-text {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.team-context-insight__cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.team-context-insight__card {
+  min-width: 0;
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  padding: 28px;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 28px rgba(15, 23, 42, 0.04);
+}
+
+.team-context-insight__card--strength {
+  grid-column: 1 / -1;
+}
+
+.team-context-insight__card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 38px;
+  margin: 0 0 18px;
+}
+
+.team-context-insight__card-title {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.08rem;
+  font-weight: 800;
+  color: #1e293b;
+  letter-spacing: -0.01em;
+}
+
+.team-context-insight__card--strength .team-context-insight__card-title {
+  color: #166534;
+}
+
+.team-context-insight__card--gap .team-context-insight__card-title {
+  color: #b45309;
+}
+
+.team-context-insight__card--watch .team-context-insight__card-title {
+  color: #1d4ed8;
+}
+
+.team-context-insight__card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.1rem;
+  flex: 0 0 1.1rem;
+}
+
+.team-context-insight__gap-badge-row {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 0 0 auto;
+}
+
+@media (max-width: 768px) {
+  .team-context-insight__hero {
+    padding: 28px 24px;
+  }
+
+  .team-context-insight__title {
+    font-size: 1.4rem;
+  }
+
+  .team-context-insight__cards {
+    grid-template-columns: 1fr;
+  }
+
+  .team-context-insight__card--strength {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 520px) {
+  .team-context-insight__hero {
+    padding: 24px 18px;
+  }
+
+  .team-context-insight__card-text {
+    font-size: 0.9rem;
+  }
+
+  .team-context-insight__card {
+    padding: 22px 18px;
+  }
+}
