@@ -121,7 +121,7 @@
 
 /* Head: top center of triangle */
 .radar-chart-label-head {
-  top: 4%;
+  top: 1%;
   left: 50%;
   transform: translate(-50%, 0);
   color: #1368ce;

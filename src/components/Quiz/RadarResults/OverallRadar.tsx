@@ -11,7 +11,7 @@ interface OverallRadarProps {
 export const OverallRadar = ({ headPercent, heartPercent, gutPercent, balanceLabel = 'Your balance' }: OverallRadarProps) => {
   return (
     <>
-      <h3 className="overall-breakdown-label">{balanceLabel}</h3>
+      {/* <h3 className="overall-breakdown-label">{balanceLabel}</h3> */}
       <div className="radar-chart-container">
         <RadarChart
           headPercent={headPercent}

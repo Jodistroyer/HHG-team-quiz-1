@@ -11,7 +11,7 @@ export function WhatStandsOut({ insights }: WhatStandsOutProps) {
 
   return (
     <div className="change-results-insights-block">
-      <h4 className="change-results-subtitle">What stands out</h4>
+      <h3 className="results-section-title">What stands out</h3>
       <ul className="change-results-insight-list">
         {insights.map((item) => (
           <li key={`${item.headline}-${item.body}`} className="change-results-insight-item">

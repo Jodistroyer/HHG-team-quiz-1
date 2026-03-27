@@ -62,10 +62,7 @@ export const RadarChart = ({ headPercent, heartPercent, gutPercent }: RadarChart
         <line x1={center} y1={center} x2={headX} y2={headY} stroke="#cbd5e1" strokeWidth="1" opacity="0.45" />
         <line x1={center} y1={center} x2={heartX} y2={heartY} stroke="#cbd5e1" strokeWidth="1" opacity="0.45" />
         <line x1={center} y1={center} x2={gutX} y2={gutY} stroke="#cbd5e1" strokeWidth="1" opacity="0.45" />
-        <path d={pathData} fill="#475569" fillOpacity="0.72" stroke="none" />
-        <circle cx={headDataX} cy={headDataY} r="5" fill="#1368ce" stroke="#fff" strokeWidth="1.5" />
-        <circle cx={heartDataX} cy={heartDataY} r="5" fill="#e21b3c" stroke="#fff" strokeWidth="1.5" />
-        <circle cx={gutDataX} cy={gutDataY} r="5" fill="#26890c" stroke="#fff" strokeWidth="1.5" />
+        <path d={pathData} fill="#7d3dbd" fillOpacity="0.72" stroke="none" />
       </svg>
       <div className="radar-chart-labels">
         <div className="radar-chart-label radar-chart-label-head" aria-hidden="true">

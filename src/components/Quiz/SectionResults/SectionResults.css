@@ -99,13 +99,12 @@
 .trait-section {
   margin-bottom: 0;
   padding: 1rem 0 1rem 1rem;
-  border-left: 3px solid rgba(125, 61, 189, 0.3);
   min-width: 0;
 }
 
 .trait-section-title {
   font-family: 'Montserrat', sans-serif;
-  font-size: 1.15rem;
+  font-size: 1.35rem;
   font-weight: 800;
   color: #7d3dbd;
   margin: 0 0 0.5rem 0;
@@ -132,20 +131,16 @@
 
 .strength-card {
   background: #ffffff;
-  border: 3px solid #bbf7d0;
   border-radius: var(--section-card-radius);
   padding: 0;
-  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.12);
   overflow: hidden;
   min-width: 0;
 }
 
 .warning-card {
   background: #ffffff;
-  border: 3px solid #fed7aa;
   border-radius: var(--section-card-radius);
   padding: 0;
-  box-shadow: 0 4px 12px rgba(217, 119, 6, 0.12);
   overflow: hidden;
   min-width: 0;
 }
@@ -403,7 +398,6 @@
 .action-box {
   background: #ffffff;
   color: #7d3dbd;
-  border: 3px solid #e9d5ff;
   border-radius: var(--section-card-radius);
   padding: 30px;
   box-shadow: 0 8px 28px rgba(125, 61, 189, 0.12);

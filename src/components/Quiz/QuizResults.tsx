@@ -107,8 +107,10 @@ export const QuizResults = ({ overall, sectionSummaries, sections, answers, onSt
                 })()}
               </div>
 
-              <h3 className="results-section-title">How You Change Across Contexts</h3>
-              <ChangeResults sections={sections} sectionSummaries={sectionSummaries} />
+              <div data-pdf-section="change-across-contexts-summary" id="change-across-contexts-summary">
+                <h3 className="results-section-title">How You Change Across Contexts</h3>
+                <ChangeResults sections={sections} sectionSummaries={sectionSummaries} />
+              </div>
               <SectionResults sections={sections} sectionSummaries={sectionSummaries} />
 
               <AllRadarsSection

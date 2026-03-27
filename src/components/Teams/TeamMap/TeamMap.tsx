@@ -172,7 +172,7 @@ export function TeamMap({ selectedPeople }: TeamMapProps) {
                       </div>
 
                       <div className="overall-breakdown">
-                        <h3 className="overall-breakdown-label">Team balance</h3>
+
                         <div className="radar-chart-container">
                           <TeamRadarChart
                             headPercent={overallScores.headPercent}
