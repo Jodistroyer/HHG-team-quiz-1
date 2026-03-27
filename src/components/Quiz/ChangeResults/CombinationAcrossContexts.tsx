@@ -40,6 +40,7 @@ export function CombinationAcrossContexts({ rows }: CombinationAcrossContextsPro
 
   return (
     <div className="change-results-combo-block">
+      <h4 className="change-results-subtitle">Across contexts</h4>
       <dl className="change-results-combo-list">
         {rows.map((row) => (
           <div key={row.title} className="change-results-combo-row">
