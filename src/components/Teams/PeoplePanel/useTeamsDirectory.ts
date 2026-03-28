@@ -29,6 +29,37 @@ function groupNamesContainingIds(groups: SavedGroup[], ids: Set<string>): string
   return groups.filter((g) => g.personIds.some((id) => ids.has(id))).map((g) => g.name)
 }
 
+/** After removing people, keep company/team shells in emptyTeams so org rows stay in the tree. */
+function emptyTeamsAfterRemovingPeople(
+  peopleBefore: Person[],
+  removedIds: Set<string>,
+  prevEmpty: EmptyTeams
+): EmptyTeams {
+  const nextPeople = peopleBefore.filter((p) => !removedIds.has(p.id))
+  const nextEmpty: EmptyTeams = { ...prevEmpty }
+
+  for (const p of peopleBefore) {
+    if (!removedIds.has(p.id)) continue
+    const company = p.company ?? 'Uncategorized'
+    const team = p.team ?? '_'
+
+    const stillInCompany = nextPeople.filter((x) => (x.company ?? 'Uncategorized') === company)
+    if (stillInCompany.length === 0) {
+      const existing = new Set(nextEmpty[company] ?? [])
+      existing.add(team)
+      nextEmpty[company] = Array.from(existing).sort()
+    } else {
+      const stillInTeam = stillInCompany.filter((x) => (x.team ?? '_') === team).length
+      if (stillInTeam === 0) {
+        const existing = new Set(nextEmpty[company] ?? [])
+        existing.add(team)
+        nextEmpty[company] = Array.from(existing).sort()
+      }
+    }
+  }
+  return nextEmpty
+}
+
 function loadPeople(): Person[] {
   try {
     const raw = localStorage.getItem(STORAGE_KEY_PEOPLE)
@@ -243,7 +274,17 @@ export function useTeamsDirectory({
 
   const handleDeleteSavedGroup = useCallback(
     (id: string) => {
-      persistSavedGroups(savedGroups.filter((g) => g.id !== id))
+      const group = savedGroups.find((g) => g.id === id)
+      if (!group) return
+      setDeleteConfirm({
+        title: 'Delete saved group?',
+        message: `This will remove "${group.name}" from your templates. People in the library are not deleted.`,
+        impact: { peopleCount: 0 },
+        onConfirm: () => {
+          persistSavedGroups(savedGroups.filter((g) => g.id !== id))
+          setDeleteConfirm(null)
+        },
+      })
     },
     [savedGroups, persistSavedGroups]
   )
@@ -314,16 +355,22 @@ export function useTeamsDirectory({
     (nodeId: string, kind: string, newLabel: string) => {
       if (kind === 'company') {
         const oldName = nodeId.replace(/^company-/, '')
+        const newLabelTrim = newLabel.trim()
+        if (newLabelTrim === oldName) {
+          setEditingNodeId(null)
+          setEditingValue('')
+          return
+        }
         const isUncategorized = oldName === 'Uncategorized'
         const nextPeople = people.map((p) => {
           const matches = isUncategorized
             ? (p.company == null || p.company === '' || p.company === 'Uncategorized')
             : p.company === oldName
-          return matches ? { ...p, company: newLabel } : p
+          return matches ? { ...p, company: newLabelTrim } : p
         })
         if (Object.keys(emptyTeams).includes(oldName)) {
           const next = { ...emptyTeams }
-          next[newLabel] = next[oldName]
+          next[newLabelTrim] = next[oldName]
           delete next[oldName]
           persistEmptyTeams(next)
         }
@@ -529,18 +576,22 @@ export function useTeamsDirectory({
     const groupsRemovedFrom = groupNamesContainingIds(savedGroups, selectedIds)
     setDeleteConfirm({
       title: 'Delete selected people?',
-      message: `${selectedCount} people will be removed.`,
+      message: `${selectedCount} people will be removed from the library. Companies and teams stay in the tree; empty spots are kept so you can add people again.`,
       impact: {
         peopleCount: selectedCount,
         ...(groupsRemovedFrom.length > 0 && { groupsRemovedFrom }),
       },
       onConfirm: () => {
-        persistPeople(people.filter((p) => !selectedIds.has(p.id)))
+        const removed = new Set(selectedIds)
+        const nextPeople = people.filter((p) => !removed.has(p.id))
+        const nextEmpty = emptyTeamsAfterRemovingPeople(people, removed, emptyTeams)
+        persistPeople(nextPeople)
+        persistEmptyTeams(nextEmpty)
         setSelectedIds(new Set())
         setDeleteConfirm(null)
       },
     })
-  }, [selectedCount, selectedIds, people, savedGroups, persistPeople])
+  }, [selectedCount, selectedIds, people, savedGroups, emptyTeams, persistPeople, persistEmptyTeams])
 
   const handleMultiSelectExport = useCallback(() => {
     const list = selectedPeople

@@ -10,7 +10,6 @@ import {
   type QuizSection,
   type QuizSectionScores as SectionScores,
 } from '../../../quizExport'
-import '../DownloadResults.css'
 
 interface SaveToTeamsProps {
   overall: OverallScores
@@ -32,12 +31,12 @@ export function SaveToTeams({ overall, sectionSummaries, sections, answers, icon
     <>
       <button
         type="button"
-        className={`btn btn-primary btn-save-to-teams ${iconOnly ? 'btn-download-icon-only' : ''}`}
+        className={`btn btn-primary results-sidebar-save-to-teams${iconOnly ? ' results-sidebar-save-to-teams--icon-only' : ''}`}
         onClick={() => setShowModal(true)}
         title="Save to Teams"
         aria-label="Save to Teams"
       >
-        <FontAwesomeIcon icon={faUsers} className="btn-download-icon" aria-hidden />
+        <FontAwesomeIcon icon={faUsers} className="results-sidebar-save-to-teams-icon" aria-hidden />
         {iconOnly ? <span>Teams</span> : <span>Save to Teams</span>}
       </button>
 

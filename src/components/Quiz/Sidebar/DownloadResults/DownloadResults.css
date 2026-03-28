@@ -1,7 +1,6 @@
 /* Shared styling for Download JSON and Download PDF buttons – content left-aligned */
 .btn-download-json,
-.btn-download-pdf,
-.btn-save-to-teams {
+.btn-download-pdf {
   border: none;
   min-width: 11rem;
   white-space: nowrap;
@@ -11,44 +10,21 @@
   padding-right: 1.5rem;
 }
 
-.btn-save-to-teams {
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease,
-    border-color 0.2s ease;
-  transform: none;
-  border-bottom: none;
-}
-
 .btn-download-json:hover,
 .btn-download-pdf:hover {
   background: #d97ac5;
   color: #fff;
 }
 
-.btn-save-to-teams:hover,
-.btn-save-to-teams:active {
-  transform: none;
-  animation: none;
-  border-bottom: none;
-}
-
-.btn-save-to-teams:hover:not(:disabled),
-.btn-save-to-teams:active:not(:disabled) {
-  border-bottom: none;
-}
-
 .btn-download-json:focus-visible,
-.btn-download-pdf:focus-visible,
-.btn-save-to-teams:focus-visible {
+.btn-download-pdf:focus-visible {
   outline: 2px solid #7d3dbd;
   outline-offset: 2px;
 }
 
 @media (max-width: 588px) {
   .btn-download-json,
-  .btn-download-pdf,
-  .btn-save-to-teams {
+  .btn-download-pdf {
     min-width: 0;
     padding-left: 0.6rem;
     padding-right: 0.75rem;
@@ -57,14 +33,12 @@
 }
 
 .btn-download-json .btn-download-icon,
-.btn-download-pdf .btn-download-icon,
-.btn-save-to-teams .btn-download-icon {
+.btn-download-pdf .btn-download-icon {
   margin-right: 0.35em;
 }
 
 .btn-download-json.btn-download-icon-only .btn-download-icon,
-.btn-download-pdf.btn-download-icon-only .btn-download-icon,
-.btn-save-to-teams.btn-download-icon-only .btn-download-icon {
+.btn-download-pdf.btn-download-icon-only .btn-download-icon {
   margin-right: 0.5em;
 }
 

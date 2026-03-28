@@ -12,18 +12,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    'Roboto',
-    'Oxygen',
-    'Ubuntu',
-    'Cantarell',
-    'Fira Sans',
-    'Droid Sans',
-    'Helvetica Neue',
-    sans-serif;
+  font-family: 'Montserrat', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -32,6 +21,7 @@
   width: min(400px, 100%);
   max-height: min(85vh, 560px);
   overflow-y: auto;
+  font-family: 'Montserrat', sans-serif;
   background: var(--people-bg, #fff);
   color: var(--people-text, #1e293b);
   border-radius: 12px;
@@ -55,6 +45,7 @@
 
 .delete-confirm-message {
   margin: 0 0 18px;
+  font-family: inherit;
   font-size: 14px;
   line-height: 1.55;
   color: var(--people-muted, #64748b);
@@ -69,6 +60,7 @@
 }
 
 .delete-confirm-impact-title {
+  font-family: inherit;
   font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
@@ -86,6 +78,7 @@
 .delete-confirm-impact li {
   position: relative;
   padding: 5px 0 5px 14px;
+  font-family: inherit;
   font-size: 13px;
   line-height: 1.45;
   color: var(--people-text, #1e293b);
@@ -115,6 +108,7 @@
 
 .delete-confirm-btn {
   padding: 9px 18px;
+  font-family: 'Montserrat', sans-serif;
   font-size: 13px;
   font-weight: 600;
   border-radius: var(--people-radius, 8px);

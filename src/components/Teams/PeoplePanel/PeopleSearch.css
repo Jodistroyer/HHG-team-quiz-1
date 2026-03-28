@@ -1,6 +1,7 @@
 .people-search {
   width: 100%;
   padding: 8px 12px 8px 32px;
+  font-family: 'Montserrat', sans-serif;
   font-size: 13px;
   border: 2px solid var(--people-border, #7d3dbd);
   border-radius: 20px;

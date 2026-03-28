@@ -95,12 +95,14 @@
 .teams-library__btn--add {
   background: var(--people-accent);
   color: #fff;
-  border-color: var(--people-accent);
+  border: none;
+  /* Match quiz primary: darker purple lip under the button */
+  border-bottom: 3px solid #622fa3;
 }
 
 .teams-library__btn--add:hover {
   background: #6b32a8;
-  border-color: #6b32a8;
+  border-bottom: 3px solid #622fa3;
 }
 
 .teams-library__btn--secondary {

@@ -447,12 +447,14 @@
 .add-person-modal__btn--primary {
   background: #7d3dbd;
   color: #fff;
-  border-color: #7d3dbd;
+  border: none;
+  /* Match quiz .btn-primary depth */
+  border-bottom: 3px solid #622fa3;
 }
 
-.add-person-modal__btn--primary:hover {
+.add-person-modal__btn--primary:hover:not(:disabled) {
   background: #6b2fa3;
-  border-color: #6b2fa3;
+  border-bottom: 3px solid #622fa3;
 }
 
 .add-person-modal__btn--secondary {

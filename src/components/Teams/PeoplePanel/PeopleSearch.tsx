@@ -6,7 +6,7 @@ interface PeopleSearchProps {
   placeholder?: string
 }
 
-export function PeopleSearch({ value, onChange, placeholder = 'Search people...' }: PeopleSearchProps) {
+export function PeopleSearch({ value, onChange, placeholder = 'Search...' }: PeopleSearchProps) {
   return (
     <input
       type="search"
