@@ -44,7 +44,7 @@ const PDF_EXPORT_CSS = `
 .pdf-export-view .overall-brain-badge,.pdf-export-view .overall-icon-badge{font-size:1.5rem !important;padding:1.25rem 2rem !important;white-space:normal!important}
 /* Radar: identical size on mobile and PC – fixed width and height in px */
 .pdf-export-view .radar-chart-container{width:300px!important;min-width:300px!important;max-width:300px!important;height:314px!important;min-height:314px!important;max-height:314px!important;overflow:visible!important;padding:0!important;margin-left:auto!important;margin-right:auto!important}
-.pdf-export-view .all-radars-card-title,.pdf-export-view .all-radars-card-title__icon{color:#7d3dbd!important}
+.pdf-export-view .all-radars-card-title,.pdf-export-view .all-radars-card-title__icon,.pdf-export-view .all-radars-card-title__text{color:#7d3dbd!important;font-weight:700!important}
 .pdf-export-view .all-radars-card,.pdf-export-view .all-radars-card-overall{overflow:visible!important}
 .pdf-export-view .all-radars-card-chart,.pdf-export-view .all-radars-card-overall .all-radars-card-chart{width:300px!important;min-width:300px!important;max-width:300px!important;height:314px!important;min-height:314px!important;max-height:314px!important;overflow:visible!important;margin-left:auto!important;margin-right:auto!important}
 .pdf-export-view .radar-chart,.pdf-export-view .radar-chart-labels{overflow:visible!important}
@@ -63,8 +63,8 @@ const PDF_EXPORT_CSS = `
 .pdf-export-view .radar-chart-label .radar-chart-label-icon svg{width:48px!important;height:48px!important;min-width:48px!important;min-height:48px!important;max-width:48px!important;max-height:48px!important;overflow:visible!important;display:block!important;contain:none!important}
 .pdf-export-view .answer-results-question{min-width:0!important;max-width:100%}
 .pdf-export-view .answer-results-choice{min-width:0!important;max-width:100%}
-/* Your answers by section: use same font as on-screen tables (system UI stack) */
-.pdf-export-view .answer-results,.pdf-export-view .answer-results-title,.pdf-export-view .answer-results-section,.pdf-export-view .answer-results-section-title,.pdf-export-view .answer-results-section-header,.pdf-export-view .answer-results-table,.pdf-export-view .answer-results-table th,.pdf-export-view .answer-results-table td,.pdf-export-view .answer-results-combo-badge,.pdf-export-view .answer-results-question,.pdf-export-view .answer-results-choice{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,'Fira Sans','Droid Sans','Helvetica Neue',sans-serif!important;-webkit-font-smoothing:antialiased!important}
+/* Your answers by section: match on-screen AnswerResults (Montserrat) */
+.pdf-export-view .answer-results,.pdf-export-view .answer-results-title,.pdf-export-view .answer-results-section,.pdf-export-view .answer-results-section-title,.pdf-export-view .answer-results-section-header,.pdf-export-view .answer-results-table,.pdf-export-view .answer-results-table th,.pdf-export-view .answer-results-table td,.pdf-export-view .answer-results-combo-badge,.pdf-export-view .answer-results-question,.pdf-export-view .answer-results-choice{font-family:'Montserrat',sans-serif!important;-webkit-font-smoothing:antialiased!important}
 `
 
 /**

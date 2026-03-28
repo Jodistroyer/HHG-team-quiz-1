@@ -24,12 +24,13 @@ interface AllRadarsSectionProps {
 function RadarCardTitle ({ title, sectionId }: { title: string; sectionId?: number }) {
   const icon = sectionId === undefined ? faChartPie : SECTION_ICONS[sectionId]
   return (
-    <h4 className="all-radars-card-title" aria-label={title}>
+    <h4 className="all-radars-card-title">
       {icon && (
         <span className="all-radars-card-title__icon" aria-hidden="true">
           <FontAwesomeIcon icon={icon} />
         </span>
       )}
+      <span className="all-radars-card-title__text">{title}</span>
     </h4>
   )
 }

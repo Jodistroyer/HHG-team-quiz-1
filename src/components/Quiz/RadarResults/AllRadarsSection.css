@@ -55,9 +55,10 @@
   color: #7d3dbd;
   margin: 0 0 12px 0;
   text-align: center;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.5rem;
   width: 100%;
   box-sizing: border-box;
 }
@@ -67,12 +68,18 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  width: 1.15rem;
   color: #7d3dbd;
 }
 
 .all-radars-card-title__icon svg {
-  width: 1.35rem;
-  height: 1.35rem;
+  width: 1.05rem;
+  height: 1.05rem;
+}
+
+.all-radars-card-title__text {
+  min-width: 0;
+  font-weight: 700;
 }
 
 .all-radars-card-badges {
