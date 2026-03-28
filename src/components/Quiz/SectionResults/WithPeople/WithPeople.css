@@ -97,7 +97,7 @@
   margin: 0 0 0.5rem 0;
   font-family: 'Montserrat', sans-serif;
   font-size: 1.05rem;
-  font-weight: 800;
+  font-weight: 700;
   color: currentColor;
 }
 
@@ -173,7 +173,7 @@
 .with-people-content .drawn-to-card .card-title {
   font-family: 'Montserrat', sans-serif;
   font-size: 1.2rem;
-  font-weight: 800;
+  font-weight: 700;
   margin: 0;
   padding: 1rem 1.25rem;
   display: flex;

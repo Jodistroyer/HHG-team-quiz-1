@@ -44,6 +44,7 @@ const PDF_EXPORT_CSS = `
 .pdf-export-view .overall-brain-badge,.pdf-export-view .overall-icon-badge{font-size:1.5rem !important;padding:1.25rem 2rem !important;white-space:normal!important}
 /* Radar: identical size on mobile and PC – fixed width and height in px */
 .pdf-export-view .radar-chart-container{width:300px!important;min-width:300px!important;max-width:300px!important;height:314px!important;min-height:314px!important;max-height:314px!important;overflow:visible!important;padding:0!important;margin-left:auto!important;margin-right:auto!important}
+.pdf-export-view .all-radars-card-title,.pdf-export-view .all-radars-card-title__icon{color:#7d3dbd!important}
 .pdf-export-view .all-radars-card,.pdf-export-view .all-radars-card-overall{overflow:visible!important}
 .pdf-export-view .all-radars-card-chart,.pdf-export-view .all-radars-card-overall .all-radars-card-chart{width:300px!important;min-width:300px!important;max-width:300px!important;height:314px!important;min-height:314px!important;max-height:314px!important;overflow:visible!important;margin-left:auto!important;margin-right:auto!important}
 .pdf-export-view .radar-chart,.pdf-export-view .radar-chart-labels{overflow:visible!important}

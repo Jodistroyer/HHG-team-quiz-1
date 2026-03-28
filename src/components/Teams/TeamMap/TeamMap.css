@@ -186,6 +186,7 @@
 .team-map-results__natural-default-description {
   margin: 0;
   font-size: 1.02rem;
+  font-weight: 500;
   line-height: 1.85;
   color: #475569;
   text-align: center;

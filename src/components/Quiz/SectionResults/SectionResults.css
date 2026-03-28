@@ -46,7 +46,7 @@
 .section-archetype-name {
   font-family: 'Montserrat', sans-serif;
   font-size: 1.25rem;
-  font-weight: 800;
+  font-weight: 700;
   color: #7d3dbd;
   margin: 0 0 0.5rem 0;
   position: relative;
@@ -105,7 +105,7 @@
 .trait-section-title {
   font-family: 'Montserrat', sans-serif;
   font-size: 1.35rem;
-  font-weight: 800;
+  font-weight: 700;
   color: #7d3dbd;
   margin: 0 0 0.5rem 0;
 }
@@ -179,7 +179,7 @@
 .pair-card-blue .card-title {
   font-family: 'Montserrat', sans-serif;
   font-size: 1.2rem;
-  font-weight: 800;
+  font-weight: 700;
   margin: 0;
   padding: 1rem 1.25rem;
   display: flex;
@@ -245,7 +245,7 @@
 .warning-card .card-title {
   font-family: 'Montserrat', sans-serif;
   font-size: 1.2rem;
-  font-weight: 800;
+  font-weight: 700;
   margin: 0;
   padding: 1rem 1.25rem;
   display: flex;
@@ -346,7 +346,7 @@
 .experience-card:not(.pair-card-blue) .card-title {
   font-family: 'Montserrat', sans-serif;
   font-size: 1.2rem;
-  font-weight: 800;
+  font-weight: 700;
   color: #ffffff;
   margin: 0 0 1rem 0;
   padding: 0;
@@ -407,7 +407,7 @@
 .action-title {
   font-family: 'Montserrat', sans-serif;
   font-size: 1.5rem;
-  font-weight: 800;
+  font-weight: 700;
   color: #7d3dbd;
   margin: 0 0 0.75rem 0;
   display: flex;

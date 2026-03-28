@@ -1,5 +1,7 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChartPie } from '@fortawesome/free-solid-svg-icons'
 import { RadarChart } from './RadarChart'
-import { getBrainCombination } from '../SectionResults/utils'
+import { SECTION_ICONS, getBrainCombination } from '../SectionResults/utils'
 import './AllRadarsSection.css'
 
 interface SectionScores {
@@ -17,6 +19,19 @@ interface AllRadarsSectionProps {
   overall: SectionScores
   sectionSummaries: SectionScores[]
   sections: Section[]
+}
+
+function RadarCardTitle ({ title, sectionId }: { title: string; sectionId?: number }) {
+  const icon = sectionId === undefined ? faChartPie : SECTION_ICONS[sectionId]
+  return (
+    <h4 className="all-radars-card-title" aria-label={title}>
+      {icon && (
+        <span className="all-radars-card-title__icon" aria-hidden="true">
+          <FontAwesomeIcon icon={icon} />
+        </span>
+      )}
+    </h4>
+  )
 }
 
 function RadarCardBadge({ headPercent, heartPercent, gutPercent }: SectionScores) {
@@ -38,6 +53,7 @@ function RadarCardBadge({ headPercent, heartPercent, gutPercent }: SectionScores
 
 export const AllRadarsSection = ({ overall, sectionSummaries, sections }: AllRadarsSectionProps) => {
   const sectionItems = sections.map((section, idx) => ({
+    id: section.id,
     title: section.title,
     scores: sectionSummaries[idx] ?? { headPercent: 0, heartPercent: 0, gutPercent: 0 }
   }))
@@ -47,7 +63,7 @@ export const AllRadarsSection = ({ overall, sectionSummaries, sections }: AllRad
       <h3 className="all-radars-section-title">Your balance across all sections</h3>
       <div className="all-radars-overall">
         <div className="all-radars-card all-radars-card-overall">
-          <h4 className="all-radars-card-title">Overall</h4>
+          <RadarCardTitle title="Overall" />
           <RadarCardBadge headPercent={overall.headPercent} heartPercent={overall.heartPercent} gutPercent={overall.gutPercent} />
           <div className="all-radars-card-chart">
             <RadarChart
@@ -61,7 +77,7 @@ export const AllRadarsSection = ({ overall, sectionSummaries, sections }: AllRad
       <div className="all-radars-grid all-radars-grid-sections">
         {sectionItems.map((item, i) => (
           <div key={i} className="all-radars-card">
-            <h4 className="all-radars-card-title">{item.title}</h4>
+            <RadarCardTitle title={item.title} sectionId={item.id} />
             <RadarCardBadge headPercent={item.scores.headPercent} heartPercent={item.scores.heartPercent} gutPercent={item.scores.gutPercent} />
             <div className="all-radars-card-chart">
               <RadarChart

@@ -1,17 +1,22 @@
+/* Match overall-archetype-description / natural-default body: lighter weight, readable line-height */
 .answer-results {
   margin-top: 32px;
   margin-bottom: 24px;
   padding-top: 28px;
   border-top: 1px solid #e2e8f0;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
 }
 
 .answer-results-title {
   font-family: 'Montserrat', sans-serif;
   font-size: 1.25rem;
-  font-weight: 800;
+  font-weight: 700;
   color: #7d3dbd;
   margin: 0 0 20px 0;
   text-align: center;
+  letter-spacing: -0.02em;
 }
 
 .answer-results-tables {
@@ -41,9 +46,10 @@
 .answer-results-section-title {
   font-family: 'Montserrat', sans-serif;
   font-size: 1rem;
-  font-weight: 800;
+  font-weight: 600;
   color: #2d3748;
   margin: 0;
+  letter-spacing: -0.01em;
 }
 
 .answer-results-combo-badge {
@@ -57,7 +63,7 @@
   color: #fff;
   font-weight: 800;
   font-size: 0.8rem;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.4px;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   white-space: nowrap;
@@ -70,7 +76,8 @@
 .answer-results-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
+  font-weight: 400;
 }
 
 .answer-results-table th,
@@ -79,11 +86,12 @@
   text-align: left;
   border-bottom: 1px solid #e2e8f0;
   vertical-align: top;
+  font-weight: 500;
 }
 
 .answer-results-table th {
   font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
+  font-weight: 600;
   color: #4a5568;
   background: #f7fafc;
 }
@@ -95,22 +103,24 @@
 .answer-results-num {
   width: 2.5rem;
   color: #718096;
-  font-weight: 600;
+  font-weight: 400;
 }
 
 .answer-results-question {
   min-width: 180px;
-  color: #2d3748;
-  line-height: 1.4;
+  color: #4a5568;
+  line-height: 1.65;
+  font-weight: 400;
 }
 
-.answer-results-choice {
+/* Must target td.answer-results-choice: plain .answer-results-choice loses to .answer-results-table td */
+.answer-results-table td.answer-results-choice {
   min-width: 140px;
   max-width: 260px;
-  line-height: 1.35;
-  font-size: 0.85rem;
+  line-height: 1.55;
+  font-size: 0.9rem;
   padding: 8px 12px !important;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .answer-results-choice-none {
@@ -134,10 +144,6 @@
   background: rgba(38, 137, 12, 0.12);
   color: #1b5e20;
   border: 1px solid rgba(38, 137, 12, 0.35);
-}
-
-.answer-results-first {
-  font-weight: 600;
 }
 
 @media (max-width: 768px) {
