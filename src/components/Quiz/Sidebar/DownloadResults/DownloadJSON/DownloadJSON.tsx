@@ -16,44 +16,76 @@ interface DownloadJSONProps {
   sectionSummaries: SectionScores[]
   sections: Section[]
   answers: Record<string, QuizAnswer>
+  quizCompletedAt: string | null
   /** On mobile show only icon + "JSON" (no "Download" word) */
   iconOnly?: boolean
 }
 
-export function DownloadJSON ({ overall, sectionSummaries, sections, answers, iconOnly }: DownloadJSONProps) {
+function fileStampForDownload (iso: string): string {
+  return iso.replace(/[:.]/g, '-')
+}
+
+export function DownloadJSON ({ overall, sectionSummaries, sections, answers, quizCompletedAt, iconOnly }: DownloadJSONProps) {
   const [loading, setLoading] = useState(false)
+  const [progress, setProgress] = useState(0)
 
   const handleDownload = () => {
     if (loading) return
     setLoading(true)
-    const payload = buildQuizExportPayload(overall, sectionSummaries, sections, answers)
-    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `quiz-results-${new Date().toISOString().slice(0, 10)}.json`
-    a.click()
-    URL.revokeObjectURL(url)
-    // Brief visible feedback since the download is effectively instant
-    setTimeout(() => setLoading(false), 300)
+    setProgress(0)
+    requestAnimationFrame(() => {
+      setProgress(35)
+      requestAnimationFrame(() => {
+        const payload = buildQuizExportPayload(overall, sectionSummaries, sections, answers, quizCompletedAt)
+        const { answers: _answers, ...payloadWithoutAnswers } = payload
+        setProgress(75)
+        const blob = new Blob([JSON.stringify(payloadWithoutAnswers, null, 2)], { type: 'application/json' })
+        const url = URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = url
+        const stamp = quizCompletedAt ? fileStampForDownload(quizCompletedAt) : new Date().toISOString().slice(0, 10)
+        a.download = `quiz-results-${stamp}.json`
+        a.click()
+        URL.revokeObjectURL(url)
+        setProgress(100)
+        setTimeout(() => {
+          setLoading(false)
+          setProgress(0)
+        }, 280)
+      })
+    })
   }
 
   return (
-    <button
-      type="button"
-      className={`btn btn-download-json ${iconOnly ? 'btn-download-icon-only' : ''} ${loading ? 'is-loading' : ''}`}
-      onClick={handleDownload}
-      disabled={loading}
-      title="Download JSON"
-      aria-label={loading ? 'Preparing JSON…' : 'Download JSON'}
-      aria-busy={loading}
-    >
-      <FontAwesomeIcon
-        icon={loading ? faSpinner : faDownload}
-        className={`btn-download-icon ${loading ? 'btn-download-spinner' : ''}`}
-        aria-hidden
-      />
-      {iconOnly ? <span>JSON</span> : <span>Download JSON</span>}
-    </button>
+    <div className="download-result-btn-wrap">
+      <button
+        type="button"
+        className={`btn btn-download-json ${iconOnly ? 'btn-download-icon-only' : ''} ${loading ? 'is-loading' : ''}`}
+        onClick={handleDownload}
+        disabled={loading}
+        title="Download JSON"
+        aria-label={loading ? 'Preparing JSON…' : 'Download JSON'}
+        aria-busy={loading}
+      >
+        <FontAwesomeIcon
+          icon={loading ? faSpinner : faDownload}
+          className={`btn-download-icon ${loading ? 'btn-download-spinner' : ''}`}
+          aria-hidden
+        />
+        {iconOnly ? <span>JSON</span> : <span>Download JSON</span>}
+      </button>
+      {loading && (
+        <div
+          className="download-result-progress"
+          role="progressbar"
+          aria-valuenow={progress}
+          aria-valuemin={0}
+          aria-valuemax={100}
+        >
+          <div className="download-result-progress__bar" style={{ width: `${progress}%` }} />
+          <span className="download-result-progress__label">{progress}%</span>
+        </div>
+      )}
+    </div>
   )
 }

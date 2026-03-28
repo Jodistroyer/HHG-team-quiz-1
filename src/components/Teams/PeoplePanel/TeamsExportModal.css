@@ -1,0 +1,218 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
+.teams-export-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(4px);
+}
+
+.teams-export-modal {
+  font-family: Montserrat, system-ui, sans-serif;
+  width: min(640px, 100%);
+  max-height: min(90vh, 900px);
+  overflow: auto;
+  background: #fafbfc;
+  color: #0f172a;
+  border-radius: 14px;
+  box-shadow:
+    0 24px 48px rgba(15, 23, 42, 0.18),
+    0 0 0 1px rgba(15, 23, 42, 0.06);
+  padding: 2.25rem 2rem 1.75rem;
+}
+
+.teams-export-modal__header {
+  margin-bottom: 2rem;
+}
+
+.teams-export-modal__title {
+  margin: 0 0 0.75rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.teams-export-modal__lede {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 400;
+  line-height: 1.55;
+  color: #475569;
+}
+
+.teams-export-options {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.35rem;
+}
+
+.teams-export-option {
+  padding: 1.35rem 1.25rem;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+}
+
+.teams-export-option__row {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.teams-export-option__icon-wrap {
+  flex-shrink: 0;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.teams-export-option__icon {
+  font-size: 1.2rem;
+}
+
+.teams-export-option--library-json .teams-export-option__icon-wrap {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.teams-export-option--csv .teams-export-option__icon-wrap {
+  background: #ecfdf5;
+  color: #047857;
+}
+
+.teams-export-option--zip-json .teams-export-option__icon-wrap {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.teams-export-option--zip-pdf .teams-export-option__icon-wrap {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.teams-export-option__main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.teams-export-option__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+}
+
+.teams-export-option__title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.teams-export-option__meta {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #64748b;
+  white-space: nowrap;
+}
+
+.teams-export-option__sep {
+  margin: 0 0.35rem;
+  opacity: 0.5;
+}
+
+.teams-export-option__summary {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: #475569;
+}
+
+.teams-export-progress {
+  position: relative;
+  height: 8px;
+  border-radius: 999px;
+  background: #e2e8f0;
+  overflow: hidden;
+}
+
+.teams-export-progress__bar {
+  height: 100%;
+  background: linear-gradient(90deg, #1368ce, #26890c);
+  border-radius: 999px;
+  transition: width 0.15s ease-out;
+}
+
+.teams-export-progress__label {
+  position: absolute;
+  right: 0;
+  top: -1.35rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+.teams-export-option__btn {
+  align-self: flex-start;
+  margin-top: 0.15rem;
+  padding: 0.55rem 1.15rem;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: #0f172a;
+  color: #fff;
+}
+
+.teams-export-option__btn:hover:not(:disabled) {
+  background: #1e293b;
+}
+
+.teams-export-option__btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.teams-export-modal__footer {
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.teams-export-modal__close {
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  color: #334155;
+  cursor: pointer;
+}
+
+.teams-export-modal__close:hover {
+  background: #f1f5f9;
+}

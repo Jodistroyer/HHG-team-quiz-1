@@ -44,10 +44,12 @@ interface QuizResultsProps {
   sectionSummaries: SectionScores[]
   sections: Section[]
   answers: Record<string, Answer>
+  /** ISO time when the quiz was completed (last question). */
+  quizCompletedAt: string | null
   onStartOver: () => void
 }
 
-export const QuizResults = ({ overall, sectionSummaries, sections, answers, onStartOver }: QuizResultsProps) => {
+export const QuizResults = ({ overall, sectionSummaries, sections, answers, quizCompletedAt, onStartOver }: QuizResultsProps) => {
   const resultsContainerRef = useRef<HTMLDivElement>(null)
 
   return (
@@ -132,6 +134,7 @@ export const QuizResults = ({ overall, sectionSummaries, sections, answers, onSt
             sectionSummaries={sectionSummaries}
             sections={sections}
             answers={answers}
+            quizCompletedAt={quizCompletedAt}
             onStartOver={onStartOver}
           />
         </div>

@@ -16,15 +16,16 @@ interface SaveToTeamsProps {
   sectionSummaries: SectionScores[]
   sections: QuizSection[]
   answers: Record<string, QuizAnswer>
+  quizCompletedAt: string | null
   iconOnly?: boolean
 }
 
-export function SaveToTeams({ overall, sectionSummaries, sections, answers, iconOnly }: SaveToTeamsProps) {
+export function SaveToTeams({ overall, sectionSummaries, sections, answers, quizCompletedAt, iconOnly }: SaveToTeamsProps) {
   const [showModal, setShowModal] = useState(false)
 
   const payload = useMemo(
-    () => buildQuizExportPayload(overall, sectionSummaries, sections, answers),
-    [overall, sectionSummaries, sections, answers]
+    () => buildQuizExportPayload(overall, sectionSummaries, sections, answers, quizCompletedAt),
+    [overall, sectionSummaries, sections, answers, quizCompletedAt]
   )
 
   return (

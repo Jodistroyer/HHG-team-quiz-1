@@ -58,3 +58,49 @@
 .btn-download-spinner {
   animation: btn-download-spin 0.8s linear infinite;
 }
+
+/* Progress bar under JSON / PDF download buttons */
+.download-result-btn-wrap {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.35rem;
+  min-width: 11rem;
+  vertical-align: top;
+}
+
+.download-result-btn-wrap .btn-download-json,
+.download-result-btn-wrap .btn-download-pdf {
+  min-width: 0;
+  width: 100%;
+}
+
+.download-result-progress {
+  position: relative;
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(125, 61, 189, 0.15);
+  overflow: hidden;
+}
+
+.download-result-progress__bar {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #7d3dbd, #d97ac5);
+  transition: width 0.12s ease-out;
+}
+
+.download-result-progress__label {
+  position: absolute;
+  right: 0;
+  top: -1rem;
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: #64748b;
+}
+
+@media (max-width: 588px) {
+  .download-result-btn-wrap {
+    min-width: 0;
+  }
+}

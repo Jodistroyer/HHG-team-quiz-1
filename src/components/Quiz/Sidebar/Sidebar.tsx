@@ -43,6 +43,7 @@ interface ResultsSidebarProps {
   sectionSummaries: SectionScores[]
   sections: Section[]
   answers: Record<string, Answer>
+  quizCompletedAt: string | null
   onStartOver: () => void
 }
 
@@ -55,6 +56,7 @@ export function Sidebar ({
   sectionSummaries,
   sections,
   answers,
+  quizCompletedAt,
   onStartOver
 }: ResultsSidebarProps) {
   const [iconOnly, setIconOnly] = useState(false)
@@ -120,6 +122,7 @@ export function Sidebar ({
         sectionSummaries={sectionSummaries}
         sections={sections}
         answers={answers}
+        quizCompletedAt={quizCompletedAt}
         iconOnly={iconOnly}
       />
       <DownloadJSON
@@ -127,9 +130,10 @@ export function Sidebar ({
         sectionSummaries={sectionSummaries}
         sections={sections}
         answers={answers}
+        quizCompletedAt={quizCompletedAt}
         iconOnly={iconOnly}
       />
-      <DownloadPDF containerRef={containerRef} iconOnly={iconOnly} />
+      <DownloadPDF containerRef={containerRef} quizCompletedAt={quizCompletedAt} iconOnly={iconOnly} />
     </div>
   )
 
@@ -140,6 +144,7 @@ export function Sidebar ({
         sectionSummaries={sectionSummaries}
         sections={sections}
         answers={answers}
+        quizCompletedAt={quizCompletedAt}
         iconOnly={iconOnly}
       />
       <button
@@ -199,11 +204,12 @@ export function Sidebar ({
               sectionSummaries={sectionSummaries}
               sections={sections}
               answers={answers}
+              quizCompletedAt={quizCompletedAt}
               iconOnly={false}
             />
           </div>
           <div onClick={() => setShowDownloadOptions(false)}>
-            <DownloadPDF containerRef={containerRef} iconOnly={false} />
+            <DownloadPDF containerRef={containerRef} quizCompletedAt={quizCompletedAt} iconOnly={false} />
           </div>
         </div>
         <button

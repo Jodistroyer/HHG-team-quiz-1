@@ -31,6 +31,8 @@ export interface QuizAnswer {
 
 export interface QuizExportPayload {
   exportedAt: string
+  /** ISO timestamp when the respondent finished the quiz (last question). */
+  completedAt?: string
   naturalDefault: {
     headPercent: number
     heartPercent: number
@@ -63,12 +65,14 @@ export function buildQuizExportPayload(
   overall: QuizOverallScores,
   sectionSummaries: QuizSectionScores[],
   sections: QuizSection[],
-  answers: Record<string, QuizAnswer>
+  answers: Record<string, QuizAnswer>,
+  completedAt?: string | null
 ): QuizExportPayload {
   const combo = getBrainCombination(overall.headPercent, overall.heartPercent, overall.gutPercent)
 
   return {
     exportedAt: new Date().toISOString(),
+    ...(completedAt ? { completedAt } : {}),
     naturalDefault: {
       headPercent: overall.headPercent,
       heartPercent: overall.heartPercent,

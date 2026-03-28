@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBriefcase, faBuilding, faChartSimple, faFileImport, faFloppyDisk, faTag, faUser, faUsers } from '@fortawesome/free-solid-svg-icons'
 import type { Person, HHGCenter, TeamContextScores, TeamContextKey, QuizExportPayload } from './types'
+import type { QuizAnswer } from '../../Quiz/quizSections'
 import { isQuizExport, nextId, personFromQuizExport } from './data'
 import { getBrainCombination, getBrainIcons } from '../../Quiz/SectionResults/utils'
 import './AddPersonModal.css'
@@ -73,8 +74,10 @@ export function AddPersonModal({
   const [heartPercent, setHeartPercent] = useState(personToEdit?.heartPercent ?? DEFAULT_TRIPLE.heartPercent)
   const [gutPercent, setGutPercent] = useState(personToEdit?.gutPercent ?? DEFAULT_TRIPLE.gutPercent)
   const [contextScores, setContextScores] = useState<Record<Exclude<TeamContextKey, 'overall'>, TeamContextScores>>(
-    defaultContextScores
+    defaultContextScores()
   )
+  const [quizAnswers, setQuizAnswers] = useState<Record<string, QuizAnswer> | undefined>(undefined)
+  const [quizCompletedAt, setQuizCompletedAt] = useState<string | undefined>(undefined)
   const [importError, setImportError] = useState('')
   const [openSuggestions, setOpenSuggestions] = useState<SuggestionField>(null)
 
@@ -107,13 +110,18 @@ export function AddPersonModal({
         withPeople: cloneTriple(personToEdit.contextScores?.withPeople),
         gettingBetter: cloneTriple(personToEdit.contextScores?.gettingBetter),
       })
+      setQuizAnswers(personToEdit.quizAnswers ? { ...personToEdit.quizAnswers } : undefined)
+      setQuizCompletedAt(personToEdit.quizCompletedAt)
       setImportError('')
     } else if (initialQuizExport) {
       setCompany(initialCompany)
       setTeam(initialTeam)
       setRole('')
       setTagsStr('')
-      applyImportedProfile(personFromQuizExport(initialQuizExport, initialQuizExport.name ?? ''))
+      const imported = personFromQuizExport(initialQuizExport, initialQuizExport.name ?? '')
+      applyImportedProfile(imported)
+      setQuizAnswers(imported.quizAnswers ? { ...imported.quizAnswers } : undefined)
+      setQuizCompletedAt(imported.quizCompletedAt)
       setImportError('')
     } else {
       setName('')
@@ -125,6 +133,8 @@ export function AddPersonModal({
       setHeartPercent(DEFAULT_TRIPLE.heartPercent)
       setGutPercent(DEFAULT_TRIPLE.gutPercent)
       setContextScores(defaultContextScores())
+      setQuizAnswers(undefined)
+      setQuizCompletedAt(undefined)
       setImportError('')
     }
   }, [personToEdit, initialCompany, initialQuizExport, initialTeam])
@@ -260,7 +270,10 @@ export function AddPersonModal({
           setImportError('That file is not a quiz results JSON export.')
           return
         }
-        applyImportedProfile(personFromQuizExport(parsed, parsed.name ?? (name || 'Imported')))
+        const imported = personFromQuizExport(parsed, parsed.name ?? (name || 'Imported'))
+        applyImportedProfile(imported)
+        setQuizAnswers(imported.quizAnswers ? { ...imported.quizAnswers } : undefined)
+        setQuizCompletedAt(imported.quizCompletedAt)
         setImportError('')
       } catch {
         setImportError('Could not read that JSON file.')
@@ -284,6 +297,8 @@ export function AddPersonModal({
       team: team.trim() || undefined,
       role: role.trim() || undefined,
       tags,
+      ...(quizAnswers && Object.keys(quizAnswers).length > 0 ? { quizAnswers: { ...quizAnswers } } : {}),
+      ...(quizCompletedAt ? { quizCompletedAt } : {}),
       headPercent,
       heartPercent,
       gutPercent,

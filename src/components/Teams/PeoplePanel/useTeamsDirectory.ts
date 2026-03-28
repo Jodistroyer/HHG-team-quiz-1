@@ -128,6 +128,7 @@ export function useTeamsDirectory({
     impact: DeleteImpact
     onConfirm: () => void
   } | null>(null)
+  const [showExportModal, setShowExportModal] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const filteredPeople = filterPeopleBySearch(people, search)
@@ -594,15 +595,8 @@ export function useTeamsDirectory({
   }, [selectedCount, selectedIds, people, savedGroups, emptyTeams, persistPeople, persistEmptyTeams])
 
   const handleMultiSelectExport = useCallback(() => {
-    const list = selectedPeople
-    const blob = new Blob([JSON.stringify({ people: list }, null, 2)], { type: 'application/json' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `people-export-${new Date().toISOString().slice(0, 10)}.json`
-    a.click()
-    URL.revokeObjectURL(url)
-  }, [selectedPeople])
+    setShowExportModal(true)
+  }, [])
 
   return {
     people,
@@ -655,6 +649,8 @@ export function useTeamsDirectory({
     selectedCount,
     handleMultiSelectDelete,
     handleMultiSelectExport,
+    showExportModal,
+    setShowExportModal,
   }
 }
 

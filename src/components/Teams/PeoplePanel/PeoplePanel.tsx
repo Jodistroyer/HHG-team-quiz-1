@@ -6,6 +6,7 @@ import { SelectedRoster } from './SelectedRoster'
 import { AddPersonModal } from './AddPersonModal'
 import { ContextMenu } from './ContextMenu'
 import { DeleteConfirmModal } from './DeleteConfirmModal'
+import { TeamsExportModal } from './TeamsExportModal'
 import { useTeamsDirectory, type UseTeamsDirectoryProps } from './useTeamsDirectory'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBookmark } from '@fortawesome/free-solid-svg-icons'
@@ -88,6 +89,15 @@ export function PeoplePanel({
             y={api.contextMenu.y}
             items={api.getContextMenuItems()}
             onClose={() => api.setContextMenu(null)}
+          />,
+          document.body
+        )}
+
+      {api.showExportModal &&
+        createPortal(
+          <TeamsExportModal
+            people={api.selectedPeople}
+            onClose={() => api.setShowExportModal(false)}
           />,
           document.body
         )}

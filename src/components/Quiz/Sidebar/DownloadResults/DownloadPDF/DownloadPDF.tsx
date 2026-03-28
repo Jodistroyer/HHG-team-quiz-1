@@ -9,8 +9,13 @@ import './DownloadPDF.css'
 interface DownloadPDFProps {
   /** Ref to the container that holds all elements with data-pdf-section (e.g. .final-summary) */
   containerRef: React.RefObject<HTMLDivElement | null>
+  quizCompletedAt: string | null
   /** On mobile show only icon + "PDF" (no "Download" word) */
   iconOnly?: boolean
+}
+
+function fileStampForDownload (iso: string): string {
+  return iso.replace(/[:.]/g, '-')
 }
 
 const PDF_PAGE_WIDTH_MM = 210
@@ -124,8 +129,9 @@ async function captureSectionForPdf (
   })
 }
 
-export function DownloadPDF ({ containerRef, iconOnly }: DownloadPDFProps) {
+export function DownloadPDF ({ containerRef, quizCompletedAt, iconOnly }: DownloadPDFProps) {
   const [loading, setLoading] = useState(false)
+  const [progress, setProgress] = useState(0)
 
   const handleDownload = async () => {
     const container = containerRef.current
@@ -134,10 +140,13 @@ export function DownloadPDF ({ containerRef, iconOnly }: DownloadPDFProps) {
     const sections = container.querySelectorAll<HTMLElement>('[data-pdf-section]')
     if (sections.length === 0) return
 
+    const total = sections.length
     setLoading(true)
+    setProgress(0)
     try {
       // Ensure fonts are settled so clone layout is stable (avoids jumbled text on Windows)
       await document.fonts?.ready
+      setProgress(5)
 
       const pdf = new jsPDF({ unit: 'mm', format: 'a4' })
     const pageW = PDF_PAGE_WIDTH_MM
@@ -145,6 +154,26 @@ export function DownloadPDF ({ containerRef, iconOnly }: DownloadPDFProps) {
     const margin = 8
     const contentW = pageW - margin * 2
     const contentH = pageH - margin * 2
+
+      pdf.setFontSize(18)
+      pdf.text('Quiz results', margin, 22)
+      pdf.setFontSize(11)
+      let coverY = 34
+      if (quizCompletedAt) {
+        pdf.text(
+          `Quiz completed: ${new Date(quizCompletedAt).toLocaleString(undefined, { dateStyle: 'long', timeStyle: 'short' })}`,
+          margin,
+          coverY
+        )
+        coverY += 8
+      }
+      pdf.text(
+        `PDF generated: ${new Date().toLocaleString(undefined, { dateStyle: 'long', timeStyle: 'short' })}`,
+        margin,
+        coverY
+      )
+
+      setProgress(10)
 
     for (let i = 0; i < sections.length; i++) {
         const el = sections[i]
@@ -169,35 +198,57 @@ export function DownloadPDF ({ containerRef, iconOnly }: DownloadPDFProps) {
           const y = margin + (contentH - drawH) / 2
 
           const imgData = canvas.toDataURL('image/png', 1.0)
-          if (i > 0) pdf.addPage()
+          pdf.addPage()
           pdf.addImage(imgData, 'PNG', x, y, drawW, drawH, undefined, 'FAST')
         } catch (err) {
           console.warn('PDF section capture failed:', el.getAttribute('data-pdf-section'), err)
         }
+        setProgress(10 + Math.round(((i + 1) / total) * 85))
       }
 
-      pdf.save(`quiz-results-${new Date().toISOString().slice(0, 10)}.pdf`)
-    } finally {
+      const stamp = quizCompletedAt ? fileStampForDownload(quizCompletedAt) : new Date().toISOString().slice(0, 10)
+      setProgress(100)
+      pdf.save(`quiz-results-${stamp}.pdf`)
+      setTimeout(() => {
+        setLoading(false)
+        setProgress(0)
+      }, 350)
+    } catch {
       setLoading(false)
+      setProgress(0)
     }
   }
 
   return (
-    <button
-      type="button"
-      className={`btn btn-download-pdf ${iconOnly ? 'btn-download-icon-only' : ''} ${loading ? 'is-loading' : ''}`}
-      onClick={handleDownload}
-      disabled={loading}
-      title="Download PDF"
-      aria-label={loading ? 'Preparing PDF…' : 'Download PDF'}
-      aria-busy={loading}
-    >
-      <FontAwesomeIcon
-        icon={loading ? faSpinner : faDownload}
-        className={`btn-download-icon ${loading ? 'btn-download-spinner' : ''}`}
-        aria-hidden
-      />
-      {iconOnly ? <span>PDF</span> : <span>Download PDF</span>}
-    </button>
+    <div className="download-result-btn-wrap">
+      <button
+        type="button"
+        className={`btn btn-download-pdf ${iconOnly ? 'btn-download-icon-only' : ''} ${loading ? 'is-loading' : ''}`}
+        onClick={handleDownload}
+        disabled={loading}
+        title="Download PDF"
+        aria-label={loading ? 'Preparing PDF…' : 'Download PDF'}
+        aria-busy={loading}
+      >
+        <FontAwesomeIcon
+          icon={loading ? faSpinner : faDownload}
+          className={`btn-download-icon ${loading ? 'btn-download-spinner' : ''}`}
+          aria-hidden
+        />
+        {iconOnly ? <span>PDF</span> : <span>Download PDF</span>}
+      </button>
+      {loading && (
+        <div
+          className="download-result-progress"
+          role="progressbar"
+          aria-valuenow={progress}
+          aria-valuemin={0}
+          aria-valuemax={100}
+        >
+          <div className="download-result-progress__bar" style={{ width: `${progress}%` }} />
+          <span className="download-result-progress__label">{progress}%</span>
+        </div>
+      )}
+    </div>
   )
 }

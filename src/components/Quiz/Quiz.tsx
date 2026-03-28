@@ -4,6 +4,12 @@ import { faFire, faBriefcase, faPeopleGroup, faChartLine } from '@fortawesome/fr
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 import './Quiz.css'
 import { QuizResults } from './QuizResults'
+import {
+  QUIZ_SECTIONS as sections,
+  type QuizAnswer as Answer,
+  type QuizAnswerType as AnswerType,
+} from './quizSections'
+import { calculateSectionScoresDetailed } from './quizScoring'
 
 const SECTION_ICONS: Record<number, IconDefinition> = {
   1: faFire,        // Under Pressure
@@ -12,252 +18,24 @@ const SECTION_ICONS: Record<number, IconDefinition> = {
   4: faChartLine    // Getting Better
 }
 
-type AnswerType = 'Head' | 'Heart' | 'Gut'
-
-interface Question {
-  id: string
-  text: string
-  options: {
-    label: string
-    type: AnswerType
-  }[]
-}
-
-interface Answer {
-  firstChoice: AnswerType | null
-  secondChoice: AnswerType | null
-}
-
-interface Section {
-  id: number
-  title: string
-  questions: Question[]
-}
-
-const sections: Section[] = [
-  {
-    id: 1,
-    title: 'Under Pressure',
-    questions: [
-      {
-        "id": "1-1",
-        "text": "Something went wrong. First step?",
-        "options": [
-          { label: "Analyze • Diagnose • Think", "type": "Head" },
-          { label: "Check people • Feel • Sense impact", "type": "Heart" },
-          { label: "Act • Trust gut • Try", "type": "Gut" }
-        ]
-      },
-      {
-        id: '1-2',
-        text: "You're unsure about the right move. What do you lean on?",
-        options: [
-          { label: 'Logic • Frameworks • Proven thinking', type: 'Head' },
-          { label: 'Values • Feeling • Relationships', type: 'Heart' },
-          { label: 'Instinct • Commitment • Forward motion', type: 'Gut' }
-        ]
-      },
-      {
-        "id": "1-3",
-        "text": "Someone criticizes your idea. First reaction?",
-        "options": [
-          { label: 'Evidence • Reason • Clarity', type: 'Head' },
-          { label: "Hurt • Feel • Connect", "type": "Heart" },
-          { label: "React • Defend • Act", "type": "Gut" }
-        ]
-      },
-      {
-        "id": "1-4",
-        "text": "Under Pressure You:",
-        "options": [
-          { label: "Clarify • Structure • Control", "type": "Head" },
-          { label: "Notice • Sense • Connect", "type": "Heart" },
-          { label: "Push • Assert • Take charge", "type": "Gut" }
-        ]
-      },      
-      {
-        "id": "1-5",
-        "text": "Decide with incomplete info. Your response?",
-        "options": [
-          { label: "Analyze • Gather • Plan", "type": "Head" },
-          { label: "Notice • Sense • Connect", "type": "Heart" },
-          { label: "Act • Adjust later • Move ahead", "type": "Gut" }
-        ]
-      }
-      
-    ]
-  },
-  {
-    id: 2,
-    title: 'Doing Work',
-    questions: [
-      {
-        id: '2-1',
-        text: "Starting a big project, your first focus?",
-        options: [
-          { label: 'Planning • Steps • Clear Metrics', type: 'Head' },
-          { label: 'Alignment • Shared Vision • Buy-in', type: 'Heart' },
-          { label: 'Get Started • Momentum • Learn By Doing', type: 'Gut' }
-        ]
-      },
-      {
-        id: '2-2',
-        text: "Choosing between two options, what matters most?",
-        options: [
-          { label: 'Accuracy • Reliability • Being correct', type: 'Head' },
-          { label: 'Collaboration • Shared purpose • People', type: 'Heart' },
-          { label: 'Momentum • Opportunity • Progress', type: 'Gut' }
-        ]
-      },
-      {
-        id: '2-3',
-        text: "Deciding What To Work On Next. How Do You Choose?",
-        options: [
-          { label: 'Impact • Plan • Priority', type: 'Head' },
-          { label: 'People • Care • Values', type: 'Heart' },
-          { label: 'Action • Speed • Flow', type: 'Gut' }
-        ]
-      },
-      {
-        id: '2-4',
-        text: 'A deadline is coming up. What gives you confidence?',
-        options: [
-          { label: 'Prepared • Organized • Clear', type: 'Head' },
-          { label: 'Supported • Connected • Committed', type: 'Heart' },
-          { label: 'Drive • Momentum • Grit', type: 'Gut' }
-        ]
-      },
-      {
-        id: '2-5',
-        text: "You're preparing for something important. What feels most critical?",
-        options: [
-          { label: 'Backup plans • Risk coverage', type: 'Head' },
-          { label: 'Atmosphere • Energy • How people feel', type: 'Heart' },
-          { label: 'Resources • Readiness • Handling issues', type: 'Gut' }
-        ]
-      }
-    ]
-  },
-  {
-    id: 3,
-    title: 'With People',
-    questions: [
-      {
-        id: '3-1',
-        text: 'People are arguing. What stands out most?',
-        options: [
-          { label: 'Logic • Flaws • Mistakes', type: 'Head' },
-          { label: 'Hurt • Connection • Feelings', type: 'Heart' },
-          { label: 'Chaos • Tension • Control', type: 'Gut' }
-        ]
-      },
-      {
-        id: '3-2',
-        text: 'Someone has a very different opinion. What hits you first?',
-        options: [
-          { label: 'Analyze assumptions • Check reasoning', type: 'Head' },
-          { label: 'Try to understand perspective', type: 'Heart' },
-          { label: 'Immediate yes/no feeling', type: 'Gut' }
-        ]
-      },
-      {
-        id: '3-3',
-        text: 'In group settings, what do you naturally contribute?',
-        options: [
-          { label: 'Clarifying ideas • Structuring discussion', type: 'Head' },
-          { label: 'Supporting others • Smoothing tension', type: 'Heart' },
-          { label: 'Leading action • Making decisions', type: 'Gut' }
-        ]
-      },
-      {
-        id: '3-4',
-        text: 'You made a mistake. How does your mind respond first?',
-        options: [
-          { label: 'Figure out what went wrong and fix it', type: 'Head' },
-          { label: 'Think about who was affected', type: 'Heart' },
-          { label: 'Move on quickly and refocus', type: 'Gut' }
-        ]
-      },
-      {
-        id: '3-5',
-        text: 'When you think about past experiences, what do you dwell on most?',
-        options: [
-          { label: 'What would have been the smarter choice', type: 'Head' },
-          { label: 'How it felt and what it meant', type: 'Heart' },
-          { label: "What I'd do differently next time", type: 'Gut' }
-        ]
-      }
-    ]
-  },
-  {
-    id: 4,
-    title: 'Getting Better',
-    questions: [
-      {
-        id: '4-1',
-        text: 'In conversations, what do you pay attention to most?',
-        options: [
-          { label: 'Accuracy • Details • How things work', type: 'Head' },
-          { label: 'Stories • Motivations • Feelings', type: 'Heart' },
-          { label: 'Outcomes • Actions • What\'s next', type: 'Gut' }
-        ]
-      },
-      {
-        id: '4-2',
-        text: 'When learning something new, what helps you most?',
-        options: [
-          { label: 'Clear models • Systems • Principles', type: 'Head' },
-          { label: 'Real stories • Human examples', type: 'Heart' },
-          { label: 'Trying it myself • Hands-on', type: 'Gut' }
-        ]
-      },
-      {
-        id: '4-3',
-        text: 'What does "success" mean most to you?',
-        options: [
-          { label: 'Mastery • Competence • Expertise', type: 'Head' },
-          { label: 'Strong relationships • Belonging', type: 'Heart' },
-          { label: 'Progress • Independence • Results', type: 'Gut' }
-        ]
-      },
-      {
-        id: '4-4',
-        text: 'After finishing a big project, what do you judge it by first?',
-        options: [
-          { label: 'Whether it met the original standards', type: 'Head' },
-          { label: 'How people felt during the process', type: 'Heart' },
-          { label: 'How decisively it was executed', type: 'Gut' }
-        ]
-      },
-      {
-        id: '4-5',
-        text: "When you're given a lot of new information, what do you do first?",
-        options: [
-          { label: 'Organize and make sense of it', type: 'Head' },
-          { label: 'Look for meaning or relevance', type: 'Heart' },
-          { label: 'Pull out what I can use right away', type: 'Gut' }
-        ]
-      }
-    ]
-  }
-]
-
 const QUIZ_STORAGE_KEY = 'hhg.quiz.v1'
 
-function loadSavedQuizState(): {
+function loadSavedQuizState (): {
   currentQuestionIndex: number
   answers: Record<string, Answer>
   showFinalSummary: boolean
+  quizCompletedAt: string | null
 } {
   try {
     const raw = localStorage.getItem(QUIZ_STORAGE_KEY)
     if (!raw) {
-      return { currentQuestionIndex: 0, answers: {}, showFinalSummary: false }
+      return { currentQuestionIndex: 0, answers: {}, showFinalSummary: false, quizCompletedAt: null }
     }
     const parsed = JSON.parse(raw) as {
       currentQuestionIndex?: number
       answers?: Record<string, Answer>
       showFinalSummary?: boolean
+      quizCompletedAt?: string
     }
 
     return {
@@ -266,10 +44,11 @@ function loadSavedQuizState(): {
           ? parsed.currentQuestionIndex
           : 0,
       answers: parsed.answers && typeof parsed.answers === 'object' ? parsed.answers : {},
-      showFinalSummary: typeof parsed.showFinalSummary === 'boolean' ? parsed.showFinalSummary : false
+      showFinalSummary: typeof parsed.showFinalSummary === 'boolean' ? parsed.showFinalSummary : false,
+      quizCompletedAt: typeof parsed.quizCompletedAt === 'string' ? parsed.quizCompletedAt : null,
     }
   } catch {
-    return { currentQuestionIndex: 0, answers: {}, showFinalSummary: false }
+    return { currentQuestionIndex: 0, answers: {}, showFinalSummary: false, quizCompletedAt: null }
   }
 }
 
@@ -280,6 +59,7 @@ function Quiz() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(saved.currentQuestionIndex)
   const [answers, setAnswers] = useState<Record<string, Answer>>(saved.answers)
   const [showFinalSummary, setShowFinalSummary] = useState(saved.showFinalSummary)
+  const [quizCompletedAt, setQuizCompletedAt] = useState<string | null>(saved.quizCompletedAt)
 
   // Persist progress + completion state.
   useEffect(() => {
@@ -287,13 +67,14 @@ function Quiz() {
       const payload = {
         currentQuestionIndex,
         answers,
-        showFinalSummary
+        showFinalSummary,
+        quizCompletedAt,
       }
       localStorage.setItem(QUIZ_STORAGE_KEY, JSON.stringify(payload))
     } catch {
       // ignore storage failures
     }
-  }, [currentQuestionIndex, answers, showFinalSummary])
+  }, [currentQuestionIndex, answers, showFinalSummary, quizCompletedAt])
 
   const clearSavedQuiz = () => {
     try {
@@ -311,127 +92,8 @@ function Quiz() {
 
   const totalQuestions = allQuestions.length
 
-  // Configurable weights for tie-breaking within each section (first choice only)
-  // Adjust these weights to ensure no ties - at least one weight should differ
-  const sectionQuestionWeights: Record<string, Record<string, number>> = {
-    // Section 1: Under Pressure
-    '1': {
-      '1-1': 1.1,  // Q1
-      '1-2': 1.0,  // Q2
-      '1-3': 1.0,  // Q3
-      '1-4': 1.0,  // Q4
-      '1-5': 1.0   // Q5
-    },
-    // Section 2: Doing Work
-    '2': {
-      '2-1': 1.1,  // Q1
-      '2-2': 1.0,  // Q2
-      '2-3': 1.0,  // Q3
-      '2-4': 1.0,  // Q4
-      '2-5': 1.0   // Q5
-    },
-    // Section 3: With People
-    '3': {
-      '3-1': 1.0,  // Q1
-      '3-2': 1.1,  // Q2
-      '3-3': 1.0,  // Q3
-      '3-4': 1.0,  // Q4
-      '3-5': 1.0   // Q5
-    },
-    // Section 4: Getting Better
-    '4': {
-      '4-1': 1.0,  // Q1
-      '4-2': 1.0,  // Q2
-      '4-3': 1.0,  // Q3
-      '4-4': 1.0,  // Q4
-      '4-5': 1.1   // Q5
-    }
-  }
-
-  const calculateSectionScores = (sectionId: number) => {
-    const section = sections[sectionId - 1]
-    const sectionAnswers = section.questions.map(q => answers[q.id] || { firstChoice: null, secondChoice: null })
-    
-    let headPoints = 0
-    let heartPoints = 0
-    let gutPoints = 0
-
-    sectionAnswers.forEach(answer => {
-      if (answer.firstChoice) {
-        if (answer.firstChoice === 'Head') headPoints += 1
-        if (answer.firstChoice === 'Heart') heartPoints += 1
-        if (answer.firstChoice === 'Gut') gutPoints += 1
-      }
-      if (answer.secondChoice) {
-        if (answer.secondChoice === 'Head') headPoints += 0.5
-        if (answer.secondChoice === 'Heart') heartPoints += 0.5
-        if (answer.secondChoice === 'Gut') gutPoints += 0.5
-      }
-    })
-
-    const totalPoints = sectionAnswers.length + sectionAnswers.filter(a => a.secondChoice).length * 0.5
-    const headPercent = totalPoints > 0 ? (headPoints / totalPoints) * 100 : 0
-    const heartPercent = totalPoints > 0 ? (heartPoints / totalPoints) * 100 : 0
-    const gutPercent = totalPoints > 0 ? (gutPoints / totalPoints) * 100 : 0
-
-    // Determine dominant type with weighted tie-breaking
-    const maxScore = Math.max(headPoints, heartPoints, gutPoints)
-    const tiedTypes: AnswerType[] = []
-    if (headPoints === maxScore) tiedTypes.push('Head')
-    if (heartPoints === maxScore) tiedTypes.push('Heart')
-    if (gutPoints === maxScore) tiedTypes.push('Gut')
-
-    let dominant: AnswerType
-    if (tiedTypes.length === 1) {
-      // No tie, use the single highest score
-      dominant = tiedTypes[0]
-    } else {
-      // Tie exists - break it using weighted first choice selections
-      const weights = sectionQuestionWeights[String(sectionId)] || {}
-      
-      let weightedHead = 0
-      let weightedHeart = 0
-      let weightedGut = 0
-
-      section.questions.forEach(question => {
-        const answer = answers[question.id]
-        const weight = weights[question.id] || 1.0
-        
-        if (answer?.firstChoice === 'Head') weightedHead += weight
-        if (answer?.firstChoice === 'Heart') weightedHeart += weight
-        if (answer?.firstChoice === 'Gut') weightedGut += weight
-      })
-
-      // Among tied types, find the one with highest weighted sum
-      // Because weights are non-identical, exact ties are mathematically impossible
-      let maxWeightedSum = -1
-      let winner: AnswerType | null = null
-      
-      tiedTypes.forEach(type => {
-        const weightedSum = type === 'Head' ? weightedHead :
-                           type === 'Heart' ? weightedHeart :
-                           weightedGut
-        if (weightedSum > maxWeightedSum) {
-          maxWeightedSum = weightedSum
-          winner = type
-        }
-      })
-
-      dominant = winner || (tiedTypes.includes('Head') ? 'Head' :
-                           tiedTypes.includes('Heart') ? 'Heart' : 'Gut')
-    }
-
-    // Calculate secondary brain (second highest score, excluding dominant)
-    const scores = [
-      { type: 'Head' as AnswerType, points: headPoints },
-      { type: 'Heart' as AnswerType, points: heartPoints },
-      { type: 'Gut' as AnswerType, points: gutPoints }
-    ].filter(s => s.type !== dominant).sort((a, b) => b.points - a.points)
-    
-    const secondaryBrain = scores.length > 0 && scores[0].points > 0 ? scores[0].type : null
-
-    return { headPoints, heartPoints, gutPoints, headPercent, heartPercent, gutPercent, dominant, secondaryBrain, totalPoints }
-  }
+  const calculateSectionScores = (sectionId: number) =>
+    calculateSectionScoresDetailed(sectionId, answers, sections)
 
   const calculateOverallScores = () => {
     let totalHead = 0
@@ -606,11 +268,13 @@ function Quiz() {
         sectionSummaries={sectionSummaries}
         sections={sections}
         answers={answers}
+        quizCompletedAt={quizCompletedAt}
         onStartOver={() => {
           clearSavedQuiz()
           setShowFinalSummary(false)
           setCurrentQuestionIndex(0)
           setAnswers({})
+          setQuizCompletedAt(null)
         }}
       />
     )
@@ -823,6 +487,7 @@ function Quiz() {
                 const isLastQuestion = currentQuestionIndex === totalQuestions - 1
 
                 if (isLastQuestion) {
+                  setQuizCompletedAt((prev) => prev ?? new Date().toISOString())
                   setShowFinalSummary(true)
                 } else {
                   setCurrentQuestionIndex(prev => prev + 1)

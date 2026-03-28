@@ -8,7 +8,7 @@ interface OverallRadarProps {
   balanceLabel?: string
 }
 
-export const OverallRadar = ({ headPercent, heartPercent, gutPercent, balanceLabel = 'Your balance' }: OverallRadarProps) => {
+export const OverallRadar = ({ headPercent, heartPercent, gutPercent }: OverallRadarProps) => {
   return (
     <>
       {/* <h3 className="overall-breakdown-label">{balanceLabel}</h3> */}

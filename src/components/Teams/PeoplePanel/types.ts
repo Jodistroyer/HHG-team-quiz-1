@@ -1,3 +1,5 @@
+import type { QuizAnswer } from '../../Quiz/quizSections'
+
 export type { QuizExportPayload } from '../../Quiz/quizExport'
 
 /** HHG center type (Head / Heart / Gut) */
@@ -11,6 +13,10 @@ export interface Person {
   team?: string
   role?: string
   tags: string[]
+  /** When set (e.g. quiz import), per-question answers for full JSON / PDF exports. */
+  quizAnswers?: Record<string, QuizAnswer>
+  /** ISO timestamp when the quiz was completed (last question answered). */
+  quizCompletedAt?: string
   /** Overall HHG percentages (0–100) */
   headPercent: number
   heartPercent: number
@@ -74,6 +80,8 @@ export interface PeopleImportPayload {
     team?: string
     role?: string
     tags?: string[]
+    quizAnswers?: Record<string, QuizAnswer>
+    quizCompletedAt?: string
     headPercent: number
     heartPercent: number
     gutPercent: number
