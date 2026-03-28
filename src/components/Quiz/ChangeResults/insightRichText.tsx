@@ -68,7 +68,7 @@ const SECTION_PHRASES: { needle: string; sectionId: SectionId }[] = [
 const CENTRE_PHRASES: { needle: string; centres: Centre[] }[] = [
   { needle: 'Head + Heart + Gut', centres: ['Head', 'Heart', 'Gut'] as Centre[] },
   { needle: 'Head, Heart, and Gut', centres: ['Head', 'Heart', 'Gut'] as Centre[] },
-  { needle: 'Head only', centres: ['Head'] as Centre[] },
+  { needle: 'Head Strong', centres: ['Head'] as Centre[] },
   { needle: 'Heart only', centres: ['Heart'] as Centre[] },
   { needle: 'Gut only', centres: ['Gut'] as Centre[] },
 ].sort((a, b) => b.needle.length - a.needle.length)

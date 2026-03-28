@@ -130,7 +130,9 @@ export function TreeNode({
   const titleClassName =
     node.kind === 'company' || node.kind === 'team'
       ? 'tree-node__title tree-node__title--group'
-      : 'tree-node__title'
+      : node.kind === 'person'
+        ? 'tree-node__title tree-node__title--person'
+        : 'tree-node__title'
 
   return (
     <div

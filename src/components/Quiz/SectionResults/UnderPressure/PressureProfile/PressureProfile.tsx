@@ -46,7 +46,7 @@ export const getBrainCombinationKey = (headPercent: number, heartPercent: number
 const PRESSURE_PROFILES: Record<string, PressureProfileData> = {
   Head: {
     pressureProfile: 'Pure Analyst',
-    hhgCombination: 'Head only',
+    hhgCombination: 'Head Strong',
     dominantStyle: 'Logic-first',
     emotionalTrigger: 'Ambiguity, irrationality',
     maskDefense: 'Detached, critical, data-obsessed',

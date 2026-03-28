@@ -32,7 +32,7 @@ export function SelectedList({ people, selectedIds, onClearSelection }: Selected
           selected.map((p) => (
             <li key={p.id} className="selected-list__item">
               {p.name}
-              {p.role && <span className="selected-list__meta"> — {p.role}</span>}
+              {p.role && <span className="selected-list__meta"> ({p.role})</span>}
             </li>
           ))
         )}

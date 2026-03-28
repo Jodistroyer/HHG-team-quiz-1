@@ -75,6 +75,13 @@
   font-family: 'Montserrat', sans-serif;
 }
 
+.tree-node__title--person {
+  /* Match .view-mode-toggle__text */
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+}
+
 .tree-node__count {
   color: var(--people-muted, #94a3b8);
   font-weight: 400;

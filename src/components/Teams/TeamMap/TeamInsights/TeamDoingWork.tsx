@@ -19,7 +19,7 @@ interface TeamWorkInsight {
 
 const TEAM_DOING_WORK_INSIGHTS: Record<string, TeamWorkInsight> = {
   Head: {
-    displayLabel: 'Head only',
+    displayLabel: 'Head Strong',
     title: 'An analysis driven team that values structure and precision',
     strength: 'Highly structured and methodical. Produces well-reasoned, thorough work with strong attention to detail and logical consistency.',
     gap: 'Less Gut and Heart. The team may spend too long planning or refining, and may not naturally prioritise momentum or relational dynamics.',
@@ -151,7 +151,7 @@ export function TeamDoingWork({
               <span className="team-context-insight__card-icon" aria-hidden>
                 <FontAwesomeIcon icon={faCircleCheck} />
               </span>
-              Strength
+              Best Case
             </h5>
           </div>
           <p className="team-context-insight__card-text">{insight.strength}</p>

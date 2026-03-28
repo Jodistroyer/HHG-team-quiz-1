@@ -4,6 +4,7 @@ import type { EmptyTeams } from './data'
 import {
   SAMPLE_PEOPLE,
   filterPeopleBySearch,
+  parsePersonDisplayLabel,
   personFromQuizExport,
   peopleFromImport,
   isQuizExport,
@@ -350,12 +351,11 @@ export function useTeamsDirectory({
       } else if (kind === 'person') {
         const person = people.find((p) => p.id === nodeId)
         if (person) {
-          const parts = newLabel.split(' — ')
-          const name = parts[0]?.trim() ?? person.name
-          const role = parts[1]?.trim() ?? person.role
+          const { name: parsedName, role: parsedRole } = parsePersonDisplayLabel(newLabel)
+          const name = parsedName || person.name
           persistPeople(
             people.map((p) =>
-              p.id === nodeId ? { ...p, name, role: role || undefined } : p
+              p.id === nodeId ? { ...p, name, role: parsedRole || undefined } : p
             )
           )
         }

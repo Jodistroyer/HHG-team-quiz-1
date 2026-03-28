@@ -19,7 +19,7 @@ interface TeamPressureInsight {
 
 const TEAM_UNDER_PRESSURE_INSIGHTS: Record<string, TeamPressureInsight> = {
   Head: {
-    displayLabel: 'Head only',
+    displayLabel: 'Head Strong',
     title: 'An analysis driven team that seeks clarity before action',
     strength: 'Seeks to fully understand the situation before acting. Reduces risk by relying on logic, data, and structured thinking even in high-pressure scenarios.',
     gap: 'Less Gut or Heart. The team may hesitate, over-analyse, and struggle to act quickly when time-sensitive decisions are required.',
@@ -85,7 +85,7 @@ const TEAM_UNDER_PRESSURE_INSIGHTS: Record<string, TeamPressureInsight> = {
     displayLabel: 'Head + Heart + Gut',
     title: 'A balanced team with access to thinking, feeling, and instinct',
     strength: 'Highly adaptable under pressure. Can analyse, empathise, and act depending on what the situation requires.',
-    gap: 'Less dominant mode. The team may struggle to align quickly when each perspective pulls in a different direction.',
+    gap: 'The team may struggle to align quickly when each perspective pulls in a different direction.',
     watchFor: 'Slowed decision-making due to internal differences in how the situation should be handled.'
   }
 }
@@ -151,7 +151,7 @@ export function TeamUnderPressure({
               <span className="team-context-insight__card-icon" aria-hidden>
                 <FontAwesomeIcon icon={faCircleCheck} />
               </span>
-              Strength
+              Best Case
             </h5>
           </div>
           <p className="team-context-insight__card-text">{insight.strength}</p>

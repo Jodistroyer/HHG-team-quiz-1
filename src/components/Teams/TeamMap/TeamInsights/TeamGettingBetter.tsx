@@ -19,7 +19,7 @@ interface TeamGrowthInsight {
 
 const TEAM_GETTING_BETTER_INSIGHTS: Record<string, TeamGrowthInsight> = {
   Head: {
-    displayLabel: 'Head only',
+    displayLabel: 'Head Strong',
     title: 'An analytical team that improves through structure and evidence',
     strength: 'Learns effectively through reflection, frameworks, and data. Strong at identifying patterns and improving systems over time.',
     gap: 'Less Heart and Gut. The team may not naturally engage with emotional feedback or take action quickly on insights.',
@@ -151,7 +151,7 @@ export function TeamGettingBetter({
               <span className="team-context-insight__card-icon" aria-hidden>
                 <FontAwesomeIcon icon={faCircleCheck} />
               </span>
-              Strength
+              Best Case
             </h5>
           </div>
           <p className="team-context-insight__card-text">{insight.strength}</p>

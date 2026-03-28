@@ -19,7 +19,7 @@ interface TeamPeopleInsight {
 
 const TEAM_WITH_PEOPLE_INSIGHTS: Record<string, TeamPeopleInsight> = {
   Head: {
-    displayLabel: 'Head only',
+    displayLabel: 'Head Strong',
     title: 'An objective team that prioritises clarity over emotion',
     strength: 'Clear and rational in communication. Brings structure to discussions and helps keep conversations focused and logical.',
     gap: 'Less Heart and Gut. The team may not naturally tune into emotional cues or relational dynamics unless they are made explicit.',
@@ -151,7 +151,7 @@ export function TeamWithPeople({
               <span className="team-context-insight__card-icon" aria-hidden>
                 <FontAwesomeIcon icon={faCircleCheck} />
               </span>
-              Strength
+              Best Case
             </h5>
           </div>
           <p className="team-context-insight__card-text">{insight.strength}</p>

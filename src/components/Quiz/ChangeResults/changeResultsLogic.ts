@@ -25,7 +25,6 @@ export interface ChangeFacts {
   comboKeys: string[]
 }
 
-/** Normalise "Head Strong" to "Head only" for display. */
 export function shortComboLabel(rawLabel: string): string {
   return rawLabel.replace(/ Strong$/, ' only')
 }
