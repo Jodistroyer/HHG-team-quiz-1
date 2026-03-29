@@ -22,6 +22,14 @@ interface SectionCardProps {
   scores: SectionScores
 }
 
+/** Short context line for each quiz section (title is shown separately in the header). */
+const SECTION_CONTEXT_BY_ID: Record<number, string> = {
+  1: 'Time is tight, stakes are high, and consequences are immediate.',
+  2: 'Normal execution mode. No crisis, just getting things done.',
+  3: 'Interaction, alignment, and social dynamics are central.',
+  4: 'Reflection, growth, and self-improvement over time.',
+}
+
 export const SectionCard = ({ section, scores }: SectionCardProps) => {
   const combo = getBrainCombination(scores.headPercent, scores.heartPercent, scores.gutPercent)
   const badgeStyle =
@@ -68,7 +76,6 @@ export const SectionCard = ({ section, scores }: SectionCardProps) => {
       <div className="section-card-top">
         <div className="section-card-header">
           <div className="section-header-content">
-            <span className="section-number">{section.id}</span>
             {SECTION_ICONS[section.id] && (
               <span className="section-title-icon" aria-hidden="true">
                 <FontAwesomeIcon icon={SECTION_ICONS[section.id]} />
@@ -77,6 +84,9 @@ export const SectionCard = ({ section, scores }: SectionCardProps) => {
             <h4>{section.title}</h4>
           </div>
         </div>
+        {SECTION_CONTEXT_BY_ID[section.id] && (
+          <p className="section-card-context">{SECTION_CONTEXT_BY_ID[section.id]}</p>
+        )}
         <div className="section-card-badges">
           <div className="brain-icon-badge" style={{ background: 'transparent' }}>
             {getBrainIcons(combo.label)}

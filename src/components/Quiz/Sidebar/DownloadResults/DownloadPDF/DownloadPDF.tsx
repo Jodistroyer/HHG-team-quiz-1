@@ -29,6 +29,7 @@ const PDF_EXPORT_CSS = `
 .pdf-export-view .section-archetype-block::before{display:none!important}
 .pdf-export-view .section-archetype-block{overflow:visible!important}
 .pdf-export-view .section-archetype-name,.pdf-export-view .section-archetype-description,.pdf-export-view .section-archetype-quote{position:static!important;display:block!important;overflow:visible!important}
+.pdf-export-view .section-card-context{color:rgba(255,255,255,0.88)!important;font-family:'Montserrat',sans-serif!important;font-size:0.9375rem!important;font-weight:700!important;line-height:1.65!important;max-width:52ch!important;margin:0.875rem 0 1.25rem!important;padding:0!important}
 .pdf-export-view table{table-layout:fixed;width:100%}
 .pdf-export-view th,.pdf-export-view td{word-wrap:break-word;overflow-wrap:break-word;white-space:normal!important;overflow:visible}
 .pdf-export-view .section-archetype-name{font-size:1.25rem !important}
