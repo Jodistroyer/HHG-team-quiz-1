@@ -9,6 +9,7 @@ import { AnswerResults } from './AnswerResults/AnswerResults'
 import { Sidebar } from './Sidebar/Sidebar'
 import { ChangeResults } from './ChangeResults/ChangeResults'
 import { OVERALL_ARCHETYPES } from './overallArchetypes'
+import ReactMarkdown from 'react-markdown'
 
 type AnswerType = 'Head' | 'Heart' | 'Gut'
 
@@ -99,9 +100,9 @@ export const QuizResults = ({ overall, sectionSummaries, sections, answers, quiz
 
                       {archetypeData && (
                         <div className="quiz-results__natural-default-body">
-                          <p className="overall-archetype-description quiz-results__natural-default-description">
-                            {archetypeData.description}
-                          </p>
+                          <div className="overall-archetype-description quiz-results__natural-default-description">
+                            <ReactMarkdown>{archetypeData.description}</ReactMarkdown>
+                          </div>
                         </div>
                       )}
                     </>

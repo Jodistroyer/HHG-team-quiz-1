@@ -224,12 +224,25 @@
   max-width: 100%;
 }
 
+.overall-archetype-description p {
+  margin: 0 0 0.95rem 0;
+}
+
+.overall-archetype-description p:last-child {
+  margin-bottom: 0;
+}
+
+.overall-archetype-description strong {
+  color: #0f172a;
+  font-weight: 750;
+}
+
 .quiz-results__natural-default-description {
   margin: 0;
   font-size: 1.02rem;
   font-weight: 500;
   line-height: 1.85;
-  color: #475569;
+  color: #334155;
   text-align: center;
 }
 
