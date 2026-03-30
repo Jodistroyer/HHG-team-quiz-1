@@ -10,6 +10,7 @@ import {
   type QuizAnswerType as AnswerType,
 } from './quizSections'
 import { calculateSectionScoresDetailed } from './quizScoring'
+import { SECTION_CONTEXT_BY_ID } from './sectionContext'
 
 const SECTION_ICONS: Record<number, IconDefinition> = {
   1: faFire,        // Under Pressure
@@ -331,68 +332,75 @@ function Quiz() {
           {/* Horizontal Progress Bar */}
           <div className="progress-bar-container">
             <div className="progress-bar-wrapper">
-              {/* Section title + section counter (both on the left, next to each other) */}
-              <div className="progress-bar-titles">
-                {questionSection && (
-                  <>
-                    {SECTION_ICONS[questionSection.id] && (
-                      <span className="progress-bar-title-icon" aria-hidden="true">
-                        <FontAwesomeIcon icon={SECTION_ICONS[questionSection.id]} />
-                      </span>
-                    )}
-                    <div className="progress-bar-title current">
-                      {questionSection.title}
-                    </div>
-                    <span className="progress-bar-title-sep" aria-hidden="true" />
-                    <div className="progress-bar-section-counter">
-                      Section {currentSectionIndex + 1} of {sections.length}
-                    </div>
-                  </>
+              <div className="progress-bar-heading">
+                {/* Section title + section counter (both on the left, next to each other) */}
+                <div className="progress-bar-titles">
+                  {questionSection && (
+                    <>
+                      {SECTION_ICONS[questionSection.id] && (
+                        <span className="progress-bar-title-icon" aria-hidden="true">
+                          <FontAwesomeIcon icon={SECTION_ICONS[questionSection.id]} />
+                        </span>
+                      )}
+                      <div className="progress-bar-title current">
+                        {questionSection.title}
+                      </div>
+                      <span className="progress-bar-title-sep" aria-hidden="true" />
+                      <div className="progress-bar-section-counter">
+                        Section {currentSectionIndex + 1} of {sections.length}
+                      </div>
+                    </>
+                  )}
+                </div>
+                {questionSection && SECTION_CONTEXT_BY_ID[questionSection.id] && (
+                  <p className="progress-bar-section-context">{SECTION_CONTEXT_BY_ID[questionSection.id]}</p>
                 )}
               </div>
-              
-              <div className="progress-bar">
-                {/* Overall progress fill */}
-                <div 
-                  className="progress-bar-overall-fill"
-                  style={{
-                    width: `${overallProgress}%`
-                  }}
-                />
-                
-                {/* Section segments */}
-                {sections.map((section, sectionIdx) => {
-                  const sectionStart = (sectionIdx / sections.length) * 100
-                  const sectionWidth = 100 / sections.length
-                  const isCurrentSection = sectionIdx === currentSectionIndex
-                  const sectionColor = getSectionColor()
-                  
-                  return (
-                    <div
-                      key={section.id}
-                      className={`progress-segment ${isCurrentSection ? 'current' : ''}`}
-                      style={{
-                        left: `${sectionStart}%`,
-                        width: `${sectionWidth}%`,
-                        backgroundColor: `${sectionColor}15`
-                      }}
-                    >
-                      {isCurrentSection && (
-                        <div 
-                          className="progress-segment-indicator"
-                          style={{
-                            width: `${sectionProgress}%`,
-                            background: sectionColor
-                          }}
-                        />
-                      )}
-                    </div>
-                  )
-                })}
+
+              <div className="progress-bar-track-row">
+                <div className="progress-bar">
+                  {/* Overall progress fill */}
+                  <div
+                    className="progress-bar-overall-fill"
+                    style={{
+                      width: `${overallProgress}%`,
+                    }}
+                  />
+
+                  {/* Section segments */}
+                  {sections.map((section, sectionIdx) => {
+                    const sectionStart = (sectionIdx / sections.length) * 100
+                    const sectionWidth = 100 / sections.length
+                    const isCurrentSection = sectionIdx === currentSectionIndex
+                    const sectionColor = getSectionColor()
+
+                    return (
+                      <div
+                        key={section.id}
+                        className={`progress-segment ${isCurrentSection ? 'current' : ''}`}
+                        style={{
+                          left: `${sectionStart}%`,
+                          width: `${sectionWidth}%`,
+                          backgroundColor: `${sectionColor}15`,
+                        }}
+                      >
+                        {isCurrentSection && (
+                          <div
+                            className="progress-segment-indicator"
+                            style={{
+                              width: `${sectionProgress}%`,
+                              background: sectionColor,
+                            }}
+                          />
+                        )}
+                      </div>
+                    )
+                  })}
+                </div>
+                <div className="progress-bar-counter" aria-label={`Question ${currentQuestionIndex + 1} of ${totalQuestions}`}>
+                  {currentQuestionIndex + 1}/{totalQuestions}
+                </div>
               </div>
-            </div>
-            <div className="progress-bar-counter">
-              {currentQuestionIndex + 1}/{totalQuestions}
             </div>
           </div>
 

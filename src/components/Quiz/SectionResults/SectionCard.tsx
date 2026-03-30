@@ -4,6 +4,7 @@ import { DoingWork } from './DoingWork/DoingWork'
 import { WithPeople } from './WithPeople/WithPeople'
 import { GettingBetter } from './GettingBetter/GettingBetter'
 import { SECTION_ICONS, getBrainCombination, getBrainIcons } from './utils.tsx'
+import { SECTION_CONTEXT_BY_ID } from '../sectionContext'
 import './SectionCard.css'
 
 interface Section {
@@ -20,14 +21,6 @@ interface SectionScores {
 interface SectionCardProps {
   section: Section
   scores: SectionScores
-}
-
-/** Short context line for each quiz section (title is shown separately in the header). */
-const SECTION_CONTEXT_BY_ID: Record<number, string> = {
-  1: 'Time is tight, stakes are high, and consequences are immediate.',
-  2: 'Normal execution mode. No crisis, just getting things done.',
-  3: 'Interaction, alignment, and social dynamics are central.',
-  4: 'Reflection, growth, and self-improvement over time.',
 }
 
 export const SectionCard = ({ section, scores }: SectionCardProps) => {
