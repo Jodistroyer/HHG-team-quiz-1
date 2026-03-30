@@ -1,11 +1,8 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleCheck, faTriangleExclamation, faStar } from '@fortawesome/free-solid-svg-icons'
-import { WorkStyle, getWorkStyleForScores } from './WorkStyle/WorkStyle.tsx'
-import { getBalanceTipBadgeStyle } from '../utils.tsx'
+import { faCircleCheck, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons'
+import { WorkStyleTable, getWorkStyleForScores } from '../Tables/WorkStyleTable.tsx'
+import { getBalanceTipBadge, getBrainCombination, getBrainCombinationKey, getBrainIcons } from '../utils.tsx'
 import '../SectionResults.css'
-import './DoingWork.css'
-
-type AnswerType = 'Head' | 'Heart' | 'Gut'
 
 interface DoingWorkProps {
   headPercent: number
@@ -244,73 +241,11 @@ const DOING_WORK_ARCHETYPES: Record<string, { archetype: string; description: st
 
 void DOING_WORK_ARCHETYPES
 
-const getTier = (percent: number): 'Dominant' | 'Secondary' | 'Weak' => {
-  if (percent >= 50) return 'Dominant'
-  if (percent >= 35) return 'Secondary'
-  return 'Weak'
-}
-
-const getBrainCombination = (headPercent: number, heartPercent: number, gutPercent: number): string => {
-  const brains: { type: AnswerType; percent: number; tier: string }[] = [
-    { type: 'Head', percent: headPercent, tier: getTier(headPercent) },
-    { type: 'Heart', percent: heartPercent, tier: getTier(heartPercent) },
-    { type: 'Gut', percent: gutPercent, tier: getTier(gutPercent) }
-  ]
-  
-  // Sort by percentage descending
-  brains.sort((a, b) => b.percent - a.percent)
-  
-  const first = brains[0]
-  const second = brains[1]
-  const third = brains[2]
-  
-  // Balanced / All three: all brains ≥30%
-  if (first.percent >= 30 && second.percent >= 30 && third.percent >= 30) {
-    return 'Head+Heart+Gut'
-  }
-  
-  // Single dominant: one brain ≥50%, others ≤34%
-  if (first.tier === 'Dominant' && second.percent <= 34 && third.percent <= 34) {
-    return first.type
-  }
-  
-  // Two-brain combo: two brains ≥35%
-  if (first.percent >= 35 && second.percent >= 35) {
-    return `${first.type}+${second.type}`
-  }
-  
-  // Leaning case: 1st and 2nd are close (within ~15%), return combo
-  // e.g., Head 40%, Gut 33.3% → Head+Gut
-  if (first.percent - second.percent <= 15 && second.percent >= 25) {
-    return `${first.type}+${second.type}`
-  }
-  
-  // Default: return highest brain only
-  return first.type
-}
-
-const getBalanceTipBadge = (brainCombination: string): string => {
-  const map: Record<string, string> = {
-    Head: 'Heart + Gut',
-    'Head + Gut': 'Heart',
-    'Head + Heart': 'Gut',
-    Heart: 'Head + Gut',
-    'Heart + Gut': 'Head',
-    'Heart + Head': 'Gut',
-    Gut: 'Head + Heart',
-    'Gut + Head': 'Heart',
-    'Gut + Heart': 'Head',
-    'Head + Heart + Gut': 'Focus'
-  }
-
-  return map[brainCombination] ?? 'Focus'
-}
-
 export const DoingWork = ({ headPercent, heartPercent, gutPercent }: DoingWorkProps) => {
-  const combination = getBrainCombination(headPercent, heartPercent, gutPercent)
+  const combination = getBrainCombinationKey(headPercent, heartPercent, gutPercent)
+  const combo = getBrainCombination(headPercent, heartPercent, gutPercent)
   const traits = traitDatabase[combination] || traitDatabase['Head']
   const balanceTipBadge = getBalanceTipBadge(traits.brainCombination)
-  const balanceTipBadgeStyle = getBalanceTipBadgeStyle(balanceTipBadge)
   // const archetypeData = DOING_WORK_ARCHETYPES[combination]
   const executionPattern = getWorkStyleForScores(headPercent, heartPercent, gutPercent)
 
@@ -327,23 +262,39 @@ export const DoingWork = ({ headPercent, heartPercent, gutPercent }: DoingWorkPr
       )} */}
       <div className="intro-grid">
         <div className="trait-section">
-          <h4 className="trait-section-title">Who You Are</h4>
+          <div className="trait-section-header">
+            <div className="trait-section-title-row">
+              <h4 className="trait-section-title">Who You Are</h4>
+              <span className="brain-icon-badge brain-icon-badge--inline" aria-label="Brain combination icons">
+                {getBrainIcons(combo.label)}
+              </span>
+            </div>
+            <div className="trait-section-badges">
+              <span
+                className="brain-combo-badge"
+                style={{
+                  background:
+                    combo.colors.length === 1
+                      ? combo.colors[0]
+                      : combo.colors.length === 2
+                        ? `linear-gradient(90deg, ${combo.colors[0]} 50%, ${combo.colors[1]} 50%)`
+                        : `linear-gradient(90deg, ${combo.colors[0]} 33.33%, ${combo.colors[1]} 33.33%, ${combo.colors[1]} 66.66%, ${combo.colors[2]} 66.66%)`
+                }}
+              >
+                {combo.label}
+              </span>
+            </div>
+          </div>
           <p className="trait-content">
             {traits.whoYouAre} {traits.yourWorkStyle}
           </p>
         </div>
       </div>
-      <WorkStyle profile={executionPattern} />
-      <div className="action-box">
-        <h4 className="action-title">
-          <span className="action-title-left">
-            <span className="action-icon"><FontAwesomeIcon icon={faStar} /></span>
-            Balance Tip
-          </span>
-          <span className="balance-tip-badge" style={balanceTipBadgeStyle}>{balanceTipBadge}</span>
-        </h4>
-        <p className="action-content">{traits.balanceTip}</p>
-      </div>
+      <WorkStyleTable
+        profile={executionPattern}
+        balanceTip={traits.balanceTip}
+        balanceTipBadge={balanceTipBadge}
+      />
       <div className="bento-cards">
         <div className="strength-card">
           <h4 className="card-title">

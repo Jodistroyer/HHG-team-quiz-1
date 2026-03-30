@@ -1,7 +1,7 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFireFlameCurved } from '@fortawesome/free-solid-svg-icons'
-import { getBrainCombinationKey } from '../../UnderPressure/PressureProfile/PressureProfile.tsx'
-import './WorkStyle.css'
+import type { ProfileTableRow } from '../ProfileTable/ProfileTable.tsx'
+import { ProfileTable } from '../ProfileTable/ProfileTable.tsx'
+import { getBrainCombinationKey } from '../utils.tsx'
 
 export interface WorkStyleData {
   speakTheirLanguage: string
@@ -104,52 +104,30 @@ export const getWorkStyleForScores = (
   return BURNOUT_PROFILES[key]
 }
 
-interface WorkStyleProps {
+interface WorkStyleTableProps {
   profile: WorkStyleData | null | undefined
+  balanceTip?: string
+  balanceTipBadge?: string
 }
 
-export const WorkStyle = ({ profile }: WorkStyleProps) => {
+export const WorkStyleTable = ({ profile, balanceTip, balanceTipBadge }: WorkStyleTableProps) => {
   if (!profile) return null
-  return (
-    <div className="work-style-block">
-      <h4 className="work-style-title">
-        <span className="work-style-icon"><FontAwesomeIcon icon={faFireFlameCurved} /></span>
-        Work Style
-      </h4>
-      <table className="work-style-table">
-        <thead>
-          <tr>
-            <th scope="col">Attribute</th>
-            <th scope="col">Your profile</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">Speak Their Language</th>
-            <td>{profile.speakTheirLanguage}</td>
-          </tr>
-          <tr>
-            <th scope="row">Ambiguity Response Style</th>
-            <td>{profile.ambiguityResponseStyle}</td>
-          </tr>
-          <tr>
-            <th scope="row">Blindspots</th>
-            <td>{profile.blindspots}</td>
-          </tr>
-          <tr>
-            <th scope="row">Burnout Signs</th>
-            <td>{profile.burnoutSigns}</td>
-          </tr>
-          <tr>
-            <th scope="row">What They Secretly Need</th>
-            <td>{profile.whatTheySecretlyNeed}</td>
-          </tr>
-          <tr>
-            <th scope="row">What a Manager Should Do</th>
-            <td>{profile.whatManagerShouldDo}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  )
+  const rows: ProfileTableRow[] = [
+    { label: 'Speak Their Language', value: profile.speakTheirLanguage },
+    { label: 'Ambiguity Response Style', value: profile.ambiguityResponseStyle },
+    { label: 'Blindspots', value: profile.blindspots },
+    { label: 'Burnout Signs', value: profile.burnoutSigns },
+    { label: 'What They Secretly Need', value: profile.whatTheySecretlyNeed },
+    { label: 'What a Manager Should Do', value: profile.whatManagerShouldDo }
+  ]
+
+  if (balanceTip && balanceTipBadge) {
+    rows.push({
+      label: 'Balance Tip',
+      value: <><strong>{balanceTipBadge}:</strong> {balanceTip}</>
+    })
+  }
+
+  return <ProfileTable title="Work Style" icon={faFireFlameCurved} rows={rows} />
 }
+

@@ -1,9 +1,9 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { UnderPressure } from './UnderPressure/UnderPressure'
-import { DoingWork } from './DoingWork/DoingWork'
-import { WithPeople } from './WithPeople/WithPeople'
-import { GettingBetter } from './GettingBetter/GettingBetter'
-import { SECTION_ICONS, getBrainCombination, getBrainIcons } from './utils.tsx'
+import { UnderPressure } from './Sections/UnderPressure'
+import { DoingWork } from './Sections/DoingWork'
+import { WithPeople } from './Sections/WithPeople'
+import { GettingBetter } from './Sections/GettingBetter'
+import { SECTION_ICONS } from './utils.tsx'
 import { SECTION_CONTEXT_BY_ID } from '../sectionContext'
 import './SectionCard.css'
 
@@ -24,14 +24,6 @@ interface SectionCardProps {
 }
 
 export const SectionCard = ({ section, scores }: SectionCardProps) => {
-  const combo = getBrainCombination(scores.headPercent, scores.heartPercent, scores.gutPercent)
-  const badgeStyle =
-    combo.colors.length === 1
-      ? { background: combo.colors[0] }
-      : combo.colors.length === 2
-        ? { background: `linear-gradient(90deg, ${combo.colors[0]} 50%, ${combo.colors[1]} 50%)` }
-        : { background: `linear-gradient(90deg, ${combo.colors[0]} 33.33%, ${combo.colors[1]} 33.33%, ${combo.colors[1]} 66.66%, ${combo.colors[2]} 66.66%)` }
-
   const renderContent = () => {
     switch (section.id) {
       case 1:
@@ -80,14 +72,6 @@ export const SectionCard = ({ section, scores }: SectionCardProps) => {
         {SECTION_CONTEXT_BY_ID[section.id] && (
           <p className="section-card-context">{SECTION_CONTEXT_BY_ID[section.id]}</p>
         )}
-        <div className="section-card-badges">
-          <div className="brain-icon-badge" style={{ background: 'transparent' }}>
-            {getBrainIcons(combo.label)}
-          </div>
-          <div className="brain-combo-badge" style={badgeStyle}>
-            {combo.label}
-          </div>
-        </div>
       </div>
       {renderContent()}
     </div>

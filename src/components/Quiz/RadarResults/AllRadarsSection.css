@@ -38,10 +38,9 @@
 
 .all-radars-card {
   background: #fafbfc;
-  border: 1px solid #e2e8f0;
   border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 12px 40px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -89,6 +88,14 @@
   gap: 8px;
   margin-bottom: 12px;
   flex-wrap: wrap;
+}
+
+.all-radars-card-divider {
+  width: 100%;
+  max-width: 260px;
+  height: 1px;
+  background: #e2e8f0;
+  margin: 2px 0 12px 0;
 }
 
 .all-radars-brain-combo-badge {

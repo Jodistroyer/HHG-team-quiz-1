@@ -45,9 +45,9 @@ section[id="answers"] {
 .section-card-top {
   margin: -30px -30px 0 -30px;
   padding: 1.25rem 36px 1.25rem 36px;
-  background: #7d3dbd;
+  background: #ffffff;
   border-radius: 16px 16px 0 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  border-bottom: 1px solid #e2e8f0;
 }
 
 .section-card-header {
@@ -70,7 +70,7 @@ section[id="answers"] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
+  color: #7d3dbd;
   font-size: 1.25rem;
   flex-shrink: 0;
 }
@@ -79,7 +79,7 @@ section[id="answers"] {
   font-family: 'Montserrat', sans-serif;
   font-size: 1.5rem;
   font-weight: 700;
-  color: #fff;
+  color: #0f172a;
   margin: 0;
 }
 
@@ -92,14 +92,14 @@ section[id="answers"] {
   }
 }
 
-/* Secondary line under the section title — visual hierarchy in the purple header */
+/* Secondary line under the section title */
 .section-card-context {
   font-family: 'Montserrat', sans-serif;
   font-size: 0.9375rem;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.65;
-  color: rgba(255, 255, 255, 0.88);
-  margin: 0.875rem 0 1.25rem;
+  color: #475569;
+  margin: 0.6rem 0 0;
   padding: 0;
   max-width: 52ch;
   letter-spacing: 0.01em;
@@ -108,7 +108,7 @@ section[id="answers"] {
 @media (max-width: 588px) {
   .section-card-context {
     font-size: 0.875rem;
-    margin: 0.75rem 0 1rem;
+    margin: 0.5rem 0 0;
     max-width: none;
   }
 }
@@ -154,8 +154,7 @@ section[id="answers"] {
 }
 
 .section-expanded-content {
-  margin-top: 20px;
-  padding-top: 20px;
+  padding-top: 16px;
   animation: sectionSlideDown 0.3s ease-out;
 }
 

@@ -52,6 +52,10 @@ function RadarCardBadge({ headPercent, heartPercent, gutPercent }: SectionScores
   )
 }
 
+function RadarCardDivider() {
+  return <div className="all-radars-card-divider" role="separator" aria-hidden="true" />
+}
+
 export const AllRadarsSection = ({ overall, sectionSummaries, sections }: AllRadarsSectionProps) => {
   const sectionItems = sections.map((section, idx) => ({
     id: section.id,
@@ -66,6 +70,7 @@ export const AllRadarsSection = ({ overall, sectionSummaries, sections }: AllRad
         <div className="all-radars-card all-radars-card-overall">
           <RadarCardTitle title="Overall" />
           <RadarCardBadge headPercent={overall.headPercent} heartPercent={overall.heartPercent} gutPercent={overall.gutPercent} />
+          <RadarCardDivider />
           <div className="all-radars-card-chart">
             <RadarChart
               headPercent={overall.headPercent}
@@ -80,6 +85,7 @@ export const AllRadarsSection = ({ overall, sectionSummaries, sections }: AllRad
           <div key={i} className="all-radars-card">
             <RadarCardTitle title={item.title} sectionId={item.id} />
             <RadarCardBadge headPercent={item.scores.headPercent} heartPercent={item.scores.heartPercent} gutPercent={item.scores.gutPercent} />
+            <RadarCardDivider />
             <div className="all-radars-card-chart">
               <RadarChart
                 headPercent={item.scores.headPercent}

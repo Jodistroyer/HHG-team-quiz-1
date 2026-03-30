@@ -1,5 +1,5 @@
-/* Feedback Style block – same styling as Pressure Profile */
-.feedback-style-block {
+/* Shared profile table card used across section results */
+.profile-table-block {
   background: #fff;
   border: none;
   border-radius: 16px;
@@ -7,7 +7,7 @@
   box-shadow: none;
 }
 
-.feedback-style-title {
+.profile-table-title {
   font-family: 'Montserrat', sans-serif;
   font-size: 1.2rem;
   font-weight: 700;
@@ -18,17 +18,17 @@
   gap: 0.5rem;
 }
 
-.feedback-style-icon {
+.profile-table-icon {
   color: #7d3dbd;
 }
 
-.feedback-style-table {
+.profile-table {
   width: 100%;
   border-collapse: collapse;
   font-family: 'Montserrat', sans-serif;
 }
 
-.feedback-style-table thead th {
+.profile-table thead th {
   font-size: 0.75rem;
   font-weight: 700;
   color: #64748b;
@@ -40,15 +40,15 @@
   background: #f8fafc;
 }
 
-.feedback-style-table tbody tr {
+.profile-table tbody tr {
   border-bottom: 1px solid #e2e8f0;
 }
 
-.feedback-style-table tbody tr:last-child {
+.profile-table tbody tr:last-child {
   border-bottom: none;
 }
 
-.feedback-style-table tbody th {
+.profile-table tbody th {
   font-size: 0.85rem;
   font-weight: 600;
   color: #64748b;
@@ -58,7 +58,7 @@
   width: 11em;
 }
 
-.feedback-style-table tbody td {
+.profile-table tbody td {
   font-size: 0.95rem;
   font-weight: 500;
   color: #334155;
@@ -69,21 +69,21 @@
 
 /* Below 430px: stack each row vertically (attribute title above "your profile" value) */
 @media (max-width: 430px) {
-  .feedback-style-table thead {
+  .profile-table thead {
     display: none;
   }
 
-  .feedback-style-table tbody tr {
+  .profile-table tbody tr {
     display: block;
     border-bottom: 1px solid #e2e8f0;
     padding: 0.75rem 0;
   }
 
-  .feedback-style-table tbody tr:last-child {
+  .profile-table tbody tr:last-child {
     border-bottom: none;
   }
 
-  .feedback-style-table tbody th {
+  .profile-table tbody th {
     display: block;
     width: 100%;
     padding: 0 0 0.35rem 0;
@@ -92,10 +92,11 @@
     font-weight: 700;
   }
 
-  .feedback-style-table tbody td {
+  .profile-table tbody td {
     display: block;
     width: 100%;
     padding: 0 0 0 0;
     font-size: 0.9rem;
   }
 }
+

@@ -1,11 +1,8 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleCheck, faTriangleExclamation, faStar } from '@fortawesome/free-solid-svg-icons'
-import { SocialMap, getSocialMapForScores } from './SocialMap/SocialMap.tsx'
-import { getBalanceTipBadgeStyle } from '../utils.tsx'
+import { faCircleCheck, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons'
+import { SocialMapTable, getSocialMapForScores } from '../Tables/SocialMapTable.tsx'
+import { getBalanceTipBadge, getBrainCombination, getBrainCombinationKey, getBrainIcons } from '../utils.tsx'
 import '../SectionResults.css'
-import './WithPeople.css'
-
-type AnswerType = 'Head' | 'Heart' | 'Gut'
 
 interface WithPeopleProps {
   headPercent: number
@@ -327,81 +324,19 @@ const WITH_PEOPLE_ARCHETYPES: Record<string, { archetype: string; description: s
 
 void WITH_PEOPLE_ARCHETYPES
 
-const getTier = (percent: number): 'Dominant' | 'Secondary' | 'Weak' => {
-  if (percent >= 50) return 'Dominant'
-  if (percent >= 35) return 'Secondary'
-  return 'Weak'
-}
-
-const getBrainCombination = (headPercent: number, heartPercent: number, gutPercent: number): string => {
-  const brains: { type: AnswerType; percent: number; tier: string }[] = [
-    { type: 'Head', percent: headPercent, tier: getTier(headPercent) },
-    { type: 'Heart', percent: heartPercent, tier: getTier(heartPercent) },
-    { type: 'Gut', percent: gutPercent, tier: getTier(gutPercent) }
-  ]
-  
-  // Sort by percentage descending
-  brains.sort((a, b) => b.percent - a.percent)
-  
-  const first = brains[0]
-  const second = brains[1]
-  const third = brains[2]
-  
-  // Balanced / All three: all brains ≥30%
-  if (first.percent >= 30 && second.percent >= 30 && third.percent >= 30) {
-    return 'Head+Heart+Gut'
-  }
-  
-  // Single dominant: one brain ≥50%, others ≤34%
-  if (first.tier === 'Dominant' && second.percent <= 34 && third.percent <= 34) {
-    return first.type
-  }
-  
-  // Two-brain combo: two brains ≥35%
-  if (first.percent >= 35 && second.percent >= 35) {
-    return `${first.type}+${second.type}`
-  }
-  
-  // Leaning case: 1st and 2nd are close (within ~15%), return combo
-  // e.g., Head 40%, Gut 33.3% → Head+Gut
-  if (first.percent - second.percent <= 15 && second.percent >= 25) {
-    return `${first.type}+${second.type}`
-  }
-  
-  // Default: return highest brain only
-  return first.type
-}
-
-const getBalanceTipBadge = (brainCombination: string): string => {
-  const map: Record<string, string> = {
-    Head: 'Heart + Gut',
-    'Head + Gut': 'Heart',
-    'Head + Heart': 'Gut',
-    Heart: 'Head + Gut',
-    'Heart + Gut': 'Head',
-    'Heart + Head': 'Gut',
-    Gut: 'Head + Heart',
-    'Gut + Head': 'Heart',
-    'Gut + Heart': 'Head',
-    'Head + Heart + Gut': 'Focus'
-  }
-
-  return map[brainCombination] ?? 'Focus'
-}
-
 export const WithPeople = ({ headPercent, heartPercent, gutPercent }: WithPeopleProps) => {
-  const combination = getBrainCombination(headPercent, heartPercent, gutPercent)
+  const combination = getBrainCombinationKey(headPercent, heartPercent, gutPercent)
+  const combo = getBrainCombination(headPercent, heartPercent, gutPercent)
   const traits = traitDatabase[combination] || traitDatabase['Head']
   const balanceTipBadge = getBalanceTipBadge(traits.brainCombination)
-  const balanceTipBadgeStyle = getBalanceTipBadgeStyle(balanceTipBadge)
   // const archetypeData = WITH_PEOPLE_ARCHETYPES[combination]
   const socialMap = getSocialMapForScores(headPercent, heartPercent, gutPercent)
 
   return (
-    <div className="under-pressure-content with-people-content">
+    <div className="under-pressure-content">
       {/* Hero: archetype + quote — top-level focus */}
       {/* {archetypeData && (
-        <section className="with-people-section with-people-hero">
+        <section>
           <div className="section-archetype-block">
             <h3 className="section-archetype-name">{archetypeData.archetype}</h3>
             {archetypeData.description && (
@@ -412,63 +347,73 @@ export const WithPeople = ({ headPercent, heartPercent, gutPercent }: WithPeople
         </section>
       )} */}
       {/* Profile: who you are, interaction style, core need — vertical purple line like Doing Work */}
-      <section className="with-people-section with-people-profile">
-        <div className="intro-grid intro-grid-three">
-          <div className="trait-section">
-            <h4 className="trait-section-title">Who You Are</h4>
-            <p className="trait-content">
-              {traits.whoYouAre} {traits.interactionStyle} {traits.coreNeed}
-            </p>
+      <div className="intro-grid intro-grid-three">
+        <div className="trait-section">
+          <div className="trait-section-header">
+            <div className="trait-section-title-row">
+              <h4 className="trait-section-title">Who You Are</h4>
+              <span className="brain-icon-badge brain-icon-badge--inline" aria-label="Brain combination icons">
+                {getBrainIcons(combo.label)}
+              </span>
+            </div>
+            <div className="trait-section-badges">
+              <span
+                className="brain-combo-badge"
+                style={{
+                  background:
+                    combo.colors.length === 1
+                      ? combo.colors[0]
+                      : combo.colors.length === 2
+                        ? `linear-gradient(90deg, ${combo.colors[0]} 50%, ${combo.colors[1]} 50%)`
+                        : `linear-gradient(90deg, ${combo.colors[0]} 33.33%, ${combo.colors[1]} 33.33%, ${combo.colors[1]} 66.66%, ${combo.colors[2]} 66.66%)`
+                }}
+              >
+                {combo.label}
+              </span>
+            </div>
           </div>
+          <p className="trait-content">
+            {traits.whoYouAre} {traits.interactionStyle} {traits.coreNeed}
+          </p>
         </div>
-      </section>
-      <SocialMap profile={socialMap} />
-      <section className="with-people-section with-people-action">
-        <div className="action-box">
-          <h4 className="action-title">
-            <span className="action-title-left">
-              <span className="action-icon"><FontAwesomeIcon icon={faStar} /></span>
-              Balance Tip
-            </span>
-            <span className="balance-tip-badge" style={balanceTipBadgeStyle}>{balanceTipBadge}</span>
-          </h4>
-          <p className="action-content">{traits.balanceTip}</p>
-        </div>
-      </section>
+      </div>
+      <SocialMapTable
+        profile={socialMap}
+        balanceTip={traits.balanceTip}
+        balanceTipBadge={balanceTipBadge}
+      />
 
       {/* Strengths & risks — bento cards with clear separation */}
-      <section className="with-people-section with-people-strengths-risks">
-        <div className="bento-cards">
-          <div className="strength-card">
-            <h4 className="card-title">
-              <span className="card-icon"><FontAwesomeIcon icon={faCircleCheck} /></span>
-              Strengths
-            </h4>
-            <ul className="trait-bullets">
-              {traits.yourStrengths.map((strength, index) => (
-                <li key={index}>
-                  <span className="check-icon"><FontAwesomeIcon icon={faCircleCheck} /></span>
-                  {strength}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="warning-card">
-            <h4 className="card-title">
-              <span className="card-icon"><FontAwesomeIcon icon={faTriangleExclamation} /></span>
-              Risks
-            </h4>
-            <ul className="trait-bullets">
-              {traits.yourRisks.map((risk, index) => (
-                <li key={index}>
-                  <span className="warning-icon"><FontAwesomeIcon icon={faTriangleExclamation} /></span>
-                  {risk}
-                </li>
-              ))}
-            </ul>
-          </div>
+      <div className="bento-cards">
+        <div className="strength-card">
+          <h4 className="card-title">
+            <span className="card-icon"><FontAwesomeIcon icon={faCircleCheck} /></span>
+            Strengths
+          </h4>
+          <ul className="trait-bullets">
+            {traits.yourStrengths.map((strength, index) => (
+              <li key={index}>
+                <span className="check-icon"><FontAwesomeIcon icon={faCircleCheck} /></span>
+                {strength}
+              </li>
+            ))}
+          </ul>
         </div>
-      </section>
+        <div className="warning-card">
+          <h4 className="card-title">
+            <span className="card-icon"><FontAwesomeIcon icon={faTriangleExclamation} /></span>
+            Risks
+          </h4>
+          <ul className="trait-bullets">
+            {traits.yourRisks.map((risk, index) => (
+              <li key={index}>
+                <span className="warning-icon"><FontAwesomeIcon icon={faTriangleExclamation} /></span>
+                {risk}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
     </div>
   )
 }

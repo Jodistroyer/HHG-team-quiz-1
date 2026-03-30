@@ -1,7 +1,7 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMap } from '@fortawesome/free-solid-svg-icons'
-import { getBrainCombinationKey } from '../../UnderPressure/PressureProfile/PressureProfile.tsx'
-import './SocialMap.css'
+import type { ProfileTableRow } from '../ProfileTable/ProfileTable.tsx'
+import { ProfileTable } from '../ProfileTable/ProfileTable.tsx'
+import { getBrainCombinationKey } from '../utils.tsx'
 
 export interface SocialMapData {
   speedOfAnswer: string
@@ -139,70 +139,42 @@ export const getSocialMapForScores = (
   return SOCIAL_MAP_DATA[key]
 }
 
-interface SocialMapProps {
+interface SocialMapTableProps {
   profile: SocialMapData | null | undefined
+  balanceTip?: string
+  balanceTipBadge?: string
 }
 
-export const SocialMap = ({ profile }: SocialMapProps) => {
+export const SocialMapTable = ({ profile, balanceTip, balanceTipBadge }: SocialMapTableProps) => {
   if (!profile) return null
-  return (
-    <div className="social-map-block">
-      <h4 className="social-map-title">
-        <span className="social-map-icon"><FontAwesomeIcon icon={faMap} /></span>
-        Social Map
-      </h4>
-      <table className="social-map-table">
-        <thead>
-          <tr>
-            <th scope="col">Attribute</th>
-            <th scope="col">Your profile</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">Speed of Answer</th>
-            <td>{profile.speedOfAnswer}</td>
-          </tr>
-          <tr>
-            <th scope="row">Triggers</th>
-            <td>{profile.triggers}</td>
-          </tr>
-          <tr>
-            <th scope="row">Dark Side</th>
-            <td>{profile.darkSide}</td>
-          </tr>
-          <tr>
-            <th scope="row">How to discuss serious topics</th>
-            <td>{profile.howToDiscussSeriousTopics}</td>
-          </tr>
-          <tr>
-            <th scope="row">Energizers</th>
-            <td>{profile.energizers}</td>
-          </tr>
-          <tr>
-            <th scope="row">Drainers</th>
-            <td>{profile.drainers}</td>
-          </tr>
-          <tr>
-            <th scope="row">Humor style</th>
-            <td>{profile.humorStyle}</td>
-          </tr>
-          <tr>
-            <th scope="row">Drawn to</th>
-            <td>{profile.whoYoureDrawnTo}</td>
-          </tr>
-          <tr>
-            <th scope="row">Love language</th>
-            <td>
-              <ul className="social-map-list">
-                {profile.loveLanguage.map((item, index) => (
-                  <li key={`${item}-${index}`}>{item}</li>
-                ))}
-              </ul>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  )
+  const rows: ProfileTableRow[] = [
+    { label: 'Speed of Answer', value: profile.speedOfAnswer },
+    { label: 'Triggers', value: profile.triggers },
+    { label: 'Dark Side', value: profile.darkSide },
+    { label: 'How to discuss serious topics', value: profile.howToDiscussSeriousTopics },
+    { label: 'Energizers', value: profile.energizers },
+    { label: 'Drainers', value: profile.drainers },
+    { label: 'Humor style', value: profile.humorStyle },
+    { label: 'Drawn to', value: profile.whoYoureDrawnTo },
+    {
+      label: 'Love language',
+      value: (
+        <ul className="social-map-list">
+          {profile.loveLanguage.map((item, index) => (
+            <li key={`${item}-${index}`}>{item}</li>
+          ))}
+        </ul>
+      )
+    }
+  ]
+
+  if (balanceTip && balanceTipBadge) {
+    rows.push({
+      label: 'Balance Tip',
+      value: <><strong>{balanceTipBadge}:</strong> {balanceTip}</>
+    })
+  }
+
+  return <ProfileTable title="Social Map" icon={faMap} rows={rows} />
 }
+

@@ -1,6 +1,7 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserTie } from '@fortawesome/free-solid-svg-icons'
-import './PressureProfile.css'
+import type { ProfileTableRow } from '../ProfileTable/ProfileTable.tsx'
+import { ProfileTable } from '../ProfileTable/ProfileTable.tsx'
+import { getBrainCombinationKey } from '../utils.tsx'
 
 export interface PressureProfileData {
   pressureProfile: string
@@ -15,32 +16,6 @@ export interface PressureProfileData {
   rapailleCode: string
   howToRemoveMask: string
   speakTheirLanguage: string
-}
-
-type AnswerType = 'Head' | 'Heart' | 'Gut'
-
-const getTier = (percent: number): 'Dominant' | 'Secondary' | 'Weak' => {
-  if (percent >= 50) return 'Dominant'
-  if (percent >= 35) return 'Secondary'
-  return 'Weak'
-}
-
-/** Returns HHG combination key (e.g. "Head", "Head+Gut", "Head+Heart+Gut") for pressure profile lookup. */
-export const getBrainCombinationKey = (headPercent: number, heartPercent: number, gutPercent: number): string => {
-  const brains: { type: AnswerType; percent: number; tier: string }[] = [
-    { type: 'Head', percent: headPercent, tier: getTier(headPercent) },
-    { type: 'Heart', percent: heartPercent, tier: getTier(heartPercent) },
-    { type: 'Gut', percent: gutPercent, tier: getTier(gutPercent) }
-  ]
-  brains.sort((a, b) => b.percent - a.percent)
-  const first = brains[0]
-  const second = brains[1]
-  const third = brains[2]
-  if (first.percent >= 30 && second.percent >= 30 && third.percent >= 30) return 'Head+Heart+Gut'
-  if (first.tier === 'Dominant' && second.percent <= 34 && third.percent <= 34) return first.type
-  if (first.percent >= 35 && second.percent >= 35) return `${first.type}+${second.type}`
-  if (first.percent - second.percent <= 15 && second.percent >= 25) return `${first.type}+${second.type}`
-  return first.type
 }
 
 const PRESSURE_PROFILES: Record<string, PressureProfileData> = {
@@ -196,68 +171,34 @@ export const getPressureProfileForScores = (
   return PRESSURE_PROFILES[key]
 }
 
-interface PressureProfileProps {
+interface PressureProfileTableProps {
   profile: PressureProfileData | null | undefined
+  balanceTip?: string
+  balanceTipBadge?: string
 }
 
-export const PressureProfile = ({ profile }: PressureProfileProps) => {
+export const PressureProfileTable = ({ profile, balanceTip, balanceTipBadge }: PressureProfileTableProps) => {
   if (!profile) return null
-  return (
-    <div className="pressure-profile-block">
-      <h4 className="pressure-profile-title">
-        <span className="pressure-profile-icon"><FontAwesomeIcon icon={faUserTie} /></span>
-        Pressure Profile
-      </h4>
-      <table className="pressure-profile-table">
-        <thead>
-          <tr>
-            <th scope="col">Attribute</th>
-            <th scope="col">Your profile</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">Dominant Style</th>
-            <td>{profile.dominantStyle}</td>
-          </tr>
-          <tr>
-            <th scope="row">Emotional Trigger</th>
-            <td>{profile.emotionalTrigger}</td>
-          </tr>
-          <tr>
-            <th scope="row">Mask / Defense</th>
-            <td>{profile.maskDefense}</td>
-          </tr>
-          <tr>
-            <th scope="row">Core Need</th>
-            <td>{profile.coreNeed}</td>
-          </tr>
-          <tr>
-            <th scope="row">How They Erupt</th>
-            <td>{profile.howTheyErupt}</td>
-          </tr>
-          <tr>
-            <th scope="row">How to Calm Them</th>
-            <td>{profile.howToCalmThem}</td>
-          </tr>
-          <tr>
-            <th scope="row">How to Help Them</th>
-            <td>{profile.howToHelpThem}</td>
-          </tr>
-          <tr>
-            <th scope="row">Rapaille Code</th>
-            <td>{profile.rapailleCode}</td>
-          </tr>
-          <tr>
-            <th scope="row">How to Remove Mask</th>
-            <td>{profile.howToRemoveMask}</td>
-          </tr>
-          <tr>
-            <th scope="row">Speak Their Language</th>
-            <td>{profile.speakTheirLanguage}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  )
+  const rows: ProfileTableRow[] = [
+    { label: 'Dominant Style', value: profile.dominantStyle },
+    { label: 'Emotional Trigger', value: profile.emotionalTrigger },
+    { label: 'Mask / Defense', value: profile.maskDefense },
+    { label: 'Core Need', value: profile.coreNeed },
+    { label: 'How They Erupt', value: profile.howTheyErupt },
+    { label: 'How to Calm Them', value: profile.howToCalmThem },
+    { label: 'How to Help Them', value: profile.howToHelpThem },
+    { label: 'Rapaille Code', value: profile.rapailleCode },
+    { label: 'How to Remove Mask', value: profile.howToRemoveMask },
+    { label: 'Speak Their Language', value: profile.speakTheirLanguage }
+  ]
+
+  if (balanceTip && balanceTipBadge) {
+    rows.push({
+      label: 'Balance Tip',
+      value: <><strong>{balanceTipBadge}:</strong> {balanceTip}</>
+    })
+  }
+
+  return <ProfileTable title="Pressure Profile" icon={faUserTie} rows={rows} />
 }
+

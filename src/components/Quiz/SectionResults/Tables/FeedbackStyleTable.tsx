@@ -1,6 +1,6 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faComments } from '@fortawesome/free-solid-svg-icons'
-import './FeedbackStyle.css'
+import type { ProfileTableRow } from '../ProfileTable/ProfileTable.tsx'
+import { ProfileTable } from '../ProfileTable/ProfileTable.tsx'
 
 export interface FeedbackStyleData {
   howToTeach: string
@@ -108,58 +108,33 @@ const FEEDBACK_STYLES: Record<string, FeedbackStyleData> = {
 export const getFeedbackStyleForCombination = (combination: string): FeedbackStyleData | undefined =>
   FEEDBACK_STYLES[combination]
 
-interface FeedbackStyleProps {
+interface FeedbackStyleTableProps {
   combination: string
+  balanceTip?: string
+  balanceTipBadge?: string
 }
 
-export const FeedbackStyle = ({ combination }: FeedbackStyleProps) => {
+export const FeedbackStyleTable = ({ combination, balanceTip, balanceTipBadge }: FeedbackStyleTableProps) => {
   const data = getFeedbackStyleForCombination(combination)
   if (!data) return null
 
-  return (
-    <div className="feedback-style-block">
-      <h4 className="feedback-style-title">
-        <span className="feedback-style-icon"><FontAwesomeIcon icon={faComments} /></span>
-        Feedback Style
-      </h4>
-      <table className="feedback-style-table">
-        <thead>
-          <tr>
-            <th scope="col">Attribute</th>
-            <th scope="col">Your profile</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">How to Teach</th>
-            <td>{data.howToTeach}</td>
-          </tr>
-          <tr>
-            <th scope="row">Triggers</th>
-            <td>{data.triggers}</td>
-          </tr>
-          <tr>
-            <th scope="row">How to Listen to Them</th>
-            <td>{data.howToListenToThem}</td>
-          </tr>
-          <tr>
-            <th scope="row">What Kind of Feedback They Value</th>
-            <td>{data.whatKindOfFeedbackTheyValue}</td>
-          </tr>
-          <tr>
-            <th scope="row">HHG Shift to Balance</th>
-            <td>{data.hhgShiftToBalance}</td>
-          </tr>
-          <tr>
-            <th scope="row">Stuck Mode</th>
-            <td>{data.stuckMode}</td>
-          </tr>
-          <tr>
-            <th scope="row">Encouragement</th>
-            <td>{data.encouragement}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  )
+  const rows: ProfileTableRow[] = [
+    { label: 'How to Teach', value: data.howToTeach },
+    { label: 'Triggers', value: data.triggers },
+    { label: 'How to Listen to Them', value: data.howToListenToThem },
+    { label: 'What Kind of Feedback They Value', value: data.whatKindOfFeedbackTheyValue },
+    { label: 'HHG Shift to Balance', value: data.hhgShiftToBalance },
+    { label: 'Stuck Mode', value: data.stuckMode },
+    { label: 'Encouragement', value: data.encouragement }
+  ]
+
+  if (balanceTip && balanceTipBadge) {
+    rows.push({
+      label: 'Balance Tip',
+      value: <><strong>{balanceTipBadge}:</strong> {balanceTip}</>
+    })
+  }
+
+  return <ProfileTable title="Feedback Style" icon={faComments} rows={rows} />
 }
+
