@@ -22,7 +22,7 @@ export const OVERALL_ARCHETYPES: Record<
     archetype: 'Diplomat',
     headline: 'A thoughtful person who balances logic with empathy',
     description:
-      "You think carefully and care deeply. You bring both analytical rigour and genuine attentiveness to people. You're likely to be considered, empathetic, and thorough.\n\n**Others trust you for your thinking and your presence.**\n\nThe challenge is that Head and Heart together can create a loop: you analyse, you check in on how people are feeling, and without something to break the cycle, you can stay in preparation longer than the situation needs. You may also find bold, instinctive action harder to access, particularly when a decision is unpopular or uncertain.\n\nThe question for you is whether you're using your care and rigour to move well, or using them to avoid moving at all.",
+      "You think carefully and care deeply. You bring both analytical rigour and genuine attentiveness to people. You're likely to be considerate, empathetic, and thorough.\n\n**Others trust you for your thinking and your presence.**\n\nThe challenge is that Head and Heart together can create a loop: you analyse, you check in on how people are feeling, and without something to break the cycle, you can stay in preparation longer than the situation needs. You may also find bold, instinctive action harder to access, particularly when a decision is unpopular or uncertain.\n\nThe question for you is whether you're using your care and rigour to move well, or using them to avoid moving at all.",
     quote: 'Peace, but intelligent.',
   },
   'Heart Strong': {

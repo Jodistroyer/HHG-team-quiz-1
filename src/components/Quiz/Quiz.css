@@ -30,8 +30,8 @@
 /* Quiz (PC): extra room below options / navigation */
 @media (min-width: 769px) {
   .quiz-page .container {
-    height: 632px;
-    min-height: 632px;
+    height: 650px;
+    min-height: 650px;
   }
 
   .quiz-page .question-container {
@@ -106,6 +106,12 @@
   color: #64748b;
   letter-spacing: 0.01em;
   max-width: 42rem;
+}
+
+@media (min-width: 769px) {
+  .progress-bar-section-context {
+    font-weight: 600;
+  }
 }
 
 .progress-bar-titles {
