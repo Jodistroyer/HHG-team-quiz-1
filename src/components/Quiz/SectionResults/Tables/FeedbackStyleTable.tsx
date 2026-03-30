@@ -123,7 +123,7 @@ export const FeedbackStyleTable = ({ combination, balanceTip, balanceTipBadge }:
     { label: 'Triggers', value: data.triggers },
     { label: 'How to Listen to Them', value: data.howToListenToThem },
     { label: 'What Kind of Feedback They Value', value: data.whatKindOfFeedbackTheyValue },
-    { label: 'HHG Shift to Balance', value: data.hhgShiftToBalance },
+    { label: 'HHG Shift to Balance', value: <strong>{data.hhgShiftToBalance}</strong> },
     { label: 'Stuck Mode', value: data.stuckMode },
     { label: 'Encouragement', value: data.encouragement }
   ]

@@ -129,21 +129,21 @@
 }
 
 .answer-results-choice-head {
-  background: rgba(19, 104, 206, 0.15);
-  color: #0d47a1;
-  border: 1px solid rgba(19, 104, 206, 0.4);
+  background: rgba(46, 111, 168, 0.14);
+  color: #255a87;
+  border: 1px solid rgba(46, 111, 168, 0.35);
 }
 
 .answer-results-choice-heart {
-  background: rgba(226, 27, 60, 0.12);
-  color: #b71c1c;
-  border: 1px solid rgba(226, 27, 60, 0.35);
+  background: rgba(187, 58, 58, 0.12);
+  color: #bb3a3a;
+  border: 1px solid rgba(187, 58, 58, 0.32);
 }
 
 .answer-results-choice-gut {
-  background: rgba(38, 137, 12, 0.12);
-  color: #1b5e20;
-  border: 1px solid rgba(38, 137, 12, 0.35);
+  background: rgba(58, 140, 87, 0.12);
+  color: #3a8c57;
+  border: 1px solid rgba(58, 140, 87, 0.32);
 }
 
 @media (max-width: 768px) {
