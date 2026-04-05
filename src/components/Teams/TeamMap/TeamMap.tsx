@@ -162,7 +162,7 @@ export function TeamMap({ selectedPeople }: TeamMapProps) {
                               className={`overall-icon-badge ${isLongLabel ? 'long-label' : ''}`}
                               style={{ background: 'transparent' }}
                             >
-                              {getBrainIcons(combo.label, 'large')}
+                              {getBrainIcons(combo.label, 'large', 'changeResults')}
                             </div>
                           </div>
                         </div>

@@ -53,18 +53,31 @@ export const getBalanceTipBadge = (brainCombination: string): string => {
   return map[brainCombination] ?? 'Focus'
 }
 
-export const getBrainIcons = (label: string, size: 'small' | 'large' = 'small'): ReactElement[] => {
+/** Muted section palette vs Change Results combo row (`.change-results-centre-icon--*`). */
+export type BrainIconPalette = 'muted' | 'changeResults'
+
+const BRAIN_ICON_COLORS: Record<BrainIconPalette, { head: string; heart: string; gut: string }> = {
+  muted: { head: '#2e6fa8', heart: '#bb3a3a', gut: '#3a8c57' },
+  changeResults: { head: '#1368ce', heart: '#e21b3c', gut: '#26890c' }
+}
+
+export const getBrainIcons = (
+  label: string,
+  size: 'small' | 'large' = 'small',
+  palette: BrainIconPalette = 'muted'
+): ReactElement[] => {
   const icons: ReactElement[] = []
   const iconSize = size === 'large' ? '1.2rem' : '0.9rem'
   const iconMargin = size === 'large' ? '8px' : '4px'
+  const colors = BRAIN_ICON_COLORS[palette]
   const parts = label.split(/\+|Strong/).map(part => part.trim()).filter(part => part.length > 0)
   parts.forEach((part, index) => {
     if (part.includes('Head')) {
-      icons.push(<FontAwesomeIcon key={`head-${index}`} icon={faDiamond} style={{ color: '#2e6fa8', fontSize: iconSize, marginRight: index < parts.length - 1 ? iconMargin : '0' }} />)
+      icons.push(<FontAwesomeIcon key={`head-${index}`} icon={faDiamond} style={{ color: colors.head, fontSize: iconSize, marginRight: index < parts.length - 1 ? iconMargin : '0' }} />)
     } else if (part.includes('Heart')) {
-      icons.push(<FontAwesomeIcon key={`heart-${index}`} icon={faHeart} style={{ color: '#bb3a3a', fontSize: iconSize, marginRight: index < parts.length - 1 ? iconMargin : '0' }} />)
+      icons.push(<FontAwesomeIcon key={`heart-${index}`} icon={faHeart} style={{ color: colors.heart, fontSize: iconSize, marginRight: index < parts.length - 1 ? iconMargin : '0' }} />)
     } else if (part.includes('Gut')) {
-      icons.push(<FontAwesomeIcon key={`gut-${index}`} icon={faSquare} style={{ color: '#3a8c57', fontSize: iconSize, marginRight: index < parts.length - 1 ? iconMargin : '0' }} />)
+      icons.push(<FontAwesomeIcon key={`gut-${index}`} icon={faSquare} style={{ color: colors.gut, fontSize: iconSize, marginRight: index < parts.length - 1 ? iconMargin : '0' }} />)
     }
   })
   return icons

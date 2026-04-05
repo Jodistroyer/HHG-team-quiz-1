@@ -542,7 +542,7 @@ export function AddPersonModal({
                     <div className="add-person-modal__summary-top">
                       <div className="add-person-modal__summary-heading">
                         <span className="add-person-modal__summary-label">{label}</span>
-                        <span className="add-person-modal__summary-icons">{getBrainIcons(combo.label)}</span>
+                        <span className="add-person-modal__summary-icons">{getBrainIcons(combo.label, 'small', 'changeResults')}</span>
                       </div>
                     </div>
                     <div className="add-person-modal__summary-combo-row">

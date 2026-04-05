@@ -239,8 +239,8 @@
 
 .add-person-modal__form input:focus {
   outline: none;
-  border-color: var(--people-accent, #1368ce);
-  box-shadow: 0 0 0 3px rgba(125, 61, 189, 0.12);
+  border-color: var(--people-accent, #7d3dbd);
+  box-shadow: 0 0 0 3px rgba(125, 61, 189, 0.18);
 }
 
 .add-person-modal__suggestion-wrap {
