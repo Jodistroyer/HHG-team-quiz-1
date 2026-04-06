@@ -33,7 +33,7 @@ interface AnswerResultsProps {
 }
 
 function getOptionLabel(question: Question, type: AnswerType | null): string {
-  if (!type) return '—'
+  if (!type) return '-'
   const opt = question.options.find(o => o.type === type)
   return opt ? opt.label : type
 }

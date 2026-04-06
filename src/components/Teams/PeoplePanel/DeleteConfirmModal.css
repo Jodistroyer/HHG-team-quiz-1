@@ -1,5 +1,5 @@
 /* Matches People panel modals (save group / add person). Above nav & sidebars; below context menu (2000). */
-/* Portaled to document.body — not under .app, so set font explicitly (avoids browser default Times). */
+/* Portaled to document.body; not under .app, so set font explicitly (avoids browser default Times). */
 .delete-confirm-backdrop {
   position: fixed;
   inset: 0;

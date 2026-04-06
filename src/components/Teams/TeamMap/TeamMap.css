@@ -20,7 +20,7 @@
   }
 }
 
-/* Roster embedded in PeoplePanel — wrapper is layout-transparent */
+/* Roster embedded in PeoplePanel: wrapper is layout-transparent */
 .team-map--embedded-roster {
   display: contents;
 }
@@ -36,6 +36,67 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
+}
+
+/*
+ * Quiz lives under .app { zoom: 0.85 } (769–1919px). Team Map shares that zoom; avoid
+ * compounding with tight inner padding. Give the main column more air so it matches quiz rhythm.
+ */
+@media (min-width: 769px) {
+  .team-map__center {
+    padding: 44px 40px;
+  }
+}
+
+/* ─────────────────────────────────────────
+   Solo / pair / team result views: uniform scale (same idea as .app zoom)
+───────────────────────────────────────── */
+.team-map__center > .team-map-result-view {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/*
+ * Pull all three modes down to sit closer to Quiz Results perceived size. Uses `zoom` like App.css.
+ * Mid-width: stacks with .app zoom; use a gentler factor. Large screens: .app has no zoom, so scale a bit more.
+ */
+@media (min-width: 769px) and (max-width: 1919px) {
+  .team-map__center > .team-map-result-view {
+    zoom: 0.83;
+  }
+}
+
+@media (min-width: 1920px) {
+  .team-map__center > .team-map-result-view {
+    zoom: 0.78;
+  }
+}
+
+@media (max-width: 768px) {
+  .team-map__center > .team-map-result-view {
+    zoom: 0.86;
+  }
+}
+
+/* Initial empty intro: read larger than filled map views (less aggressive zoom). */
+@media (min-width: 769px) and (max-width: 1919px) {
+  .team-map--empty-intro .team-map__center > .team-map-result-view {
+    zoom: 0.92;
+  }
+}
+
+@media (min-width: 1920px) {
+  .team-map--empty-intro .team-map__center > .team-map-result-view {
+    zoom: 0.9;
+  }
+}
+
+@media (max-width: 768px) {
+  .team-map--empty-intro .team-map__center > .team-map-result-view {
+    zoom: 0.94;
+  }
 }
 
 .team-map__shell {
@@ -54,6 +115,19 @@
   animation: teamMapFadeIn 0.35s ease-out;
 }
 
+/*
+ * Match Quiz Results typography: Team Map used larger section labels and context
+ * hero lines than .results-section-title / section cards. Quiz.css may not load on
+ * Teams-only visits: mirror its .title metrics for the team profile heading.
+ */
+.team-map-results.quiz-results-page .title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 40px;
+  text-align: left;
+}
+
 .team-map-results .final-summary {
   max-width: 800px;
   margin-left: auto;
@@ -61,7 +135,7 @@
 }
 
 .team-map-results__section {
-  margin-bottom: 44px;
+  margin-bottom: 52px;
 }
 
 .team-map-results__section:last-child {
@@ -121,12 +195,12 @@
 .team-map-results__section-title.results-section-title {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
   margin: 0;
   font-family: 'Montserrat', sans-serif;
-  font-size: 1.45rem;
-  font-weight: 800;
-  line-height: 1.15;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.2;
   letter-spacing: -0.02em;
   color: #7d3dbd;
   text-align: left;
@@ -139,12 +213,12 @@
 .team-map-results__card-title.results-section-title {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
   margin: 0;
   font-family: 'Montserrat', sans-serif;
-  font-size: 1.35rem;
-  font-weight: 800;
-  line-height: 1.15;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.2;
   letter-spacing: -0.02em;
   color: #7d3dbd;
   text-align: left;
@@ -154,17 +228,17 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
-  flex: 0 0 24px;
+  width: 22px;
+  height: 22px;
+  flex: 0 0 22px;
   color: #7d3dbd;
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 .team-map-results__natural-default-label {
   margin: 0;
   font-family: 'Montserrat', sans-serif;
-  font-size: 0.92rem;
+  font-size: 1.08rem;
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -206,8 +280,66 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 12px 40px rgba(0, 0, 0, 0.08);
 }
 
+/* Context insight blocks: align with quiz section / change-results density */
+.team-map-results .team-context-insight {
+  gap: 18px;
+}
+
+.team-map-results .team-context-insight__hero {
+  padding: 22px 24px 24px;
+  border-radius: 16px;
+  gap: 10px;
+}
+
+.team-map-results .team-context-insight__title {
+  font-size: 1.08rem;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: -0.015em;
+}
+
+.team-map-results .team-context-insight__cards {
+  gap: 16px;
+}
+
+.team-map-results .team-context-insight__card {
+  padding: 20px 20px 22px;
+  border-radius: 14px;
+}
+
+.team-map-results .team-context-insight__card-header {
+  margin-bottom: 12px;
+  min-height: 0;
+}
+
+.team-map-results .team-context-insight__card-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  gap: 8px;
+}
+
+.team-map-results .team-context-insight__card-text {
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.65;
+}
+
 .team-map-results__context-card > .team-context-insight {
-  gap: 28px;
+  gap: 18px;
+}
+
+@media (max-width: 768px) {
+  .team-map-results .team-context-insight__hero {
+    padding: 20px 18px 22px;
+  }
+
+  .team-map-results .team-context-insight__title {
+    font-size: 1rem;
+  }
+
+  .team-map-results .team-context-insight__cards {
+    gap: 14px;
+  }
 }
 
 .team-map-results__empty-card--tight {
@@ -282,8 +414,8 @@
   }
 
   .team-map-results__section-title.results-section-title {
-    gap: 14px;
-    font-size: 1.2rem;
+    gap: 12px;
+    font-size: 1.15rem;
   }
 
   .team-map-results__card-header {
@@ -291,7 +423,7 @@
   }
 
   .team-map-results__card-title.results-section-title {
-    gap: 14px;
+    gap: 12px;
     font-size: 1.15rem;
   }
 
@@ -350,7 +482,7 @@
 
 /*
  * Desktop: Selected = same sticky + height as Teams Library only.
- * Do NOT cap .team-map__center with --teams-sidebar-height — that reuses the sidebar’s
+ * Do NOT cap .team-map__center with --teams-sidebar-height; that reuses the sidebar’s
  * 100dvh band and shrinks the map; the center should fill all remaining height of .teams__main.
  */
 @media (min-width: 769px) {

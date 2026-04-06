@@ -1,4 +1,4 @@
-/* Portaled to document.body — align with quiz / People modals (z-index 1500). */
+/* Portaled to document.body; align with quiz / People modals (z-index 1500). */
 .start-over-confirm-backdrop {
   position: fixed;
   inset: 0;

@@ -1,0 +1,39 @@
+/* Embedded quiz results inside Teams scroll column: fill width, avoid nested .app assumptions */
+.team-solo-insights {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.team-solo-insights .quiz-results-page--embedded {
+  width: 100%;
+  min-width: 0;
+}
+
+.team-solo-insights .quiz-results-layout {
+  flex-direction: column;
+}
+
+.team-solo-insights .results-sidebar-outer {
+  width: 100%;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 0;
+  align-self: center;
+}
+
+@media (min-width: 769px) {
+  .team-solo-insights .quiz-results-layout {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .team-solo-insights .results-sidebar-outer {
+    width: 220px;
+    padding-left: 24px;
+    margin-left: 0;
+    margin-right: 0;
+    align-self: stretch;
+  }
+}

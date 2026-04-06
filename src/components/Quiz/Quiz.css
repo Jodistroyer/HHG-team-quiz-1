@@ -1,6 +1,6 @@
 /*
  * app-content uses align-items: flex-start on mobile, so a plain .app child
- * shrink-wraps to content width — long questions widened the whole card + grid.
+ * shrink-wraps to content width; long questions widened the whole card + grid.
  * .quiz-page stretches to the full content area width instead.
  */
 .quiz-page {

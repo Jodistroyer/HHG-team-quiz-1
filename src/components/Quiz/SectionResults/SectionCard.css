@@ -1,4 +1,4 @@
-/* Section breakdown container — used by SectionResults */
+/* Section breakdown container; used by SectionResults */
 .section-breakdown-cards {
   margin-bottom: 30px;
 }
@@ -33,7 +33,7 @@ section[id="answers"] {
   }
 }
 
-/* Section card layout and header — used by SectionCard */
+/* Section card layout and header; used by SectionCard */
 .section-card {
   background: white;
   border: 1px solid #e2e8f0;

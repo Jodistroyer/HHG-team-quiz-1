@@ -56,7 +56,7 @@
   line-height: 1;
 }
 
-/* Level 1: Section archetype name — purple */
+/* Level 1: Section archetype name (purple) */
 .section-archetype-name {
   font-family: 'Montserrat', sans-serif;
   font-size: 1.25rem;
@@ -188,7 +188,7 @@
   margin-top: 0.2rem;
 }
 
-/* Level 3: Strengths / Risks cards — light background for readability */
+/* Level 3: Strengths / Risks cards; light background for readability */
 .bento-cards {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -214,7 +214,7 @@
   min-width: 0;
 }
 
-/* Pair cards: same design as strengths/weaknesses — light bg, soft border, muted accent */
+/* Pair cards: same design as strengths/weaknesses; light bg, soft border, muted accent */
 .pair-cards {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -463,7 +463,7 @@
   color: rgba(255, 255, 255, 0.9);
 }
 
-/* Level 4: Balance tip — light card, purple type (inverted from former purple block) */
+/* Level 4: Balance tip; light card, purple type (inverted from former purple block) */
 .action-box {
   background: #ffffff;
   color: #7d3dbd;

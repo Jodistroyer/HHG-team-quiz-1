@@ -7,7 +7,7 @@
   justify-content: center;
   /* Above .navbar (1000) and Teams sticky columns; below ContextMenu (2000) */
   z-index: 1500;
-  /* Portaled to body — inherit same stack as .app */
+  /* Portaled to body; inherit same stack as .app */
   font-family:
     -apple-system,
     BlinkMacSystemFont,

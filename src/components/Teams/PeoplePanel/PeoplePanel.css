@@ -35,7 +35,7 @@
   overflow: hidden;
 }
 
-/* Left: library + saved groups stack — total height matches Selected column */
+/* Left: library + saved groups stack; total height matches Selected column */
 .people-panel__library-stack {
   flex: 1 1 0;
   min-width: 0;
@@ -46,7 +46,7 @@
   overflow: hidden;
 }
 
-/* Box 1: Teams Library — own frame, scroll inside tree (taller vs saved groups: ~4 : 1.5) */
+/* Box 1: Teams Library: own frame, scroll inside tree (taller vs saved groups: ~4 : 1.5) */
 .people-panel__library-stack .teams-library {
   flex: 4 1 0;
   min-height: 0;
@@ -74,7 +74,7 @@
   box-shadow: 0 1px 3px rgba(15, 23, 42, 0.07);
 }
 
-/* Box 3: Selected — same row height; no z-index fight with library column */
+/* Box 3: Selected: same row height; no z-index fight with library column */
 .people-panel__selected {
   flex: 1 1 0;
   min-width: 0;
@@ -173,7 +173,7 @@
 }
 
 /* ── Save-group modal: dim is ::before only (never stacks above the card). Click overlay to close. ─ */
-/* Portal is on document.body — define tokens here (not inherited from .people-panel). */
+/* Portal is on document.body; define tokens here (not inherited from .people-panel). */
 .people-panel__save-group-overlay {
   --people-bg: #ffffff;
   --people-surface: #f1f5f9;
@@ -289,7 +289,7 @@
     box-shadow 120ms ease;
 }
 
-/* Cancel — outlined, clearly visible */
+/* Cancel: outlined, clearly visible */
 .people-panel__save-group-actions button:first-child {
   background: var(--people-bg);
   color: var(--people-text);
@@ -307,7 +307,7 @@
   box-shadow: 0 0 0 3px rgba(125, 61, 189, 0.25);
 }
 
-/* Save — solid accent */
+/* Save: solid accent */
 .people-panel__save-group-actions button:last-child {
   background: var(--people-accent);
   color: #ffffff;

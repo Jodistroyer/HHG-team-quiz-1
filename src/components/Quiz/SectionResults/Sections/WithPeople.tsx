@@ -334,7 +334,7 @@ export const WithPeople = ({ headPercent, heartPercent, gutPercent }: WithPeople
 
   return (
     <div className="under-pressure-content">
-      {/* Hero: archetype + quote — top-level focus */}
+      {/* Hero: archetype + quote (top-level focus) */}
       {/* {archetypeData && (
         <section>
           <div className="section-archetype-block">
@@ -346,7 +346,7 @@ export const WithPeople = ({ headPercent, heartPercent, gutPercent }: WithPeople
           </div>
         </section>
       )} */}
-      {/* Profile: who you are, interaction style, core need — vertical purple line like Doing Work */}
+      {/* Profile: who you are, interaction style, core need; vertical purple line like Doing Work */}
       <div className="intro-grid intro-grid-three">
         <div className="trait-section">
           <div className="trait-section-header">
@@ -383,7 +383,7 @@ export const WithPeople = ({ headPercent, heartPercent, gutPercent }: WithPeople
         balanceTipBadge={balanceTipBadge}
       />
 
-      {/* Strengths & risks — bento cards with clear separation */}
+      {/* Strengths & risks: bento cards with clear separation */}
       <div className="bento-cards">
         <div className="strength-card">
           <h4 className="card-title">

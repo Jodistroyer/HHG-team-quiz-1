@@ -136,7 +136,7 @@ const traitDatabase: Record<string, TraitData> = {
   },
   'Gut+Head': {
     brainCombination: 'Gut + Head',
-    whoYouAre: 'You combine action with strategic thinking—trusting instincts but validating with logic.',
+    whoYouAre: 'You combine action with strategic thinking, trusting instincts but validating with logic.',
     yourWorkStyle: 'Efficient, flexible, goal-oriented, thrives under pressure.',
     yourStrengths: [
       'Adaptive problem-solving',

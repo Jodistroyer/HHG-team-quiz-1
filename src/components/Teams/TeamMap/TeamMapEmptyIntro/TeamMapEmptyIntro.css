@@ -1,0 +1,127 @@
+.team-map-empty-intro {
+  width: 100%;
+  max-width: 1120px;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+
+.team-map-empty-intro__page-title {
+  margin-bottom: 14px !important;
+  text-align: center;
+  font-size: 2.85rem !important;
+  line-height: 1.08 !important;
+}
+
+.team-map-empty-intro__subtitle {
+  margin: 0 auto 42px;
+  max-width: 42rem;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.08rem;
+  font-weight: 600;
+  line-height: 1.6;
+  color: #64748b;
+}
+
+.team-map-empty-intro__row {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+  align-items: stretch;
+}
+
+.team-map-empty-intro__card {
+  margin: 0;
+  padding: 30px 22px 32px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 14px 40px rgba(15, 23, 42, 0.07);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-width: 0;
+}
+
+.team-map-empty-intro__icon-wrap {
+  width: 72px;
+  height: 72px;
+  border-radius: 18px;
+  background: linear-gradient(145deg, #f3e8ff 0%, #ede9fe 100%);
+  border: 1px solid #e9d5ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+  flex-shrink: 0;
+}
+
+.team-map-empty-intro__icon {
+  font-size: 1.85rem;
+  color: #7d3dbd;
+}
+
+.team-map-empty-intro__count {
+  margin: 0 0 8px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #94a3b8;
+}
+
+.team-map-empty-intro__title {
+  margin: 0 0 14px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #7d3dbd;
+}
+
+.team-map-empty-intro__body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.98rem;
+  font-weight: 500;
+  line-height: 1.6;
+  color: #475569;
+  flex: 1;
+}
+
+@media (max-width: 820px) {
+  .team-map-empty-intro__page-title {
+    font-size: 2.15rem !important;
+  }
+
+  .team-map-empty-intro__subtitle {
+    font-size: 1rem;
+    margin-bottom: 32px;
+  }
+
+  .team-map-empty-intro__row {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .team-map-empty-intro__card {
+    padding: 26px 20px 28px;
+  }
+
+  .team-map-empty-intro__title {
+    font-size: 1.2rem;
+  }
+
+  .team-map-empty-intro__body {
+    font-size: 0.92rem;
+  }
+}

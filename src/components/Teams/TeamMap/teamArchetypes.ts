@@ -1,6 +1,6 @@
 /**
  * Archetype labels match individual quiz combos. Copy describes this team’s own cognition,
- * energy, and inner patterns — not how they relate to anyone outside the team.
+ * energy, and inner patterns. It is not about how they relate to anyone outside the team.
  */
 export const TEAM_ARCHETYPES: Record<
   string,

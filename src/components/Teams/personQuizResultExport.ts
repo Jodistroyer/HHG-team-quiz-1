@@ -202,3 +202,56 @@ export function buildPersonQuizResultDocument (person: Person): PersonQuizResult
     sections: sectionsOut,
   }
 }
+
+type QuizResultsOverall = {
+  headPercent: number
+  heartPercent: number
+  gutPercent: number
+  dominant: QuizAnswerType
+  secondaryBrain: QuizAnswerType | null
+}
+
+type QuizResultsSectionScores = {
+  headPercent: number
+  heartPercent: number
+  gutPercent: number
+  dominant: QuizAnswerType
+  secondaryBrain: QuizAnswerType | null
+}
+
+/** Props shape for the quiz results screen; built from stored person + QUIZ_SECTIONS. */
+export function buildQuizResultsPropsFromPerson (person: Person): {
+  overall: QuizResultsOverall
+  sectionSummaries: QuizResultsSectionScores[]
+  sections: typeof QUIZ_SECTIONS
+  answers: Record<string, QuizAnswer>
+  quizCompletedAt: string | null
+} {
+  const doc = buildPersonQuizResultDocument(person)
+  const answers: Record<string, QuizAnswer> = {}
+  for (const sec of doc.sections) {
+    for (const q of sec.questions) {
+      answers[q.id] = q.answer
+    }
+  }
+  const sectionSummaries: QuizResultsSectionScores[] = doc.sections.map((s) => ({
+    headPercent: s.scores.headPercent,
+    heartPercent: s.scores.heartPercent,
+    gutPercent: s.scores.gutPercent,
+    dominant: s.scores.dominant,
+    secondaryBrain: s.scores.secondaryBrain,
+  }))
+  return {
+    overall: {
+      headPercent: person.headPercent,
+      heartPercent: person.heartPercent,
+      gutPercent: person.gutPercent,
+      dominant: person.dominant,
+      secondaryBrain: person.secondaryBrain,
+    },
+    sectionSummaries,
+    sections: QUIZ_SECTIONS,
+    answers,
+    quizCompletedAt: person.quizCompletedAt ?? null,
+  }
+}

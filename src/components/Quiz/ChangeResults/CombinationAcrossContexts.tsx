@@ -52,7 +52,7 @@ export function CombinationAcrossContexts({ rows }: CombinationAcrossContextsPro
               <span className="change-results-context-title">{row.title}</span>
             </dt>
             <dd className="change-results-combo-dd">
-              {/* Brain combo badges (rawLabel) intentionally hidden — show centres as icons instead. */}
+              {/* Brain combo badges (rawLabel) intentionally hidden; show centres as icons instead. */}
               <div className="change-results-centres" aria-label={row.rawLabel}>
                 {row.centres.map((c) => {
                   const cfg = centreIcon(c)

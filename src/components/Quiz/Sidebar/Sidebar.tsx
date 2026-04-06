@@ -45,6 +45,7 @@ interface ResultsSidebarProps {
   answers: Record<string, Answer>
   quizCompletedAt: string | null
   onStartOver: () => void
+  hideStartOver?: boolean
 }
 
 const MOBILE_BREAKPOINT = 768
@@ -57,7 +58,8 @@ export function Sidebar ({
   sections,
   answers,
   quizCompletedAt,
-  onStartOver
+  onStartOver,
+  hideStartOver = false,
 }: ResultsSidebarProps) {
   const [iconOnly, setIconOnly] = useState(false)
   const [compactDownloads, setCompactDownloads] = useState(false)
@@ -175,8 +177,12 @@ export function Sidebar ({
   const sidebarFooter = (
     <div className="results-sidebar-footer">
       <div className="results-sidebar-footer-section results-sidebar-footer-section--downloads">{directDownloadButtons}</div>
-      <div className="results-sidebar-footer-divider" aria-hidden />
-      <div className="results-sidebar-footer-section results-sidebar-footer-section--reset">{startOverButton}</div>
+      {!hideStartOver && (
+        <>
+          <div className="results-sidebar-footer-divider" aria-hidden />
+          <div className="results-sidebar-footer-section results-sidebar-footer-section--reset">{startOverButton}</div>
+        </>
+      )}
     </div>
   )
 
@@ -232,7 +238,7 @@ export function Sidebar ({
               <NavSectionDropdown currentSectionId={currentSectionId} onSelectSection={setCurrentSectionId} />
             </div>
             <div className="results-sidebar-mobile-right">
-              {startOverButton}
+              {!hideStartOver && startOverButton}
               {compactDownloads ? compactMobileDownloads : directDownloadButtons}
             </div>
           </div>

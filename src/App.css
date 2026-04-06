@@ -118,7 +118,11 @@
   }
 }
 
-/* Scale down by 20% (zoom to 80%) when window is not maximized on PC */
+/*
+ * Scale down when window is not maximized on PC. Applies to all routes (Quiz + Teams).
+ * Team Map uses extra padding on .team-map__center, and solo/pair/team result UIs use
+ * `.team-map-result-view { zoom }` so all three modes match Quiz scale (see TeamMap.css).
+ */
 @media (min-width: 769px) and (max-width: 1919px) {
   .app {
     zoom: 0.85;

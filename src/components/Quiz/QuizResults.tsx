@@ -48,17 +48,34 @@ interface QuizResultsProps {
   /** ISO time when the quiz was completed (last question). */
   quizCompletedAt: string | null
   onStartOver: () => void
+  /** Main heading above results (default: “Your Profile:”). */
+  resultsTitle?: string
+  /** Hide “Start over” when embedded (e.g. Teams map for one person). */
+  hideStartOver?: boolean
+  /** Omit root `.app` when already inside the app shell (e.g. Teams page). */
+  embedded?: boolean
 }
 
-export const QuizResults = ({ overall, sectionSummaries, sections, answers, quizCompletedAt, onStartOver }: QuizResultsProps) => {
+export const QuizResults = ({
+  overall,
+  sectionSummaries,
+  sections,
+  answers,
+  quizCompletedAt,
+  onStartOver,
+  resultsTitle = 'Your Profile:',
+  hideStartOver = false,
+  embedded = false,
+}: QuizResultsProps) => {
   const resultsContainerRef = useRef<HTMLDivElement>(null)
+  const rootClass = embedded ? 'quiz-results-page quiz-results-page--embedded' : 'app quiz-results-page'
 
   return (
-    <div className="app quiz-results-page">
+    <div className={rootClass}>
       <div className="quiz-results-layout">
         <div className="container container-results">
           <div className="quiz-results-main">
-            <h1 className="title">Your Profile:</h1>
+            <h1 className="title">{resultsTitle}</h1>
 
             <div className="final-summary" ref={resultsContainerRef}>
               <div data-pdf-section="natural-default">
@@ -137,6 +154,7 @@ export const QuizResults = ({ overall, sectionSummaries, sections, answers, quiz
             answers={answers}
             quizCompletedAt={quizCompletedAt}
             onStartOver={onStartOver}
+            hideStartOver={hideStartOver}
           />
         </div>
       </div>

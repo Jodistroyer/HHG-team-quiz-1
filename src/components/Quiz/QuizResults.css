@@ -203,7 +203,7 @@
   max-width: 12ch;
 }
 
-/* Row of separate icon badge + combo badge (side by side) — Level 2 */
+/* Row of separate icon badge + combo badge (side by side). Level 2 */
 .overall-badges-row {
   display: flex;
   align-items: center;
@@ -213,7 +213,7 @@
   margin-bottom: 1.75rem;
 }
 
-/* Description: readable block — Level 3 body text */
+/* Description: readable block. Level 3 body text */
 .overall-archetype-description {
   font-family: 'Montserrat', sans-serif;
   font-size: 0.95rem;
@@ -252,7 +252,7 @@
   padding: 0 6px 0 0;
 }
 
-/* Quote: pull-quote — Level 3, purple accent */
+/* Quote: pull-quote. Level 3, purple accent */
 .overall-archetype-quote {
   font-family: 'Montserrat', sans-serif;
   font-size: 0.9375rem;

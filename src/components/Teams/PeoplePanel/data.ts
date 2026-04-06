@@ -208,16 +208,19 @@ export function personDisplayLabel(p: Person): string {
   return p.role ? `${p.name} (${p.role})` : p.name
 }
 
-/** Parse a person row label from rename/edit. Supports "Name (Role)" and legacy "Name — Role". */
+/** Parse a person row label from rename/edit. Supports "Name (Role)" and legacy spaced em- or en-dash between name and role (\u2014 / \u2013). */
 export function parsePersonDisplayLabel(label: string): { name: string; role?: string } {
   const t = label.trim()
   const bracket = /^(.+?)\s*\(([^)]+)\)\s*$/.exec(t)
   if (bracket) {
     return { name: bracket[1]!.trim(), role: bracket[2]!.trim() }
   }
-  const legacy = t.split(' — ')
-  if (legacy.length >= 2) {
-    return { name: legacy[0]!.trim(), role: legacy.slice(1).join(' — ').trim() }
+  const legacySeps = [' \u2014 ', ' \u2013 '] as const
+  for (const sep of legacySeps) {
+    const parts = t.split(sep)
+    if (parts.length >= 2) {
+      return { name: parts[0]!.trim(), role: parts.slice(1).join(sep).trim() }
+    }
   }
   return { name: t }
 }

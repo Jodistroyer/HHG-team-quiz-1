@@ -144,7 +144,7 @@
   border-top: 1px solid var(--people-border);
 }
 
-/* ── Footer (actions only — saved groups live in .saved-groups-card) ─────── */
+/* ── Footer (actions only; saved groups live in .saved-groups-card) ─────── */
 .teams-library__footer {
   flex-shrink: 0;
   margin-top: 0;

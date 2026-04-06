@@ -88,9 +88,9 @@ function sectionLabel (sec: (typeof QUIZ_SECTIONS)[number]): string {
 /** Explains whether first/second choice cells are filled (requires imported quiz answers). */
 function answerDataOnFileLabel (person: Person): string {
   const qa = person.quizAnswers
-  if (!qa) return 'Profile only — no stored quiz answers'
+  if (!qa) return 'Profile only (no stored quiz answers)'
   const n = Object.values(qa).filter((a) => a?.firstChoice).length
-  if (n === 0) return 'Profile only — no stored quiz answers'
+  if (n === 0) return 'Profile only (no stored quiz answers)'
   return `Stored quiz answers (${n} / 20 questions)`
 }
 
