@@ -13,7 +13,6 @@ import { TeamDoingWork } from './TeamInsights/TeamDoingWork'
 import { TeamGettingBetter } from './TeamInsights/TeamGettingBetter'
 import { TeamUnderPressure } from './TeamInsights/TeamUnderPressure'
 import { TeamWithPeople } from './TeamInsights/TeamWithPeople'
-import { TeamCultureInsights } from './TeamInsights/TeamCultureInsights'
 import { RadarChart as TeamRadarChart } from './TeamRadarResults/TeamRadarChart'
 import '../../Quiz/RadarResults/OverallRadar.css'
 import '../../Quiz/QuizResults.css'
@@ -137,8 +136,6 @@ export function TeamGroupInsights ({ selectedPeople }: TeamGroupInsightsProps) {
       <h1 className="title">Your Team Profile</h1>
 
       <div key={selectionAnimationKey} className="final-summary">
-        <TeamCultureInsights people={selectedPeople} />
-
         <section className="team-map-results__section" data-team-section="natural-default">
           <TeamSectionHeader title="Natural Default" icon={faCompass} />
           <div className="bento-grid team-map-results__natural-default-grid">
