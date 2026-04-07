@@ -1,6 +1,8 @@
 import { useMemo } from 'react'
 import type { Person, TeamContextKey, TeamContextScores } from '../../PeoplePanel/types'
 import { getBrainCombination, getBalanceTipBadge } from '../../../Quiz/SectionResults/utils.tsx'
+import { RadarChart as TeamRadarChart } from '../TeamRadarResults/TeamRadarChart'
+import '../../../Quiz/RadarResults/OverallRadar.css'
 import './TeamPairInsights.css'
 
 interface TeamPairInsightsProps {
@@ -130,6 +132,35 @@ export function TeamPairInsights ({ people }: TeamPairInsightsProps) {
         <p className="team-pair-insights__names">
           {a.name} &amp; {b.name}
         </p>
+
+        <section className="team-pair-insights__radar-section" aria-label="Natural default comparison">
+          <h2 className="results-section-title team-pair-insights__heading">Natural default</h2>
+          <p className="team-pair-insights__lead">
+            Each person’s Head, Heart, and Gut balance side by side for a quick visual comparison.
+          </p>
+          <div className="team-pair-insights__radar-row">
+            <div className="team-pair-insights__radar-col">
+              <p className="team-pair-insights__radar-name">{a.name}</p>
+              <div className="radar-chart-container team-pair-insights__radar-chart-wrap">
+                <TeamRadarChart
+                  headPercent={a.headPercent}
+                  heartPercent={a.heartPercent}
+                  gutPercent={a.gutPercent}
+                />
+              </div>
+            </div>
+            <div className="team-pair-insights__radar-col">
+              <p className="team-pair-insights__radar-name">{b.name}</p>
+              <div className="radar-chart-container team-pair-insights__radar-chart-wrap">
+                <TeamRadarChart
+                  headPercent={b.headPercent}
+                  heartPercent={b.heartPercent}
+                  gutPercent={b.gutPercent}
+                />
+              </div>
+            </div>
+          </div>
+        </section>
 
         <article className="team-pair-insights__block">
           <h2 className="results-section-title team-pair-insights__heading">What these two produce together</h2>

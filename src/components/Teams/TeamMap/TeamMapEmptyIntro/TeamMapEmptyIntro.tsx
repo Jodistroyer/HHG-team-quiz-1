@@ -27,10 +27,6 @@ export function TeamMapEmptyIntro () {
   return (
     <div className="team-map-empty-intro quiz-results-page">
       <h1 className="title team-map-empty-intro__page-title">Team map</h1>
-      <p className="team-map-empty-intro__subtitle">
-        Choose people from the library on the left. What you see here depends on how many are selected.
-      </p>
-
       <ul className="team-map-empty-intro__row" aria-label="Selection modes">
         {MODES.map((mode) => (
           <li key={mode.title} className="team-map-empty-intro__card">
@@ -43,6 +39,9 @@ export function TeamMapEmptyIntro () {
           </li>
         ))}
       </ul>
+      <p className="team-map-empty-intro__subtitle">
+        Choose people from the library on the left. What you see here depends on how many are selected.
+      </p>
     </div>
   )
 }

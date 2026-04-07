@@ -7,14 +7,14 @@
 }
 
 .team-map-empty-intro__page-title {
-  margin-bottom: 14px !important;
+  margin-bottom: 2.25rem !important;
   text-align: center;
   font-size: 2.85rem !important;
   line-height: 1.08 !important;
 }
 
 .team-map-empty-intro__subtitle {
-  margin: 0 auto 42px;
+  margin: 3rem auto 0;
   max-width: 42rem;
   text-align: center;
   font-family: 'Montserrat', sans-serif;
@@ -28,8 +28,10 @@
   list-style: none;
   margin: 0;
   padding: 0;
+  width: 100%;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 300px));
+  justify-content: center;
   gap: 22px;
   align-items: stretch;
 }
@@ -102,11 +104,12 @@
 
   .team-map-empty-intro__subtitle {
     font-size: 1rem;
-    margin-bottom: 32px;
+    margin: 2.25rem auto 0;
   }
 
   .team-map-empty-intro__row {
     grid-template-columns: 1fr;
+    justify-content: stretch;
     gap: 18px;
     max-width: 480px;
     margin-left: auto;
