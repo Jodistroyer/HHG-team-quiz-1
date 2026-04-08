@@ -87,6 +87,16 @@
   letter-spacing: -0.02em;
 }
 
+/* Heading stays within the column; Teams solo uses a short abbreviated title (no ellipsis). */
+.quiz-results-page .quiz-results-page__main-title {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
 /* Section headings (same style as all-radars-section-title) */
 .results-section-title {
   font-family: 'Montserrat', sans-serif;

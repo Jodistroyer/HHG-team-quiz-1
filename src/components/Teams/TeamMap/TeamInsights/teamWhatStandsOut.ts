@@ -1,4 +1,4 @@
-import type { Centre, ChangeFacts, ContextComboRow, Insight } from '../../Quiz/ChangeResults/changeResultsLogic'
+import type { Centre, ChangeFacts, ContextComboRow, Insight } from '../../../Quiz/ChangeResults/changeResultsLogic'
 
 const INSIGHT_TARGET = 3
 

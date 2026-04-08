@@ -50,13 +50,34 @@
 .change-results-combo-dd {
   display: flex;
   justify-content: flex-end;
+  padding-top: 2px;
+}
+
+.change-results-combo-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.change-results-context-combo-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: #64748b;
+  text-align: right;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .change-results-combo-row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 12px 20px;
-  align-items: center;
+  align-items: start;
   padding: 18px 0;
   border-bottom: 1px solid #e2e8f0;
 }
@@ -66,16 +87,38 @@
   padding-bottom: 0;
 }
 
-.change-results-combo-row dt {
+.change-results-combo-row dt.change-results-combo-dt {
   margin: 0;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 800;
-  font-size: 1.02rem;
-  color: #0f172a;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.change-results-context-heading {
   display: inline-flex;
   align-items: center;
   gap: 0.7rem;
   min-width: 0;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 1.02rem;
+  line-height: 1.25;
+  color: #0f172a;
+}
+
+/* Same idea as .section-card-context on SectionCard; lighter for change-results list. */
+.section-card-contexts {
+  margin: 0;
+  padding: 0;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.5;
+  color: #64748b;
+  max-width: 42ch;
+  letter-spacing: 0.01em;
 }
 
 .change-results-context-icon {
@@ -234,8 +277,13 @@
   .change-results-combo-row {
     grid-template-columns: minmax(0, 1fr) auto;
     gap: 12px 16px;
-    align-items: center;
+    align-items: start;
     padding: 15px 0;
+  }
+
+  .section-card-contexts {
+    font-size: 0.78rem;
+    max-width: none;
   }
 
   .change-results-combo-dd {

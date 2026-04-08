@@ -90,7 +90,7 @@
   position: relative;
 }
 
-/* Level 2: Intro blocks (Who You Are / How You React) */
+/* Level 2: Intro blocks (context combo label / How You React) */
 .intro-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);

@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleCheck, faTriangleExclamation, faEye } from '@fortawesome/free-solid-svg-icons'
 import { getBalanceTipBadgeStyle, getBrainCombination, getBrainIcons } from '../../../Quiz/SectionResults/utils.tsx'
-import './TeamInsights.css'
+import './TeamGroupInsights.css'
 
 interface TeamDoingWorkProps {
   headPercent: number

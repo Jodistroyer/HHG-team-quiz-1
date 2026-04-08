@@ -3,10 +3,25 @@ import ReactMarkdown from 'react-markdown'
 import type { Person, TeamContextKey, TeamContextScores } from '../../PeoplePanel/types'
 import { getBrainCombination, getBalanceTipBadge, getBrainIcons } from '../../../Quiz/SectionResults/utils.tsx'
 import { OVERALL_ARCHETYPES } from '../../../Quiz/overallArchetypes'
-import { PAIR_OVERALL_DESCRIPTIONS } from '../pairOverallArchetypes'
+import type { Centre } from '../../../Quiz/ChangeResults/changeResultsLogic'
+import type { Insight } from '../../../Quiz/ChangeResults/changeResultsLogic'
+import { parseCentres } from '../../../Quiz/ChangeResults/changeResultsLogic'
+import { contextComboLabel } from '../../../Quiz/ChangeResults/contextComboLabels'
+import { PAIR_OVERALL_DESCRIPTIONS } from './pairOverallArchetypes'
 import { WhatStandsOut } from '../../../Quiz/ChangeResults/WhatStandsOut'
 import { RadarChart as TeamRadarChart } from '../TeamRadarResults/TeamRadarChart'
-import { buildPairWhatStandsOutFromPeople } from '../pairWhatStandsOut'
+import { buildPairWhatStandsOutFromPeople } from './pairWhatStandsOut'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
+import {
+  faBriefcase,
+  faChartLine,
+  faDiamond,
+  faFire,
+  faHeart,
+  faPeopleGroup,
+  faSquare,
+} from '@fortawesome/free-solid-svg-icons'
 import '../../../Quiz/ChangeResults/ChangeResults.css'
 import '../../../Quiz/RadarResults/OverallRadar.css'
 import '../../../Quiz/QuizResults.css'
@@ -19,6 +34,8 @@ interface TeamPairInsightsProps {
 
 const CONTEXTS: TeamContextKey[] = ['underPressure', 'doingWork', 'withPeople', 'gettingBetter']
 const CONTEXT_LABELS = ['Under Pressure', 'Doing Work', 'With People', 'Getting Better']
+
+type PairContextKey = Extract<TeamContextKey, 'underPressure' | 'doingWork' | 'withPeople' | 'gettingBetter'>
 
 /** Pair-voice line under the averaged radar (not the solo quiz headline). */
 const PAIR_NATURAL_DEFAULT_TITLE_BY_COMBO: Record<string, string> = {
@@ -71,6 +88,126 @@ function dominantType (s: TeamContextScores): 'Head' | 'Heart' | 'Gut' {
   return rows[0]!.t
 }
 
+function contextIconForTitle (title: string): IconDefinition | null {
+  switch (title.trim().toLowerCase()) {
+    case 'under pressure':
+      return faFire
+    case 'doing work':
+      return faBriefcase
+    case 'with people':
+      return faPeopleGroup
+    case 'getting better':
+      return faChartLine
+    default:
+      return null
+  }
+}
+
+function centreIcon (centre: Centre): { icon: IconDefinition; className: string } {
+  switch (centre) {
+    case 'Head':
+      return { icon: faDiamond, className: 'change-results-centre-icon change-results-centre-icon--head' }
+    case 'Heart':
+      return { icon: faHeart, className: 'change-results-centre-icon change-results-centre-icon--heart' }
+    case 'Gut':
+      return { icon: faSquare, className: 'change-results-centre-icon change-results-centre-icon--gut' }
+  }
+}
+
+function ComboIcons ({ label }: { label: string }) {
+  const centres = parseCentres(label)
+  return (
+    <div className="change-results-centres" aria-label={label}>
+      {centres.map((c) => {
+        const cfg = centreIcon(c)
+        return <FontAwesomeIcon key={c} icon={cfg.icon} className={cfg.className} />
+      })}
+    </div>
+  )
+}
+
+function PairAcrossContextsCard ({ people, insights }: { people: [Person, Person]; insights: Insight[] }) {
+  const [a, b] = people
+  const shortA = a.name.split(' ')[0] ?? a.name
+  const shortB = b.name.split(' ')[0] ?? b.name
+
+  const rows = useMemo(() => {
+    return (CONTEXTS as PairContextKey[]).map((ctx, i) => {
+      const title = CONTEXT_LABELS[i] ?? ctx
+      const sa = scoresFor(a, ctx)
+      const sb = scoresFor(b, ctx)
+      const ca = getBrainCombination(sa.headPercent, sa.heartPercent, sa.gutPercent).label
+      const cb = getBrainCombination(sb.headPercent, sb.heartPercent, sb.gutPercent).label
+
+      const aLabel = contextComboLabel(ctx, ca)
+      const bLabel = contextComboLabel(ctx, cb)
+
+      return { title, ca, cb, aLabel, bLabel }
+    })
+  }, [a, b])
+
+  if (rows.length === 0 && insights.length === 0) return null
+
+  return (
+    <div className="change-results-stack team-pair-insights__pair-change-stack">
+      <div className="change-results-card change-results-card--combo team-pair-insights__pair-change-card">
+        <div className="change-results-combo-block">
+          <div className="team-pair-insights__pair-change-columns">
+            <div className="team-pair-insights__pair-change-column-headings">
+              <span
+                className="team-pair-insights__pair-change-column-heading team-pair-insights__pair-change-column-heading--left team-pair-insights__name-truncate"
+                title={a.name}
+              >
+                {shortA}
+              </span>
+              <span className="team-pair-insights__pair-change-column-heading team-pair-insights__pair-change-column-heading--center">
+                Context
+              </span>
+              <span
+                className="team-pair-insights__pair-change-column-heading team-pair-insights__pair-change-column-heading--right team-pair-insights__name-truncate"
+                title={b.name}
+              >
+                {shortB}
+              </span>
+            </div>
+          </div>
+          <dl className="change-results-combo-list">
+            {rows.map((row) => (
+              <div key={row.title} className="team-pair-insights__pair-change-row">
+                <dd className="change-results-combo-dd team-pair-insights__pair-change-dd team-pair-insights__pair-change-dd--left">
+                  <div className="team-pair-insights__pair-change-side">
+                    <ComboIcons label={row.ca} />
+                    <span className="team-pair-insights__pair-change-label-under-icons">{row.aLabel}</span>
+                  </div>
+                </dd>
+
+                <dt className="team-pair-insights__pair-change-dt">
+                  <div className="team-pair-insights__pair-change-title-row">
+                    {contextIconForTitle(row.title) && (
+                      <span className="change-results-context-icon" aria-hidden="true">
+                        <FontAwesomeIcon icon={contextIconForTitle(row.title)!} />
+                      </span>
+                    )}
+                    <span className="change-results-context-title">{row.title}</span>
+                  </div>
+                </dt>
+
+                <dd className="change-results-combo-dd team-pair-insights__pair-change-dd team-pair-insights__pair-change-dd--right">
+                  <div className="team-pair-insights__pair-change-side">
+                    <ComboIcons label={row.cb} />
+                    <span className="team-pair-insights__pair-change-label-under-icons">{row.bLabel}</span>
+                  </div>
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </div>
+      {insights.length > 0 && <WhatStandsOut insights={insights} />}
+    </div>
+  )
+}
+
 function PairPersonRadarCard ({ person }: { person: Person }) {
   const combo = getBrainCombination(person.headPercent, person.heartPercent, person.gutPercent)
   const isLongLabel = combo.label === 'Head + Heart + Gut'
@@ -78,7 +215,9 @@ function PairPersonRadarCard ({ person }: { person: Person }) {
 
   return (
     <div className="team-pair-insights__person-natural">
-      <p className="team-pair-insights__radar-identity">{person.name}</p>
+      <p className="team-pair-insights__radar-identity team-pair-insights__name-truncate" title={person.name}>
+        {person.name}
+      </p>
       <div className="quiz-results__natural-default-meta team-pair-insights__pair-natural-meta">
         {archetypeData && (
           <p className="quiz-results__natural-default-label">{archetypeData.archetype}</p>
@@ -250,7 +389,16 @@ export function TeamPairInsights ({ people }: TeamPairInsightsProps) {
       <div className="team-pair-insights__inner final-summary">
         <h1 className="title team-pair-insights__page-title">Pair insights</h1>
         <p className="team-pair-insights__names">
-          {a.name} &amp; {b.name}
+          <span className="team-pair-insights__names-part team-pair-insights__name-truncate" title={a.name}>
+            {a.name}
+          </span>
+          <span className="team-pair-insights__names-sep" aria-hidden="true">
+            {' '}
+            &amp;{' '}
+          </span>
+          <span className="team-pair-insights__names-part team-pair-insights__name-truncate" title={b.name}>
+            {b.name}
+          </span>
         </p>
 
         <section className="team-pair-insights__radar-section" aria-label="Natural default comparison">
@@ -267,13 +415,14 @@ export function TeamPairInsights ({ people }: TeamPairInsightsProps) {
               <PairPersonRadarCard person={b} />
             </div>
           </div>
-        </section>
-
-        {pairWhatStandsOutInsights.length > 0 && (
-          <div className="team-pair-insights__what-stands-out">
-            <WhatStandsOut insights={pairWhatStandsOutInsights} />
+          <div className="team-pair-insights__pair-change-outer">
+            <h3 className="results-section-title team-pair-insights__pair-change-heading">How You Change Across Contexts</h3>
+            <p className="team-pair-insights__lead team-pair-insights__pair-change-lead">
+              Side-by-side shifts, then what stands out between you.
+            </p>
+            <PairAcrossContextsCard people={people} insights={pairWhatStandsOutInsights} />
           </div>
-        )}
+        </section>
 
         <article className="team-pair-insights__block">
           <h2 className="results-section-title team-pair-insights__heading">What these two produce together</h2>

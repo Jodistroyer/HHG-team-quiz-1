@@ -1,4 +1,6 @@
 import type { ContextComboRow } from './changeResultsLogic'
+import { contextComboLabelForSectionTitle } from './contextComboLabels'
+import { sectionContextForTitle } from '../sectionContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBriefcase, faChartLine, faFire, faPeopleGroup, faDiamond, faHeart, faSquare } from '@fortawesome/free-solid-svg-icons'
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
@@ -41,27 +43,41 @@ export function CombinationAcrossContexts({ rows }: CombinationAcrossContextsPro
   return (
     <div className="change-results-combo-block">
       <dl className="change-results-combo-list">
-        {rows.map((row) => (
-          <div key={row.title} className="change-results-combo-row">
-            <dt>
-              {contextIconForTitle(row.title) && (
-                <span className="change-results-context-icon" aria-hidden="true">
-                  <FontAwesomeIcon icon={contextIconForTitle(row.title)!} />
-                </span>
-              )}
-              <span className="change-results-context-title">{row.title}</span>
-            </dt>
-            <dd className="change-results-combo-dd">
-              {/* Brain combo badges (rawLabel) intentionally hidden; show centres as icons instead. */}
-              <div className="change-results-centres" aria-label={row.rawLabel}>
-                {row.centres.map((c) => {
-                  const cfg = centreIcon(c)
-                  return <FontAwesomeIcon key={c} icon={cfg.icon} className={cfg.className} />
-                })}
-              </div>
-            </dd>
-          </div>
-        ))}
+        {rows.map((row) => {
+          const icon = contextIconForTitle(row.title)
+          const contextLine = sectionContextForTitle(row.title)
+          return (
+            <div key={row.title} className="change-results-combo-row">
+              <dt className="change-results-combo-dt">
+                <div className="change-results-context-heading">
+                  {icon && (
+                    <span className="change-results-context-icon" aria-hidden="true">
+                      <FontAwesomeIcon icon={icon} />
+                    </span>
+                  )}
+                  <span className="change-results-context-title">{row.title}</span>
+                </div>
+                {contextLine && (
+                  <p className="section-card-contexts">{contextLine}</p>
+                )}
+              </dt>
+              <dd className="change-results-combo-dd">
+                <div className="change-results-combo-side">
+                  {/* Brain combo badges (rawLabel) intentionally hidden; show centres as icons instead. */}
+                  <div className="change-results-centres" aria-label={row.rawLabel}>
+                    {row.centres.map((c) => {
+                      const cfg = centreIcon(c)
+                      return <FontAwesomeIcon key={c} icon={cfg.icon} className={cfg.className} />
+                    })}
+                  </div>
+                  <span className="change-results-context-combo-label">
+                    {contextComboLabelForSectionTitle(row.title, row.rawLabel)}
+                  </span>
+                </div>
+              </dd>
+            </div>
+          )
+        })}
       </dl>
     </div>
   )

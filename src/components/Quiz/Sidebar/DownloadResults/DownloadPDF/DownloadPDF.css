@@ -34,6 +34,15 @@
   max-width: 100%;
 }
 
+/* Full heading in PDF (wrap if needed) */
+.pdf-export-view .quiz-results-page__main-title,
+.pdf-export-view h1.title {
+  overflow: visible !important;
+  text-overflow: unset !important;
+  white-space: normal !important;
+  word-break: break-word;
+}
+
 /* Section archetype block – desktop font sizes */
 .pdf-export-view .section-archetype-name {
   font-size: 1.25rem !important;

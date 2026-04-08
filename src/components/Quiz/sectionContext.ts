@@ -5,3 +5,16 @@ export const SECTION_CONTEXT_BY_ID: Record<number, string> = {
   3: 'Relationships and social dynamics.',
   4: 'Reflection, growth, and self-improvement over time.',
 }
+
+const SECTION_TITLE_TO_ID: Record<string, number> = {
+  'under pressure': 1,
+  'doing work': 2,
+  'with people': 3,
+  'getting better': 4,
+}
+
+/** Same copy as `section-card-context` on SectionCard, keyed by section title. */
+export function sectionContextForTitle (title: string): string | undefined {
+  const id = SECTION_TITLE_TO_ID[title.trim().toLowerCase()]
+  return id !== undefined ? SECTION_CONTEXT_BY_ID[id] : undefined
+}

@@ -50,6 +50,8 @@ interface QuizResultsProps {
   onStartOver: () => void
   /** Main heading above results (default: “Your Profile:”). */
   resultsTitle?: string
+  /** Optional longer label for native tooltip (e.g. full name when `resultsTitle` is abbreviated). */
+  resultsTitleTooltip?: string
   /** Hide “Start over” when embedded (e.g. Teams map for one person). */
   hideStartOver?: boolean
   /** Omit root `.app` when already inside the app shell (e.g. Teams page). */
@@ -64,6 +66,7 @@ export const QuizResults = ({
   quizCompletedAt,
   onStartOver,
   resultsTitle = 'Your Profile:',
+  resultsTitleTooltip,
   hideStartOver = false,
   embedded = false,
 }: QuizResultsProps) => {
@@ -75,7 +78,12 @@ export const QuizResults = ({
       <div className="quiz-results-layout">
         <div className="container container-results">
           <div className="quiz-results-main">
-            <h1 className="title">{resultsTitle}</h1>
+            <h1
+              className="title quiz-results-page__main-title"
+              title={resultsTitleTooltip ?? resultsTitle}
+            >
+              {resultsTitle}
+            </h1>
 
             <div className="final-summary" ref={resultsContainerRef}>
               <div data-pdf-section="natural-default">

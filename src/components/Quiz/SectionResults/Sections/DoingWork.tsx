@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleCheck, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons'
 import { WorkStyleTable, getWorkStyleForScores } from '../Tables/WorkStyleTable.tsx'
+import { contextComboLabel } from '../../ChangeResults/contextComboLabels'
 import { getBalanceTipBadge, getBrainCombination, getBrainCombinationKey, getBrainIcons } from '../utils.tsx'
 import '../SectionResults.css'
 
@@ -264,7 +265,7 @@ export const DoingWork = ({ headPercent, heartPercent, gutPercent }: DoingWorkPr
         <div className="trait-section">
           <div className="trait-section-header">
             <div className="trait-section-title-row">
-              <h4 className="trait-section-title">Who You Are</h4>
+              <h4 className="trait-section-title">{contextComboLabel('doingWork', combo.label)}</h4>
               <span className="brain-icon-badge brain-icon-badge--inline" aria-label="Brain combination icons">
                 {getBrainIcons(combo.label)}
               </span>

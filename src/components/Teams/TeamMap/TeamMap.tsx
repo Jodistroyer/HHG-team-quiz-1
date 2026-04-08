@@ -1,7 +1,7 @@
 import type { Person } from '../PeoplePanel/types'
 import { TeamSoloInsights } from './TeamSoloInsights/TeamSoloInsights'
 import { TeamPairInsights } from './TeamPairInsights/TeamPairInsights'
-import { TeamGroupInsights } from './TeamGroupInsights'
+import { TeamGroupInsights } from './TeamInsights/TeamGroupInsights'
 import { TeamMapEmptyIntro } from './TeamMapEmptyIntro/TeamMapEmptyIntro'
 import './TeamMap.css'
 

@@ -5,6 +5,19 @@
   box-sizing: border-box;
 }
 
+/*
+ * Teams individual profile: match quiz results title (left-aligned); Montserrat if Quiz.css not loaded.
+ */
+.team-solo-insights .quiz-results-page__main-title.title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 800;
+  text-align: left;
+  margin-bottom: 28px !important;
+  color: #7d3dbd;
+  letter-spacing: -0.02em;
+}
+
 .team-solo-insights .quiz-results-page--embedded {
   width: 100%;
   min-width: 0;

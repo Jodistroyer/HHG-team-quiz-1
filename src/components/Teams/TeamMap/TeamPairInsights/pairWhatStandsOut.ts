@@ -1,6 +1,6 @@
-import type { Centre, ChangeFacts, ContextComboRow, Insight } from '../../Quiz/ChangeResults/changeResultsLogic'
-import { buildFacts } from '../../Quiz/ChangeResults/changeResultsLogic'
-import type { Person, TeamContextKey, TeamContextScores } from '../PeoplePanel/types'
+import type { Centre, ChangeFacts, ContextComboRow, Insight } from '../../../Quiz/ChangeResults/changeResultsLogic'
+import { buildFacts } from '../../../Quiz/ChangeResults/changeResultsLogic'
+import type { Person, TeamContextKey, TeamContextScores } from '../../PeoplePanel/types'
 
 const INSIGHT_TARGET = 3
 
@@ -50,41 +50,41 @@ const centreListPhrase = (centres: Centre[]): string => {
 
 function sameComboHeadline (row: ContextComboRow): string {
   const { centres } = row
-  if (centres.length === 1) return `${centres[0]} leads`
-  if (centres.length === 2) return `${centres[0]} and ${centres[1]} lead`
-  return 'Full mix, every context'
+  if (centres.length === 1) return `${centres[0]} leads the pair average`
+  if (centres.length === 2) return `${centres[0]} and ${centres[1]} lead together`
+  return 'Full mix in every context'
 }
 
 const PAIR_LESS_ONE: Record<Centre, { headline: string; body: string }> = {
   Head: {
-    headline: 'Head is faint on this map',
-    body: 'When your scores are averaged across the four situations, Head does not show strongly yet. You can still slow down and think things through without losing what already works together.',
+    headline: 'Head is faint for this pair',
+    body: 'Across the four situations, your combined scores barely lift Head. That does not mean neither of you thinks clearly. It means the average between you hides analysis as a shared lead. You can still choose to slow down and reason together when it matters.',
   },
   Heart: {
-    headline: 'Heart is faint on this map',
-    body: 'When your scores are averaged across the four situations, Heart does not show strongly yet. You can still pay attention to people and care without losing what already shows up here.',
+    headline: 'Heart is faint for this pair',
+    body: 'Across the four situations, your combined scores barely lift Heart. One of you may still be very people-led in life; on this map the midpoint between you does not show care as the shared headline. You can still name feelings and check in on purpose.',
   },
   Gut: {
-    headline: 'Gut is faint on this map',
-    body: 'When your scores are averaged across the four situations, Gut does not show strongly yet. You can still act with more ease and speed without losing what already grounds you both here.',
+    headline: 'Gut is faint for this pair',
+    body: 'Across the four situations, your combined scores barely lift Gut. The pair average does not show instinct and momentum as your joint story yet. You can still move faster or trust a hunch together without forcing it to match the map.',
   },
 }
 
 function pairLessSeveralBody (missing: Centre[]): string {
   if (missing.length === 2) {
     const list = centreListPhrase(missing)
-    return `${list} do not show strongly on this map yet, so the average leans on the other part(s). That hints at what you may lean on too much and what you could grow.`
+    return `${list} barely register in the pair average, so the midpoint between you leans hard on whatever is left. Compare that to how each of you feels alone: the gap is a conversation about balance, not a verdict on either person.`
   }
-  return 'This map barely picks up Head, Heart, or Gut in the averages. Treat it as a thin snapshot. Real life together is usually richer than one screen of numbers.'
+  return 'Head, Heart, and Gut all sit quiet in the combined averages. Treat this as a thin snapshot of the space between you. Day to day, each of you is almost certainly fuller than this midpoint suggests.'
 }
 
 const LEADS_ALL_FOUR_PAIR: Record<Centre, string> = {
   Head:
-    'Head shows in all four situations on this map, so thinking and clarity stay a steady part of how you handle pressure, work, people, and growth together.',
+    'In every situation row, the pair average still leads with Head. However different you are one on one, together you keep landing on thinking, structure, and clarity as the shared first move.',
   Heart:
-    'Heart shows in all four situations on this map, so care for people and what matters to them stays visible across how you work together.',
+    'In every situation row, the pair average still leads with Heart. However you divide tasks, the combined picture keeps people, values, and emotional truth in front.',
   Gut:
-    'Gut shows in all four situations on this map, so momentum and willingness to act stay in the story you share in every row.',
+    'In every situation row, the pair average still leads with Gut. Together you keep momentum, instinct, and readiness to act in the story, not just in one context.',
 }
 
 function pairSameComboBody (row: ContextComboRow): string {
@@ -94,15 +94,15 @@ function pairSameComboBody (row: ContextComboRow): string {
   }
   if (centres.length === 2) {
     const [x, y] = centres
-    return `${x} and ${y} stay active in every row on this map for your average. The situation changes; your mix together does not. You can name that habit, plan around it, or change it on purpose when you need to.`
+    return `${x} and ${y} both stay in the pair average for every situation. Context shifts, but the midpoint between you does not. That is worth comparing to each of your solo maps: are you amplifying each other here, or meeting in the middle?`
   }
-  return 'Head, Heart, and Gut all show in every row on this map. Thinking, care, and instinct all stay in play, and none of the three drops out fully.'
+  return 'Head, Heart, and Gut all show in every row of the pair average. Neither of you is pulling the combined picture toward a single centre alone. The three stay in play together across all four situations.'
 }
 
 const PAIR_STEADY_EVERYWHERE: Record<Centre, { headline: string; body: string }> = {
-  Head: { headline: 'Head leads', body: LEADS_ALL_FOUR_PAIR.Head },
-  Heart: { headline: 'Heart leads', body: LEADS_ALL_FOUR_PAIR.Heart },
-  Gut: { headline: 'Gut leads', body: LEADS_ALL_FOUR_PAIR.Gut },
+  Head: { headline: 'Head leads for both', body: LEADS_ALL_FOUR_PAIR.Head },
+  Heart: { headline: 'Heart leads for both', body: LEADS_ALL_FOUR_PAIR.Heart },
+  Gut: { headline: 'Gut leads for both', body: LEADS_ALL_FOUR_PAIR.Gut },
 }
 
 function pushPairAllSameDepth (
@@ -114,35 +114,35 @@ function pushPairAllSameDepth (
     const c = row0.centres[0]!
     add(
       'One lead, four situations',
-      `${c} runs through all four situations on this map. The scene changes; what you both reach for first does not.`,
+      `${c} runs through all four situation rows in the pair average. The context changes; the combined tilt does not. Check whether that matches how each of you would describe yourselves apart.`,
       94
     )
     add(
       'Same label on purpose',
-      `${row0.shortLabel} keeps showing up together. That repeat is a clue to what feels true when pressure changes.`,
+      `${row0.shortLabel} keeps showing up between you. That repeat is a clue to what this partnership defaults to when stakes shift.`,
       93
     )
   } else if (n === 2) {
     const [x, y] = row0.centres
     add(
       'Same pair of strengths, four times',
-      `${x} and ${y} stay paired in your average in every row. It is a habit across situations, not a one-off.`,
+      `${x} and ${y} stay paired in the pair average in every row. That is a stable blend between you, not a fluke in one context.`,
       94
     )
     add(
       'A rhythm you can change',
-      `Seeing ${row0.shortLabel} again and again is something you can keep or deliberately shift when the moment needs something else.`,
+      `Seeing ${row0.shortLabel} again and again is something you two can keep, or you can agree to try a different split when the moment needs it.`,
       93
     )
   } else if (n === 3) {
     add(
       'All three, every time',
-      'Head, Heart, and Gut all show in every row on this map. Neither of you is leaving a whole part of the mix out when the row changes.',
+      'Head, Heart, and Gut all show in every row of the pair average. As a duo you are not letting a whole centre vanish when the situation changes.',
       94
     )
     add(
       'Nothing dropped out',
-      `Same full picture (${row0.shortLabel}) in all four rows. That kind of evenness is uncommon for two people on one map.`,
+      `Same full picture (${row0.shortLabel}) in all four rows. That kind of evenness across situations is uncommon for two profiles averaged together.`,
       93
     )
   }
@@ -166,30 +166,30 @@ function pushPairRelationalSignals (
     const uniqueD = new Set(dominantsPerContext)
     const matchLine =
       uniqueD.size === 1
-        ? `You both lean ${[...uniqueD][0]} strongest in every situation.`
-        : 'In every situation, whoever leads (Head, Heart, or Gut) is the same for both of you, even when that leader changes by row.'
+        ? `Person by person, you both lead with ${[...uniqueD][0]} in every situation on this map.`
+        : 'Row by row, whoever leads between Head, Heart, and Gut is the same person for both of you, even when that leader changes from one situation to the next.'
     add(
       'Matched in every situation',
-      `${matchLine} Fitting this well can still mean you share the same blind spot.`,
+      `${matchLine} Similarity here can still mean you share the same blind spot, so compare notes, not just comfort.`,
       98
     )
   } else if (align === 0) {
     add(
       'Opposite tilts every time',
-      'Who leads (Head, Heart, or Gut) never matches for both of you across these four situations. What is clear to one of you may need spelling out when the context changes.',
+      'Across these four situations, the stronger centre never matches: when one of you is most Head, Heart, or Gut, the other is not on the same one. What feels obvious to one of you may land as a surprise to the other when the context shifts.',
       98
     )
   } else if (align >= 2 && align < 4) {
     add(
       'Sometimes you match, sometimes not',
-      'You line up in some situations and not in others. It helps to name when the context shifts, not only “we are different people.”',
+      'You line up in some situations and diverge in others. Naming the situation often helps more than saying only that you are two different people.',
       86
     )
   }
 }
 
 /**
- * Pair “what stands out”: same structural signals as the team map, phrased for two people,
+ * Pair "what stands out": same structural signals as the team map, phrased for two people,
  * plus lines from comparing the two individuals situation by situation.
  */
 export function buildPairWhatStandsOut (facts: ChangeFacts, people: [Person, Person]): Insight[] {
@@ -217,7 +217,7 @@ export function buildPairWhatStandsOut (facts: ChangeFacts, people: [Person, Per
     const t = PAIR_LESS_ONE[missing[0]!]!
     add(t.headline, t.body, 100)
   } else if (missing.length > 1) {
-    add('Several parts are quiet on this map', pairLessSeveralBody(missing), 100)
+    add('Several parts are quiet for this pair', pairLessSeveralBody(missing), 100)
   }
 
   if (allSameCombo && rows[0]) {
@@ -239,7 +239,7 @@ export function buildPairWhatStandsOut (facts: ChangeFacts, people: [Person, Per
       const gB = grouped[1]!
       add(
         'Two repeating patterns',
-        `Your average looks like ${gA[0]!.shortLabel} in some rows and ${gB[0]!.shortLabel} in others. You switch between two familiar shapes instead of drifting at random.`,
+        `The pair average looks like ${gA[0]!.shortLabel} in some rows and ${gB[0]!.shortLabel} in others. You two flip between two familiar combined shapes instead of drifting at random.`,
         92
       )
     }
@@ -248,7 +248,7 @@ export function buildPairWhatStandsOut (facts: ChangeFacts, people: [Person, Per
   if (!allSameCombo && uniqueKeys.size === 4 && rows.length === 4) {
     add(
       'A different shape in every row',
-      'No two rows match. How you read together changes with the situation. Same two people, different angles. Saying that out loud can help in arguments.',
+      'No two rows share the same combined pattern. The pair picture shifts with each situation, even though it is still the two of you. Saying that out loud can reduce friction when you assume you are seeing the same thing.',
       91
     )
   }
@@ -263,7 +263,7 @@ export function buildPairWhatStandsOut (facts: ChangeFacts, people: [Person, Per
       const missingRow = rows.find((row) => row.title === missingTitles[0])!
       add(
         `${c} runs most of the map`,
-        `${c} is strong across the map except in ${missingRow.title}, where you average closer to ${missingRow.shortLabel}. Ask what is different about that situation for both of you.`,
+        `${c} is strong across the pair average except in ${missingRow.title}, where the midpoint between you shifts toward ${missingRow.shortLabel}. Ask what is different about that situation for each of you and for you together.`,
         88
       )
     } else if (titles.length === 4) {
@@ -278,7 +278,7 @@ export function buildPairWhatStandsOut (facts: ChangeFacts, people: [Person, Per
       if (onlyRow) {
         add(
           `${centre} strongest in one row only`,
-          `${centre} shows clearest in ${onlyRow.title} (${onlyRow.shortLabel}) and is softer in the other rows.`,
+          `${centre} shows clearest in the pair average for ${onlyRow.title} (${onlyRow.shortLabel}) and sits softer in the other rows. Compare whether one of you drives that spike or you both meet there.`,
           87
         )
       }
@@ -289,7 +289,7 @@ export function buildPairWhatStandsOut (facts: ChangeFacts, people: [Person, Per
   if (tripleRows.length === 1) {
     add(
       `${tripleRows[0]!.title}: only row with all three`,
-      `${tripleRows[0]!.title} is the only row where Head, Heart, and Gut all stay in the mix in your average. Elsewhere at least one steps back. This is where you look most “all three on” together.`,
+      `${tripleRows[0]!.title} is the only row where Head, Heart, and Gut all stay in the pair average. Elsewhere at least one centre steps back for the two of you combined. This row is where you look most fully three-way together.`,
       84
     )
   }
@@ -298,7 +298,7 @@ export function buildPairWhatStandsOut (facts: ChangeFacts, people: [Person, Per
   if (singleRows.length === 1) {
     add(
       `${singleRows[0]!.title} is the simplest row`,
-      `${singleRows[0]!.title} is the only row where your average narrows to one centre. The rest of the map is wider. When things get simple, this is your clearest single focus.`,
+      `${singleRows[0]!.title} is the only row where the pair average narrows to one centre. The rest of the map is wider for both of you. When things get simple, this is your clearest shared single focus.`,
       83
     )
   }
@@ -314,7 +314,7 @@ export function buildPairWhatStandsOut (facts: ChangeFacts, people: [Person, Per
       const lean = rows[minIdx[0]!]!
       add(
         `${wide.title} is fullest, ${lean.title} is tightest`,
-        `${wide.title} packs in more of Head, Heart, and Gut; ${lean.title} keeps the average smaller. That gap is the biggest swing on the map: where you feel richest together versus where you travel light.`,
+        `${wide.title} packs more of Head, Heart, and Gut into the pair average; ${lean.title} keeps the combined picture smaller. That gap is the biggest swing between you on this map: richest together versus lightest together.`,
         82
       )
     }
@@ -322,7 +322,7 @@ export function buildPairWhatStandsOut (facts: ChangeFacts, people: [Person, Per
       const r = rows[maxIdx[0]!]!
       add(
         `${r.title} is the fullest row`,
-        `${r.title} is where the most of Head, Heart, and Gut show at once (${r.shortLabel}) in your average. The busiest row on this map.`,
+        `${r.title} is where the most of Head, Heart, and Gut show at once (${r.shortLabel}) in the pair average. The busiest combined row on this map.`,
         81
       )
     }
@@ -330,7 +330,7 @@ export function buildPairWhatStandsOut (facts: ChangeFacts, people: [Person, Per
       const r = rows[minIdx[0]!]!
       add(
         `${r.title} stays small`,
-        `${r.title} is where your average is smallest (${r.shortLabel}). Neither of you is trying to run every part at full strength there.`,
+        `${r.title} is where the pair average is smallest (${r.shortLabel}). Together you are not trying to run every part at full strength in that situation.`,
         80
       )
     }
@@ -342,14 +342,14 @@ export function buildPairWhatStandsOut (facts: ChangeFacts, people: [Person, Per
     const [x, y] = topsAll
     add(
       `${x} and ${y} tie`,
-      `No single part wins the map; ${x} and ${y} show up equally often across rows. You blend those two rather than picking one boss.`,
+      `No single centre wins the pair map; ${x} and ${y} show up equally often across rows. The two of you blend those strengths in the combined picture instead of one centre owning the story.`,
       56
     )
   }
   if (!allSameCombo && topsAll.length === 3 && rows.length === 4) {
     add(
       'Three-way tie',
-      'Head, Heart, and Gut each show up the same number of times across rows. You rotate instead of fixing one permanent leader.',
+      'Head, Heart, and Gut each show up the same number of times across rows in the pair average. Together you rotate the lead instead of fixing one permanent boss for both of you.',
       55
     )
   }
@@ -357,7 +357,7 @@ export function buildPairWhatStandsOut (facts: ChangeFacts, people: [Person, Per
     const c = topsAll[0]!
     add(
       `${c} still shows in half the rows`,
-      `${c} is missing from some rows but appears in half of them here. Enough to feel like a steady habit for this pair.`,
+      `${c} is missing from some rows but appears in half of them in the pair average. Enough to feel like a steady shared habit, even if one of you feels it more than the other.`,
       54
     )
   }
@@ -367,7 +367,7 @@ export function buildPairWhatStandsOut (facts: ChangeFacts, people: [Person, Per
     const r = rows[tripleBandIdx]!
     add(
       `${r.title}: all three here`,
-      `In ${r.title} your average runs Head, Heart, and Gut together (${r.shortLabel}). Nothing is fully left out in that row.`,
+      `In ${r.title} the pair average runs Head, Heart, and Gut together (${r.shortLabel}). Nothing is fully left out for the two of you in that row.`,
       52
     )
   }
@@ -375,7 +375,7 @@ export function buildPairWhatStandsOut (facts: ChangeFacts, people: [Person, Per
   if (rows.length === 4 && centreCountByContext.every((n) => n === 2)) {
     add(
       'Mostly two at a time',
-      'Every row stays in a two-part mix in your average. You rarely look solo or full three-way in this snapshot; pairs of strengths are your default.',
+      'Every row stays in a two-part mix in the pair average. The two of you rarely look solo or full three-way in this snapshot. A duo of strengths is your default combined shape.',
       51
     )
   }
@@ -396,7 +396,7 @@ export function buildPairWhatStandsOut (facts: ChangeFacts, people: [Person, Per
     const rb = rows[j]!
     add(
       `${ra.title} and ${rb.title} look different`,
-      `${ra.title} leans ${ra.shortLabel} in your average; ${rb.title} leans ${rb.shortLabel}. Same two people, two different pictures.`,
+      `${ra.title} leans ${ra.shortLabel} in the pair average; ${rb.title} leans ${rb.shortLabel}. Same two people, two different combined pictures side by side.`,
       60 - i - j
     )
   }
@@ -405,17 +405,17 @@ export function buildPairWhatStandsOut (facts: ChangeFacts, people: [Person, Per
     const r = rows[0]!
     add(
       `${r.title} in focus`,
-      `This read centers on ${r.title}: ${r.shortLabel}.`,
+      `This pair read centers on ${r.title}: ${r.shortLabel}.`,
       12
     )
     add(
       `The mix in ${r.title}`,
-      `${r.shortLabel} is the shape your average takes when ${r.title} is the frame.`,
+      `${r.shortLabel} is the shape the pair average takes when ${r.title} is the frame.`,
       11
     )
     add(
       'What this row shows',
-      `Every part named in ${r.shortLabel} is doing visible work in ${r.title} on this map.`,
+      `Every part named in ${r.shortLabel} is doing visible work for both of you together in ${r.title} on this map.`,
       10
     )
   }
@@ -424,7 +424,7 @@ export function buildPairWhatStandsOut (facts: ChangeFacts, people: [Person, Per
     const r = rows[i]!
     add(
       r.title,
-      `Average in this row: ${r.shortLabel}.`,
+      `Pair average in this row: ${r.shortLabel}.`,
       4 - i
     )
   }
