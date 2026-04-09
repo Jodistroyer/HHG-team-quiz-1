@@ -186,6 +186,11 @@ const traitDatabase: Record<string, TraitData> = {
   }
 }
 
+export function getDoingWorkBalanceTipInfo (combinationKey: string): { balanceTip: string; brainCombination: string } {
+  const traits = traitDatabase[combinationKey] ?? traitDatabase['Head']
+  return { balanceTip: traits.balanceTip, brainCombination: traits.brainCombination }
+}
+
 /* Doing Work archetypes: archetype name, description, quote */
 const DOING_WORK_ARCHETYPES: Record<string, { archetype: string; description: string; quote: string }> = {
   'Head': {

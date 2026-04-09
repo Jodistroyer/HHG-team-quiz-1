@@ -2,13 +2,29 @@ import { useMemo } from 'react'
 import ReactMarkdown from 'react-markdown'
 import type { Person, TeamContextKey, TeamContextScores } from '../../PeoplePanel/types'
 import { getBrainCombination, getBalanceTipBadge, getBrainIcons } from '../../../Quiz/SectionResults/utils.tsx'
+import { getBrainCombinationKey } from '../../../Quiz/SectionResults/utils.tsx'
 import { OVERALL_ARCHETYPES } from '../../../Quiz/overallArchetypes'
 import type { Centre } from '../../../Quiz/ChangeResults/changeResultsLogic'
 import type { Insight } from '../../../Quiz/ChangeResults/changeResultsLogic'
 import { parseCentres } from '../../../Quiz/ChangeResults/changeResultsLogic'
-import { contextComboLabel } from '../../../Quiz/ChangeResults/contextComboLabels'
+import { contextComboLabel, type SituationalContextKey } from '../../../Quiz/ChangeResults/contextComboLabels'
 import { sectionContextForTitle } from '../../../Quiz/sectionContext'
+import { SECTION_ICONS } from '../../../Quiz/SectionResults/utils.tsx'
+import { SECTION_CONTEXT_BY_ID } from '../../../Quiz/sectionContext'
+import { getUnderPressureBalanceTipInfo } from '../../../Quiz/SectionResults/Sections/UnderPressure'
+import { getDoingWorkBalanceTipInfo } from '../../../Quiz/SectionResults/Sections/DoingWork'
+import { getWithPeopleBalanceTipInfo } from '../../../Quiz/SectionResults/Sections/WithPeople'
+import { getGettingBetterBalanceTipInfo } from '../../../Quiz/SectionResults/Sections/GettingBetter'
+import type { PressureProfileData } from '../../../Quiz/SectionResults/Tables/PressureProfileTable.tsx'
+import { getPressureProfileForScores } from '../../../Quiz/SectionResults/Tables/PressureProfileTable.tsx'
+import type { WorkStyleData } from '../../../Quiz/SectionResults/Tables/WorkStyleTable.tsx'
+import { getWorkStyleForScores } from '../../../Quiz/SectionResults/Tables/WorkStyleTable.tsx'
+import type { SocialMapData } from '../../../Quiz/SectionResults/Tables/SocialMapTable.tsx'
+import { getSocialMapForScores } from '../../../Quiz/SectionResults/Tables/SocialMapTable.tsx'
+import type { FeedbackStyleData } from '../../../Quiz/SectionResults/Tables/FeedbackStyleTable.tsx'
+import { getFeedbackStyleForCombination } from '../../../Quiz/SectionResults/Tables/FeedbackStyleTable.tsx'
 import { PAIR_OVERALL_DESCRIPTIONS } from './pairOverallArchetypes'
+import { getPairContextInsight } from './pairContextInsight'
 import { WhatStandsOut } from '../../../Quiz/ChangeResults/WhatStandsOut'
 import { RadarChart as TeamRadarChart } from '../TeamRadarResults/TeamRadarChart'
 import { buildPairWhatStandsOutFromPeople } from './pairWhatStandsOut'
@@ -17,15 +33,22 @@ import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 import {
   faBriefcase,
   faChartLine,
+  faComments,
   faDiamond,
   faFire,
+  faFireFlameCurved,
   faHeart,
+  faMap,
   faPeopleGroup,
   faSquare,
+  faUserTie,
 } from '@fortawesome/free-solid-svg-icons'
 import '../../../Quiz/ChangeResults/ChangeResults.css'
 import '../../../Quiz/RadarResults/OverallRadar.css'
 import '../../../Quiz/QuizResults.css'
+import '../../../Quiz/SectionResults/SectionCard.css'
+import '../../../Quiz/SectionResults/SectionResults.css'
+import '../../../Quiz/SectionResults/ProfileTable/ProfileTable.css'
 import '../TeamMap.css'
 import './TeamPairInsights.css'
 
@@ -216,6 +239,359 @@ function PairAcrossContextsCard ({ people, insights }: { people: [Person, Person
   )
 }
 
+type PairProfileTableRow = {
+  label: string
+  aValue: React.ReactNode
+  bValue: React.ReactNode
+}
+
+function PairProfileTable ({
+  title,
+  icon,
+  aHeader,
+  bHeader,
+  rows,
+  className,
+}: {
+  title: string
+  icon: IconDefinition
+  aHeader: { label: string; title: string }
+  bHeader: { label: string; title: string }
+  rows: PairProfileTableRow[]
+  className?: string
+}) {
+  return (
+    <div className={['profile-table-block', 'profile-table-block--pair', className].filter(Boolean).join(' ')}>
+      <h4 className="profile-table-title">
+        <span className="profile-table-icon"><FontAwesomeIcon icon={icon} /></span>
+        {title}
+      </h4>
+      <table className="profile-table profile-table--pair">
+        <thead>
+          <tr>
+            <th scope="col">Attribute</th>
+            <th scope="col" className="profile-table__person-col" title={aHeader.title}>
+              <span className="profile-table__person-col-label">{aHeader.label}</span>
+            </th>
+            <th scope="col" className="profile-table__person-col" title={bHeader.title}>
+              <span className="profile-table__person-col-label">{bHeader.label}</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row) => (
+            <tr key={row.label}>
+              <th scope="row">{row.label}</th>
+              <td data-col={aHeader.label}>{row.aValue}</td>
+              <td data-col={bHeader.label}>{row.bValue}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
+function shortName (p: Person): string {
+  return p.name.split(' ')[0] ?? p.name
+}
+
+function rowsFromObjects<T extends object>(
+  aObj: T | null | undefined,
+  bObj: T | null | undefined,
+  labels: Array<[keyof T, string]>,
+  format?: (key: keyof T, v: T[keyof T]) => React.ReactNode
+): PairProfileTableRow[] {
+  if (!aObj || !bObj) return []
+  return labels.map(([key, label]) => {
+    const aVal = aObj[key] as T[keyof T]
+    const bVal = bObj[key] as T[keyof T]
+    return {
+      label,
+      aValue: format ? format(key, aVal) : (aVal as React.ReactNode),
+      bValue: format ? format(key, bVal) : (bVal as React.ReactNode),
+    }
+  })
+}
+
+function PairContextSectionCard ({
+  sectionId,
+  sectionTitle,
+  aScores,
+  bScores,
+  aHeader,
+  bHeader,
+}: {
+  sectionId: 1 | 2 | 3 | 4
+  sectionTitle: string
+  aScores: TeamContextScores
+  bScores: TeamContextScores
+  aHeader: { label: string; title: string }
+  bHeader: { label: string; title: string }
+}) {
+  const slug = sectionTitle.toLowerCase().replace(/\s+/g, '-')
+
+  const situationalKey: SituationalContextKey =
+    sectionId === 1 ? 'underPressure' : sectionId === 2 ? 'doingWork' : sectionId === 3 ? 'withPeople' : 'gettingBetter'
+
+  const comboA = getBrainCombination(aScores.headPercent, aScores.heartPercent, aScores.gutPercent)
+  const comboB = getBrainCombination(bScores.headPercent, bScores.heartPercent, bScores.gutPercent)
+
+  const keyA = getBrainCombinationKey(aScores.headPercent, aScores.heartPercent, aScores.gutPercent)
+  const keyB = getBrainCombinationKey(bScores.headPercent, bScores.heartPercent, bScores.gutPercent)
+
+  const balanceInfoA =
+    sectionId === 1
+      ? getUnderPressureBalanceTipInfo(keyA)
+      : sectionId === 2
+        ? getDoingWorkBalanceTipInfo(keyA)
+        : sectionId === 3
+          ? getWithPeopleBalanceTipInfo(keyA)
+          : getGettingBetterBalanceTipInfo(keyA)
+
+  const balanceInfoB =
+    sectionId === 1
+      ? getUnderPressureBalanceTipInfo(keyB)
+      : sectionId === 2
+        ? getDoingWorkBalanceTipInfo(keyB)
+        : sectionId === 3
+          ? getWithPeopleBalanceTipInfo(keyB)
+          : getGettingBetterBalanceTipInfo(keyB)
+
+  const balanceBadgeA = getBalanceTipBadge(balanceInfoA.brainCombination)
+  const balanceBadgeB = getBalanceTipBadge(balanceInfoB.brainCombination)
+
+  const contextStyleRow: PairProfileTableRow = {
+    label: 'In this context',
+    aValue: contextComboLabel(situationalKey, comboA.label),
+    bValue: contextComboLabel(situationalKey, comboB.label),
+  }
+
+  const iconsRow: PairProfileTableRow = {
+    label: 'HHG Icon',
+    aValue: (
+      <span className="team-pair-insights__hhg-icons" aria-label={`${aHeader.title} HHG icons`}>
+        {getBrainIcons(comboA.label, 'small', 'changeResults')}
+      </span>
+    ),
+    bValue: (
+      <span className="team-pair-insights__hhg-icons" aria-label={`${bHeader.title} HHG icons`}>
+        {getBrainIcons(comboB.label, 'small', 'changeResults')}
+      </span>
+    ),
+  }
+
+  const balanceTipRow: PairProfileTableRow = {
+    label: 'Balance Tip',
+    aValue: (
+      <>
+        <strong>{balanceBadgeA}:</strong> {balanceInfoA.balanceTip}
+      </>
+    ),
+    bValue: (
+      <>
+        <strong>{balanceBadgeB}:</strong> {balanceInfoB.balanceTip}
+      </>
+    ),
+  }
+
+  const comboRow: PairProfileTableRow = {
+    label: 'HHG Combo',
+    aValue: (
+      <span
+        className="brain-combo-badge"
+        style={{
+          background:
+            comboA.colors.length === 1
+              ? comboA.colors[0]
+              : comboA.colors.length === 2
+                ? `linear-gradient(90deg, ${comboA.colors[0]} 50%, ${comboA.colors[1]} 50%)`
+                : `linear-gradient(90deg, ${comboA.colors[0]} 33.33%, ${comboA.colors[1]} 33.33%, ${comboA.colors[1]} 66.66%, ${comboA.colors[2]} 66.66%)`,
+        }}
+      >
+        {comboA.label}
+      </span>
+    ),
+    bValue: (
+      <span
+        className="brain-combo-badge"
+        style={{
+          background:
+            comboB.colors.length === 1
+              ? comboB.colors[0]
+              : comboB.colors.length === 2
+                ? `linear-gradient(90deg, ${comboB.colors[0]} 50%, ${comboB.colors[1]} 50%)`
+                : `linear-gradient(90deg, ${comboB.colors[0]} 33.33%, ${comboB.colors[1]} 33.33%, ${comboB.colors[1]} 66.66%, ${comboB.colors[2]} 66.66%)`,
+        }}
+      >
+        {comboB.label}
+      </span>
+    ),
+  }
+
+  const pressureA = getPressureProfileForScores(aScores.headPercent, aScores.heartPercent, aScores.gutPercent) ?? null
+  const pressureB = getPressureProfileForScores(bScores.headPercent, bScores.heartPercent, bScores.gutPercent) ?? null
+
+  const workA = getWorkStyleForScores(aScores.headPercent, aScores.heartPercent, aScores.gutPercent) ?? null
+  const workB = getWorkStyleForScores(bScores.headPercent, bScores.heartPercent, bScores.gutPercent) ?? null
+
+  const socialA = getSocialMapForScores(aScores.headPercent, aScores.heartPercent, aScores.gutPercent) ?? null
+  const socialB = getSocialMapForScores(bScores.headPercent, bScores.heartPercent, bScores.gutPercent) ?? null
+
+  const fbKeyA = getBrainCombinationKey(aScores.headPercent, aScores.heartPercent, aScores.gutPercent)
+  const fbKeyB = getBrainCombinationKey(bScores.headPercent, bScores.heartPercent, bScores.gutPercent)
+  const feedbackA = getFeedbackStyleForCombination(fbKeyA) ?? null
+  const feedbackB = getFeedbackStyleForCombination(fbKeyB) ?? null
+
+  const pressureRows = rowsFromObjects<PressureProfileData>(
+    pressureA,
+    pressureB,
+    [
+      ['dominantStyle', 'Dominant Style'],
+      ['emotionalTrigger', 'Emotional Trigger'],
+      ['maskDefense', 'Mask / Defense'],
+      ['coreNeed', 'Core Need'],
+      ['howTheyErupt', 'How They Erupt'],
+      ['howToCalmThem', 'How to Calm Them'],
+      ['howToHelpThem', 'How to Help Them'],
+      ['rapailleCode', 'Rapaille Code'],
+      ['howToRemoveMask', 'How to Remove Mask'],
+      ['speakTheirLanguage', 'Speak Their Language'],
+    ]
+  )
+
+  const workRows = rowsFromObjects<WorkStyleData>(
+    workA,
+    workB,
+    [
+      ['speakTheirLanguage', 'Speak Their Language'],
+      ['ambiguityResponseStyle', 'Ambiguity Response Style'],
+      ['blindspots', 'Blindspots'],
+      ['burnoutSigns', 'Burnout Signs'],
+      ['whatTheySecretlyNeed', 'What They Secretly Need'],
+      ['whatManagerShouldDo', 'What a Manager Should Do'],
+    ],
+    (key, v) => {
+      const s = String(v ?? '')
+      if (key === 'ambiguityResponseStyle') {
+        const idx = s.indexOf(':')
+        if (idx <= 0) return s
+        const prefix = s.slice(0, idx + 1).trim()
+        const rest = s.slice(idx + 1).trim()
+        return (
+          <>
+            <strong>{prefix}</strong> {rest}
+          </>
+        )
+      }
+      if (key === 'whatManagerShouldDo') {
+        // Bold only the first sentence.
+        const match = s.match(/^(.+?\.)\s+(.*)$/)
+        if (!match) return s
+        const first = match[1] ?? ''
+        const rest = match[2] ?? ''
+        return (
+          <>
+            <span className="team-pair-insights__bold-first-sentence">{first}</span> {rest}
+          </>
+        )
+      }
+      return s
+    }
+  )
+
+  const socialRows = rowsFromObjects<SocialMapData>(
+    socialA,
+    socialB,
+    [
+      ['speedOfAnswer', 'Speed of Answer'],
+      ['triggers', 'Triggers'],
+      ['darkSide', 'Dark Side'],
+      ['howToDiscussSeriousTopics', 'How to discuss serious topics'],
+      ['energizers', 'Energizers'],
+      ['drainers', 'Drainers'],
+      ['humorStyle', 'Humor style'],
+      ['whoYoureDrawnTo', 'Drawn to'],
+      ['loveLanguage', 'Love language'],
+    ],
+    (key, v) => {
+      if (key !== 'loveLanguage') return v as React.ReactNode
+      const items = (v as unknown as string[]) ?? []
+      return (
+        <ul className="social-map-list">
+          {items.map((item, idx) => (
+            <li key={`${item}-${idx}`}>{item}</li>
+          ))}
+        </ul>
+      )
+    }
+  )
+
+  const feedbackRows = rowsFromObjects<FeedbackStyleData>(
+    feedbackA,
+    feedbackB,
+    [
+      ['howToTeach', 'How to Teach'],
+      ['triggers', 'Triggers'],
+      ['howToListenToThem', 'How to Listen to Them'],
+      ['whatKindOfFeedbackTheyValue', 'What Kind of Feedback They Value'],
+      ['hhgShiftToBalance', 'HHG Shift to Balance'],
+      ['stuckMode', 'Stuck Mode'],
+      ['encouragement', 'Encouragement'],
+    ],
+    (key, v) => (key === 'hhgShiftToBalance' ? <strong>{v as React.ReactNode}</strong> : (v as React.ReactNode))
+  )
+
+  const rowsWithCombo = (rows: PairProfileTableRow[]) => [contextStyleRow, iconsRow, comboRow, ...rows, balanceTipRow]
+
+  const pairContextInsight = getPairContextInsight(situationalKey, keyA, keyB, comboA.label, comboB.label)
+
+  return (
+    <div id={`pair-${slug}`} className="section-card expanded team-pair-insights__context-card" data-pdf-section={`pair-${slug}`}>
+      <div className="section-card-top">
+        <div className="section-card-header">
+          <div className="section-header-content">
+            {SECTION_ICONS[sectionId] && (
+              <span className="section-title-icon" aria-hidden="true">
+                <FontAwesomeIcon icon={SECTION_ICONS[sectionId]} />
+              </span>
+            )}
+            <h4>{sectionTitle}</h4>
+          </div>
+        </div>
+        {SECTION_CONTEXT_BY_ID[sectionId] && (
+          <p className="section-card-context">{SECTION_CONTEXT_BY_ID[sectionId]}</p>
+        )}
+      </div>
+
+      <div className="section-expanded-content team-pair-insights__context-card-body">
+        <p className="trait-content team-pair-insights__pair-context-insight">{pairContextInsight}</p>
+        {sectionId === 1 && pressureRows.length > 0 && (
+          <PairProfileTable
+            title="Pressure Profile"
+            icon={faUserTie}
+            aHeader={aHeader}
+            bHeader={bHeader}
+            rows={rowsWithCombo(pressureRows)}
+          />
+        )}
+
+        {sectionId === 2 && workRows.length > 0 && (
+          <PairProfileTable title="Work Style" icon={faFireFlameCurved} aHeader={aHeader} bHeader={bHeader} rows={rowsWithCombo(workRows)} />
+        )}
+
+        {sectionId === 3 && socialRows.length > 0 && (
+          <PairProfileTable title="Social Map" icon={faMap} aHeader={aHeader} bHeader={bHeader} rows={rowsWithCombo(socialRows)} />
+        )}
+
+        {sectionId === 4 && feedbackRows.length > 0 && (
+          <PairProfileTable title="Feedback Style" icon={faComments} aHeader={aHeader} bHeader={bHeader} rows={rowsWithCombo(feedbackRows)} />
+        )}
+      </div>
+    </div>
+  )
+}
+
 function PairPersonRadarCard ({ person }: { person: Person }) {
   const combo = getBrainCombination(person.headPercent, person.heartPercent, person.gutPercent)
   const isLongLabel = combo.label === 'Head + Heart + Gut'
@@ -392,6 +768,19 @@ export function TeamPairInsights ({ people }: TeamPairInsightsProps) {
     [a, b]
   )
 
+  const contextCards = useMemo(() => {
+    const aShort = shortName(a)
+    const bShort = shortName(b)
+    const aHeader = { label: aShort, title: a.name }
+    const bHeader = { label: bShort, title: b.name }
+    return [
+      { id: 1 as const, title: 'Under Pressure', aScores: scoresFor(a, 'underPressure'), bScores: scoresFor(b, 'underPressure'), aHeader, bHeader },
+      { id: 2 as const, title: 'Doing Work', aScores: scoresFor(a, 'doingWork'), bScores: scoresFor(b, 'doingWork'), aHeader, bHeader },
+      { id: 3 as const, title: 'With People', aScores: scoresFor(a, 'withPeople'), bScores: scoresFor(b, 'withPeople'), aHeader, bHeader },
+      { id: 4 as const, title: 'Getting Better', aScores: scoresFor(a, 'gettingBetter'), bScores: scoresFor(b, 'gettingBetter'), aHeader, bHeader },
+    ]
+  }, [a, b])
+
   return (
     <section className="team-pair-insights quiz-results-page" aria-label="Pair insights">
       <div className="team-pair-insights__inner final-summary">
@@ -429,6 +818,26 @@ export function TeamPairInsights ({ people }: TeamPairInsightsProps) {
               Side-by-side shifts, then what stands out between you.
             </p>
             <PairAcrossContextsCard people={people} insights={pairWhatStandsOutInsights} />
+          </div>
+        </section>
+
+        <section className="team-pair-insights__context-cards" aria-label="Context cards comparison">
+          <h2 className="results-section-title team-pair-insights__heading">Context cards</h2>
+          <p className="team-pair-insights__lead">
+            Same sections as Quiz results, but shown side-by-side so you can compare both people.
+          </p>
+          <div className="section-cards team-pair-insights__context-cards-grid">
+            {contextCards.map((c) => (
+              <PairContextSectionCard
+                key={c.id}
+                sectionId={c.id}
+                sectionTitle={c.title}
+                aScores={c.aScores}
+                bScores={c.bScores}
+                aHeader={c.aHeader}
+                bHeader={c.bHeader}
+              />
+            ))}
           </div>
         </section>
 

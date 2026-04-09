@@ -269,6 +269,11 @@ const traitDatabase: Record<string, TraitData> = {
   }
 }
 
+export function getWithPeopleBalanceTipInfo (combinationKey: string): { balanceTip: string; brainCombination: string } {
+  const traits = traitDatabase[combinationKey] ?? traitDatabase['Head']
+  return { balanceTip: traits.balanceTip, brainCombination: traits.brainCombination }
+}
+
 /* With People archetypes: archetype name, description, quote */
 const WITH_PEOPLE_ARCHETYPES: Record<string, { archetype: string; description: string; quote: string }> = {
   'Head': {

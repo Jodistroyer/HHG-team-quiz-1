@@ -440,6 +440,153 @@
   color: #475569;
 }
 
+.team-pair-insights__context-cards {
+  margin-bottom: 44px;
+}
+
+.team-pair-insights__context-cards-grid.section-cards {
+  gap: 22px;
+}
+
+.team-pair-insights__context-card.section-card {
+  padding: 22px;
+}
+
+.team-pair-insights__context-card .section-card-top {
+  margin: -22px -22px 0 -22px;
+  padding-left: 22px;
+  padding-right: 22px;
+}
+
+.team-pair-insights__context-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.team-pair-insights__pair-context-insight.trait-content {
+  margin: 0 0 4px;
+}
+
+.team-pair-insights__hhg-icons {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 6px;
+  min-width: 0;
+}
+
+/* Under Pressure table: bold key rows (after In this context + HHG Icon + HHG Combo rows). */
+#pair-under-pressure .profile-table.profile-table--pair tbody tr:nth-child(4) td,
+#pair-under-pressure .profile-table.profile-table--pair tbody tr:nth-child(5) td,
+#pair-under-pressure .profile-table.profile-table--pair tbody tr:nth-child(6) td,
+#pair-under-pressure .profile-table.profile-table--pair tbody tr:nth-child(7) td,
+#pair-under-pressure .profile-table.profile-table--pair tbody tr:nth-child(9) td,
+#pair-under-pressure .profile-table.profile-table--pair tbody tr:nth-child(11) td,
+#pair-under-pressure .profile-table.profile-table--pair tbody tr:nth-child(13) td {
+  font-weight: 800;
+}
+
+/* Doing Work table: bold Speak Their Language (after In this context + HHG Icon + HHG Combo rows). */
+#pair-doing-work .profile-table.profile-table--pair tbody tr:nth-child(4) td {
+  font-weight: 800;
+}
+
+/* Doing Work table: bold What They Secretly Need (after In this context + HHG Icon + HHG Combo rows). */
+#pair-doing-work .profile-table.profile-table--pair tbody tr:nth-child(8) td {
+  font-weight: 800;
+}
+
+/* Doing Work table: bold only first sentence in Manager row (cells stay normal weight). */
+.team-pair-insights__bold-first-sentence {
+  font-weight: 800;
+}
+
+/* Doing Work table: make Ambiguity Response Style prefix bold match the row-bold weight. */
+#pair-doing-work .profile-table.profile-table--pair tbody tr:nth-child(5) td strong {
+  font-weight: 800;
+}
+
+/* Social Map (With People) table: bold key rows (after In this context + HHG Icon + HHG Combo rows). */
+#pair-with-people .profile-table.profile-table--pair tbody tr:nth-child(4) td,
+#pair-with-people .profile-table.profile-table--pair tbody tr:nth-child(5) td,
+#pair-with-people .profile-table.profile-table--pair tbody tr:nth-child(7) td,
+#pair-with-people .profile-table.profile-table--pair tbody tr:nth-child(8) td,
+#pair-with-people .profile-table.profile-table--pair tbody tr:nth-child(9) td,
+#pair-with-people .profile-table.profile-table--pair tbody tr:nth-child(12) td {
+  font-weight: 800;
+}
+
+/* Getting Better (Feedback Style) table: bold key rows (after In this context + HHG Icon + HHG Combo rows). */
+#pair-getting-better .profile-table.profile-table--pair tbody tr:nth-child(4) td,
+#pair-getting-better .profile-table.profile-table--pair tbody tr:nth-child(7) td,
+#pair-getting-better .profile-table.profile-table--pair tbody tr:nth-child(9) td {
+  font-weight: 800;
+}
+
+/* Pair table: keep Quiz styling but support 2 value columns */
+.profile-table.profile-table--pair thead th:nth-child(2),
+.profile-table.profile-table--pair thead th:nth-child(3) {
+  text-align: left;
+}
+
+.profile-table.profile-table--pair thead th.profile-table__person-col {
+  max-width: 16ch;
+  min-width: 0;
+}
+
+.profile-table__person-col-label {
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: bottom;
+}
+
+/* Mobile: stack each value with a "name" label using data-col */
+@media (max-width: 430px) {
+  .profile-table.profile-table--pair thead {
+    display: none;
+  }
+
+  .profile-table.profile-table--pair tbody tr {
+    display: block;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 0.85rem 0;
+  }
+
+  .profile-table.profile-table--pair tbody th {
+    display: block;
+    width: 100%;
+    padding: 0 0 0.45rem 0;
+    font-size: 0.8rem;
+    color: #64748b;
+    font-weight: 800;
+  }
+
+  .profile-table.profile-table--pair tbody td {
+    display: block;
+    width: 100%;
+    padding: 0.25rem 0 0 0;
+    font-size: 0.9rem;
+  }
+
+  .profile-table.profile-table--pair tbody td::before {
+    content: attr(data-col);
+    display: block;
+    margin: 0 0 0.15rem 0;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #7d3dbd;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
 @media (max-width: 640px) {
   .team-pair-insights__radar-row {
     grid-template-columns: 1fr;

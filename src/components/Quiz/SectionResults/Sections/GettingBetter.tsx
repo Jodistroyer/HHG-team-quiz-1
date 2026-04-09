@@ -142,6 +142,11 @@ const traitDatabase: Record<string, TraitData> = {
   }
 }
 
+export function getGettingBetterBalanceTipInfo (combinationKey: string): { balanceTip: string; brainCombination: string } {
+  const traits = traitDatabase[combinationKey] ?? traitDatabase['Head']
+  return { balanceTip: traits.balanceTip, brainCombination: traits.brainCombination }
+}
+
 /* Getting Better archetypes: archetype name, description, quote */
 const GETTING_BETTER_ARCHETYPES: Record<string, { archetype: string; description: string; quote: string }> = {
   'Head': {

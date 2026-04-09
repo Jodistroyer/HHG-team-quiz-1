@@ -197,6 +197,11 @@ const traitDatabase: Record<string, TraitData> = {
   }
 }
 
+export function getUnderPressureBalanceTipInfo (combinationKey: string): { balanceTip: string; brainCombination: string } {
+  const traits = traitDatabase[combinationKey] ?? traitDatabase['Head']
+  return { balanceTip: traits.balanceTip, brainCombination: traits.brainCombination }
+}
+
 /* Under Pressure archetypes: archetype name, description, quote */
 const UNDER_PRESSURE_ARCHETYPES: Record<string, { archetype: string; description: string; quote: string }> = {
   'Head': {
