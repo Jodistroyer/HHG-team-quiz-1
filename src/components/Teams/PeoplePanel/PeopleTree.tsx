@@ -5,6 +5,27 @@ import { buildTree, getPersonIdsUnder } from './data'
 import { TreeNode } from './TreeNode'
 import './PeopleTree.css'
 
+const TEAM_DRAG_PREFIX = 'hhg:team:'
+
+function parseTeamDragPayload(raw: string): { company: string; teamKey: string; nodeId: string } | null {
+  if (!raw.startsWith(TEAM_DRAG_PREFIX)) return null
+  try {
+    const parsed = JSON.parse(decodeURIComponent(raw.slice(TEAM_DRAG_PREFIX.length))) as unknown
+    if (
+      typeof parsed !== 'object' ||
+      parsed === null ||
+      typeof (parsed as { company?: unknown }).company !== 'string' ||
+      typeof (parsed as { teamKey?: unknown }).teamKey !== 'string' ||
+      typeof (parsed as { nodeId?: unknown }).nodeId !== 'string'
+    ) {
+      return null
+    }
+    return parsed as { company: string; teamKey: string; nodeId: string }
+  } catch {
+    return null
+  }
+}
+
 interface PeopleTreeProps {
   people: Person[]
   selectedIds: Set<string>
@@ -13,6 +34,13 @@ interface PeopleTreeProps {
   expandedIds: Set<string>
   onExpandedChange: (ids: Set<string>) => void
   onMovePerson?: (personId: string, targetNode: TreeNodeType) => void
+  /** Organization view: move a whole team onto a target company (same name; disambiguate if taken). */
+  onMoveTeam?: (
+    sourceCompany: string,
+    sourceTeamKey: string,
+    sourceNodeId: string,
+    targetNode: TreeNodeType
+  ) => void
   emptyTeams: EmptyTeams
   onContextMenu?: (node: TreeNodeType, e: React.MouseEvent) => void
   onQuickAdd?: (node: TreeNodeType) => void
@@ -31,6 +59,7 @@ export function PeopleTree({
   expandedIds,
   onExpandedChange,
   onMovePerson,
+  onMoveTeam,
   emptyTeams,
   onContextMenu,
   onQuickAdd,
@@ -41,6 +70,7 @@ export function PeopleTree({
   onRenameCancel,
 }: PeopleTreeProps) {
   const [dropTargetId, setDropTargetId] = useState<string | null>(null)
+  const [draggingTeamId, setDraggingTeamId] = useState<string | null>(null)
 
   const tree = buildTree(people, viewMode, emptyTeams)
 
@@ -72,28 +102,46 @@ export function PeopleTree({
     [handleToggleSelect]
   )
 
-  const handleDragOver = useCallback((e: React.DragEvent, node: TreeNodeType) => {
-    if (node.kind !== 'company' && node.kind !== 'team') return
-    e.preventDefault()
-    e.dataTransfer.dropEffect = 'move'
-    setDropTargetId(node.id)
-  }, [])
+  const handleDragOver = useCallback(
+    (e: React.DragEvent, node: TreeNodeType) => {
+      if (draggingTeamId) {
+        if (node.kind !== 'company') return
+        if (node.id === draggingTeamId) return
+      } else if (node.kind !== 'company' && node.kind !== 'team') {
+        return
+      }
+      e.preventDefault()
+      e.dataTransfer.dropEffect = 'move'
+      setDropTargetId(node.id)
+    },
+    [draggingTeamId]
+  )
 
   const handleDrop = useCallback(
     (e: React.DragEvent, node: TreeNodeType) => {
       e.preventDefault()
       setDropTargetId(null)
-      const personId = e.dataTransfer.getData('text/plain')
-      if (personId && onMovePerson) {
-        onMovePerson(personId, node)
-        // Expand target so the moved person is visible
+      setDraggingTeamId(null)
+      const raw = e.dataTransfer.getData('text/plain')
+      const teamPayload = parseTeamDragPayload(raw)
+      if (teamPayload && onMoveTeam) {
+        if (node.kind === 'company') {
+          onMoveTeam(teamPayload.company, teamPayload.teamKey, teamPayload.nodeId, node)
+          const next = new Set(expandedIds)
+          next.add(node.id)
+          onExpandedChange(next)
+        }
+        return
+      }
+      if (raw && onMovePerson) {
+        onMovePerson(raw, node)
         const next = new Set(expandedIds)
         next.add(node.id)
         if (node.kind === 'team' && node.path?.[0]) next.add(`company-${node.path[0]}`)
         onExpandedChange(next)
       }
     },
-    [onMovePerson, expandedIds, onExpandedChange]
+    [onMovePerson, onMoveTeam, expandedIds, onExpandedChange]
   )
 
   const handleDragLeave = useCallback(() => {
@@ -102,7 +150,14 @@ export function PeopleTree({
 
   const handleDragEnd = useCallback(() => {
     setDropTargetId(null)
+    setDraggingTeamId(null)
   }, [])
+
+  const handleTeamDragStart = useCallback((_e: React.DragEvent, nodeId: string) => {
+    setDraggingTeamId(nodeId)
+  }, [])
+
+  const allowTeamDrag = viewMode === 'company' && !!onMoveTeam
 
   return (
     <div className="people-tree" onDragLeave={handleDragLeave}>
@@ -120,9 +175,11 @@ export function PeopleTree({
             onToggleSelect={handleToggleSelect}
             onSelectGroup={handleSelectGroup}
             dropTargetId={dropTargetId}
+            teamDragActive={!!draggingTeamId}
             onDragOver={handleDragOver}
             onDrop={handleDrop}
             onDragStart={onMovePerson ? () => {} : undefined}
+            onDragStartTeam={allowTeamDrag ? handleTeamDragStart : undefined}
             onDragEnd={handleDragEnd}
             onContextMenu={onContextMenu}
             onQuickAdd={onQuickAdd}

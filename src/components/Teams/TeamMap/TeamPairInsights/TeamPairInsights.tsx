@@ -7,6 +7,7 @@ import type { Centre } from '../../../Quiz/ChangeResults/changeResultsLogic'
 import type { Insight } from '../../../Quiz/ChangeResults/changeResultsLogic'
 import { parseCentres } from '../../../Quiz/ChangeResults/changeResultsLogic'
 import { contextComboLabel } from '../../../Quiz/ChangeResults/contextComboLabels'
+import { sectionContextForTitle } from '../../../Quiz/sectionContext'
 import { PAIR_OVERALL_DESCRIPTIONS } from './pairOverallArchetypes'
 import { WhatStandsOut } from '../../../Quiz/ChangeResults/WhatStandsOut'
 import { RadarChart as TeamRadarChart } from '../TeamRadarResults/TeamRadarChart'
@@ -154,14 +155,14 @@ function PairAcrossContextsCard ({ people, insights }: { people: [Person, Person
         <div className="change-results-combo-block">
           <div className="team-pair-insights__pair-change-columns">
             <div className="team-pair-insights__pair-change-column-headings">
+              <span className="team-pair-insights__pair-change-column-heading team-pair-insights__pair-change-column-heading--context">
+                Context
+              </span>
               <span
                 className="team-pair-insights__pair-change-column-heading team-pair-insights__pair-change-column-heading--left team-pair-insights__name-truncate"
                 title={a.name}
               >
                 {shortA}
-              </span>
-              <span className="team-pair-insights__pair-change-column-heading team-pair-insights__pair-change-column-heading--center">
-                Context
               </span>
               <span
                 className="team-pair-insights__pair-change-column-heading team-pair-insights__pair-change-column-heading--right team-pair-insights__name-truncate"
@@ -172,25 +173,31 @@ function PairAcrossContextsCard ({ people, insights }: { people: [Person, Person
             </div>
           </div>
           <dl className="change-results-combo-list">
-            {rows.map((row) => (
+            {rows.map((row) => {
+              const contextIcon = contextIconForTitle(row.title)
+              const contextLine = sectionContextForTitle(row.title)
+              return (
               <div key={row.title} className="team-pair-insights__pair-change-row">
+                <dt className="team-pair-insights__pair-change-dt">
+                  <div className="team-pair-insights__pair-change-title-row">
+                    {contextIcon && (
+                      <span className="change-results-context-icon" aria-hidden="true">
+                        <FontAwesomeIcon icon={contextIcon} />
+                      </span>
+                    )}
+                    <span className="change-results-context-title">{row.title}</span>
+                  </div>
+                  {contextLine && (
+                    <p className="section-card-contexts team-pair-insights__pair-change-context">{contextLine}</p>
+                  )}
+                </dt>
+
                 <dd className="change-results-combo-dd team-pair-insights__pair-change-dd team-pair-insights__pair-change-dd--left">
                   <div className="team-pair-insights__pair-change-side">
                     <ComboIcons label={row.ca} />
                     <span className="team-pair-insights__pair-change-label-under-icons">{row.aLabel}</span>
                   </div>
                 </dd>
-
-                <dt className="team-pair-insights__pair-change-dt">
-                  <div className="team-pair-insights__pair-change-title-row">
-                    {contextIconForTitle(row.title) && (
-                      <span className="change-results-context-icon" aria-hidden="true">
-                        <FontAwesomeIcon icon={contextIconForTitle(row.title)!} />
-                      </span>
-                    )}
-                    <span className="change-results-context-title">{row.title}</span>
-                  </div>
-                </dt>
 
                 <dd className="change-results-combo-dd team-pair-insights__pair-change-dd team-pair-insights__pair-change-dd--right">
                   <div className="team-pair-insights__pair-change-side">
@@ -199,7 +206,8 @@ function PairAcrossContextsCard ({ people, insights }: { people: [Person, Person
                   </div>
                 </dd>
               </div>
-            ))}
+              )
+            })}
           </dl>
         </div>
       </div>

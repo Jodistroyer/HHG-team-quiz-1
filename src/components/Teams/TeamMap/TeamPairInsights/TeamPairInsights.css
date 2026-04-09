@@ -138,9 +138,9 @@
 }
 
 .team-pair-insights__pair-change-card.change-results-card {
-  /* Shared column widths: header row + data rows must use identical tracks for vertical alignment. */
-  --pair-change-side: 13.5rem;
-  --pair-change-gutter: 1.75rem;
+  /* Context first column; two user columns share width and sit next to each other. */
+  --pair-change-side: 11.5rem;
+  --pair-change-gutter: 0.85rem;
   padding: 22px clamp(1.25rem, 4vw, 2.25rem) 20px;
   border-color: #d7e0ea;
   border-radius: 20px;
@@ -152,9 +152,9 @@
 
 .team-pair-insights__pair-change-columns {
   display: grid;
-  grid-template-columns: var(--pair-change-side) minmax(11rem, 1fr) var(--pair-change-side);
+  grid-template-columns: minmax(12.5rem, 1.5fr) var(--pair-change-side) var(--pair-change-side);
   gap: 12px var(--pair-change-gutter);
-  align-items: center;
+  align-items: end;
   padding: 0 0 14px;
   margin-bottom: 4px;
   border-bottom: 2px solid #e2e8f0;
@@ -177,25 +177,24 @@
   max-width: 100%;
 }
 
+.team-pair-insights__pair-change-column-heading--context {
+  text-align: left;
+  white-space: nowrap;
+}
+
 .team-pair-insights__pair-change-column-heading--left,
-.team-pair-insights__pair-change-column-heading--center,
 .team-pair-insights__pair-change-column-heading--right {
   text-align: center;
 }
 
 /* Long names: .team-pair-insights__name-truncate on left/right heading spans */
 
-.team-pair-insights__pair-change-column-heading--center {
-  white-space: nowrap;
-}
-
 .team-pair-insights__pair-change-row {
   display: grid;
-  grid-template-columns: var(--pair-change-side) minmax(11rem, 1fr) var(--pair-change-side);
-  grid-template-areas: 'left mid right';
+  grid-template-columns: minmax(12.5rem, 1.5fr) var(--pair-change-side) var(--pair-change-side);
+  grid-template-areas: 'context left right';
   gap: 14px var(--pair-change-gutter);
-  /* Same vertical band for context + both sides; label length no longer shifts row alignment */
-  align-items: center;
+  align-items: start;
   justify-items: stretch;
   padding: 20px 0;
   border-bottom: 1px solid #e8edf3;
@@ -247,15 +246,24 @@
 }
 
 .team-pair-insights__pair-change-dt {
-  grid-area: mid;
+  grid-area: context;
   margin: 0;
   min-width: 0;
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+  justify-content: flex-start;
+  align-items: flex-start;
+  text-align: left;
+  gap: 0.35rem;
+}
+
+.team-pair-insights__pair-change-context.section-card-contexts {
+  text-align: left;
+  /* Narrower measure than the full context column so long lines wrap sooner */
+  max-width: min(28ch, 100%);
+  margin: 0;
+  align-self: flex-start;
 }
 
 .team-pair-insights__pair-change-title-row {
@@ -270,11 +278,11 @@
   letter-spacing: -0.02em;
   color: #0f172a;
   width: 100%;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .team-pair-insights__pair-change-dt .change-results-context-title {
-  text-align: center;
+  text-align: left;
 }
 
 .team-pair-insights__pair-change-label-under-icons {
@@ -446,22 +454,22 @@
   .team-pair-insights__pair-change-row {
     grid-template-columns: 1fr 1fr;
     grid-template-areas:
-      'mid mid'
+      'context context'
       'left right';
-    gap: 12px 16px;
+    gap: 12px 12px;
     align-items: start;
   }
 
   .team-pair-insights__pair-change-columns {
     grid-template-columns: 1fr 1fr;
     grid-template-areas:
-      'center center'
+      'context context'
       'left right';
-    gap: 10px 16px;
+    gap: 10px 12px;
   }
 
-  .team-pair-insights__pair-change-column-heading--center {
-    grid-area: center;
+  .team-pair-insights__pair-change-column-heading--context {
+    grid-area: context;
   }
 
   .team-pair-insights__pair-change-column-heading--left {
@@ -481,5 +489,10 @@
   .team-pair-insights__pair-change-label-under-icons {
     font-size: 0.7rem;
     letter-spacing: -0.02em;
+  }
+
+  .team-pair-insights__pair-change-context.section-card-contexts {
+    font-size: 0.78rem;
+    max-width: min(30ch, 100%);
   }
 }

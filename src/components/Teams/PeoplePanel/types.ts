@@ -59,6 +59,8 @@ export interface TreeNode {
   person?: Person
   /** Breadcrumb path for this node */
   path?: string[]
+  /** Underlying team bucket key when kind === 'team' (`_` = Other / no team). */
+  teamKey?: string
 }
 
 /** Organization view mode. Role is not a hierarchy level. */

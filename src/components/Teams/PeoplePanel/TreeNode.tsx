@@ -15,9 +15,15 @@ interface TreeNodeProps {
   dropTargetId?: string | null
   /** When set (e.g. person under a team), this row delegates drop to that node so hover over people also accepts drop */
   parentDropNode?: TreeNodeType | null
+  /** Organization view + team drag: ancestor company so person rows delegate drop to the company only */
+  ancestorCompany?: TreeNodeType | null
+  /** When true, only company rows (and people delegating to ancestor company) accept drop — not team rows */
+  teamDragActive?: boolean
   onDragOver?: (e: React.DragEvent, node: TreeNodeType) => void
   onDrop?: (e: React.DragEvent, node: TreeNodeType) => void
   onDragStart?: (e: React.DragEvent, personId: string) => void
+  /** Organization view: drag a team to another company (same team name, disambiguated if needed). */
+  onDragStartTeam?: (e: React.DragEvent, nodeId: string) => void
   onDragEnd?: () => void
   /** Right-click context menu */
   onContextMenu?: (node: TreeNodeType, e: React.MouseEvent) => void
@@ -41,9 +47,12 @@ export function TreeNode({
   onSelectGroup,
   dropTargetId,
   parentDropNode,
+  ancestorCompany,
+  teamDragActive,
   onDragOver,
   onDrop,
   onDragStart,
+  onDragStartTeam,
   onDragEnd,
   onContextMenu,
   onQuickAdd,
@@ -58,10 +67,27 @@ export function TreeNode({
   const isExpanded = expandedIds.has(node.id)
   const hasChildren = node.children.length > 0
   const isPerson = node.kind === 'person' && node.person
+  const isTeam = node.kind === 'team'
   const isDropTarget = dropTargetId === node.id
-  const canAcceptDrop = (node.kind === 'company' || node.kind === 'team') && onDrop
+  const canAcceptDrop =
+    onDrop &&
+    (teamDragActive ? node.kind === 'company' : node.kind === 'company' || node.kind === 'team')
   /** Person rows delegate to parent team so hovering over people in a team also accepts drop */
-  const delegateDropToParent = isPerson && parentDropNode && (parentDropNode.kind === 'company' || parentDropNode.kind === 'team') && onDrop
+  const delegateDropToParent =
+    !teamDragActive &&
+    isPerson &&
+    parentDropNode &&
+    (parentDropNode.kind === 'company' || parentDropNode.kind === 'team') &&
+    onDrop
+  /** Team drag: hovering a person delegates to the org company row, not the team row */
+  const delegateTeamDropToCompany =
+    !!teamDragActive && isPerson && !!ancestorCompany && !!onDrop
+  const dragSurfaceActive = canAcceptDrop || delegateDropToParent || delegateTeamDropToCompany
+  const dragTargetNode: TreeNodeType | null = delegateTeamDropToCompany
+    ? ancestorCompany!
+    : delegateDropToParent
+      ? parentDropNode!
+      : node
   const personIds = isPerson ? [node.person!.id] : getPersonIdsUnder(node)
   const allSelected = personIds.length > 0 && personIds.every((id) => selectedIds.has(id))
   const someSelected = personIds.some((id) => selectedIds.has(id))
@@ -92,6 +118,16 @@ export function TreeNode({
   }
 
   const handleDragStart = (e: React.DragEvent) => {
+    if (isTeam && onDragStartTeam) {
+      const company = node.path?.[0] ?? ''
+      const teamKey = node.teamKey ?? '_'
+      const payload = JSON.stringify({ company, teamKey, nodeId: node.id })
+      e.dataTransfer.setData('text/plain', `hhg:team:${encodeURIComponent(payload)}`)
+      e.dataTransfer.effectAllowed = 'move'
+      setIsDragging(true)
+      onDragStartTeam(e, node.id)
+      return
+    }
     if (!isPerson || !node.person || !onDragStart) return
     e.dataTransfer.setData('text/plain', node.person.id)
     e.dataTransfer.effectAllowed = 'move'
@@ -141,11 +177,11 @@ export function TreeNode({
     >
       <div
         className="tree-node__row"
-        draggable={isPerson && !!onDragStart}
+        draggable={(isPerson && !!onDragStart) || (isTeam && !!onDragStartTeam)}
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
-        onDragOver={(canAcceptDrop || delegateDropToParent) && onDragOver ? (e) => onDragOver(e, delegateDropToParent ? parentDropNode! : node) : undefined}
-        onDrop={(canAcceptDrop || delegateDropToParent) ? (e) => onDrop?.(e, delegateDropToParent ? parentDropNode! : node) : undefined}
+        onDragOver={dragSurfaceActive && onDragOver ? (e) => onDragOver(e, dragTargetNode) : undefined}
+        onDrop={dragSurfaceActive ? (e) => onDrop?.(e, dragTargetNode) : undefined}
         onContextMenu={handleContextMenu}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -251,9 +287,12 @@ export function TreeNode({
               onSelectGroup={onSelectGroup}
               dropTargetId={dropTargetId}
               parentDropNode={node.kind === 'team' || node.kind === 'company' ? node : parentDropNode}
+              ancestorCompany={node.kind === 'company' ? node : ancestorCompany}
+              teamDragActive={teamDragActive}
               onDragOver={onDragOver}
               onDrop={onDrop}
               onDragStart={onDragStart}
+              onDragStartTeam={onDragStartTeam}
               onDragEnd={onDragEnd}
               onContextMenu={onContextMenu}
               onQuickAdd={onQuickAdd}

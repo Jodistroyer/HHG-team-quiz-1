@@ -14,6 +14,14 @@
   transition: background 100ms;
 }
 
+.tree-node__row[draggable='true'] {
+  cursor: grab;
+}
+
+.tree-node__row[draggable='true']:active {
+  cursor: grabbing;
+}
+
 .tree-node__row:hover {
   background: rgba(125, 61, 189, 0.06);
 }

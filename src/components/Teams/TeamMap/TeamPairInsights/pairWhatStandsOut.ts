@@ -225,26 +225,6 @@ export function buildPairWhatStandsOut (facts: ChangeFacts, people: [Person, Per
     pushPairAllSameDepth(add, rows[0])
   }
 
-  if (uniqueKeys.size === 2) {
-    const groups = new Map<string, ContextComboRow[]>()
-    rows.forEach((row, i) => {
-      const key = comboKeys[i]!
-      const list = groups.get(key) ?? []
-      list.push(row)
-      groups.set(key, list)
-    })
-    const grouped = [...groups.values()].sort((a, b) => b.length - a.length)
-    if (grouped.length === 2) {
-      const gA = grouped[0]!
-      const gB = grouped[1]!
-      add(
-        'Two repeating patterns',
-        `The pair average looks like ${gA[0]!.shortLabel} in some rows and ${gB[0]!.shortLabel} in others. You two flip between two familiar combined shapes instead of drifting at random.`,
-        92
-      )
-    }
-  }
-
   if (!allSameCombo && uniqueKeys.size === 4 && rows.length === 4) {
     add(
       'A different shape in every row',

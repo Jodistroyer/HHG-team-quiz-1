@@ -29,6 +29,70 @@ function groupNamesContainingIds(groups: SavedGroup[], ids: Set<string>): string
   return groups.filter((g) => g.personIds.some((id) => ids.has(id))).map((g) => g.name)
 }
 
+function personMatchesCompanyLabel(p: Person, companyLabel: string): boolean {
+  if (companyLabel === 'Uncategorized') {
+    return p.company == null || p.company === '' || p.company === 'Uncategorized'
+  }
+  return p.company === companyLabel
+}
+
+function personMatchesTeamKey(p: Person, teamKey: string): boolean {
+  if (teamKey === '_') return p.team == null || p.team === '' || p.team === '_'
+  return p.team === teamKey
+}
+
+function teamNameStoredOnPerson(p: Person): string | null {
+  const t = p.team
+  if (t == null || t === '' || t === '_') return null
+  return t
+}
+
+/** Team names already used under a company (people + empty slots), excluding people being moved away. */
+function collectUsedTeamNamesInCompany(
+  targetCompanyLabel: string,
+  peopleList: Person[],
+  emptySlots: string[],
+  excludeIfMoving: (p: Person) => boolean
+): Set<string> {
+  const used = new Set<string>()
+  for (const p of peopleList) {
+    if (!personMatchesCompanyLabel(p, targetCompanyLabel)) continue
+    if (excludeIfMoving(p)) continue
+    const tn = teamNameStoredOnPerson(p)
+    if (tn) used.add(tn)
+  }
+  for (const slot of emptySlots) {
+    if (slot !== '_') used.add(slot)
+  }
+  return used
+}
+
+/** Keep `base` if free; otherwise `base (1)`, `base (2)`, … */
+function pickDisambiguatedTeamName(base: string, used: Set<string>): string {
+  if (!used.has(base)) return base
+  let n = 1
+  while (used.has(`${base} (${n})`)) n += 1
+  return `${base} (${n})`
+}
+
+function pullEmptyTeamSlot(prev: EmptyTeams, companyLabel: string, teamKey: string): EmptyTeams {
+  const list = prev[companyLabel]
+  if (!list?.includes(teamKey)) return prev
+  const filtered = list.filter((t) => t !== teamKey)
+  const next = { ...prev }
+  if (filtered.length === 0) delete next[companyLabel]
+  else next[companyLabel] = filtered
+  return next
+}
+
+function pushEmptyTeamSlot(prev: EmptyTeams, companyLabel: string, teamKey: string): EmptyTeams {
+  const set = new Set(prev[companyLabel] ?? [])
+  set.add(teamKey)
+  const next = { ...prev }
+  next[companyLabel] = Array.from(set).sort()
+  return next
+}
+
 /** After removing people, keep company/team shells in emptyTeams so org rows stay in the tree. */
 function emptyTeamsAfterRemovingPeople(
   peopleBefore: Person[],
@@ -303,7 +367,10 @@ export function useTeamsDirectory({
         team = undefined
       } else if (targetNode.kind === 'team') {
         company = path[0]
-        team = label
+        const tk = targetNode.teamKey
+        if (tk === '_') team = undefined
+        else if (tk !== undefined && tk !== '') team = tk
+        else team = label === 'Other' ? undefined : label
       } else {
         return
       }
@@ -316,6 +383,53 @@ export function useTeamsDirectory({
       persistPeople(people.map((p) => (p.id === personId ? updated : p)))
     },
     [people, persistPeople]
+  )
+
+  const handleMoveTeam = useCallback(
+    (
+      sourceCompany: string,
+      sourceTeamKey: string,
+      sourceNodeId: string,
+      targetNode: TreeNodeType
+    ) => {
+      if (targetNode.kind !== 'company') return
+      if (targetNode.id === sourceNodeId) return
+
+      const targetLabel = targetNode.label
+      const inSourceTeam = (p: Person) =>
+        personMatchesCompanyLabel(p, sourceCompany) && personMatchesTeamKey(p, sourceTeamKey)
+
+      const hadPeopleInTeam = people.some(inSourceTeam)
+      const hadEmptySlot = (emptyTeams[sourceCompany] ?? []).includes(sourceTeamKey)
+
+      let resolvedTeamName: string | undefined
+      if (sourceTeamKey === '_') {
+        resolvedTeamName = undefined
+      } else {
+        const used = collectUsedTeamNamesInCompany(
+          targetLabel,
+          people,
+          emptyTeams[targetLabel] ?? [],
+          inSourceTeam
+        )
+        resolvedTeamName = pickDisambiguatedTeamName(sourceTeamKey, used)
+      }
+
+      const nextPeople = people.map((p) => (inSourceTeam(p) ? { ...p, company: targetLabel, team: resolvedTeamName } : p))
+
+      let nextEmpty = pullEmptyTeamSlot(emptyTeams, sourceCompany, sourceTeamKey)
+      if (!hadPeopleInTeam && hadEmptySlot) {
+        if (sourceTeamKey === '_') {
+          nextEmpty = pushEmptyTeamSlot(nextEmpty, targetLabel, '_')
+        } else {
+          nextEmpty = pushEmptyTeamSlot(nextEmpty, targetLabel, resolvedTeamName!)
+        }
+      }
+
+      persistEmptyTeams(nextEmpty)
+      persistPeople(nextPeople)
+    },
+    [people, emptyTeams, persistPeople, persistEmptyTeams]
   )
 
   const handleContextMenu = useCallback((node: TreeNodeType, e: React.MouseEvent) => {
@@ -467,19 +581,18 @@ export function useTeamsDirectory({
     }
     if (node.kind === 'team') {
       const path = node.path ?? []
-      const companyName = path[0]
+      const companyName = path[0] ?? ''
       const teamName = node.label
-      const count = people.filter((p) => p.company === companyName && p.team === teamName).length
+      const teamKey = node.teamKey ?? (teamName === 'Other' ? '_' : teamName)
+      const inTeam = (p: Person) =>
+        personMatchesCompanyLabel(p, companyName) && personMatchesTeamKey(p, teamKey)
+      const count = people.filter(inTeam).length
       return [
-        { id: 'add-person', label: 'Add Person', onClick: () => { setContextMenu(null); openAddPerson(companyName, teamName) } },
+        { id: 'add-person', label: 'Add Person', onClick: () => { setContextMenu(null); openAddPerson(companyName, teamName === 'Other' ? '' : teamName) } },
         { id: 'rename', label: 'Rename Team', onClick: () => startRename(node) },
         { id: 'delete', label: 'Delete Team', onClick: () => {
           setContextMenu(null)
-          const teamRemovedIds = new Set(
-            people
-              .filter((p) => p.company === companyName && p.team === teamName)
-              .map((p) => p.id)
-          )
+          const teamRemovedIds = new Set(people.filter(inTeam).map((p) => p.id))
           const groupsRemovedFrom = groupNamesContainingIds(savedGroups, teamRemovedIds)
           setDeleteConfirm({
             title: 'Delete Team?',
@@ -489,15 +602,11 @@ export function useTeamsDirectory({
               ...(groupsRemovedFrom.length > 0 && { groupsRemovedFrom }),
             },
             onConfirm: () => {
-              const removedIds = new Set(
-                people
-                  .filter((p) => p.company === companyName && p.team === teamName)
-                  .map((p) => p.id)
-              )
-              persistPeople(people.filter((p) => !(p.company === companyName && p.team === teamName)))
+              const removedIds = new Set(people.filter(inTeam).map((p) => p.id))
+              persistPeople(people.filter((p) => !inTeam(p)))
               setSelectedIds((prev) => new Set([...prev].filter((id) => !removedIds.has(id))))
               const next = { ...emptyTeams }
-              const list = (next[companyName] ?? []).filter((t) => t !== teamName)
+              const list = (next[companyName] ?? []).filter((t) => t !== teamKey)
               if (list.length === 0) delete next[companyName]
               else next[companyName] = list
               persistEmptyTeams(next)
@@ -515,7 +624,6 @@ export function useTeamsDirectory({
         { id: 'view-profile', label: 'View Profile', onClick: () => { setContextMenu(null) } },
         { id: 'edit', label: 'Edit Person', onClick: () => { setContextMenu(null); if (node.person) openEditPerson(node.person) } },
         'separator',
-        { id: 'add-to-group', label: 'Add to Group', onClick: () => { setContextMenu(null); setSelectedIds((prev) => new Set(prev).add(person.id)) } },
         { id: 'view-assessments', label: 'View Assessments', onClick: () => { setContextMenu(null) } },
         'separator',
         { id: 'delete', label: 'Delete Person', onClick: () => {
@@ -641,6 +749,7 @@ export function useTeamsDirectory({
     handleSelectSavedGroup,
     handleDeleteSavedGroup,
     handleMovePerson,
+    handleMoveTeam,
     handleContextMenu,
     handleQuickAdd,
     handleRenameCommit,

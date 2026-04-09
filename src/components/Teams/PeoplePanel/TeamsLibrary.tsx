@@ -31,6 +31,7 @@ export function TeamsLibrary({ api }: TeamsLibraryProps) {
     setExpandedIds,
     emptyTeams,
     handleMovePerson,
+    handleMoveTeam,
     handleContextMenu,
     handleQuickAdd,
     editingNodeId,
@@ -81,6 +82,7 @@ export function TeamsLibrary({ api }: TeamsLibraryProps) {
           expandedIds={expandedIds}
           onExpandedChange={setExpandedIds}
           onMovePerson={handleMovePerson}
+          onMoveTeam={handleMoveTeam}
           emptyTeams={emptyTeams}
           onContextMenu={handleContextMenu}
           onQuickAdd={handleQuickAdd}

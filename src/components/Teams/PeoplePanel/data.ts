@@ -273,6 +273,7 @@ function buildCompanyTree(people: Person[], emptyTeams: EmptyTeams = {}): TreeNo
         id: `team-${companyName}-${teamName}`,
         kind: 'team',
         label: teamLabel,
+        teamKey: teamName,
         count: teamPeople.length,
         children: personNodes,
         path: [companyName],
@@ -291,7 +292,7 @@ function buildCompanyTree(people: Person[], emptyTeams: EmptyTeams = {}): TreeNo
     })
   }
 
-  nodes.sort((a, b) => (b.count ?? 0) - (a.count ?? 0))
+  nodes.sort((a, b) => a.label.localeCompare(b.label, undefined, { sensitivity: 'base' }))
   return nodes
 }
 
@@ -354,7 +355,7 @@ function buildTeamTree(people: Person[]): TreeNode[] {
       ...visuals,
     })
   }
-  nodes.sort((a, b) => (b.count ?? 0) - (a.count ?? 0))
+  nodes.sort((a, b) => a.label.localeCompare(b.label, undefined, { sensitivity: 'base' }))
   return nodes
 }
 
@@ -395,7 +396,7 @@ function buildTagsTree(people: Person[]): TreeNode[] {
       ...tagVisuals,
     })
   }
-  nodes.sort((a, b) => (b.count ?? 0) - (a.count ?? 0))
+  nodes.sort((a, b) => a.label.localeCompare(b.label, undefined, { sensitivity: 'base' }))
   return nodes
 }
 
