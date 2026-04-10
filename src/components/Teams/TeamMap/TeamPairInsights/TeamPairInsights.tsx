@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, type ReactNode } from 'react'
 import ReactMarkdown from 'react-markdown'
 import type { Person, TeamContextKey, TeamContextScores } from '../../PeoplePanel/types'
 import { getBrainCombination, getBalanceTipBadge, getBrainIcons } from '../../../Quiz/SectionResults/utils.tsx'
@@ -296,6 +296,47 @@ function shortName (p: Person): string {
   return p.name.split(' ')[0] ?? p.name
 }
 
+function escapeRegExp (s: string): string {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+/**
+ * Inserts HHG centre icons (same palette as pair table) before each in-context combo phrase ({a}/{b} after fill).
+ */
+function pairContextInsightRich (
+  text: string,
+  context: SituationalContextKey,
+  comboLabelA: string,
+  comboLabelB: string
+): ReactNode {
+  const la = contextComboLabel(context, comboLabelA)
+  const lb = contextComboLabel(context, comboLabelB)
+  const terms = la === lb ? (la ? [la] : []) : [la, lb].filter(Boolean).sort((x, y) => y.length - x.length)
+  if (terms.length === 0) return text
+  const re = new RegExp(`(${terms.map(escapeRegExp).join('|')})`, 'g')
+  const parts = text.split(re)
+  if (parts.length === 1) return text
+
+  return (
+    <>
+      {parts.map((part, i) => {
+        if (i % 2 === 0) {
+          return part ? <span key={i}>{part}</span> : null
+        }
+        const combo = part === la ? comboLabelA : part === lb ? comboLabelB : comboLabelA
+        return (
+          <span key={i} className="team-pair-insights__context-inline-label">
+            <span className="team-pair-insights__context-inline-icons" aria-hidden="true">
+              {getBrainIcons(combo, 'small', 'changeResults')}
+            </span>
+            <strong className="team-pair-insights__context-inline-label-text">{part}</strong>
+          </span>
+        )
+      })}
+    </>
+  )
+}
+
 function rowsFromObjects<T extends object>(
   aObj: T | null | undefined,
   bObj: T | null | undefined,
@@ -545,6 +586,12 @@ function PairContextSectionCard ({
   const rowsWithCombo = (rows: PairProfileTableRow[]) => [contextStyleRow, iconsRow, comboRow, ...rows, balanceTipRow]
 
   const pairContextInsight = getPairContextInsight(situationalKey, keyA, keyB, comboA.label, comboB.label)
+  const pairContextInsightBody = pairContextInsightRich(
+    pairContextInsight,
+    situationalKey,
+    comboA.label,
+    comboB.label
+  )
 
   return (
     <div id={`pair-${slug}`} className="section-card expanded team-pair-insights__context-card" data-pdf-section={`pair-${slug}`}>
@@ -565,7 +612,7 @@ function PairContextSectionCard ({
       </div>
 
       <div className="section-expanded-content team-pair-insights__context-card-body">
-        <p className="trait-content team-pair-insights__pair-context-insight">{pairContextInsight}</p>
+        <p className="trait-content team-pair-insights__pair-context-insight">{pairContextInsightBody}</p>
         {sectionId === 1 && pressureRows.length > 0 && (
           <PairProfileTable
             title="Pressure Profile"

@@ -468,6 +468,27 @@
   margin: 0 0 4px;
 }
 
+.team-pair-insights__context-inline-label {
+  display: inline;
+  white-space: normal;
+}
+
+.team-pair-insights__context-inline-icons {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  margin-right: 5px;
+  gap: 4px;
+}
+
+.team-pair-insights__context-inline-icons svg {
+  margin-right: 0 !important;
+}
+
+.team-pair-insights__context-inline-label-text {
+  font-weight: 800;
+}
+
 .team-pair-insights__hhg-icons {
   display: inline-flex;
   align-items: center;
