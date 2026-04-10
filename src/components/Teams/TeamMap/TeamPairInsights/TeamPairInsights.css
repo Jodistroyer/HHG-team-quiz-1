@@ -10,42 +10,54 @@
   max-width: 920px;
   margin-left: auto;
   margin-right: auto;
+  min-width: 0;
 }
 
-/* Match Quiz.css `.title` when user lands on Teams without opening Quiz first */
-.team-pair-insights .title.team-pair-insights__page-title {
+/* "Pair insights" — large purple headline (same scale as solo quiz main title). */
+.team-pair-insights .title.quiz-results-page__main-title.team-pair-insights__kicker {
   font-family: 'Montserrat', sans-serif;
   font-size: 2.5rem;
   font-weight: 800;
-  margin-bottom: 6px !important;
-  text-align: center;
-}
-
-.team-pair-insights__names {
-  margin: 0 0 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: nowrap;
-  gap: 0;
-  width: 100%;
+  text-align: left;
+  margin: 0 0 10px 0 !important;
+  color: #7d3dbd;
+  letter-spacing: -0.02em;
+  min-width: 0;
   max-width: 100%;
-  min-width: 0;
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  line-height: 1.2;
+}
+
+@media (max-width: 480px) {
+  .team-pair-insights .title.quiz-results-page__main-title.team-pair-insights__kicker {
+    font-size: clamp(1.35rem, 6.5vw, 2.5rem);
+  }
+}
+
+/* Who this pair view is for — smaller, secondary to the page title. */
+.team-pair-insights__pair-names-sub {
+  margin: 0 0 28px 0;
+  padding: 0;
   font-family: 'Montserrat', sans-serif;
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: #64748b;
-}
-
-.team-pair-insights__names-part {
-  flex: 1 1 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: #475569;
+  text-align: left;
   min-width: 0;
-  text-align: center;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
-.team-pair-insights__names-sep {
-  flex: 0 0 auto;
-  white-space: pre;
+@media (max-width: 480px) {
+  .team-pair-insights__pair-names-sub {
+    font-size: 1.05rem;
+    margin-bottom: 24px;
+  }
 }
 
 /* Shared: long names ellipsis + full name on hover (title= in TSX) */
@@ -388,7 +400,7 @@
 
 .team-pair-insights__heading {
   margin-bottom: 8px !important;
-  text-align: left !important;
+  text-align: center !important;
   font-size: 1.25rem !important;
 }
 

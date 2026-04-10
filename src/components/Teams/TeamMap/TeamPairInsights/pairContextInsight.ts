@@ -216,7 +216,7 @@ const PAIR_CONTEXT_INSIGHTS: Record<string, Record<SituationalContextKey, string
   },
   'Head|Head+Heart+Gut': {
     underPressure:
-      'You are an incredibly resilient pair whose value for clarity and wholeness helps you stay remarkably steady when the stakes are high. Under pressure, {a} provides the logic to simplify the world while {b} masterfully manages every signal at once, giving you a massive advantage in complex crises. By naming which channels to focus on for an hour, you ensure your shared desire for clarity remains a powerful tool for progress and keeps your energy calm and focused.',
+      'You are an incredibly resilient pair whose value for clarity and wholeness helps you stay remarkably steady when the stakes are high. Under pressure, {a} provides the logic to simplify the world while {b} masterfully manages every signal at once, giving you a massive advantage in complex crises. By naming which channels to focus on, you ensure your shared desire for clarity remains a powerful tool for progress and keeps your energy calm and focused.',
     doingWork:
       'You bring both a brilliant focus and a masterful big-picture view to every task, making you an unstoppable team for solving complex puzzles. {a} ensures there is a clear owner for each choice while {b} keeps everything perfectly aligned. Picking three clear outcomes and one top priority ensures that your ability to see every angle fuels your momentum, turning your wide-lens vision into a series of successful finishes.',
     withPeople:
@@ -316,13 +316,13 @@ const PAIR_CONTEXT_INSIGHTS: Record<string, Record<SituationalContextKey, string
   },
   'Head+Gut|Head+Heart': {
     underPressure:
-      'You are both looking for control and a good outcome, which makes you a very reliable and stable pair. Under stress, {a} optimizes for leverage while {b} optimizes for fair and considered moves. Recognizing that you both want a stable result helps you see your different moves, execution and care, as a single, balanced strategy.',
+      'You are a remarkably reliable and stable pair because you both share a deep commitment to achieving a great outcome. Even when stress leads {a} to look for leverage and {b} to look for fairness, you are actually working toward the same stable result from two vital angles. When you view your different approaches—execution and care—as a single, balanced strategy, you become an unstoppable team.',
     doingWork:
-      'Collaborating as a pair means you mix a drive to finish with planning that considers everyone involved. This makes you very effective at making changes that last. To stay in sync, split your talks: talk about what you are deciding first, and how you will share that decision second. Reviewing both ensures that neither the goal nor the people are forgotten.',
+      'You have the unique ability to make changes that truly last by mixing a powerful drive to finish with thoughtful, inclusive planning. You are most effective when you split your process: align on the decision first, then decide how to share it together. This simple rhythm ensures that both your big goals and your people are fully supported and celebrated.',
     withPeople:
-      'With people, you bring both efficiency and mediation to the bond. Under stress, it can feel like "edge" meeting "diplomacy." Underneath that, you are both aiming for something sustainable. Seeing how your moves actually connect and support each other dissolves that false opposition and lets you work as a team.',
+      'The bond you share is a beautiful blend of efficiency and mediation, bringing both strength and heart to those around you. While it may occasionally feel like "edge" meeting "diplomacy," remember that you are both building toward something sustainable and meaningful. By seeing how your different moves actually protect and support one another, you transform any tension into a unified front.',
     gettingBetter:
-      'In growth, you offer each other testing and context. Try pairing every experiment with one sentence on its relational impact. This keeps your learning connected to how it actually felt to be on the receiving end. Reviewing whether you are both seeing the same level of trust helps you stay aligned and grow together.',
+      'You offer each other an incredible gift of both testing and context, allowing you to grow with more depth than most. To keep your momentum high, try pairing every new experiment with a quick chat about its relational impact. Checking in on your shared level of trust ensures you are not just growing, but growing closer every single day.',
   },
   'Head+Gut|Heart+Gut': {
     underPressure:

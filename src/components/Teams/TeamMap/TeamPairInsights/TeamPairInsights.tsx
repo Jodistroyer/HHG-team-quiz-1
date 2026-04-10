@@ -103,16 +103,6 @@ function averageScores (a: TeamContextScores, b: TeamContextScores): TeamContext
   }
 }
 
-function dominantType (s: TeamContextScores): 'Head' | 'Heart' | 'Gut' {
-  const rows = [
-    { t: 'Head' as const, p: s.headPercent },
-    { t: 'Heart' as const, p: s.heartPercent },
-    { t: 'Gut' as const, p: s.gutPercent },
-  ]
-  rows.sort((x, y) => y.p - x.p)
-  return rows[0]!.t
-}
-
 function contextIconForTitle (title: string): IconDefinition | null {
   switch (title.trim().toLowerCase()) {
     case 'under pressure':
@@ -295,6 +285,16 @@ function PairProfileTable ({
 
 function shortName (p: Person): string {
   return p.name.split(' ')[0] ?? p.name
+}
+
+/** Keeps the pair H1 readable; full names stay in tooltip and aria-label. */
+const PAIR_HEADLINE_NAME_MAX_CHARS = 24
+
+function ellipsizePairHeadlineName (raw: string): string {
+  const s = raw.trim()
+  if (s.length <= PAIR_HEADLINE_NAME_MAX_CHARS) return s
+  if (PAIR_HEADLINE_NAME_MAX_CHARS <= 1) return '…'
+  return `${s.slice(0, PAIR_HEADLINE_NAME_MAX_CHARS - 1)}…`
 }
 
 function escapeRegExp (s: string): string {
@@ -640,44 +640,6 @@ function PairContextSectionCard ({
   )
 }
 
-function PairPersonRadarCard ({ person }: { person: Person }) {
-  const combo = getBrainCombination(person.headPercent, person.heartPercent, person.gutPercent)
-  const isLongLabel = combo.label === 'Head + Heart + Gut'
-  const archetypeData = OVERALL_ARCHETYPES[combo.label]
-
-  return (
-    <div className="team-pair-insights__person-natural">
-      <p className="team-pair-insights__radar-identity team-pair-insights__name-truncate" title={person.name}>
-        {person.name}
-      </p>
-      <div className="quiz-results__natural-default-meta team-pair-insights__pair-natural-meta">
-        {archetypeData && (
-          <p className="quiz-results__natural-default-label">{archetypeData.archetype}</p>
-        )}
-        <div className="overall-badges-row quiz-results__natural-default-badges">
-          <div
-            className={`overall-icon-badge ${isLongLabel ? 'long-label' : ''}`}
-            style={{ background: 'transparent' }}
-          >
-            {getBrainIcons(combo.label, 'large', 'changeResults')}
-          </div>
-        </div>
-      </div>
-      <hr className="team-pair-insights__radar-meta-divider" aria-hidden="true" />
-      <div className="radar-chart-container team-pair-insights__radar-chart-wrap">
-        <TeamRadarChart
-          headPercent={person.headPercent}
-          heartPercent={person.heartPercent}
-          gutPercent={person.gutPercent}
-        />
-      </div>
-      <h3 className="quiz-results__natural-default-title team-pair-insights__pair-natural-title">
-        {archetypeData?.headline ?? combo.label}
-      </h3>
-    </div>
-  )
-}
-
 /** Same layout as `TeamGroupInsights` natural default: `team-map-results__section` + bento + hero + `overall-breakdown` radar. */
 function PairOverallAsTeamMapSection ({ pairOverall }: { pairOverall: TeamContextScores }) {
   const combo = getBrainCombination(pairOverall.headPercent, pairOverall.heartPercent, pairOverall.gutPercent)
@@ -732,89 +694,22 @@ function PairOverallAsTeamMapSection ({ pairOverall }: { pairOverall: TeamContex
 export function TeamPairInsights ({ people }: TeamPairInsightsProps) {
   const [a, b] = people
 
-  const copy = useMemo(() => {
-    const pairOverall = averageScores(scoresFor(a, 'overall'), scoresFor(b, 'overall'))
-    const pairCombo = getBrainCombination(pairOverall.headPercent, pairOverall.heartPercent, pairOverall.gutPercent)
-    const comboKey = pairCombo.label.replace(/\s+Strong$/, '').trim()
-    const balanceTip = getBalanceTipBadge(comboKey)
-
-    const alignParts: string[] = []
-    const clashParts: string[] = []
-    CONTEXTS.forEach((ctx, i) => {
-      const sa = scoresFor(a, ctx)
-      const sb = scoresFor(b, ctx)
-      const da = dominantType(sa)
-      const db = dominantType(sb)
-      const label = CONTEXT_LABELS[i] ?? ctx
-      if (da === db) {
-        alignParts.push(`${label} (${da})`)
-      } else {
-        clashParts.push(`${label}: ${a.name.split(' ')[0]} leans ${da}, ${b.name.split(' ')[0]} leans ${db}`)
-      }
-    })
-
-    const short = (p: Person) => p.name.split(' ')[0] ?? p.name
-    const gutLeader = a.gutPercent >= b.gutPercent ? a : b
-    const headLeader = a.headPercent >= b.headPercent ? a : b
-    let expandContractBody: string
-    if (gutLeader.id === headLeader.id) {
-      expandContractBody = `${short(gutLeader)} both push for momentum and hold the analytical frame. Tension may read as “you’re never satisfied” when it’s really two instincts in one person, mirrored in the other.`
-    } else if (Math.abs(a.gutPercent - b.gutPercent) < 6 && Math.abs(a.headPercent - b.headPercent) < 6) {
-      expandContractBody =
-        'Your overall shapes are close; most expand/contract moments are situational. Watch for external pressure flipping who leads without you naming the handoff.'
-    } else {
-      expandContractBody = `${short(gutLeader)} tends to expand the pairing toward action and visible progress; ${short(headLeader)} tends to contract it toward clarity and defensible choices. The strain usually shows up as “too slow” vs “too fuzzy”, not as bad intent.`
-    }
-
-    const experiments: Record<string, string> = {
-      Heart:
-        'In your next 1:1, spend the first five minutes only naming impact on people (no solutions), then switch to tasks.',
-      Gut: 'Pick a small decision, set a 10-minute timer, and commit to one trial action you can reverse.',
-      Head: 'Agree on one metric or success criterion before you debate options, even if it’s provisional.',
-      'Heart + Gut':
-        'Run one short session: Gut picks a trial move, Heart names who it affects, Head writes the one-line hypothesis you’re testing.',
-      'Head + Gut':
-        'Pair a one-page brief (Head) with a single time-boxed experiment (Gut); debrief only against what the brief said you’d measure.',
-      'Head + Heart':
-        'Before deciding, alternate sentences: one fact, one feeling, until you have six of each, then choose.',
-      Focus:
-        'Try alternating who leads check-ins for two weeks and note where the quality of disagreement changes.',
-    }
-    const experiment = experiments[balanceTip] ?? experiments.Focus
-
-    const produceTogetherIsTriple = pairCombo.label === 'Head + Heart + Gut'
-
-    const alignText =
-      alignParts.length > 0
-        ? `You often move similarly in: ${alignParts.join('; ')}.`
-        : 'Your situational profiles diverge in every context. This is a high-contrast pairing.'
-    const clashText =
-      clashParts.length > 0
-        ? `Tension can appear quietly where: ${clashParts.join('; ')}. Often neither of you names it as a values clash.`
-        : 'You rarely fight “head vs heart” in the same moment; when things snag, look outside HHG (goals, time, status).'
-
-    const invisible =
-      balanceTip === 'Focus'
-        ? 'Because you’re both inside this rhythm, you may not see how often the pair waits for a “perfect” signal that never arrives.'
-        : `The pair’s shared blind spot skews toward ${balanceTip}: what’s obvious to outsiders can feel abstract or optional when you’re together.`
-
-    return {
-      pairComboLabel: pairCombo.label,
-      produceTogetherIsTriple,
-      alignText,
-      clashText,
-      expandContractBody,
-      invisible,
-      experiment,
-    }
-  }, [a, b])
-
   const pairWhatStandsOutInsights = useMemo(() => buildPairWhatStandsOutFromPeople([a, b]), [a, b])
 
   const pairOverall = useMemo(
     () => averageScores(scoresFor(a, 'overall'), scoresFor(b, 'overall')),
     [a, b]
   )
+
+  const pairHeadlineNames = useMemo(() => {
+    const fullA = a.name.trim()
+    const fullB = b.name.trim()
+    return {
+      displayA: ellipsizePairHeadlineName(fullA),
+      displayB: ellipsizePairHeadlineName(fullB),
+      label: `${fullA} & ${fullB}`,
+    }
+  }, [a.name, b.name])
 
   const contextCards = useMemo(() => {
     const aShort = shortName(a)
@@ -832,48 +727,27 @@ export function TeamPairInsights ({ people }: TeamPairInsightsProps) {
   return (
     <section className="team-pair-insights quiz-results-page" aria-label="Pair insights">
       <div className="team-pair-insights__inner final-summary">
-        <h1 className="title team-pair-insights__page-title">Pair insights</h1>
-        <p className="team-pair-insights__names">
-          <span className="team-pair-insights__names-part team-pair-insights__name-truncate" title={a.name}>
-            {a.name}
-          </span>
-          <span className="team-pair-insights__names-sep" aria-hidden="true">
-            {' '}
-            &amp;{' '}
-          </span>
-          <span className="team-pair-insights__names-part team-pair-insights__name-truncate" title={b.name}>
-            {b.name}
-          </span>
+        <h1 className="title quiz-results-page__main-title team-pair-insights__kicker">Pair insights</h1>
+        <p
+          className="team-pair-insights__pair-names-sub"
+          title={pairHeadlineNames.label}
+          aria-label={pairHeadlineNames.label}
+        >
+          {pairHeadlineNames.displayA}
+          {' & '}
+          {pairHeadlineNames.displayB}
         </p>
 
         <section className="team-pair-insights__radar-section" aria-label="Natural default comparison">
-          <h2 className="results-section-title team-pair-insights__heading">Natural default</h2>
-          <p className="team-pair-insights__lead">
-            Pair average of your natural defaults, then each person side by side.
-          </p>
+          <h2 className="results-section-title team-pair-insights__heading">Natural Default</h2>
           <PairOverallAsTeamMapSection pairOverall={pairOverall} />
-          <div className="team-pair-insights__radar-row">
-            <div className="team-pair-insights__radar-col">
-              <PairPersonRadarCard person={a} />
-            </div>
-            <div className="team-pair-insights__radar-col">
-              <PairPersonRadarCard person={b} />
-            </div>
-          </div>
           <div className="team-pair-insights__pair-change-outer">
             <h3 className="results-section-title team-pair-insights__pair-change-heading">How You Change Across Contexts</h3>
-            <p className="team-pair-insights__lead team-pair-insights__pair-change-lead">
-              Side-by-side shifts, then what stands out between you.
-            </p>
             <PairAcrossContextsCard people={people} insights={pairWhatStandsOutInsights} />
           </div>
         </section>
 
         <section className="team-pair-insights__context-cards" aria-label="Context cards comparison">
-          <h2 className="results-section-title team-pair-insights__heading">Context cards</h2>
-          <p className="team-pair-insights__lead">
-            Same sections as Quiz results, but shown side-by-side so you can compare both people.
-          </p>
           <div className="section-cards team-pair-insights__context-cards-grid">
             {contextCards.map((c) => (
               <PairContextSectionCard
@@ -891,51 +765,6 @@ export function TeamPairInsights ({ people }: TeamPairInsightsProps) {
 
         <PairAnswerResults people={people} />
 
-        <article className="team-pair-insights__block">
-          <h2 className="results-section-title team-pair-insights__heading">What these two produce together</h2>
-          <p className="team-pair-insights__lead">Not who they are individually, but what shows up between them.</p>
-          <p className="team-pair-insights__body">
-            {copy.produceTogetherIsTriple ? (
-              'Together you can touch analysis, care, and action. The risk is that each of you assumes the other two brains are covered, so nobody fully owns the next step.'
-            ) : (
-              <>
-                Together, this pair shows up as <strong>{copy.pairComboLabel}</strong>. That blend is what the relationship &quot;outputs&quot; to others: calmer or sharper than either of you alone.
-              </>
-            )}
-          </p>
-        </article>
-
-        <article className="team-pair-insights__block">
-          <h2 className="results-section-title team-pair-insights__heading">Rhythms: align and clash</h2>
-          <p className="team-pair-insights__lead">Where their rhythms naturally align and where they clash without either person knowing why.</p>
-          <p className="team-pair-insights__body">{copy.alignText}</p>
-          <p className="team-pair-insights__body">{copy.clashText}</p>
-        </article>
-
-        <article className="team-pair-insights__block">
-          <h2 className="results-section-title team-pair-insights__heading">Effect on each other</h2>
-          <p className="team-pair-insights__lead">What each person does to the other&apos;s behaviour: who expands in this pairing and who contracts.</p>
-          <p className="team-pair-insights__body">{copy.expandContractBody}</p>
-        </article>
-
-        <article className="team-pair-insights__block">
-          <h2 className="results-section-title team-pair-insights__heading">What the pair makes invisible</h2>
-          <p className="team-pair-insights__lead">The thing neither of them sees because they&apos;re both inside it.</p>
-          <p className="team-pair-insights__body">{copy.invisible}</p>
-        </article>
-
-        <article className="team-pair-insights__block">
-          <h2 className="results-section-title team-pair-insights__heading">Worth trying</h2>
-          <p className="team-pair-insights__lead">One small experiment for the manager to test with this specific pair.</p>
-          <p className="team-pair-insights__body">{copy.experiment}</p>
-        </article>
-
-        <aside className="team-pair-insights__key" aria-label="Pair versus team insights">
-          <h3 className="team-pair-insights__key-title">Key difference</h3>
-          <p className="team-pair-insights__key-body">
-            Pair insights are about a <strong>relationship</strong>: two people creating something between them, for better or worse. A pair insight explains a friction or a flow.
-          </p>
-        </aside>
       </div>
     </section>
   )

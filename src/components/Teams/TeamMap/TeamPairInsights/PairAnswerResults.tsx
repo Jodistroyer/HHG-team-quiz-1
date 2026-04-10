@@ -200,7 +200,6 @@ export function PairAnswerResults ({ people }: { people: [Person, Person] }) {
       aria-label="Pair answers by section"
     >
       <h3 className="answer-results-title">Your answers by section</h3>
-      <p className="pair-answer-results__intro">One table per section: shared questions, both people&apos;s choices.</p>
       <div className="pair-answer-results__sections">
         {QUIZ_SECTIONS.map((section) => (
           <PairSectionTable
