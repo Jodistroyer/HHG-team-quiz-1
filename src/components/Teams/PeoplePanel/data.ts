@@ -1,5 +1,6 @@
 import type { HHGCenter, Person, TreeNode, ViewMode, TeamContextScores } from './types'
 import type { QuizExportPayload, PeopleImportPayload } from './types'
+import type { QuizAnswer, QuizAnswerType } from '../../Quiz/quizSections'
 import { getBrainCombination } from '../../Quiz/SectionResults/utils'
 
 /** Generate a simple unique id. */
@@ -9,6 +10,50 @@ export function nextId(prefix = 'person'): string {
 
 function toNumber(value: unknown, fallback: number): number {
   return typeof value === 'number' && Number.isFinite(value) ? value : fallback
+}
+
+function normalizeAnswerChoice(value: unknown): QuizAnswerType | null {
+  return value === 'Head' || value === 'Heart' || value === 'Gut' ? value : null
+}
+
+function normalizeQuizAnswer(raw: unknown): QuizAnswer {
+  if (!raw || typeof raw !== 'object') {
+    return { firstChoice: null, secondChoice: null }
+  }
+  const o = raw as Record<string, unknown>
+  return {
+    firstChoice: normalizeAnswerChoice(o.firstChoice),
+    secondChoice: normalizeAnswerChoice(o.secondChoice),
+  }
+}
+
+/**
+ * Downloaded quiz JSON often omits top-level `answers` but still has each question under
+ * `sections[].questions[].answer`. Merge those into a single map for `Person.quizAnswers`.
+ */
+function collectQuizAnswersFromSections(data: QuizExportPayload): Record<string, QuizAnswer> {
+  const out: Record<string, QuizAnswer> = {}
+  const sections = data.sections
+  if (!Array.isArray(sections)) return out
+  for (const section of sections) {
+    const questions = section?.questions
+    if (!Array.isArray(questions)) continue
+    for (const q of questions) {
+      if (!q || typeof q !== 'object' || typeof q.id !== 'string') continue
+      const answer = normalizeQuizAnswer('answer' in q ? q.answer : undefined)
+      if (answer.firstChoice != null || answer.secondChoice != null) {
+        out[q.id] = answer
+      }
+    }
+  }
+  return out
+}
+
+function mergeQuizAnswersFromExport(data: QuizExportPayload): Record<string, QuizAnswer> | undefined {
+  const fromSections = collectQuizAnswersFromSections(data)
+  const top = data.answers && typeof data.answers === 'object' && !Array.isArray(data.answers) ? data.answers : {}
+  const merged: Record<string, QuizAnswer> = { ...fromSections, ...top }
+  return Object.keys(merged).length > 0 ? merged : undefined
 }
 
 function getDominantAndSecondary(
@@ -80,7 +125,7 @@ export function personFromQuizExport(
     team: undefined,
     role: undefined,
     tags: [],
-    quizAnswers: data.answers ? { ...data.answers } : undefined,
+    quizAnswers: mergeQuizAnswersFromExport(data),
     quizCompletedAt: data.completedAt,
     headPercent,
     heartPercent,

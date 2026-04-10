@@ -37,9 +37,10 @@ export function DownloadJSON ({ overall, sectionSummaries, sections, answers, qu
       setProgress(35)
       requestAnimationFrame(() => {
         const payload = buildQuizExportPayload(overall, sectionSummaries, sections, answers, quizCompletedAt)
-        const { answers: _answers, ...payloadWithoutAnswers } = payload
+        /* Answers live only under sections[].questions[].answer (importer merges into quizAnswers). */
+        const { answers: _answers, ...payloadForFile } = payload
         setProgress(75)
-        const blob = new Blob([JSON.stringify(payloadWithoutAnswers, null, 2)], { type: 'application/json' })
+        const blob = new Blob([JSON.stringify(payloadForFile, null, 2)], { type: 'application/json' })
         const url = URL.createObjectURL(blob)
         const a = document.createElement('a')
         a.href = url

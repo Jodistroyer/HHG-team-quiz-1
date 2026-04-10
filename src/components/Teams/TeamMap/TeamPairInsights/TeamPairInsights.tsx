@@ -28,6 +28,7 @@ import { getPairContextInsight } from './pairContextInsight'
 import { WhatStandsOut } from '../../../Quiz/ChangeResults/WhatStandsOut'
 import { RadarChart as TeamRadarChart } from '../TeamRadarResults/TeamRadarChart'
 import { buildPairWhatStandsOutFromPeople } from './pairWhatStandsOut'
+import { PairAnswerResults } from './PairAnswerResults'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 import {
@@ -887,6 +888,8 @@ export function TeamPairInsights ({ people }: TeamPairInsightsProps) {
             ))}
           </div>
         </section>
+
+        <PairAnswerResults people={people} />
 
         <article className="team-pair-insights__block">
           <h2 className="results-section-title team-pair-insights__heading">What these two produce together</h2>
