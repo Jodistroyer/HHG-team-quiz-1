@@ -180,6 +180,7 @@ export function PairAnswerResults ({ people }: { people: [Person, Person] }) {
   if (!hasAnyData) {
     return (
       <section
+        id="answers"
         className="answer-results pair-answer-results"
         data-pdf-section="pair-answers"
         aria-label="Answers by section"
@@ -194,7 +195,7 @@ export function PairAnswerResults ({ people }: { people: [Person, Person] }) {
 
   return (
     <section
-      id="pair-answers"
+      id="answers"
       className="answer-results pair-answer-results"
       data-pdf-section="pair-answers"
       aria-label="Pair answers by section"

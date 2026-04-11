@@ -1,4 +1,4 @@
-import { useMemo, type ReactNode } from 'react'
+import { useMemo, useRef, type ReactNode } from 'react'
 import ReactMarkdown from 'react-markdown'
 import type { Person, TeamContextKey, TeamContextScores } from '../../PeoplePanel/types'
 import { getBrainCombination, getBalanceTipBadge, getBrainIcons } from '../../../Quiz/SectionResults/utils.tsx'
@@ -29,6 +29,8 @@ import { WhatStandsOut } from '../../../Quiz/ChangeResults/WhatStandsOut'
 import { RadarChart as TeamRadarChart } from '../TeamRadarResults/TeamRadarChart'
 import { buildPairWhatStandsOutFromPeople } from './pairWhatStandsOut'
 import { PairAnswerResults } from './PairAnswerResults'
+import { Sidebar } from '../../../Quiz/Sidebar/Sidebar'
+import { buildQuizResultsPropsFromPerson } from '../../personQuizResultExport'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 import {
@@ -595,7 +597,7 @@ function PairContextSectionCard ({
   )
 
   return (
-    <div id={`pair-${slug}`} className="section-card expanded team-pair-insights__context-card" data-pdf-section={`pair-${slug}`}>
+    <div id={slug} className="section-card expanded team-pair-insights__context-card" data-pdf-section={`pair-${slug}`}>
       <div className="section-card-top">
         <div className="section-card-header">
           <div className="section-header-content">
@@ -693,6 +695,16 @@ function PairOverallAsTeamMapSection ({ pairOverall }: { pairOverall: TeamContex
 
 export function TeamPairInsights ({ people }: TeamPairInsightsProps) {
   const [a, b] = people
+  const resultsContainerRef = useRef<HTMLDivElement>(null)
+  const sidebarExportProps = useMemo(() => buildQuizResultsPropsFromPerson(a), [a])
+  const pairQuizCompletedAt = useMemo(() => {
+    const ta = a.quizCompletedAt
+    const tb = b.quizCompletedAt
+    if (!ta && !tb) return null
+    if (!ta) return tb ?? null
+    if (!tb) return ta
+    return ta >= tb ? ta : tb
+  }, [a.quizCompletedAt, b.quizCompletedAt])
 
   const pairWhatStandsOutInsights = useMemo(() => buildPairWhatStandsOutFromPeople([a, b]), [a, b])
 
@@ -725,47 +737,71 @@ export function TeamPairInsights ({ people }: TeamPairInsightsProps) {
   }, [a, b])
 
   return (
-    <section className="team-pair-insights quiz-results-page" aria-label="Pair insights">
-      <div className="team-pair-insights__inner final-summary">
-        <h1 className="title quiz-results-page__main-title team-pair-insights__kicker">Pair insights</h1>
-        <p
-          className="team-pair-insights__pair-names-sub"
-          title={pairHeadlineNames.label}
-          aria-label={pairHeadlineNames.label}
-        >
-          {pairHeadlineNames.displayA}
-          {' & '}
-          {pairHeadlineNames.displayB}
-        </p>
+    <div className="team-pair-insights-root">
+      <div className="team-pair-insights quiz-results-page quiz-results-page--embedded" aria-label="Pair insights">
+        <div className="quiz-results-layout">
+          <div className="container container-results">
+            <div className="quiz-results-main">
+              <div className="team-pair-insights__inner final-summary" ref={resultsContainerRef}>
+                <section className="team-pair-insights__radar-section" aria-label="Natural default comparison">
+                  <div data-pdf-section="pair-title-natural-default">
+                    <h1 className="title quiz-results-page__main-title team-pair-insights__kicker">Pair insights</h1>
+                    <p
+                      className="team-pair-insights__pair-names-sub"
+                      title={pairHeadlineNames.label}
+                      aria-label={pairHeadlineNames.label}
+                    >
+                      {pairHeadlineNames.displayA}
+                      {' & '}
+                      {pairHeadlineNames.displayB}
+                    </p>
+                    <h2 className="results-section-title team-pair-insights__heading">Natural Default</h2>
+                    <PairOverallAsTeamMapSection pairOverall={pairOverall} />
+                  </div>
+                  <div
+                    id="balance"
+                    className="team-pair-insights__pair-change-outer"
+                    data-pdf-section="pair-change-across-contexts"
+                  >
+                    <h3 className="results-section-title team-pair-insights__pair-change-heading">How You Change Across Contexts</h3>
+                    <PairAcrossContextsCard people={people} insights={pairWhatStandsOutInsights} />
+                  </div>
+                </section>
 
-        <section className="team-pair-insights__radar-section" aria-label="Natural default comparison">
-          <h2 className="results-section-title team-pair-insights__heading">Natural Default</h2>
-          <PairOverallAsTeamMapSection pairOverall={pairOverall} />
-          <div className="team-pair-insights__pair-change-outer">
-            <h3 className="results-section-title team-pair-insights__pair-change-heading">How You Change Across Contexts</h3>
-            <PairAcrossContextsCard people={people} insights={pairWhatStandsOutInsights} />
+                <section className="team-pair-insights__context-cards" aria-label="Context cards comparison">
+                  <div className="section-cards team-pair-insights__context-cards-grid">
+                    {contextCards.map((c) => (
+                      <PairContextSectionCard
+                        key={c.id}
+                        sectionId={c.id}
+                        sectionTitle={c.title}
+                        aScores={c.aScores}
+                        bScores={c.bScores}
+                        aHeader={c.aHeader}
+                        bHeader={c.bHeader}
+                      />
+                    ))}
+                  </div>
+                </section>
+
+                <PairAnswerResults people={people} />
+              </div>
+            </div>
           </div>
-        </section>
 
-        <section className="team-pair-insights__context-cards" aria-label="Context cards comparison">
-          <div className="section-cards team-pair-insights__context-cards-grid">
-            {contextCards.map((c) => (
-              <PairContextSectionCard
-                key={c.id}
-                sectionId={c.id}
-                sectionTitle={c.title}
-                aScores={c.aScores}
-                bScores={c.bScores}
-                aHeader={c.aHeader}
-                bHeader={c.bHeader}
-              />
-            ))}
+          <div className="results-sidebar-outer">
+            <Sidebar
+              containerRef={resultsContainerRef}
+              {...sidebarExportProps}
+              quizCompletedAt={pairQuizCompletedAt}
+              onStartOver={() => {}}
+              hideStartOver
+              footerDownloads="pdf-only"
+              sidebarHeading="Pair"
+            />
           </div>
-        </section>
-
-        <PairAnswerResults people={people} />
-
+        </div>
       </div>
-    </section>
+    </div>
   )
 }

@@ -510,23 +510,23 @@
 }
 
 /* Under Pressure table: bold key rows (after In this context + HHG Icon + HHG Combo rows). */
-#pair-under-pressure .profile-table.profile-table--pair tbody tr:nth-child(4) td,
-#pair-under-pressure .profile-table.profile-table--pair tbody tr:nth-child(5) td,
-#pair-under-pressure .profile-table.profile-table--pair tbody tr:nth-child(6) td,
-#pair-under-pressure .profile-table.profile-table--pair tbody tr:nth-child(7) td,
-#pair-under-pressure .profile-table.profile-table--pair tbody tr:nth-child(9) td,
-#pair-under-pressure .profile-table.profile-table--pair tbody tr:nth-child(11) td,
-#pair-under-pressure .profile-table.profile-table--pair tbody tr:nth-child(13) td {
+.team-pair-insights #under-pressure .profile-table.profile-table--pair tbody tr:nth-child(4) td,
+.team-pair-insights #under-pressure .profile-table.profile-table--pair tbody tr:nth-child(5) td,
+.team-pair-insights #under-pressure .profile-table.profile-table--pair tbody tr:nth-child(6) td,
+.team-pair-insights #under-pressure .profile-table.profile-table--pair tbody tr:nth-child(7) td,
+.team-pair-insights #under-pressure .profile-table.profile-table--pair tbody tr:nth-child(9) td,
+.team-pair-insights #under-pressure .profile-table.profile-table--pair tbody tr:nth-child(11) td,
+.team-pair-insights #under-pressure .profile-table.profile-table--pair tbody tr:nth-child(13) td {
   font-weight: 800;
 }
 
 /* Doing Work table: bold Speak Their Language (after In this context + HHG Icon + HHG Combo rows). */
-#pair-doing-work .profile-table.profile-table--pair tbody tr:nth-child(4) td {
+.team-pair-insights #doing-work .profile-table.profile-table--pair tbody tr:nth-child(4) td {
   font-weight: 800;
 }
 
 /* Doing Work table: bold What They Secretly Need (after In this context + HHG Icon + HHG Combo rows). */
-#pair-doing-work .profile-table.profile-table--pair tbody tr:nth-child(8) td {
+.team-pair-insights #doing-work .profile-table.profile-table--pair tbody tr:nth-child(8) td {
   font-weight: 800;
 }
 
@@ -536,24 +536,24 @@
 }
 
 /* Doing Work table: make Ambiguity Response Style prefix bold match the row-bold weight. */
-#pair-doing-work .profile-table.profile-table--pair tbody tr:nth-child(5) td strong {
+.team-pair-insights #doing-work .profile-table.profile-table--pair tbody tr:nth-child(5) td strong {
   font-weight: 800;
 }
 
 /* Social Map (With People) table: bold key rows (after In this context + HHG Icon + HHG Combo rows). */
-#pair-with-people .profile-table.profile-table--pair tbody tr:nth-child(4) td,
-#pair-with-people .profile-table.profile-table--pair tbody tr:nth-child(5) td,
-#pair-with-people .profile-table.profile-table--pair tbody tr:nth-child(7) td,
-#pair-with-people .profile-table.profile-table--pair tbody tr:nth-child(8) td,
-#pair-with-people .profile-table.profile-table--pair tbody tr:nth-child(9) td,
-#pair-with-people .profile-table.profile-table--pair tbody tr:nth-child(12) td {
+.team-pair-insights #with-people .profile-table.profile-table--pair tbody tr:nth-child(4) td,
+.team-pair-insights #with-people .profile-table.profile-table--pair tbody tr:nth-child(5) td,
+.team-pair-insights #with-people .profile-table.profile-table--pair tbody tr:nth-child(7) td,
+.team-pair-insights #with-people .profile-table.profile-table--pair tbody tr:nth-child(8) td,
+.team-pair-insights #with-people .profile-table.profile-table--pair tbody tr:nth-child(9) td,
+.team-pair-insights #with-people .profile-table.profile-table--pair tbody tr:nth-child(12) td {
   font-weight: 800;
 }
 
 /* Getting Better (Feedback Style) table: bold key rows (after In this context + HHG Icon + HHG Combo rows). */
-#pair-getting-better .profile-table.profile-table--pair tbody tr:nth-child(4) td,
-#pair-getting-better .profile-table.profile-table--pair tbody tr:nth-child(7) td,
-#pair-getting-better .profile-table.profile-table--pair tbody tr:nth-child(9) td {
+.team-pair-insights #getting-better .profile-table.profile-table--pair tbody tr:nth-child(4) td,
+.team-pair-insights #getting-better .profile-table.profile-table--pair tbody tr:nth-child(7) td,
+.team-pair-insights #getting-better .profile-table.profile-table--pair tbody tr:nth-child(9) td {
   font-weight: 800;
 }
 
@@ -674,5 +674,45 @@
   .team-pair-insights__pair-change-context.section-card-contexts {
     font-size: 0.78rem;
     max-width: min(30ch, 100%);
+  }
+}
+
+/* Sidebar + main column (same flex rhythm as TeamSoloInsights). */
+.team-pair-insights-root {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.team-pair-insights-root .quiz-results-page--embedded {
+  width: 100%;
+  min-width: 0;
+}
+
+.team-pair-insights-root .quiz-results-layout {
+  flex-direction: column;
+}
+
+.team-pair-insights-root .results-sidebar-outer {
+  width: 100%;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 0;
+  align-self: center;
+}
+
+@media (min-width: 769px) {
+  .team-pair-insights-root .quiz-results-layout {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .team-pair-insights-root .results-sidebar-outer {
+    width: 220px;
+    padding-left: 24px;
+    margin-left: 0;
+    margin-right: 0;
+    align-self: stretch;
   }
 }

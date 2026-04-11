@@ -37,6 +37,8 @@ interface Answer {
   secondChoice: AnswerType | null
 }
 
+type FooterDownloadsMode = 'all' | 'pdf-only'
+
 interface ResultsSidebarProps {
   containerRef: React.RefObject<HTMLDivElement | null>
   overall: OverallScores
@@ -46,6 +48,10 @@ interface ResultsSidebarProps {
   quizCompletedAt: string | null
   onStartOver: () => void
   hideStartOver?: boolean
+  /** Pair / other embedded views: PDF only (no single-person JSON / Save to Teams payload). */
+  footerDownloads?: FooterDownloadsMode
+  /** Heading above nav (default: Profile). */
+  sidebarHeading?: string
 }
 
 const MOBILE_BREAKPOINT = 768
@@ -60,7 +66,10 @@ export function Sidebar ({
   quizCompletedAt,
   onStartOver,
   hideStartOver = false,
+  footerDownloads = 'all',
+  sidebarHeading = 'Profile',
 }: ResultsSidebarProps) {
+  const pdfOnlyFooter = footerDownloads === 'pdf-only'
   const [iconOnly, setIconOnly] = useState(false)
   const [compactDownloads, setCompactDownloads] = useState(false)
   const [currentSectionId, setCurrentSectionId] = useState<string | null>(SECTION_IDS_LIST[0] ?? null)
@@ -117,7 +126,11 @@ export function Sidebar ({
     return () => window.removeEventListener('scroll', updateCurrent)
   }, [])
 
-  const directDownloadButtons = (
+  const directDownloadButtons = pdfOnlyFooter ? (
+    <div className="results-sidebar-downloads">
+      <DownloadPDF containerRef={containerRef} quizCompletedAt={quizCompletedAt} iconOnly={iconOnly} />
+    </div>
+  ) : (
     <div className="results-sidebar-downloads">
       <SaveToTeams
         overall={overall}
@@ -139,7 +152,11 @@ export function Sidebar ({
     </div>
   )
 
-  const compactMobileDownloads = (
+  const compactMobileDownloads = pdfOnlyFooter ? (
+    <div className="results-sidebar-downloads results-sidebar-downloads--compact">
+      <DownloadPDF containerRef={containerRef} quizCompletedAt={quizCompletedAt} iconOnly={iconOnly} />
+    </div>
+  ) : (
     <div className="results-sidebar-downloads results-sidebar-downloads--compact">
       <SaveToTeams
         overall={overall}
@@ -191,43 +208,44 @@ export function Sidebar ({
       <StartOverConfirmModal onCancel={closeStartOverModal} onConfirm={confirmStartOver} />
     ) : null
 
-  const downloadOptionsModal = showDownloadOptions ? (
-    <div className="results-sidebar-download-modal-backdrop" onClick={() => setShowDownloadOptions(false)} role="presentation">
-      <div
-        className="results-sidebar-download-modal"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="results-sidebar-download-modal-title"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <h3 id="results-sidebar-download-modal-title" className="results-sidebar-download-modal-title">
-          Download options
-        </h3>
-        <div className="results-sidebar-download-modal-actions">
-          <div onClick={() => setShowDownloadOptions(false)}>
-            <DownloadJSON
-              overall={overall}
-              sectionSummaries={sectionSummaries}
-              sections={sections}
-              answers={answers}
-              quizCompletedAt={quizCompletedAt}
-              iconOnly={false}
-            />
-          </div>
-          <div onClick={() => setShowDownloadOptions(false)}>
-            <DownloadPDF containerRef={containerRef} quizCompletedAt={quizCompletedAt} iconOnly={false} />
-          </div>
-        </div>
-        <button
-          type="button"
-          className="results-sidebar-download-modal-close"
-          onClick={() => setShowDownloadOptions(false)}
+  const downloadOptionsModal =
+    showDownloadOptions && !pdfOnlyFooter ? (
+      <div className="results-sidebar-download-modal-backdrop" onClick={() => setShowDownloadOptions(false)} role="presentation">
+        <div
+          className="results-sidebar-download-modal"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="results-sidebar-download-modal-title"
+          onClick={(e) => e.stopPropagation()}
         >
-          Close
-        </button>
+          <h3 id="results-sidebar-download-modal-title" className="results-sidebar-download-modal-title">
+            Download options
+          </h3>
+          <div className="results-sidebar-download-modal-actions">
+            <div onClick={() => setShowDownloadOptions(false)}>
+              <DownloadJSON
+                overall={overall}
+                sectionSummaries={sectionSummaries}
+                sections={sections}
+                answers={answers}
+                quizCompletedAt={quizCompletedAt}
+                iconOnly={false}
+              />
+            </div>
+            <div onClick={() => setShowDownloadOptions(false)}>
+              <DownloadPDF containerRef={containerRef} quizCompletedAt={quizCompletedAt} iconOnly={false} />
+            </div>
+          </div>
+          <button
+            type="button"
+            className="results-sidebar-download-modal-close"
+            onClick={() => setShowDownloadOptions(false)}
+          >
+            Close
+          </button>
+        </div>
       </div>
-    </div>
-  ) : null
+    ) : null
 
   if (iconOnly) {
     return (
@@ -239,7 +257,7 @@ export function Sidebar ({
             </div>
             <div className="results-sidebar-mobile-right">
               {!hideStartOver && startOverButton}
-              {compactDownloads ? compactMobileDownloads : directDownloadButtons}
+              {pdfOnlyFooter || !compactDownloads ? directDownloadButtons : compactMobileDownloads}
             </div>
           </div>
         </aside>
@@ -252,7 +270,7 @@ export function Sidebar ({
   return (
     <>
       <aside className="results-sidebar" aria-label="Results navigation and download">
-        <h2 className="results-sidebar-title">Profile</h2>
+        <h2 className="results-sidebar-title">{sidebarHeading}</h2>
         <div className="results-sidebar-nav">
           <NavSection currentSectionId={currentSectionId} />
         </div>

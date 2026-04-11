@@ -78,15 +78,14 @@ export const QuizResults = ({
       <div className="quiz-results-layout">
         <div className="container container-results">
           <div className="quiz-results-main">
-            <h1
-              className="title quiz-results-page__main-title"
-              title={resultsTitleTooltip ?? resultsTitle}
-            >
-              {resultsTitle}
-            </h1>
-
             <div className="final-summary" ref={resultsContainerRef}>
               <div data-pdf-section="natural-default">
+                <h1
+                  className="title quiz-results-page__main-title"
+                  title={resultsTitleTooltip ?? resultsTitle}
+                >
+                  {resultsTitle}
+                </h1>
                 <h3 className="results-section-title">Natural Default</h3>
                 {(() => {
                   const combo = getBrainCombination(overall.headPercent, overall.heartPercent, overall.gutPercent)
