@@ -1,0 +1,44 @@
+.vibes-preview {
+  position: relative;
+  min-height: 220px;
+  border-radius: 12px;
+  border: 1px solid rgba(125, 61, 189, 0.25);
+  background-color: #ffffff;
+  overflow: hidden;
+}
+
+.vibes-preview__plane {
+  position: absolute;
+  display: block;
+  border: 2px solid rgba(125, 61, 189, 0.45);
+  background-color: rgba(125, 61, 189, 0.06);
+}
+
+.vibes-preview__plane--a {
+  width: 72%;
+  height: 48%;
+  left: 8%;
+  bottom: 22%;
+  transform: skewX(-12deg);
+  transform-origin: bottom left;
+}
+
+.vibes-preview__plane--b {
+  width: 55%;
+  height: 36%;
+  right: 10%;
+  top: 18%;
+  transform: skewX(-18deg);
+  transform-origin: top right;
+}
+
+.vibes-preview__mark {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: #7d3dbd;
+  opacity: 0.35;
+  right: 22%;
+  bottom: 38%;
+}

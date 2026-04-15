@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import Quiz from './components/Quiz/Quiz'
-import BrainTypes from './components/BrainTypes/BrainTypes'
-import Learning from './components/Learning/Learning'
+import Labs from './components/Labs/Labs'
+import Brains from './components/Brains/Brains'
 import Teams from './components/Teams/Teams'
 import NavBar from './components/Navigation/NavBar'
 import './App.css'
@@ -34,10 +34,10 @@ function App() {
     switch (currentPage) {
       case 'quiz':
         return <Quiz />
+      case 'labs':
+        return <Labs />
       case 'brain-types':
-        return <BrainTypes />
-      case 'learning':
-        return <Learning />
+        return <Brains />
       case 'teams':
         return <Teams />
       default:

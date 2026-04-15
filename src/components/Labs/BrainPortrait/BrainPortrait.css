@@ -1,0 +1,7 @@
+.labs-experience__stage-inner--portrait {
+  width: 100%;
+  min-height: 220px;
+  border-radius: 12px;
+  border: 1px dashed rgba(125, 61, 189, 0.35);
+  background-color: rgba(125, 61, 189, 0.04);
+}

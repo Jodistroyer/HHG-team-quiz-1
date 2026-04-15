@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faQuestionCircle, faBrain, faBook, faUsers } from '@fortawesome/free-solid-svg-icons'
+import { faQuestionCircle, faFlask, faBrain, faUsers } from '@fortawesome/free-solid-svg-icons'
 import './NavBar.css'
 
 interface NavBarProps {
@@ -10,10 +10,9 @@ interface NavBarProps {
 const NavBar = ({ currentPage, onNavigate }: NavBarProps) => {
   const navItems = [
     { id: 'quiz', label: 'Quiz', icon: faQuestionCircle },
-    { id: 'brain-types', label: 'Brain Types', icon: faBrain },
+    { id: 'labs', label: 'Labs', icon: faFlask },
+    { id: 'brain-types', label: 'Brains', icon: faBrain },
     { id: 'teams', label: 'Teams', icon: faUsers },
-    { id: 'learning', label: 'Learning', icon: faBook },
-
   ]
 
   const handleClick = (id: string) => {

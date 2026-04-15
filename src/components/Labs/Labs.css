@@ -1,0 +1,234 @@
+.labs {
+  --labs-purple: #7d3dbd;
+  --labs-purple-deep: #5c2d8a;
+  --labs-surface: #ffffff;
+  --labs-ink: rgba(92, 45, 138, 0.88);
+  --labs-ink-soft: rgba(125, 61, 189, 0.72);
+  --labs-line: rgba(125, 61, 189, 0.22);
+
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 3.5rem;
+  box-sizing: border-box;
+  font-family: 'Red Hat Display', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--labs-ink);
+  align-self: flex-start;
+}
+
+.labs--detail {
+  max-width: 900px;
+  padding-top: 1.25rem;
+}
+
+.labs__header {
+  margin-bottom: 3rem;
+  max-width: 42rem;
+}
+
+.labs__title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(1.85rem, 4vw, 2.35rem);
+  font-weight: 800;
+  color: var(--labs-purple);
+  letter-spacing: 0.02em;
+  margin: 0 0 1rem;
+}
+
+.labs__intro {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--labs-ink-soft);
+}
+
+.labs__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+}
+
+@media (min-width: 900px) {
+  .labs__grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem 2.25rem;
+  }
+}
+
+.labs-card {
+  background: var(--labs-surface);
+  border: 1px solid var(--labs-line);
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 1px 0 rgba(125, 61, 189, 0.06);
+}
+
+.labs-card__media {
+  background: var(--labs-surface);
+  border-bottom: 1px solid var(--labs-line);
+}
+
+.labs-card__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  vertical-align: middle;
+}
+
+.labs-card__body {
+  padding: 1.75rem 1.5rem 1.85rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 1rem;
+}
+
+.labs-card__title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--labs-purple-deep);
+  margin: 0;
+  line-height: 1.35;
+}
+
+.labs-card__emoji {
+  font-style: normal;
+}
+
+.labs-card__description {
+  margin: 0;
+  flex: 1;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--labs-ink-soft);
+}
+
+.labs-card__play {
+  align-self: flex-start;
+  margin-top: 0.35rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.65rem 1.15rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: var(--labs-purple);
+  border: 1px solid var(--labs-purple);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+
+.labs-card__play:hover {
+  background: var(--labs-purple-deep);
+  border-color: var(--labs-purple-deep);
+}
+
+.labs-card__play:focus-visible {
+  outline: 2px solid var(--labs-purple);
+  outline-offset: 3px;
+}
+
+.labs-card__play:active {
+  transform: scale(0.98);
+}
+
+.labs-card__play-icon {
+  font-size: 0.72rem;
+  opacity: 0.95;
+}
+
+/* Detail shell */
+.labs-detail {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.labs-detail__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--labs-purple);
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: fit-content;
+  transition: color 0.15s ease;
+}
+
+.labs-detail__back:hover {
+  color: var(--labs-purple-deep);
+}
+
+.labs-detail__back:focus-visible {
+  outline: 2px solid var(--labs-purple);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.labs-detail__back-icon {
+  font-size: 0.85rem;
+}
+
+.labs-detail__body {
+  width: 100%;
+}
+
+/* Shared lab experience pages (no gradients; purple + white only) */
+.labs-experience {
+  padding: 0 0 2rem;
+  font-family: 'Red Hat Display', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.labs-experience__header {
+  margin-bottom: 1.75rem;
+}
+
+.labs-experience__title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(1.5rem, 3.5vw, 1.85rem);
+  font-weight: 800;
+  color: #5c2d8a;
+  margin: 0 0 1rem;
+  line-height: 1.25;
+}
+
+.labs-experience__emoji {
+  font-style: normal;
+}
+
+.labs-experience__lead {
+  margin: 0;
+  font-size: 1.02rem;
+  line-height: 1.65;
+  color: rgba(125, 61, 189, 0.78);
+  max-width: 40rem;
+}
+
+.labs-experience__stage {
+  margin-bottom: 1.25rem;
+}
+
+.labs-experience__stage-inner {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.labs-experience__note {
+  margin: 0;
+  font-size: 0.9rem;
+  color: rgba(92, 45, 138, 0.65);
+}

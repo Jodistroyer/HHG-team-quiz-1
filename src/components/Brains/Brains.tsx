@@ -1,6 +1,6 @@
-import './BrainTypes.css'
+import './Brains.css'
 
-const BrainTypes = () => {
+const Brains = () => {
   return (
     <div className="brain-types">
       <h1>Brain Types</h1>
@@ -9,5 +9,5 @@ const BrainTypes = () => {
   )
 }
 
-export default BrainTypes
+export default Brains
 
