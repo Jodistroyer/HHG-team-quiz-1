@@ -91,7 +91,7 @@ function answerDataOnFileLabel (person: Person): string {
   if (!qa) return 'Profile only (no stored quiz answers)'
   const n = Object.values(qa).filter((a) => a?.firstChoice).length
   if (n === 0) return 'Profile only (no stored quiz answers)'
-  return `Stored quiz answers (${n} / 20 questions)`
+  return `Stored quiz answers (${n} answers)`
 }
 
 /** Human-readable headers: combination labels first, then %, then each section block with question text on answer columns. */
