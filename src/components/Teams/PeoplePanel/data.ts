@@ -1,4 +1,4 @@
-import type { HHGCenter, Person, TreeNode, ViewMode, TeamContextScores } from './types'
+import type { HHGCenter, Person, TreeNode, ViewMode, TeamContextKey } from './types'
 import type { QuizExportPayload, PeopleImportPayload } from './types'
 import type { QuizAnswer, QuizAnswerType } from '../../Quiz/quizSections'
 import { getBrainCombination } from '../../Quiz/SectionResults/utils'
@@ -56,6 +56,41 @@ function mergeQuizAnswersFromExport(data: QuizExportPayload): Record<string, Qui
   return Object.keys(merged).length > 0 ? merged : undefined
 }
 
+type ContextScoreKey = Exclude<TeamContextKey, 'overall'>
+
+const SECTION_ID_TO_CONTEXT: Record<number, ContextScoreKey> = {
+  1: 'underPressure',
+  2: 'doingWork',
+  3: 'withPeople',
+  4: 'gettingBetter',
+}
+
+const LEGACY_INDEX_TO_CONTEXT: ContextScoreKey[] = [
+  'underPressure',
+  'doingWork',
+  'withPeople',
+  'gettingBetter',
+]
+
+function contextKeyForSectionSummary (
+  section: QuizExportPayload['sectionSummaries'][number],
+  fallbackIndex: number
+): ContextScoreKey | undefined {
+  const id = section.sectionId
+  if (typeof id === 'number' && id >= 1 && id <= 4) {
+    return SECTION_ID_TO_CONTEXT[id]
+  }
+  const title = section.sectionTitle?.trim().toLowerCase()
+  if (title === 'under pressure') return 'underPressure'
+  if (title === 'doing work') return 'doingWork'
+  if (title === 'with people') return 'withPeople'
+  if (title === 'getting better') return 'gettingBetter'
+  if (fallbackIndex >= 0 && fallbackIndex < LEGACY_INDEX_TO_CONTEXT.length) {
+    return LEGACY_INDEX_TO_CONTEXT[fallbackIndex]
+  }
+  return undefined
+}
+
 function getDominantAndSecondary(
   headPercent: number,
   heartPercent: number,
@@ -85,33 +120,23 @@ export function personFromQuizExport(
       : (data.sections ?? []).map((section) => ({
           sectionId: section.id,
           sectionTitle: section.title,
-          headPercent: toNumber(section.scores?.headPercent, 33.33),
-          heartPercent: toNumber(section.scores?.heartPercent, 33.33),
-          gutPercent: toNumber(section.scores?.gutPercent, 33.34),
+          headPercent: toNumber(section.scores?.headPercent, 0),
+          heartPercent: toNumber(section.scores?.heartPercent, 0),
+          gutPercent: toNumber(section.scores?.gutPercent, 0),
           combinationLabel: section.scores
             ? getBrainCombination(section.scores.headPercent, section.scores.heartPercent, section.scores.gutPercent).label
-            : 'Head + Heart + Gut',
+            : 'Not Done',
         }))
-  const toContext = (idx: number): TeamContextScores | undefined => {
-    const section = sectionSummaries[idx]
-    if (!section) return undefined
-    return {
-      headPercent: section.headPercent ?? 33.33,
-      heartPercent: section.heartPercent ?? 33.33,
-      gutPercent: section.gutPercent ?? 33.34,
-    }
-  }
-
   const contextScores: Person['contextScores'] = {}
-  const underPressure = toContext(0)
-  const doingWork = toContext(1)
-  const withPeople = toContext(2)
-  const gettingBetter = toContext(3)
-
-  if (underPressure) contextScores.underPressure = underPressure
-  if (doingWork) contextScores.doingWork = doingWork
-  if (withPeople) contextScores.withPeople = withPeople
-  if (gettingBetter) contextScores.gettingBetter = gettingBetter
+  sectionSummaries.forEach((section, idx) => {
+    const key = contextKeyForSectionSummary(section, idx)
+    if (!key) return
+    contextScores[key] = {
+      headPercent: section.headPercent ?? 0,
+      heartPercent: section.heartPercent ?? 0,
+      gutPercent: section.gutPercent ?? 0,
+    }
+  })
 
   const headPercent = toNumber(nd.headPercent, 33.33)
   const heartPercent = toNumber(nd.heartPercent, 33.33)

@@ -31,6 +31,7 @@ import { buildPairWhatStandsOutFromPeople } from './pairWhatStandsOut'
 import { PairAnswerResults } from './PairAnswerResults'
 import { Sidebar } from '../../../Quiz/Sidebar/Sidebar'
 import { buildQuizResultsPropsFromPerson } from '../../personQuizResultExport'
+import { getSituationalContextScores } from '../../contextHhgScores'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 import {
@@ -61,6 +62,8 @@ interface TeamPairInsightsProps {
 
 const CONTEXTS: TeamContextKey[] = ['underPressure', 'doingWork', 'withPeople', 'gettingBetter']
 const CONTEXT_LABELS = ['Under Pressure', 'Doing Work', 'With People', 'Getting Better']
+/** Shown when a situational context has no real scores (pair + context cards). */
+const CONTEXT_NOT_DONE_LABEL = 'Not Done'
 
 type PairContextKey = Extract<TeamContextKey, 'underPressure' | 'doingWork' | 'withPeople' | 'gettingBetter'>
 
@@ -83,18 +86,7 @@ function pairNaturalDefaultTitle (comboLabel: string): string {
 }
 
 function scoresFor (person: Person, context: TeamContextKey): TeamContextScores {
-  if (context === 'overall') {
-    return {
-      headPercent: person.headPercent,
-      heartPercent: person.heartPercent,
-      gutPercent: person.gutPercent,
-    }
-  }
-  return person.contextScores?.[context] ?? {
-    headPercent: person.headPercent,
-    heartPercent: person.heartPercent,
-    gutPercent: person.gutPercent,
-  }
+  return getSituationalContextScores(person, context)
 }
 
 function averageScores (a: TeamContextScores, b: TeamContextScores): TeamContextScores {
@@ -103,6 +95,10 @@ function averageScores (a: TeamContextScores, b: TeamContextScores): TeamContext
     heartPercent: (a.heartPercent + b.heartPercent) / 2,
     gutPercent: (a.gutPercent + b.gutPercent) / 2,
   }
+}
+
+function isEmptyContextScores (s: TeamContextScores): boolean {
+  return s.headPercent === 0 && s.heartPercent === 0 && s.gutPercent === 0
 }
 
 function contextIconForTitle (title: string): IconDefinition | null {
@@ -143,6 +139,11 @@ function ComboIcons ({ label }: { label: string }) {
   )
 }
 
+function personHasContextData (person: Person, ctx: PairContextKey): boolean {
+  const s = person.contextScores?.[ctx]
+  return s != null && !isEmptyContextScores(s)
+}
+
 function PairAcrossContextsCard ({ people, insights }: { people: [Person, Person]; insights: Insight[] }) {
   const [a, b] = people
   const shortA = a.name.split(' ')[0] ?? a.name
@@ -153,13 +154,15 @@ function PairAcrossContextsCard ({ people, insights }: { people: [Person, Person
       const title = CONTEXT_LABELS[i] ?? ctx
       const sa = scoresFor(a, ctx)
       const sb = scoresFor(b, ctx)
-      const ca = getBrainCombination(sa.headPercent, sa.heartPercent, sa.gutPercent).label
-      const cb = getBrainCombination(sb.headPercent, sb.heartPercent, sb.gutPercent).label
+      const hasA = personHasContextData(a, ctx)
+      const hasB = personHasContextData(b, ctx)
+      const ca = hasA ? getBrainCombination(sa.headPercent, sa.heartPercent, sa.gutPercent).label : null
+      const cb = hasB ? getBrainCombination(sb.headPercent, sb.heartPercent, sb.gutPercent).label : null
 
-      const aLabel = contextComboLabel(ctx, ca)
-      const bLabel = contextComboLabel(ctx, cb)
+      const aLabel = hasA && ca != null ? contextComboLabel(ctx, ca) : CONTEXT_NOT_DONE_LABEL
+      const bLabel = hasB && cb != null ? contextComboLabel(ctx, cb) : CONTEXT_NOT_DONE_LABEL
 
-      return { title, ca, cb, aLabel, bLabel }
+      return { title, ca, cb, aLabel, bLabel, hasA, hasB }
     })
   }, [a, b])
 
@@ -210,15 +213,31 @@ function PairAcrossContextsCard ({ people, insights }: { people: [Person, Person
 
                 <dd className="change-results-combo-dd team-pair-insights__pair-change-dd team-pair-insights__pair-change-dd--left">
                   <div className="team-pair-insights__pair-change-side">
-                    <ComboIcons label={row.ca} />
-                    <span className="team-pair-insights__pair-change-label-under-icons">{row.aLabel}</span>
+                    {row.hasA && row.ca != null ? (
+                      <>
+                        <ComboIcons label={row.ca} />
+                        <span className="team-pair-insights__pair-change-label-under-icons">{row.aLabel}</span>
+                      </>
+                    ) : (
+                      <p className="change-results-incomplete-copy team-pair-insights__pair-change-incomplete">
+                        {row.aLabel}
+                      </p>
+                    )}
                   </div>
                 </dd>
 
                 <dd className="change-results-combo-dd team-pair-insights__pair-change-dd team-pair-insights__pair-change-dd--right">
                   <div className="team-pair-insights__pair-change-side">
-                    <ComboIcons label={row.cb} />
-                    <span className="team-pair-insights__pair-change-label-under-icons">{row.bLabel}</span>
+                    {row.hasB && row.cb != null ? (
+                      <>
+                        <ComboIcons label={row.cb} />
+                        <span className="team-pair-insights__pair-change-label-under-icons">{row.bLabel}</span>
+                      </>
+                    ) : (
+                      <p className="change-results-incomplete-copy team-pair-insights__pair-change-incomplete">
+                        {row.bLabel}
+                      </p>
+                    )}
                   </div>
                 </dd>
               </div>
@@ -378,8 +397,10 @@ function PairContextSectionCard ({
   const situationalKey: SituationalContextKey =
     sectionId === 1 ? 'underPressure' : sectionId === 2 ? 'doingWork' : sectionId === 3 ? 'withPeople' : 'gettingBetter'
 
-  const comboA = getBrainCombination(aScores.headPercent, aScores.heartPercent, aScores.gutPercent)
-  const comboB = getBrainCombination(bScores.headPercent, bScores.heartPercent, bScores.gutPercent)
+  const incompleteA = isEmptyContextScores(aScores)
+  const incompleteB = isEmptyContextScores(bScores)
+  const comboA = incompleteA ? null : getBrainCombination(aScores.headPercent, aScores.heartPercent, aScores.gutPercent)
+  const comboB = incompleteB ? null : getBrainCombination(bScores.headPercent, bScores.heartPercent, bScores.gutPercent)
 
   const keyA = getBrainCombinationKey(aScores.headPercent, aScores.heartPercent, aScores.gutPercent)
   const keyB = getBrainCombinationKey(bScores.headPercent, bScores.heartPercent, bScores.gutPercent)
@@ -407,20 +428,20 @@ function PairContextSectionCard ({
 
   const contextStyleRow: PairProfileTableRow = {
     label: 'In this context',
-    aValue: contextComboLabel(situationalKey, comboA.label),
-    bValue: contextComboLabel(situationalKey, comboB.label),
+    aValue: incompleteA ? CONTEXT_NOT_DONE_LABEL : contextComboLabel(situationalKey, comboA!.label),
+    bValue: incompleteB ? CONTEXT_NOT_DONE_LABEL : contextComboLabel(situationalKey, comboB!.label),
   }
 
   const iconsRow: PairProfileTableRow = {
     label: 'HHG Icon',
     aValue: (
       <span className="team-pair-insights__hhg-icons" aria-label={`${aHeader.title} HHG icons`}>
-        {getBrainIcons(comboA.label, 'small', 'changeResults')}
+        {incompleteA || !comboA ? null : getBrainIcons(comboA.label, 'small', 'changeResults')}
       </span>
     ),
     bValue: (
       <span className="team-pair-insights__hhg-icons" aria-label={`${bHeader.title} HHG icons`}>
-        {getBrainIcons(comboB.label, 'small', 'changeResults')}
+        {incompleteB || !comboB ? null : getBrainIcons(comboB.label, 'small', 'changeResults')}
       </span>
     ),
   }
@@ -429,12 +450,24 @@ function PairContextSectionCard ({
     label: 'Balance Tip',
     aValue: (
       <>
-        <strong>{balanceBadgeA}:</strong> {balanceInfoA.balanceTip}
+        {incompleteA ? (
+          'Finish this context in the quiz to see a balance tip.'
+        ) : (
+          <>
+            <strong>{balanceBadgeA}:</strong> {balanceInfoA.balanceTip}
+          </>
+        )}
       </>
     ),
     bValue: (
       <>
-        <strong>{balanceBadgeB}:</strong> {balanceInfoB.balanceTip}
+        {incompleteB ? (
+          'Finish this context in the quiz to see a balance tip.'
+        ) : (
+          <>
+            <strong>{balanceBadgeB}:</strong> {balanceInfoB.balanceTip}
+          </>
+        )}
       </>
     ),
   }
@@ -446,14 +479,17 @@ function PairContextSectionCard ({
         className="brain-combo-badge"
         style={{
           background:
-            comboA.colors.length === 1
-              ? comboA.colors[0]
-              : comboA.colors.length === 2
-                ? `linear-gradient(90deg, ${comboA.colors[0]} 50%, ${comboA.colors[1]} 50%)`
-                : `linear-gradient(90deg, ${comboA.colors[0]} 33.33%, ${comboA.colors[1]} 33.33%, ${comboA.colors[1]} 66.66%, ${comboA.colors[2]} 66.66%)`,
+            incompleteA || !comboA
+              ? '#e2e8f0'
+              : comboA.colors.length === 1
+                ? comboA.colors[0]
+                : comboA.colors.length === 2
+                  ? `linear-gradient(90deg, ${comboA.colors[0]} 50%, ${comboA.colors[1]} 50%)`
+                  : `linear-gradient(90deg, ${comboA.colors[0]} 33.33%, ${comboA.colors[1]} 33.33%, ${comboA.colors[1]} 66.66%, ${comboA.colors[2]} 66.66%)`,
+          color: incompleteA || !comboA ? '#475569' : undefined,
         }}
       >
-        {comboA.label}
+        {incompleteA || !comboA ? CONTEXT_NOT_DONE_LABEL : comboA.label}
       </span>
     ),
     bValue: (
@@ -461,14 +497,17 @@ function PairContextSectionCard ({
         className="brain-combo-badge"
         style={{
           background:
-            comboB.colors.length === 1
-              ? comboB.colors[0]
-              : comboB.colors.length === 2
-                ? `linear-gradient(90deg, ${comboB.colors[0]} 50%, ${comboB.colors[1]} 50%)`
-                : `linear-gradient(90deg, ${comboB.colors[0]} 33.33%, ${comboB.colors[1]} 33.33%, ${comboB.colors[1]} 66.66%, ${comboB.colors[2]} 66.66%)`,
+            incompleteB || !comboB
+              ? '#e2e8f0'
+              : comboB.colors.length === 1
+                ? comboB.colors[0]
+                : comboB.colors.length === 2
+                  ? `linear-gradient(90deg, ${comboB.colors[0]} 50%, ${comboB.colors[1]} 50%)`
+                  : `linear-gradient(90deg, ${comboB.colors[0]} 33.33%, ${comboB.colors[1]} 33.33%, ${comboB.colors[1]} 66.66%, ${comboB.colors[2]} 66.66%)`,
+          color: incompleteB || !comboB ? '#475569' : undefined,
         }}
       >
-        {comboB.label}
+        {incompleteB || !comboB ? CONTEXT_NOT_DONE_LABEL : comboB.label}
       </span>
     ),
   }
@@ -588,13 +627,15 @@ function PairContextSectionCard ({
 
   const rowsWithCombo = (rows: PairProfileTableRow[]) => [contextStyleRow, iconsRow, comboRow, ...rows, balanceTipRow]
 
-  const pairContextInsight = getPairContextInsight(situationalKey, keyA, keyB, comboA.label, comboB.label)
-  const pairContextInsightBody = pairContextInsightRich(
-    pairContextInsight,
-    situationalKey,
-    comboA.label,
-    comboB.label
-  )
+  const pairContextInsightBody =
+    incompleteA || incompleteB || !comboA || !comboB
+      ? 'One or both people have not completed this context yet. Finish the quiz context(s) to see the pair insight for this situation.'
+      : pairContextInsightRich(
+          getPairContextInsight(situationalKey, keyA, keyB, comboA.label, comboB.label),
+          situationalKey,
+          comboA.label,
+          comboB.label
+        )
 
   return (
     <div id={slug} className="section-card expanded team-pair-insights__context-card" data-pdf-section={`pair-${slug}`}>

@@ -224,6 +224,11 @@
   box-sizing: border-box;
 }
 
+.team-pair-insights__pair-change-incomplete.change-results-incomplete-copy {
+  text-align: center;
+  max-width: 12rem;
+}
+
 .team-pair-insights__pair-change-dd .change-results-centres {
   display: flex;
   width: 100%;

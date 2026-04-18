@@ -73,6 +73,23 @@
   min-width: 0;
 }
 
+.change-results-incomplete-copy {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #64748b;
+  text-align: right;
+  max-width: 36ch;
+}
+
+.change-results-finish-context-btn {
+  margin-top: 4px;
+  font-size: 0.8rem;
+  padding: 0.35rem 0.75rem;
+}
+
 .change-results-combo-row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;

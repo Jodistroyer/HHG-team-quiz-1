@@ -1,7 +1,23 @@
 import './QuizIntro.css'
 import { QuizIntroQuestionPreview } from './QuizIntroQuestionPreview'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+  faFire,
+  faBriefcase,
+  faPeopleGroup,
+  faChartLine,
+  faTriangleExclamation,
+} from '@fortawesome/free-solid-svg-icons'
+import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 
 export type QuizSelectedContextId = 1 | 2 | 3 | 4
+
+const CONTEXT_TITLE_ICONS: Record<QuizSelectedContextId, IconDefinition> = {
+  1: faFire,
+  2: faBriefcase,
+  3: faPeopleGroup,
+  4: faChartLine,
+}
 
 function ContextCardArt ({ id }: { id: QuizSelectedContextId }) {
   if (id === 1) {
@@ -91,7 +107,7 @@ const CONTEXT_CARDS: Array<{
   {
     id: 2,
     title: 'Doing Work',
-    contextLine: 'Normal execution mode. No crisis, just getting things done.',
+    contextLine: 'Normal execution mode. Just getting things done.',
   },
   {
     id: 3,
@@ -105,7 +121,8 @@ const CONTEXT_CARDS: Array<{
   },
 ]
 
-function estimateTimeLabel (questionCount: number): string {
+/** ~45s per question, same buckets as the pre-quiz estimate (used for resume / partial flows). */
+export function estimateTimeLabel (questionCount: number): string {
   if (questionCount <= 0) return '0 min'
   const secondsPer = 45
   const min = Math.max(1, Math.round((questionCount * secondsPer) / 60))
@@ -224,6 +241,9 @@ export function QuizIntro ({
                       <div className="quiz-intro-card__body">
                         <div className="quiz-intro-card__top">
                           <span className="quiz-intro-card__checkbox" aria-hidden="true" />
+                          <span className="quiz-intro-card__title-icon" aria-hidden="true">
+                            <FontAwesomeIcon icon={CONTEXT_TITLE_ICONS[card.id]} />
+                          </span>
                           <h3 className="quiz-intro-card__title">{card.title}</h3>
                           <span className="quiz-intro-card__meta">
                             <span className="quiz-intro-card__meta-questions">5 questions</span>
@@ -251,7 +271,7 @@ export function QuizIntro ({
                 <div className="quiz-intro-actions__center" aria-live="polite">
                   {!canStart ? (
                     <p className="quiz-intro-actions__note" role="status">
-                      Select at least 1 context to start.
+                      <strong>Select at least 1 context to start.</strong>
                     </p>
                   ) : (
                     <span className="quiz-intro-actions__spacer" aria-hidden="true" />
@@ -270,13 +290,19 @@ export function QuizIntro ({
             <div className="quiz-intro-contexts__notes">
               <div className="quiz-intro-contexts__notes-row">
                 <div className="quiz-intro-section" role="note" aria-label="Important note">
-                  <h2 className="quiz-intro-h2">Before you answer</h2>
+                  <div className="quiz-intro-h2-row">
+                    <span className="quiz-intro-h2-row__icon" aria-hidden="true">
+                      <FontAwesomeIcon icon={faTriangleExclamation} />
+                    </span>
+                    <h2 className="quiz-intro-h2">Before you answer</h2>
+                  </div>
                   <p className="quiz-intro-p">
                     These questions are intentionally vague.
                   </p>
                   <ul className="quiz-intro-list">
                     <li>They are cognitively heavy. Take your time.</li>
                     <li>Use the first real scenario from your experience that comes to mind.</li>
+                    <li> <strong>Start small. You may add more contexts anytime. </strong></li>
                   </ul>
                 </div>
 

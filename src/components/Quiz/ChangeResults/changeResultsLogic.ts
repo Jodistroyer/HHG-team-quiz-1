@@ -15,7 +15,15 @@ export interface ContextComboRow {
   centres: Centre[]
   /** Head / Heart / Gut colours for combo badge gradient (same as SectionCard). */
   colors: string[]
+  /** Quiz questions for this HHG context are not all answered yet (no fake combo from 0%). */
+  incomplete?: boolean
+  /** HHG section id (1–4); set when labels are passed as objects. */
+  sectionId?: number
+  /** Incomplete because this context was not in the user’s selected quiz run (vs. selected but unfinished). */
+  notInCurrentRun?: boolean
 }
+
+export type SectionLabelInput = string | { id: number; title: string }
 
 export interface ChangeFacts {
   rows: ContextComboRow[]
@@ -44,12 +52,44 @@ function sortedComboKey(centres: Centre[]): string {
   return order.filter((c) => centres.includes(c)).join(',')
 }
 
-export function buildFacts(sectionSummaries: SectionScoresInput[], sectionTitles: string[]): ChangeFacts {
+export const INCOMPLETE_COMBO_KEY = '__incomplete__'
+
+export function buildFacts(
+  sectionSummaries: SectionScoresInput[],
+  sectionLabels: SectionLabelInput[],
+  sectionQuizComplete?: boolean[],
+  sectionIncludedInQuiz?: boolean[]
+): ChangeFacts {
+  const titles = sectionLabels.map((x) => (typeof x === 'string' ? x : x.title))
+  const ids = sectionLabels.map((x) => (typeof x === 'string' ? undefined : x.id))
+
   const rows: ContextComboRow[] = sectionSummaries.slice(0, 4).map((scores, i) => {
+    const title = titles[i] ?? `Context ${i + 1}`
+    const sectionId = ids[i]
+    const incomplete = Array.isArray(sectionQuizComplete) && sectionQuizComplete[i] === false
+    const notInCurrentRun =
+      incomplete &&
+      Array.isArray(sectionIncludedInQuiz) &&
+      sectionIncludedInQuiz[i] === false
+
+    if (incomplete) {
+      return {
+        title,
+        sectionId,
+        incomplete: true,
+        notInCurrentRun,
+        rawLabel: '',
+        shortLabel: '',
+        centres: [],
+        colors: [],
+      }
+    }
+
     const combo = getBrainCombination(scores.headPercent, scores.heartPercent, scores.gutPercent)
     const centres = parseCentres(combo.label)
     return {
-      title: sectionTitles[i] ?? `Context ${i + 1}`,
+      title,
+      sectionId,
       rawLabel: combo.label,
       shortLabel: shortComboLabel(combo.label),
       centres,
@@ -67,6 +107,28 @@ export function buildFacts(sectionSummaries: SectionScoresInput[], sectionTitles
   const centreCountByContext = rows.map((r) => r.centres.length)
   const comboKeys = rows.map((r) => sortedComboKey(r.centres))
   const allSameCombo = comboKeys.length > 0 && comboKeys.every((k) => k === comboKeys[0])
+
+  return { rows, centreCounts, centreCountByContext, allSameCombo, comboKeys }
+}
+
+/** Same row order as display; recomputes aggregates so incomplete contexts never look like a real combo. */
+export function insightStatsFromFacts(facts: ChangeFacts): ChangeFacts {
+  const rows = facts.rows
+  const centreCounts: Record<Centre, number> = { Head: 0, Heart: 0, Gut: 0 }
+  for (const r of rows) {
+    if (r.incomplete) continue
+    for (const c of r.centres) {
+      centreCounts[c]++
+    }
+  }
+
+  const centreCountByContext = rows.map((r) => (r.incomplete ? 0 : r.centres.length))
+  const comboKeys = rows.map((r) =>
+    r.incomplete ? INCOMPLETE_COMBO_KEY : sortedComboKey(r.centres)
+  )
+  const completeKeys = comboKeys.filter((k) => k !== INCOMPLETE_COMBO_KEY)
+  const allSameCombo =
+    completeKeys.length > 1 && completeKeys.every((k) => k === completeKeys[0])
 
   return { rows, centreCounts, centreCountByContext, allSameCombo, comboKeys }
 }
@@ -174,6 +236,8 @@ function pushPairwiseContrasts(candidates: Insight[], rows: ContextComboRow[], c
   let p = basePriority
   for (const [i, j] of pairs) {
     if (i >= rows.length || j >= rows.length) continue
+    if (rows[i]?.incomplete || rows[j]?.incomplete) continue
+    if (comboKeys[i] === INCOMPLETE_COMBO_KEY || comboKeys[j] === INCOMPLETE_COMBO_KEY) continue
     if (comboKeys[i] === comboKeys[j]) continue
     const a = rows[i]!
     const b = rows[j]!
@@ -261,7 +325,7 @@ function pushCoolGapFillers(candidates: Insight[], facts: ChangeFacts): void {
     })
   }
 
-  const tripleIdx = rows.findIndex((r) => r.centres.length === 3)
+  const tripleIdx = rows.findIndex((r) => !r.incomplete && r.centres.length === 3)
   if (tripleIdx >= 0) {
     const r = rows[tripleIdx]!
     candidates.push({
@@ -272,8 +336,8 @@ function pushCoolGapFillers(candidates: Insight[], facts: ChangeFacts): void {
   }
 
   if (rows.length === 4) {
-    const allPairs = centreCountByContext.every((n) => n === 2)
-    if (allPairs) {
+    const allPairs = rows.every((r, i) => r.incomplete || centreCountByContext[i] === 2)
+    if (allPairs && rows.some((r) => !r.incomplete)) {
       candidates.push({
         priority: 47,
         headline: 'Living in pairs',
@@ -284,7 +348,7 @@ function pushCoolGapFillers(candidates: Insight[], facts: ChangeFacts): void {
 
   for (const c of ['Head', 'Heart', 'Gut'] as const) {
     if (centreCounts[c] === 1) {
-      const r = rows.find((row) => row.centres.includes(c))
+      const r = rows.find((row) => !row.incomplete && row.centres.includes(c))
       if (r) {
         candidates.push({
           priority: 46,
@@ -296,7 +360,7 @@ function pushCoolGapFillers(candidates: Insight[], facts: ChangeFacts): void {
     } 
   }
 
-  const uniqueKeys = new Set(comboKeys)
+  const uniqueKeys = new Set(comboKeys.filter((k) => k !== INCOMPLETE_COMBO_KEY))
   if (!allSameCombo && uniqueKeys.size === 2) {
     candidates.push({
       priority: 44,
@@ -306,25 +370,33 @@ function pushCoolGapFillers(candidates: Insight[], facts: ChangeFacts): void {
   }
 
   if (rows.length === 4) {
-    const maxN = Math.max(...centreCountByContext)
-    const maxIdx = centreCountByContext.map((n, i) => (n === maxN ? i : -1)).filter((i) => i >= 0)
-    if (maxIdx.length === 1 && maxN >= 2) {
-      const r = rows[maxIdx[0]!]!
-      candidates.push({
-        priority: 43,
-        headline: `${r.title} runs widest`,
-        body: `${r.title} is where you let more of the model in at once (${r.shortLabel}). It is your most layered scene in this read.`,
-      })
-    }
-    const minN = Math.min(...centreCountByContext)
-    const minIdx = centreCountByContext.map((n, i) => (n === minN ? i : -1)).filter((i) => i >= 0)
-    if (minIdx.length === 1 && minN < maxN) {
-      const r = rows[minIdx[0]!]!
-      candidates.push({
-        priority: 42,
-        headline: `${r.title} stays lean`,
-        body: `${r.title} is where you strip it down (${r.shortLabel}). You are not trying to run every centre at full volume there.`,
-      })
+    const activeCounts = centreCountByContext.map((n, i) => (rows[i]!.incomplete ? null : n))
+    const finite = activeCounts.filter((n): n is number => n != null)
+    if (finite.length > 0) {
+      const maxN = Math.max(...finite)
+      const maxIdx = centreCountByContext
+        .map((n, i) => (!rows[i]!.incomplete && n === maxN ? i : -1))
+        .filter((i) => i >= 0)
+      if (maxIdx.length === 1 && maxN >= 2) {
+        const r = rows[maxIdx[0]!]!
+        candidates.push({
+          priority: 43,
+          headline: `${r.title} runs widest`,
+          body: `${r.title} is where you let more of the model in at once (${r.shortLabel}). It is your most layered scene in this read.`,
+        })
+      }
+      const minN = Math.min(...finite)
+      const minIdx = centreCountByContext
+        .map((n, i) => (!rows[i]!.incomplete && n === minN ? i : -1))
+        .filter((i) => i >= 0)
+      if (minIdx.length === 1 && minN < maxN) {
+        const r = rows[minIdx[0]!]!
+        candidates.push({
+          priority: 42,
+          headline: `${r.title} stays lean`,
+          body: `${r.title} is where you strip it down (${r.shortLabel}). You are not trying to run every centre at full volume there.`,
+        })
+      }
     }
   }
 
@@ -341,11 +413,23 @@ function pushCoolGapFillers(candidates: Insight[], facts: ChangeFacts): void {
 
 /** Interpretive rules only; always returns exactly three when there is context data. */
 export function computeInsights(facts: ChangeFacts, maxInsights = INSIGHT_TARGET_COUNT): Insight[] {
-  const { rows, centreCounts, centreCountByContext, allSameCombo, comboKeys } = facts
-
-  if (rows.length === 0) {
+  if (facts.rows.length === 0) {
     return []
   }
+
+  if (facts.rows.every((r) => r.incomplete)) {
+    return [
+      {
+        priority: 50,
+        headline: 'Some contexts are still open',
+        body:
+          'Finish the quiz for each context marked as not completed below. Once every context has answers, this section can describe how your centre mix shifts between situations more reliably.',
+      },
+    ]
+  }
+
+  const insightFacts = insightStatsFromFacts(facts)
+  const { rows, centreCounts, centreCountByContext, allSameCombo, comboKeys } = insightFacts
 
   const candidates: Insight[] = []
 
@@ -355,15 +439,17 @@ export function computeInsights(facts: ChangeFacts, maxInsights = INSIGHT_TARGET
   }
 
   if (allSameCombo && rows.length > 0) {
+    const completedRows = rows.filter((r) => !r.incomplete)
+    const styleRow = completedRows[0]!
     candidates.push({
       headline: 'Same pattern everywhere',
       body:
-        rows.length >= 4
-          ? `You show up the same way (${rows[0]!.shortLabel}) in each context.`
-          : `Each scene in this snapshot lines up as ${rows[0]!.shortLabel}.`,
+        completedRows.length >= 4
+          ? `You show up the same way (${styleRow.shortLabel}) in each context.`
+          : `Each completed scene in this snapshot lines up as ${styleRow.shortLabel}.`,
       priority: 95,
     })
-    pushAllSameDepth(candidates, rows)
+    pushAllSameDepth(candidates, completedRows.length ? completedRows : rows)
   }
 
   const maxC = Math.max(centreCounts.Head, centreCounts.Heart, centreCounts.Gut)
@@ -379,7 +465,9 @@ export function computeInsights(facts: ChangeFacts, maxInsights = INSIGHT_TARGET
 
   if (!allSameCombo && tops.length === 1 && maxC === 3) {
     const c = tops[0]!
-    const absentIndices = rows.map((r, i) => (!r.centres.includes(c) ? i : -1)).filter((i) => i >= 0)
+    const absentIndices = rows
+      .map((r, i) => (!r.incomplete && !r.centres.includes(c) ? i : -1))
+      .filter((i) => i >= 0)
     if (absentIndices.length === 1) {
       const idx = absentIndices[0]!
       const ctx = rows[idx]!.title
@@ -394,7 +482,7 @@ export function computeInsights(facts: ChangeFacts, maxInsights = INSIGHT_TARGET
     }
   }
 
-  if (rows.length === 4) {
+  if (rows.length === 4 && !rows.some((r) => r.incomplete)) {
     const minCentres = Math.min(...centreCountByContext)
     const minIdx = centreCountByContext
       .map((n, i) => (n === minCentres ? i : -1))
@@ -410,7 +498,7 @@ export function computeInsights(facts: ChangeFacts, maxInsights = INSIGHT_TARGET
     }
   }
 
-  if (rows.length === 4) {
+  if (rows.length === 4 && !rows.some((r) => r.incomplete)) {
     const g = centreCountByContext[3]!
     if (g > centreCountByContext[0]! && g > centreCountByContext[1]! && g > centreCountByContext[2]!) {
       const gTitle = rows[3]!.title
@@ -424,6 +512,7 @@ export function computeInsights(facts: ChangeFacts, maxInsights = INSIGHT_TARGET
 
   const heartRows = rows.map((r, i) => (r.centres.includes('Heart') ? i : -1)).filter((i) => i >= 0)
   if (
+    !rows.some((r) => r.incomplete) &&
     heartRows.length === 2 &&
     heartRows.includes(2) &&
     heartRows.includes(3) &&
@@ -437,7 +526,7 @@ export function computeInsights(facts: ChangeFacts, maxInsights = INSIGHT_TARGET
     })
   }
 
-  const uniqueKeys = new Set(comboKeys)
+  const uniqueKeys = new Set(comboKeys.filter((k) => k !== INCOMPLETE_COMBO_KEY))
   if (!allSameCombo && uniqueKeys.size === 4) {
     candidates.push({
       headline: 'Lots of variation',
@@ -454,7 +543,7 @@ export function computeInsights(facts: ChangeFacts, maxInsights = INSIGHT_TARGET
     })
   }
 
-  pushCoolGapFillers(candidates, facts)
+  pushCoolGapFillers(candidates, insightFacts)
 
   candidates.sort((a, b) => b.priority - a.priority)
 
@@ -481,6 +570,8 @@ export function computeInsights(facts: ChangeFacts, maxInsights = INSIGHT_TARGET
     let anyAdded = false
     for (let i = 0; i < rows.length && out.length < maxInsights; i++) {
       for (let j = i + 1; j < rows.length && out.length < maxInsights; j++) {
+        if (rows[i]?.incomplete || rows[j]?.incomplete) continue
+        if (comboKeys[i] === INCOMPLETE_COMBO_KEY || comboKeys[j] === INCOMPLETE_COMBO_KEY) continue
         if (comboKeys[i] === comboKeys[j]) continue
         const added = tryAddInsight(out, used, {
           priority: 8 - variant,

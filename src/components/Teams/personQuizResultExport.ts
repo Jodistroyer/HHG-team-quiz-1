@@ -24,10 +24,11 @@ function getSectionPercents (person: Person, sectionIndex: number): {
       gutPercent: ctx.gutPercent,
     }
   }
+  // No per-context data: treat as not completed (0%), not a copy of overall natural default.
   return {
-    headPercent: person.headPercent,
-    heartPercent: person.heartPercent,
-    gutPercent: person.gutPercent,
+    headPercent: 0,
+    heartPercent: 0,
+    gutPercent: 0,
   }
 }
 
@@ -117,14 +118,20 @@ export function buildPersonQuizResultDocument (person: Person): PersonQuizResult
 
   const sectionSummaries = QUIZ_SECTIONS.map((sec, idx) => {
     const { headPercent, heartPercent, gutPercent } = getSectionPercents(person, idx)
-    const combo = getBrainCombination(headPercent, heartPercent, gutPercent)
+    const key = CONTEXT_BY_SECTION[idx]
+    const hasContextPercents = key ? person.contextScores?.[key] != null : false
+    const hasAnyAnswer = sec.questions.some((q) => mergedAnswers[q.id]?.firstChoice != null)
+    const comboLabel =
+      !hasContextPercents && !hasAnyAnswer
+        ? 'Not Done'
+        : getBrainCombination(headPercent, heartPercent, gutPercent).label
     return {
       sectionId: sec.id,
       sectionTitle: sec.title,
       headPercent,
       heartPercent,
       gutPercent,
-      combinationLabel: combo.label,
+      combinationLabel: comboLabel,
     }
   })
 
@@ -225,6 +232,7 @@ export function buildQuizResultsPropsFromPerson (person: Person): {
   sectionSummaries: QuizResultsSectionScores[]
   sections: typeof QUIZ_SECTIONS
   answers: Record<string, QuizAnswer>
+  sectionQuizComplete: boolean[]
   quizCompletedAt: string | null
 } {
   const doc = buildPersonQuizResultDocument(person)
@@ -241,6 +249,9 @@ export function buildQuizResultsPropsFromPerson (person: Person): {
     dominant: s.scores.dominant,
     secondaryBrain: s.scores.secondaryBrain,
   }))
+  const sectionQuizComplete = doc.sections.map(
+    (s) => s.questions.length > 0 && s.questions.every((q) => q.answer.firstChoice != null)
+  )
   return {
     overall: {
       headPercent: person.headPercent,
@@ -252,6 +263,7 @@ export function buildQuizResultsPropsFromPerson (person: Person): {
     sectionSummaries,
     sections: QUIZ_SECTIONS,
     answers,
+    sectionQuizComplete,
     quizCompletedAt: person.quizCompletedAt ?? null,
   }
 }

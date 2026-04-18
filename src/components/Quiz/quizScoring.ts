@@ -43,6 +43,21 @@ export function calculateSectionScoresDetailed (
 
   const sectionAnswers = section.questions.map((q) => answers[q.id] ?? { firstChoice: null, secondChoice: null })
 
+  const answeredPrimaryCount = sectionAnswers.filter((a) => a.firstChoice != null).length
+  if (answeredPrimaryCount === 0) {
+    return {
+      headPoints: 0,
+      heartPoints: 0,
+      gutPoints: 0,
+      headPercent: 0,
+      heartPercent: 0,
+      gutPercent: 0,
+      dominant: 'Head',
+      secondaryBrain: null,
+      totalPoints: 0,
+    }
+  }
+
   let headPoints = 0
   let heartPoints = 0
   let gutPoints = 0

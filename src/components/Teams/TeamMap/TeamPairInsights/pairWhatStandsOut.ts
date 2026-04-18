@@ -1,6 +1,11 @@
 import type { Centre, ChangeFacts, ContextComboRow, Insight } from '../../../Quiz/ChangeResults/changeResultsLogic'
-import { buildFacts } from '../../../Quiz/ChangeResults/changeResultsLogic'
+import {
+  buildFacts,
+  INCOMPLETE_COMBO_KEY,
+  insightStatsFromFacts,
+} from '../../../Quiz/ChangeResults/changeResultsLogic'
 import type { Person, TeamContextKey, TeamContextScores } from '../../PeoplePanel/types'
+import { getSituationalContextScores } from '../../contextHhgScores'
 
 const INSIGHT_TARGET = 3
 
@@ -8,20 +13,7 @@ const PAIR_CONTEXTS: TeamContextKey[] = ['underPressure', 'doingWork', 'withPeop
 const PAIR_CONTEXT_LABELS = ['Under Pressure', 'Doing Work', 'With People', 'Getting Better']
 
 function scoresFor (person: Person, context: TeamContextKey): TeamContextScores {
-  if (context === 'overall') {
-    return {
-      headPercent: person.headPercent,
-      heartPercent: person.heartPercent,
-      gutPercent: person.gutPercent,
-    }
-  }
-  return (
-    person.contextScores?.[context] ?? {
-      headPercent: person.headPercent,
-      heartPercent: person.heartPercent,
-      gutPercent: person.gutPercent,
-    }
-  )
+  return getSituationalContextScores(person, context)
 }
 
 function averageScores (a: TeamContextScores, b: TeamContextScores): TeamContextScores {
@@ -30,6 +22,11 @@ function averageScores (a: TeamContextScores, b: TeamContextScores): TeamContext
     heartPercent: (a.heartPercent + b.heartPercent) / 2,
     gutPercent: (a.gutPercent + b.gutPercent) / 2,
   }
+}
+
+function hasRealContextScores (person: Person, ctx: TeamContextKey): boolean {
+  const s = person.contextScores?.[ctx]
+  return s != null && !(s.headPercent === 0 && s.heartPercent === 0 && s.gutPercent === 0)
 }
 
 function dominantCentre (s: TeamContextScores): Centre {
@@ -153,6 +150,11 @@ function pushPairRelationalSignals (
   people: [Person, Person]
 ) {
   const [a, b] = people
+  const allFourComparable = PAIR_CONTEXTS.every(
+    (ctx) => hasRealContextScores(a, ctx) && hasRealContextScores(b, ctx)
+  )
+  if (!allFourComparable) return
+
   let align = 0
   const dominantsPerContext: Centre[] = []
   PAIR_CONTEXTS.forEach((ctx) => {
@@ -193,12 +195,12 @@ function pushPairRelationalSignals (
  * plus lines from comparing the two individuals situation by situation.
  */
 export function buildPairWhatStandsOut (facts: ChangeFacts, people: [Person, Person]): Insight[] {
-  const { rows, centreCounts, centreCountByContext, allSameCombo, comboKeys } = facts
+  const { rows, centreCounts, centreCountByContext, allSameCombo, comboKeys } = insightStatsFromFacts(facts)
   if (rows.length === 0) return []
 
   const out: Insight[] = []
   const seen = new Set<string>()
-  const uniqueKeys = new Set(comboKeys)
+  const uniqueKeys = new Set(comboKeys.filter((k) => k !== INCOMPLETE_COMBO_KEY))
 
   const add = (headline: string, body: string, priority: number) => {
     const key = `${headline}|${body}`
@@ -210,7 +212,7 @@ export function buildPairWhatStandsOut (facts: ChangeFacts, people: [Person, Per
   pushPairRelationalSignals(add, people)
 
   const contextsWithCentre = (centre: Centre) =>
-    rows.filter((row) => row.centres.includes(centre)).map((row) => row.title)
+    rows.filter((row) => !row.incomplete && row.centres.includes(centre)).map((row) => row.title)
 
   const missing = (['Head', 'Heart', 'Gut'] as const).filter((c) => centreCounts[c] === 0)
   if (missing.length === 1) {
@@ -220,12 +222,14 @@ export function buildPairWhatStandsOut (facts: ChangeFacts, people: [Person, Per
     add('Several parts are quiet for this pair', pairLessSeveralBody(missing), 100)
   }
 
-  if (allSameCombo && rows[0]) {
-    add(sameComboHeadline(rows[0]), pairSameComboBody(rows[0]), 96)
-    pushPairAllSameDepth(add, rows[0])
+  const completedRows = rows.filter((r) => !r.incomplete)
+  if (allSameCombo && completedRows[0]) {
+    const row0 = completedRows[0]!
+    add(sameComboHeadline(row0), pairSameComboBody(row0), 96)
+    pushPairAllSameDepth(add, row0)
   }
 
-  if (!allSameCombo && uniqueKeys.size === 4 && rows.length === 4) {
+  if (!allSameCombo && uniqueKeys.size === 4 && completedRows.length === 4) {
     add(
       'A different shape in every row',
       'No two rows share the same combined pattern. The pair picture shifts with each situation, even though it is still the two of you. Saying that out loud can reduce friction when you assume you are seeing the same thing.',
@@ -238,7 +242,9 @@ export function buildPairWhatStandsOut (facts: ChangeFacts, people: [Person, Per
   if (!allSameCombo && tops.length === 1) {
     const c = tops[0]!
     const titles = contextsWithCentre(c)
-    const missingTitles = rows.filter((row) => !row.centres.includes(c)).map((row) => row.title)
+    const missingTitles = rows
+      .filter((row) => !row.incomplete && !row.centres.includes(c))
+      .map((row) => row.title)
     if (titles.length === 3 && missingTitles.length === 1) {
       const missingRow = rows.find((row) => row.title === missingTitles[0])!
       add(
@@ -254,7 +260,7 @@ export function buildPairWhatStandsOut (facts: ChangeFacts, people: [Person, Per
 
   for (const centre of ['Head', 'Heart', 'Gut'] as const) {
     if (centreCounts[centre] === 1) {
-      const onlyRow = rows.find((row) => row.centres.includes(centre))
+      const onlyRow = rows.find((row) => !row.incomplete && row.centres.includes(centre))
       if (onlyRow) {
         add(
           `${centre} strongest in one row only`,
@@ -265,7 +271,7 @@ export function buildPairWhatStandsOut (facts: ChangeFacts, people: [Person, Per
     }
   }
 
-  const tripleRows = rows.filter((row) => row.centres.length === 3)
+  const tripleRows = rows.filter((row) => !row.incomplete && row.centres.length === 3)
   if (tripleRows.length === 1) {
     add(
       `${tripleRows[0]!.title}: only row with all three`,
@@ -274,7 +280,7 @@ export function buildPairWhatStandsOut (facts: ChangeFacts, people: [Person, Per
     )
   }
 
-  const singleRows = rows.filter((row) => row.centres.length === 1)
+  const singleRows = rows.filter((row) => !row.incomplete && row.centres.length === 1)
   if (singleRows.length === 1) {
     add(
       `${singleRows[0]!.title} is the simplest row`,
@@ -283,7 +289,7 @@ export function buildPairWhatStandsOut (facts: ChangeFacts, people: [Person, Per
     )
   }
 
-  if (rows.length === 4) {
+  if (rows.length === 4 && !rows.some((r) => r.incomplete)) {
     const maxN = Math.max(...centreCountByContext)
     const minN = Math.min(...centreCountByContext)
     const maxIdx = centreCountByContext.map((n, i) => (n === maxN ? i : -1)).filter((i) => i >= 0)
@@ -326,7 +332,7 @@ export function buildPairWhatStandsOut (facts: ChangeFacts, people: [Person, Per
       56
     )
   }
-  if (!allSameCombo && topsAll.length === 3 && rows.length === 4) {
+  if (!allSameCombo && topsAll.length === 3 && completedRows.length === 4) {
     add(
       'Three-way tie',
       'Head, Heart, and Gut each show up the same number of times across rows in the pair average. Together you rotate the lead instead of fixing one permanent boss for both of you.',
@@ -342,7 +348,7 @@ export function buildPairWhatStandsOut (facts: ChangeFacts, people: [Person, Per
     )
   }
 
-  const tripleBandIdx = rows.findIndex((r) => r.centres.length === 3)
+  const tripleBandIdx = rows.findIndex((r) => !r.incomplete && r.centres.length === 3)
   if (tripleBandIdx >= 0 && tripleRows.length !== 1) {
     const r = rows[tripleBandIdx]!
     add(
@@ -352,7 +358,7 @@ export function buildPairWhatStandsOut (facts: ChangeFacts, people: [Person, Per
     )
   }
 
-  if (rows.length === 4 && centreCountByContext.every((n) => n === 2)) {
+  if (completedRows.length === 4 && centreCountByContext.every((n) => n === 2)) {
     add(
       'Mostly two at a time',
       'Every row stays in a two-part mix in the pair average. The two of you rarely look solo or full three-way in this snapshot. A duo of strengths is your default combined shape.',
@@ -371,6 +377,7 @@ export function buildPairWhatStandsOut (facts: ChangeFacts, people: [Person, Per
 
   for (const [i, j] of contrastPairs) {
     if (i >= rows.length || j >= rows.length) continue
+    if (rows[i]?.incomplete || rows[j]?.incomplete) continue
     if (comboKeys[i] === comboKeys[j]) continue
     const ra = rows[i]!
     const rb = rows[j]!
@@ -402,6 +409,7 @@ export function buildPairWhatStandsOut (facts: ChangeFacts, people: [Person, Per
 
   for (let i = 0; i < rows.length; i++) {
     const r = rows[i]!
+    if (r.incomplete) continue
     add(
       r.title,
       `Pair average in this row: ${r.shortLabel}.`,
@@ -416,6 +424,9 @@ export function buildPairWhatStandsOut (facts: ChangeFacts, people: [Person, Per
 export function buildPairWhatStandsOutFromPeople (people: [Person, Person]): Insight[] {
   const [a, b] = people
   const summaries = PAIR_CONTEXTS.map((ctx) => averageScores(scoresFor(a, ctx), scoresFor(b, ctx)))
-  const facts = buildFacts(summaries, PAIR_CONTEXT_LABELS)
+  const sectionQuizComplete = PAIR_CONTEXTS.map(
+    (ctx) => hasRealContextScores(a, ctx) && hasRealContextScores(b, ctx)
+  )
+  const facts = buildFacts(summaries, PAIR_CONTEXT_LABELS, sectionQuizComplete)
   return buildPairWhatStandsOut(facts, [a, b])
 }

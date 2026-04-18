@@ -1,0 +1,66 @@
+.resume-context-modal-root {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+}
+
+.resume-context-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  background: rgba(15, 23, 42, 0.45);
+  cursor: pointer;
+}
+
+.resume-context-modal-dialog {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 420px);
+  background: #fff;
+  border-radius: 18px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 18px 48px rgba(0, 0, 0, 0.12);
+  padding: 1.5rem 1.5rem 1.25rem;
+}
+
+.resume-context-modal-title {
+  margin: 0 0 0.75rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.3;
+}
+
+.resume-context-modal-body {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: #475569;
+}
+
+.resume-context-modal-body p {
+  margin: 0 0 0.75rem;
+}
+
+.resume-context-modal-body p:last-child {
+  margin-bottom: 0;
+}
+
+.resume-context-modal-meta {
+  color: #334155;
+}
+
+.resume-context-modal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  margin-top: 1.25rem;
+}

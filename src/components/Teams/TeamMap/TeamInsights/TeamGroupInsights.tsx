@@ -3,6 +3,7 @@ import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowsRotate, faCompass } from '@fortawesome/free-solid-svg-icons'
 import type { Person, TeamContextKey, TeamContextScores } from '../../PeoplePanel/types'
+import { getSituationalContextScores } from '../../contextHhgScores'
 import { buildFacts } from '../../../Quiz/ChangeResults/changeResultsLogic'
 import { CombinationAcrossContexts } from '../../../Quiz/ChangeResults/CombinationAcrossContexts'
 import { WhatStandsOut } from '../../../Quiz/ChangeResults/WhatStandsOut'
@@ -36,6 +37,12 @@ interface TeamCardHeaderProps {
 const SITUATIONAL_CONTEXTS: TeamContextKey[] = ['underPressure', 'doingWork', 'withPeople', 'gettingBetter']
 const SITUATIONAL_TITLES = ['Under Pressure', 'Doing Work', 'With People', 'Getting Better']
 
+const SITUATIONAL_SECTIONS_FOR_COMBO_UI = SITUATIONAL_TITLES.map((title, i) => ({
+  id: i + 1,
+  title,
+  questions: [] as { id: string }[],
+}))
+
 const EMPTY_SCORES: TeamContextScores = { headPercent: 0, heartPercent: 0, gutPercent: 0 }
 
 function TeamSectionHeader ({ title, icon }: TeamSectionHeaderProps) {
@@ -65,20 +72,7 @@ function TeamCardHeader ({ title, icon }: TeamCardHeaderProps) {
 }
 
 function getScoresForContext (person: Person, context: TeamContextKey): TeamContextScores {
-  if (context === 'overall') {
-    return {
-      headPercent: person.headPercent,
-      heartPercent: person.heartPercent,
-      gutPercent: person.gutPercent,
-    }
-  }
-  return (
-    person.contextScores?.[context] ?? {
-      headPercent: person.headPercent,
-      heartPercent: person.heartPercent,
-      gutPercent: person.gutPercent,
-    }
-  )
+  return getSituationalContextScores(person, context)
 }
 
 function averageTeamScores (people: Person[], context: TeamContextKey): TeamContextScores {
@@ -186,7 +180,7 @@ export function TeamGroupInsights ({ selectedPeople }: TeamGroupInsightsProps) {
               data-team-section="change-across-contexts"
             >
               <div className="change-results-card change-results-card--combo">
-                <CombinationAcrossContexts rows={changeFacts.rows} />
+                <CombinationAcrossContexts rows={changeFacts.rows} sections={SITUATIONAL_SECTIONS_FOR_COMBO_UI} />
               </div>
               <WhatStandsOut insights={teamInsights} />
             </div>

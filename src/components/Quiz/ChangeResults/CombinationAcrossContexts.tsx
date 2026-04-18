@@ -7,8 +7,18 @@ import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 import '../SectionResults/SectionCard.css'
 import './ChangeResults.css'
 
+interface SectionForResume {
+  id: number
+  title: string
+  questions: { id: string }[]
+}
+
 interface CombinationAcrossContextsProps {
   rows: ContextComboRow[]
+  sections: SectionForResume[]
+  /** Opens resume confirmation (parent owns modal + navigation). */
+  onRequestResume?: (sectionId: number) => void
+  showResumeButton?: boolean
 }
 
 function contextIconForTitle(title: string): IconDefinition | null {
@@ -37,7 +47,12 @@ function centreIcon(centre: ContextComboRow['centres'][number]): { icon: IconDef
   }
 }
 
-export function CombinationAcrossContexts({ rows }: CombinationAcrossContextsProps) {
+export function CombinationAcrossContexts ({
+  rows,
+  sections,
+  onRequestResume,
+  showResumeButton = false,
+}: CombinationAcrossContextsProps) {
   if (rows.length === 0) return null
 
   return (
@@ -46,6 +61,13 @@ export function CombinationAcrossContexts({ rows }: CombinationAcrossContextsPro
         {rows.map((row) => {
           const icon = contextIconForTitle(row.title)
           const contextLine = sectionContextForTitle(row.title)
+          const sectionId = row.sectionId ?? sections.find((s) => s.title === row.title)?.id
+          const canResume =
+            row.incomplete &&
+            showResumeButton &&
+            typeof sectionId === 'number' &&
+            typeof onRequestResume === 'function'
+
           return (
             <div key={row.title} className="change-results-combo-row">
               <dt className="change-results-combo-dt">
@@ -63,16 +85,34 @@ export function CombinationAcrossContexts({ rows }: CombinationAcrossContextsPro
               </dt>
               <dd className="change-results-combo-dd">
                 <div className="change-results-combo-side">
-                  {/* Brain combo badges (rawLabel) intentionally hidden; show centres as icons instead. */}
-                  <div className="change-results-centres" aria-label={row.rawLabel}>
-                    {row.centres.map((c) => {
-                      const cfg = centreIcon(c)
-                      return <FontAwesomeIcon key={c} icon={cfg.icon} className={cfg.className} />
-                    })}
-                  </div>
-                  <span className="change-results-context-combo-label">
-                    {contextComboLabelForSectionTitle(row.title, row.rawLabel)}
-                  </span>
+                  {row.incomplete ? (
+                    <>
+                      <p className="change-results-incomplete-copy">
+                        
+                      </p>
+                      {canResume && (
+                        <button
+                          type="button"
+                          className="btn btn-secondary change-results-finish-context-btn"
+                          onClick={() => onRequestResume(sectionId)}
+                        >
+                          {row.notInCurrentRun ? 'Add this context' : 'Finish this context'}
+                        </button>
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      <div className="change-results-centres" aria-label={row.rawLabel}>
+                        {row.centres.map((c) => {
+                          const cfg = centreIcon(c)
+                          return <FontAwesomeIcon key={c} icon={cfg.icon} className={cfg.className} />
+                        })}
+                      </div>
+                      <span className="change-results-context-combo-label">
+                        {contextComboLabelForSectionTitle(row.title, row.rawLabel)}
+                      </span>
+                    </>
+                  )}
                 </div>
               </dd>
             </div>

@@ -451,6 +451,14 @@
   box-sizing: border-box;
 }
 
+/* Reserves left column when “Back to home” is hidden (add-context-only flow, question 1). */
+.quiz-nav-lead-spacer {
+  flex: 1;
+  max-width: 200px;
+  min-height: 48px;
+  pointer-events: none;
+}
+
 .btn {
   font-family: 'Montserrat', sans-serif;
   padding: 12px 24px;

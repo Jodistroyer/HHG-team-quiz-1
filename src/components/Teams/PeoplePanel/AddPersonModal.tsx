@@ -25,6 +25,8 @@ interface AddPersonModalProps {
 }
 
 const DEFAULT_TRIPLE: TeamContextScores = { headPercent: 33.33, heartPercent: 33.33, gutPercent: 33.34 }
+/** Shown for situational contexts with no completed data (matches team map `EMPTY_CONTEXT_HHG`). */
+const EMPTY_CONTEXT_TRIPLE: TeamContextScores = { headPercent: 0, heartPercent: 0, gutPercent: 0 }
 const SECTION_CONFIG: Array<{ key: Exclude<TeamContextKey, 'overall'>; label: string }> = [
   { key: 'underPressure', label: 'Under Pressure' },
   { key: 'doingWork', label: 'Doing Work' },
@@ -33,7 +35,31 @@ const SECTION_CONFIG: Array<{ key: Exclude<TeamContextKey, 'overall'>; label: st
 ]
 type SuggestionField = 'company' | 'team' | 'role' | null
 
+/**
+ * When the new row matches an existing profile (pre-existing person), avoid a name clash:
+ * first "jo" stays; the next becomes "jo(1)", then "jo(2)", … (case-insensitive vs existing names).
+ */
+function uniqueNameForDuplicateAdd (desired: string, existingPeople: Person[]): string {
+  const base = desired.trim() || 'Unnamed'
+  const takenLower = new Set(existingPeople.map((p) => p.name.trim().toLowerCase()))
+  const isTaken = (candidate: string) => takenLower.has(candidate.trim().toLowerCase())
+  if (!isTaken(base)) return base
+  let n = 1
+  while (isTaken(`${base}(${n})`)) n++
+  return `${base}(${n})`
+}
+
 function cloneTriple(triple: TeamContextScores = DEFAULT_TRIPLE): TeamContextScores {
+  return {
+    headPercent: triple.headPercent,
+    heartPercent: triple.heartPercent,
+    gutPercent: triple.gutPercent,
+  }
+}
+
+/** Per-context scores from an import / saved person; missing context ⇒ 0% (not natural-default 33%). */
+function contextScoresFromPerson (triple: TeamContextScores | undefined): TeamContextScores {
+  if (triple == null) return { ...EMPTY_CONTEXT_TRIPLE }
   return {
     headPercent: triple.headPercent,
     heartPercent: triple.heartPercent,
@@ -87,10 +113,10 @@ export function AddPersonModal({
     setHeartPercent(person.heartPercent ?? DEFAULT_TRIPLE.heartPercent)
     setGutPercent(person.gutPercent ?? DEFAULT_TRIPLE.gutPercent)
     setContextScores({
-      underPressure: cloneTriple(person.contextScores?.underPressure),
-      doingWork: cloneTriple(person.contextScores?.doingWork),
-      withPeople: cloneTriple(person.contextScores?.withPeople),
-      gettingBetter: cloneTriple(person.contextScores?.gettingBetter),
+      underPressure: contextScoresFromPerson(person.contextScores?.underPressure),
+      doingWork: contextScoresFromPerson(person.contextScores?.doingWork),
+      withPeople: contextScoresFromPerson(person.contextScores?.withPeople),
+      gettingBetter: contextScoresFromPerson(person.contextScores?.gettingBetter),
     })
   }
 
@@ -105,10 +131,10 @@ export function AddPersonModal({
       setHeartPercent(personToEdit.heartPercent ?? DEFAULT_TRIPLE.heartPercent)
       setGutPercent(personToEdit.gutPercent ?? DEFAULT_TRIPLE.gutPercent)
       setContextScores({
-        underPressure: cloneTriple(personToEdit.contextScores?.underPressure),
-        doingWork: cloneTriple(personToEdit.contextScores?.doingWork),
-        withPeople: cloneTriple(personToEdit.contextScores?.withPeople),
-        gettingBetter: cloneTriple(personToEdit.contextScores?.gettingBetter),
+        underPressure: contextScoresFromPerson(personToEdit.contextScores?.underPressure),
+        doingWork: contextScoresFromPerson(personToEdit.contextScores?.doingWork),
+        withPeople: contextScoresFromPerson(personToEdit.contextScores?.withPeople),
+        gettingBetter: contextScoresFromPerson(personToEdit.contextScores?.gettingBetter),
       })
       setQuizAnswers(personToEdit.quizAnswers ? { ...personToEdit.quizAnswers } : undefined)
       setQuizCompletedAt(personToEdit.quizCompletedAt)
@@ -289,10 +315,13 @@ export function AddPersonModal({
       .split(/[,;]/)
       .map((t) => t.trim())
       .filter(Boolean)
+    const rawName = name.trim() || 'Unnamed'
+    const resolvedName =
+      !isEdit && duplicateMatch ? uniqueNameForDuplicateAdd(rawName, existingPeople) : rawName
     const { dominant, secondaryBrain } = getDominantAndSecondary(headPercent, heartPercent, gutPercent)
     const person: Person = {
       id: personToEdit?.id ?? nextId(),
-      name: name.trim() || 'Unnamed',
+      name: resolvedName,
       company: company.trim() || undefined,
       team: team.trim() || undefined,
       role: role.trim() || undefined,
@@ -376,7 +405,8 @@ export function AddPersonModal({
                 ) : null}
               </ul>
               <p className="add-person-modal__notice-copy">
-                Saving will add a new entry and will not override the existing one.
+                Saving will add a new entry and will not override the existing one. If that name is already in use, a
+                number is added in parentheses (for example, jo(1), jo(2)).
               </p>
             </div>
           )}
@@ -531,7 +561,14 @@ export function AddPersonModal({
             </h3>
             <div className="add-person-modal__summary-list">
               {summaryCards.map(({ label, scores }) => {
-                const combo = getBrainCombination(scores.headPercent, scores.heartPercent, scores.gutPercent)
+                const isIncompleteContext =
+                  label !== 'Natural Default' &&
+                  scores.headPercent === 0 &&
+                  scores.heartPercent === 0 &&
+                  scores.gutPercent === 0
+                const combo = isIncompleteContext
+                  ? null
+                  : getBrainCombination(scores.headPercent, scores.heartPercent, scores.gutPercent)
                 const bars = [
                   { label: 'Head', percent: scores.headPercent, className: 'add-person-modal__bar-fill--head' },
                   { label: 'Heart', percent: scores.heartPercent, className: 'add-person-modal__bar-fill--heart' },
@@ -542,11 +579,17 @@ export function AddPersonModal({
                     <div className="add-person-modal__summary-top">
                       <div className="add-person-modal__summary-heading">
                         <span className="add-person-modal__summary-label">{label}</span>
-                        <span className="add-person-modal__summary-icons">{getBrainIcons(combo.label, 'small', 'changeResults')}</span>
+                        {!isIncompleteContext && combo && (
+                          <span className="add-person-modal__summary-icons">
+                            {getBrainIcons(combo.label, 'small', 'changeResults')}
+                          </span>
+                        )}
                       </div>
                     </div>
                     <div className="add-person-modal__summary-combo-row">
-                      <div className="add-person-modal__summary-combo">{combo.label.toUpperCase()}</div>
+                      <div className="add-person-modal__summary-combo">
+                        {isIncompleteContext ? 'HAS NOT BEEN COMPLETED YET' : combo?.label.toUpperCase()}
+                      </div>
                     </div>
                     <div className="add-person-modal__summary-bars">
                       {bars.map((bar) => (

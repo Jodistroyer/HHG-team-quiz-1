@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react'
 import type { Person, TeamContextKey, TeamContextScores } from './types'
+import { getSituationalContextScores } from '../contextHhgScores'
 import { getBrainCombination } from '../../Quiz/SectionResults/utils'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUsers } from '@fortawesome/free-solid-svg-icons'
@@ -35,20 +36,7 @@ function getInitials(name: string): string {
 }
 
 function getScoresForContext(person: Person, context: TeamContextKey): TeamContextScores {
-  if (context === 'overall') {
-    return {
-      headPercent: person.headPercent,
-      heartPercent: person.heartPercent,
-      gutPercent: person.gutPercent,
-    }
-  }
-  return (
-    person.contextScores?.[context] ?? {
-      headPercent: person.headPercent,
-      heartPercent: person.heartPercent,
-      gutPercent: person.gutPercent,
-    }
-  )
+  return getSituationalContextScores(person, context)
 }
 
 function makeBadgeStyle(colors: string[]): CSSProperties {
@@ -70,7 +58,14 @@ function MemberChip({
   onRemove?: (id: string) => void
 }) {
   const scores = getScoresForContext(person, context)
-  const combo = getBrainCombination(scores.headPercent, scores.heartPercent, scores.gutPercent)
+  const isIncompleteContext =
+    context !== 'overall' &&
+    scores.headPercent === 0 &&
+    scores.heartPercent === 0 &&
+    scores.gutPercent === 0
+  const combo = isIncompleteContext
+    ? null
+    : getBrainCombination(scores.headPercent, scores.heartPercent, scores.gutPercent)
   const dotColor = DOMINANT_DOT[person.dominant] ?? '#94a3b8'
   const avatarStyle = DOMINANT_AVATAR[person.dominant] ?? { background: '#f1f5f9', color: '#475569' }
   const meta = [person.team, person.role].filter(Boolean).join(' · ')
@@ -84,8 +79,15 @@ function MemberChip({
       <div className="tm-chip__info">
         <div className="tm-chip__name">{person.name}</div>
         {meta && <div className="tm-chip__meta">{meta}</div>}
-        <div className="tm-chip__badge" style={makeBadgeStyle(combo.colors)}>
-          {combo.label}
+        <div
+          className="tm-chip__badge"
+          style={
+            isIncompleteContext
+              ? { background: '#e2e8f0', color: '#475569' }
+              : makeBadgeStyle(combo?.colors ?? [])
+          }
+        >
+          {isIncompleteContext ? 'Not Done' : combo?.label}
         </div>
       </div>
       {onRemove && (

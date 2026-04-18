@@ -45,6 +45,16 @@ interface QuizResultsProps {
   sectionSummaries: SectionScores[]
   sections: Section[]
   answers: Record<string, Answer>
+  /** Per section (same order as `sections`): every question has a first choice. */
+  sectionQuizComplete?: boolean[]
+  /** Optional override for “How You Change Across Contexts” only (e.g. all four HHG contexts in the app quiz). */
+  changeAcrossContextsSections?: Section[]
+  changeAcrossContextsSummaries?: SectionScores[]
+  changeAcrossContextsComplete?: boolean[]
+  /** Same order as change-across sections: context is in the user’s selected quiz run. */
+  changeAcrossContextsIncluded?: boolean[]
+  /** In-app quiz only: jump back to the first unanswered question in this HHG context. */
+  onResumeQuizContext?: (sectionId: number) => void
   /** ISO time when the quiz was completed (last question). */
   quizCompletedAt: string | null
   onStartOver: () => void
@@ -63,6 +73,12 @@ export const QuizResults = ({
   sectionSummaries,
   sections,
   answers,
+  sectionQuizComplete,
+  changeAcrossContextsSections,
+  changeAcrossContextsSummaries,
+  changeAcrossContextsComplete,
+  changeAcrossContextsIncluded,
+  onResumeQuizContext,
   quizCompletedAt,
   onStartOver,
   resultsTitle = 'Your Profile:',
@@ -72,6 +88,10 @@ export const QuizResults = ({
 }: QuizResultsProps) => {
   const resultsContainerRef = useRef<HTMLDivElement>(null)
   const rootClass = embedded ? 'quiz-results-page quiz-results-page--embedded' : 'app quiz-results-page'
+
+  const changeSections = changeAcrossContextsSections ?? sections
+  const changeSummaries = changeAcrossContextsSummaries ?? sectionSummaries
+  const changeComplete = changeAcrossContextsComplete ?? sectionQuizComplete
 
   return (
     <div className={rootClass}>
@@ -136,7 +156,14 @@ export const QuizResults = ({
 
               <div data-pdf-section="change-across-contexts-summary" id="change-across-contexts-summary">
                 <h3 className="results-section-title">How You Change Across Contexts</h3>
-                <ChangeResults sections={sections} sectionSummaries={sectionSummaries} />
+                <ChangeResults
+                  sections={changeSections}
+                  sectionSummaries={changeSummaries}
+                  sectionQuizComplete={changeComplete}
+                  sectionIncludedInQuiz={changeAcrossContextsIncluded}
+                  answers={answers}
+                  onResumeQuizContext={onResumeQuizContext}
+                />
               </div>
               <SectionResults sections={sections} sectionSummaries={sectionSummaries} />
 
