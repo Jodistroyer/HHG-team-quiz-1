@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFire, faBriefcase, faPeopleGroup, faChartLine } from '@fortawesome/free-solid-svg-icons'
+import { faFire, faBriefcase, faPeopleGroup, faChartLine, faHouse } from '@fortawesome/free-solid-svg-icons'
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 import './Quiz.css'
 import { QuizResults } from './QuizResults'
@@ -288,7 +288,7 @@ function Quiz() {
 
   const shouldShowIntro =
     selectedSections.length === 0 ||
-    (!introDismissed && !showFinalSummary && Object.keys(answers).length === 0 && currentQuestionIndex === 0)
+    (!introDismissed && !showFinalSummary && currentQuestionIndex === 0)
 
   if (shouldShowIntro) {
     return (
@@ -301,14 +301,8 @@ function Quiz() {
             return next.length ? (next as QuizSelectedContextId[]) : []
           })
         }}
-        onReset={() => {
-          clearSavedQuiz()
-          setAnswers({})
-          setCurrentQuestionIndex(0)
-          setQuizCompletedAt(null)
-          setShowFinalSummary(false)
+        onSelectAll={() => {
           setSelectedContextIds(DEFAULT_SELECTED_CONTEXTS)
-          setIntroDismissed(false)
         }}
         onStart={() => {
           if (selectedContextIds.length === 0) return
@@ -542,14 +536,29 @@ function Quiz() {
           </div>
 
           <div className="navigation">
-            <button
-              className="btn btn-secondary"
-              onClick={() => setCurrentQuestionIndex(prev => Math.max(0, prev - 1))}
-              disabled={currentQuestionIndex === 0}
-            >
-              <span className="btn-icon">←</span>
-              Previous
-            </button>
+            {currentQuestionIndex === 0 ? (
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => {
+                  setIntroDismissed(false)
+                  setCurrentQuestionIndex(0)
+                }}
+                aria-label="Back to home"
+              >
+                <FontAwesomeIcon icon={faHouse} className="btn-icon" aria-hidden />
+                Back to home
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => setCurrentQuestionIndex((prev) => Math.max(0, prev - 1))}
+              >
+                <span className="btn-icon">←</span>
+                Previous
+              </button>
+            )}
             <button
               className="btn btn-primary"
               onClick={() => {
