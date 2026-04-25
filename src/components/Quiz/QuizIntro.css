@@ -8,6 +8,7 @@
 .quiz-intro-page {
   --qi-purple: #7d3dbd;
   --qi-purple-deep: #5c2d8a;
+  --qi-purple-light: #a06be0;
   --qi-surface: #ffffff;
   --qi-line: rgba(125, 61, 189, 0.22);
   --qi-body: #262626;
@@ -289,9 +290,9 @@
 }
 
 .quiz-intro-contexts__header-right .quiz-intro-pill {
-  background: var(--qi-purple);
+  background: var(--qi-purple-light);
   color: #ffffff;
-  border-color: var(--qi-purple-deep);
+  border-color: var(--qi-purple);
 }
 
 .quiz-intro-contexts__title {
