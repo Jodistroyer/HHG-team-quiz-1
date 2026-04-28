@@ -5,6 +5,7 @@ import { WithPeople } from './Sections/WithPeople'
 import { GettingBetter } from './Sections/GettingBetter'
 import { SECTION_ICONS } from './utils.tsx'
 import { SECTION_CONTEXT_BY_ID } from '../sectionContext'
+import { ContextCardArt, type QuizSelectedContextId } from '../ContextArt'
 import './SectionCard.css'
 
 interface Section {
@@ -59,19 +60,24 @@ export const SectionCard = ({ section, scores }: SectionCardProps) => {
   return (
     <div id={sectionSlug} className="section-card expanded" data-pdf-section={sectionSlug}>
       <div className="section-card-top">
-        <div className="section-card-header">
-          <div className="section-header-content">
-            {SECTION_ICONS[section.id] && (
-              <span className="section-title-icon" aria-hidden="true">
-                <FontAwesomeIcon icon={SECTION_ICONS[section.id]} />
-              </span>
-            )}
-            <h4>{section.title}</h4>
+        <div className="section-card-top__text">
+          <div className="section-card-header">
+            <div className="section-header-content">
+              {SECTION_ICONS[section.id] && (
+                <span className="section-title-icon" aria-hidden="true">
+                  <FontAwesomeIcon icon={SECTION_ICONS[section.id]} />
+                </span>
+              )}
+              <h4>{section.title}</h4>
+            </div>
           </div>
+          {SECTION_CONTEXT_BY_ID[section.id] && (
+            <p className="section-card-context">{SECTION_CONTEXT_BY_ID[section.id]}</p>
+          )}
         </div>
-        {SECTION_CONTEXT_BY_ID[section.id] && (
-          <p className="section-card-context">{SECTION_CONTEXT_BY_ID[section.id]}</p>
-        )}
+        <div className="section-card-art" aria-hidden="true">
+          <ContextCardArt id={section.id as QuizSelectedContextId} />
+        </div>
       </div>
       {renderContent()}
     </div>

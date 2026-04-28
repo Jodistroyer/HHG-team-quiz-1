@@ -1,0 +1,70 @@
+/*
+ * Small inline thumbnail wrapping the same purple SVG art used on the
+ * QuizIntro context cards. Used next to result-view context titles so the
+ * results visually match the quiz intro.
+ */
+
+.quiz-context-thumb {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  background: var(--qi-purple, #7d3dbd);
+  border-radius: 10px;
+  overflow: hidden;
+  line-height: 0;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06), 0 4px 14px rgba(125, 61, 189, 0.18);
+}
+
+.quiz-context-thumb .quiz-intro-card__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Section card header thumbnail: matches the size of the section title. */
+.quiz-context-thumb--md {
+  width: 80px;
+  height: 50px;
+}
+
+@media (min-width: 1024px) {
+  .quiz-context-thumb--md {
+    width: 96px;
+    height: 60px;
+    border-radius: 12px;
+  }
+}
+
+/* "How You Change Across Contexts" list thumbnail: smaller, inline with title. */
+.quiz-context-thumb--sm {
+  width: 56px;
+  height: 36px;
+  border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+  .quiz-context-thumb--md {
+    width: 64px;
+    height: 40px;
+    border-radius: 8px;
+  }
+
+  .quiz-context-thumb--sm {
+    width: 48px;
+    height: 30px;
+    border-radius: 7px;
+  }
+}
+
+@media (max-width: 480px) {
+  .quiz-context-thumb--md {
+    width: 56px;
+    height: 36px;
+  }
+
+  .quiz-context-thumb--sm {
+    width: 42px;
+    height: 26px;
+  }
+}

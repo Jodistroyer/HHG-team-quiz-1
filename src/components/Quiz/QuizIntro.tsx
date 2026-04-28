@@ -9,89 +9,15 @@ import {
   faTriangleExclamation,
 } from '@fortawesome/free-solid-svg-icons'
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
+import { ContextCardArt, type QuizSelectedContextId } from './ContextArt'
 
-export type QuizSelectedContextId = 1 | 2 | 3 | 4
+export type { QuizSelectedContextId }
 
 const CONTEXT_TITLE_ICONS: Record<QuizSelectedContextId, IconDefinition> = {
   1: faFire,
   2: faBriefcase,
   3: faPeopleGroup,
   4: faChartLine,
-}
-
-function ContextCardArt ({ id }: { id: QuizSelectedContextId }) {
-  if (id === 1) {
-    return (
-      <svg className="quiz-intro-card__svg" viewBox="0 0 320 200" aria-hidden>
-        <rect width="320" height="200" fill="#7d3dbd" />
-        <path
-          d="M96 78 L 120 62 L 144 78 L 168 62 L 192 78 L 216 62 L 240 78"
-          fill="none"
-          stroke="#ffffff"
-          strokeWidth="2.25"
-          strokeLinejoin="round"
-          strokeLinecap="round"
-          opacity="0.85"
-        />
-        <path
-          d="M96 104 L 120 88 L 144 104 L 168 88 L 192 104 L 216 88 L 240 104"
-          fill="none"
-          stroke="#ffffff"
-          strokeWidth="2"
-          strokeLinejoin="round"
-          strokeLinecap="round"
-          opacity="0.55"
-        />
-        <path
-          d="M96 132 L 120 116 L 144 132 L 168 116 L 192 132 L 216 116 L 240 132"
-          fill="none"
-          stroke="#ffffff"
-          strokeWidth="2"
-          strokeLinejoin="round"
-          strokeLinecap="round"
-          opacity="0.3"
-        />
-      </svg>
-    )
-  }
-  if (id === 2) {
-    return (
-      <svg className="quiz-intro-card__svg" viewBox="0 0 320 200" aria-hidden>
-        <rect width="320" height="200" fill="#7d3dbd" />
-        <rect x="46" y="58" width="84" height="84" rx="12" fill="rgba(255, 255, 255, 0.12)" stroke="#ffffff" strokeWidth="2" />
-        <path d="M160 72 h124" stroke="#ffffff" strokeWidth="2" opacity="0.55" />
-        <path d="M160 102 h96" stroke="#ffffff" strokeWidth="2" opacity="0.75" />
-        <path d="M160 132 h110" stroke="#ffffff" strokeWidth="2" opacity="0.4" />
-        <circle cx="204" cy="102" r="6" fill="rgba(255, 255, 255, 0.35)" />
-      </svg>
-    )
-  }
-  if (id === 3) {
-    return (
-      <svg className="quiz-intro-card__svg" viewBox="0 0 320 200" aria-hidden>
-        <rect width="320" height="200" fill="#7d3dbd" />
-        <circle cx="122" cy="96" r="46" fill="rgba(255, 255, 255, 0.1)" stroke="#ffffff" strokeWidth="2" />
-        <circle cx="202" cy="96" r="46" fill="none" stroke="#ffffff" strokeWidth="2" opacity="0.75" />
-
-      </svg>
-    )
-  }
-  return (
-    <svg className="quiz-intro-card__svg" viewBox="0 0 320 200" aria-hidden>
-      <rect width="320" height="200" fill="#7d3dbd" />
-      <g transform="translate(320 0) scale(-1 1)">
-        <path
-          d="M40 120 Q100 72 160 120 T280 120"
-          fill="none"
-          stroke="#ffffff"
-          strokeWidth="2"
-          opacity="0.85"
-          strokeLinecap="round"
-        />
-        <circle cx="200" cy="87" r="7" fill="rgba(255, 255, 255, 0.15)" stroke="#ffffff" strokeWidth="2" opacity="0.9" />
-      </g>
-    </svg>
-  )
 }
 
 const CONTEXT_CARDS: Array<{

@@ -268,10 +268,38 @@
   min-width: 0;
   width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: flex-start;
-  align-items: flex-start;
+  align-items: center;
   text-align: left;
+  gap: 0.85rem;
+}
+
+/* Decorative purple SVG art cube on the left of each pair row's context cell. */
+.team-pair-insights__pair-change-art {
+  width: 72px;
+  height: 72px;
+  background: var(--qi-purple, #7d3dbd);
+  border-radius: 12px;
+  overflow: hidden;
+  line-height: 0;
+  flex-shrink: 0;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05), 0 6px 18px rgba(125, 61, 189, 0.18);
+}
+
+.team-pair-insights__pair-change-art .quiz-intro-card__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Text wrapper inside the dt so the title + description stack to the right of the cube. */
+.team-pair-insights__pair-change-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   gap: 0.35rem;
 }
 
@@ -679,6 +707,24 @@
   .team-pair-insights__pair-change-context.section-card-contexts {
     font-size: 0.78rem;
     max-width: min(30ch, 100%);
+  }
+
+  .team-pair-insights__pair-change-art {
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+  }
+
+  .team-pair-insights__pair-change-dt {
+    gap: 0.65rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .team-pair-insights__pair-change-art {
+    width: 52px;
+    height: 52px;
+    border-radius: 9px;
   }
 }
 

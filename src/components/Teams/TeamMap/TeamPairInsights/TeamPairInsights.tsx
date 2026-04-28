@@ -1,4 +1,4 @@
-import { useMemo, useRef, type ReactNode } from 'react'
+import { useMemo, useRef, useState, type ReactNode } from 'react'
 import ReactMarkdown from 'react-markdown'
 import type { Person, TeamContextKey, TeamContextScores } from '../../PeoplePanel/types'
 import { getBrainCombination, getBalanceTipBadge, getBrainIcons } from '../../../Quiz/SectionResults/utils.tsx'
@@ -11,6 +11,7 @@ import { contextComboLabel, type SituationalContextKey } from '../../../Quiz/Cha
 import { sectionContextForTitle } from '../../../Quiz/sectionContext'
 import { SECTION_ICONS } from '../../../Quiz/SectionResults/utils.tsx'
 import { SECTION_CONTEXT_BY_ID } from '../../../Quiz/sectionContext'
+import { ContextCardArt, contextIdForTitle, type QuizSelectedContextId } from '../../../Quiz/ContextArt'
 import { getUnderPressureBalanceTipInfo } from '../../../Quiz/SectionResults/Sections/UnderPressure'
 import { getDoingWorkBalanceTipInfo } from '../../../Quiz/SectionResults/Sections/DoingWork'
 import { getWithPeopleBalanceTipInfo } from '../../../Quiz/SectionResults/Sections/WithPeople'
@@ -37,6 +38,8 @@ import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 import {
   faBriefcase,
   faChartLine,
+  faChevronDown,
+  faChevronUp,
   faComments,
   faDiamond,
   faFire,
@@ -195,20 +198,28 @@ function PairAcrossContextsCard ({ people, insights }: { people: [Person, Person
             {rows.map((row) => {
               const contextIcon = contextIconForTitle(row.title)
               const contextLine = sectionContextForTitle(row.title)
+              const artId = contextIdForTitle(row.title)
               return (
               <div key={row.title} className="team-pair-insights__pair-change-row">
                 <dt className="team-pair-insights__pair-change-dt">
-                  <div className="team-pair-insights__pair-change-title-row">
-                    {contextIcon && (
-                      <span className="change-results-context-icon" aria-hidden="true">
-                        <FontAwesomeIcon icon={contextIcon} />
-                      </span>
-                    )}
-                    <span className="change-results-context-title">{row.title}</span>
-                  </div>
-                  {contextLine && (
-                    <p className="section-card-contexts team-pair-insights__pair-change-context">{contextLine}</p>
+                  {artId != null && (
+                    <div className="team-pair-insights__pair-change-art" aria-hidden="true">
+                      <ContextCardArt id={artId} />
+                    </div>
                   )}
+                  <div className="team-pair-insights__pair-change-text">
+                    <div className="team-pair-insights__pair-change-title-row">
+                      {contextIcon && (
+                        <span className="change-results-context-icon" aria-hidden="true">
+                          <FontAwesomeIcon icon={contextIcon} />
+                        </span>
+                      )}
+                      <span className="change-results-context-title">{row.title}</span>
+                    </div>
+                    {contextLine && (
+                      <p className="section-card-contexts team-pair-insights__pair-change-context">{contextLine}</p>
+                    )}
+                  </div>
                 </dt>
 
                 <dd className="change-results-combo-dd team-pair-insights__pair-change-dd team-pair-insights__pair-change-dd--left">
@@ -257,6 +268,9 @@ type PairProfileTableRow = {
   bValue: React.ReactNode
 }
 
+/** Below 700px the pair table is collapsed to the first N rows; "More" reveals the rest. */
+const PAIR_COLLAPSED_ROW_LIMIT = 4
+
 function PairProfileTable ({
   title,
   icon,
@@ -272,8 +286,19 @@ function PairProfileTable ({
   rows: PairProfileTableRow[]
   className?: string
 }) {
+  const [isExpanded, setIsExpanded] = useState(false)
+  const hasOverflow = rows.length > PAIR_COLLAPSED_ROW_LIMIT
+  const wrapperClass = [
+    'profile-table-block',
+    'profile-table-block--pair',
+    hasOverflow && !isExpanded ? 'profile-table-block--mobile-collapsed' : null,
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ')
+
   return (
-    <div className={['profile-table-block', 'profile-table-block--pair', className].filter(Boolean).join(' ')}>
+    <div className={wrapperClass}>
       <h4 className="profile-table-title">
         <span className="profile-table-icon"><FontAwesomeIcon icon={icon} /></span>
         {title}
@@ -291,8 +316,11 @@ function PairProfileTable ({
           </tr>
         </thead>
         <tbody>
-          {rows.map((row) => (
-            <tr key={row.label}>
+          {rows.map((row, i) => (
+            <tr
+              key={row.label}
+              className={i >= PAIR_COLLAPSED_ROW_LIMIT ? 'profile-table-row--extra' : undefined}
+            >
               <th scope="row">{row.label}</th>
               <td data-col={aHeader.label}>{row.aValue}</td>
               <td data-col={bHeader.label}>{row.bValue}</td>
@@ -300,6 +328,21 @@ function PairProfileTable ({
           ))}
         </tbody>
       </table>
+      {hasOverflow && (
+        <button
+          type="button"
+          className="profile-table__toggle"
+          aria-expanded={isExpanded}
+          onClick={() => setIsExpanded((v) => !v)}
+        >
+          <span className="profile-table__toggle-label">{isExpanded ? 'Less' : 'More'}</span>
+          <FontAwesomeIcon
+            icon={isExpanded ? faChevronUp : faChevronDown}
+            className="profile-table__toggle-icon"
+            aria-hidden
+          />
+        </button>
+      )}
     </div>
   )
 }
@@ -640,19 +683,24 @@ function PairContextSectionCard ({
   return (
     <div id={slug} className="section-card expanded team-pair-insights__context-card" data-pdf-section={`pair-${slug}`}>
       <div className="section-card-top">
-        <div className="section-card-header">
-          <div className="section-header-content">
-            {SECTION_ICONS[sectionId] && (
-              <span className="section-title-icon" aria-hidden="true">
-                <FontAwesomeIcon icon={SECTION_ICONS[sectionId]} />
-              </span>
-            )}
-            <h4>{sectionTitle}</h4>
+        <div className="section-card-top__text">
+          <div className="section-card-header">
+            <div className="section-header-content">
+              {SECTION_ICONS[sectionId] && (
+                <span className="section-title-icon" aria-hidden="true">
+                  <FontAwesomeIcon icon={SECTION_ICONS[sectionId]} />
+                </span>
+              )}
+              <h4>{sectionTitle}</h4>
+            </div>
           </div>
+          {SECTION_CONTEXT_BY_ID[sectionId] && (
+            <p className="section-card-context">{SECTION_CONTEXT_BY_ID[sectionId]}</p>
+          )}
         </div>
-        {SECTION_CONTEXT_BY_ID[sectionId] && (
-          <p className="section-card-context">{SECTION_CONTEXT_BY_ID[sectionId]}</p>
-        )}
+        <div className="section-card-art" aria-hidden="true">
+          <ContextCardArt id={sectionId as QuizSelectedContextId} />
+        </div>
       </div>
 
       <div className="section-expanded-content team-pair-insights__context-card-body">

@@ -99,9 +99,38 @@
   border-bottom: 1px solid #e2e8f0;
 }
 
+/* When art is present: left cube column, then text, then right column. */
+.change-results-combo-row--with-art {
+  grid-template-columns: 88px minmax(0, 1fr) auto;
+  grid-template-areas: 'art dt dd';
+  align-items: center;
+}
+
+.change-results-combo-row--with-art > .change-results-row-art { grid-area: art; }
+.change-results-combo-row--with-art > .change-results-combo-dt { grid-area: dt; }
+.change-results-combo-row--with-art > .change-results-combo-dd { grid-area: dd; }
+
 .change-results-combo-row:last-child {
   border-bottom: none;
   padding-bottom: 0;
+}
+
+/* Decorative purple SVG art cube on the left of each context row. */
+.change-results-row-art {
+  width: 88px;
+  height: 88px;
+  background: var(--qi-purple, #7d3dbd);
+  border-radius: 14px;
+  overflow: hidden;
+  line-height: 0;
+  flex-shrink: 0;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05), 0 6px 18px rgba(125, 61, 189, 0.18);
+}
+
+.change-results-row-art .quiz-intro-card__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .change-results-combo-row dt.change-results-combo-dt {
@@ -298,6 +327,17 @@
     padding: 15px 0;
   }
 
+  .change-results-combo-row--with-art {
+    grid-template-columns: 68px minmax(0, 1fr) auto;
+    gap: 10px 12px;
+  }
+
+  .change-results-row-art {
+    width: 68px;
+    height: 68px;
+    border-radius: 12px;
+  }
+
   .section-card-contexts {
     font-size: 0.78rem;
     max-width: none;
@@ -325,5 +365,33 @@
 
   .change-results-insight-body {
     font-size: 0.9rem;
+  }
+}
+
+/* ≤500px: avoid squishing the centres column; cube + title on top row, centres below. */
+@media (max-width: 500px) {
+  .change-results-combo-row--with-art {
+    grid-template-columns: 56px minmax(0, 1fr);
+    grid-template-areas:
+      'art dt'
+      'dd dd';
+    gap: 10px 12px;
+    align-items: center;
+  }
+  .change-results-row-art {
+    width: 56px;
+    height: 56px;
+    border-radius: 10px;
+  }
+  .change-results-combo-row--with-art > .change-results-combo-dd {
+    justify-content: flex-end;
+    margin-top: 2px;
+  }
+  .change-results-combo-row--with-art > .change-results-combo-dd .change-results-combo-side {
+    align-items: flex-end;
+  }
+  .change-results-combo-row--with-art > .change-results-combo-dd .change-results-context-combo-label,
+  .change-results-combo-row--with-art > .change-results-combo-dd .change-results-incomplete-copy {
+    text-align: right;
   }
 }

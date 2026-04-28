@@ -1,5 +1,6 @@
-import type { ReactNode } from 'react'
+import { useState, type ReactNode } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 import './ProfileTable.css'
 
@@ -15,9 +16,22 @@ interface ProfileTableProps {
   className?: string
 }
 
+/** Below 700px the table is collapsed to the first N rows; the rest open via "More". */
+const COLLAPSED_ROW_LIMIT = 4
+
 export const ProfileTable = ({ title, icon, rows, className }: ProfileTableProps) => {
+  const [isExpanded, setIsExpanded] = useState(false)
+  const hasOverflow = rows.length > COLLAPSED_ROW_LIMIT
+  const wrapperClass = [
+    'profile-table-block',
+    hasOverflow && !isExpanded ? 'profile-table-block--mobile-collapsed' : null,
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ')
+
   return (
-    <div className={['profile-table-block', className].filter(Boolean).join(' ')}>
+    <div className={wrapperClass}>
       <h4 className="profile-table-title">
         <span className="profile-table-icon"><FontAwesomeIcon icon={icon} /></span>
         {title}
@@ -30,15 +44,32 @@ export const ProfileTable = ({ title, icon, rows, className }: ProfileTableProps
           </tr>
         </thead>
         <tbody>
-          {rows.map((row) => (
-            <tr key={row.label}>
+          {rows.map((row, i) => (
+            <tr
+              key={row.label}
+              className={i >= COLLAPSED_ROW_LIMIT ? 'profile-table-row--extra' : undefined}
+            >
               <th scope="row">{row.label}</th>
               <td>{row.value}</td>
             </tr>
           ))}
         </tbody>
       </table>
+      {hasOverflow && (
+        <button
+          type="button"
+          className="profile-table__toggle"
+          aria-expanded={isExpanded}
+          onClick={() => setIsExpanded((v) => !v)}
+        >
+          <span className="profile-table__toggle-label">{isExpanded ? 'Less' : 'More'}</span>
+          <FontAwesomeIcon
+            icon={isExpanded ? faChevronUp : faChevronDown}
+            className="profile-table__toggle-icon"
+            aria-hidden
+          />
+        </button>
+      )}
     </div>
   )
 }
-

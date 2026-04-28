@@ -4,6 +4,7 @@ import { sectionContextForTitle } from '../sectionContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBriefcase, faChartLine, faFire, faPeopleGroup, faDiamond, faHeart, faSquare } from '@fortawesome/free-solid-svg-icons'
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
+import { ContextCardArt, contextIdForTitle } from '../ContextArt'
 import '../SectionResults/SectionCard.css'
 import './ChangeResults.css'
 
@@ -68,8 +69,18 @@ export function CombinationAcrossContexts ({
             typeof sectionId === 'number' &&
             typeof onRequestResume === 'function'
 
+          const artId = contextIdForTitle(row.title)
+
           return (
-            <div key={row.title} className="change-results-combo-row">
+            <div
+              key={row.title}
+              className={`change-results-combo-row${artId != null ? ' change-results-combo-row--with-art' : ''}`}
+            >
+              {artId != null && (
+                <div className="change-results-row-art" aria-hidden="true">
+                  <ContextCardArt id={artId} />
+                </div>
+              )}
               <dt className="change-results-combo-dt">
                 <div className="change-results-context-heading">
                   {icon && (

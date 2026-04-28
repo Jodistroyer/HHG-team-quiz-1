@@ -67,6 +67,56 @@
   vertical-align: top;
 }
 
+/* "More" / "Less" toggle: only visible on mobile (<=700px). Desktop always shows all rows. */
+.profile-table__toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  margin-top: 0.85rem;
+  padding: 0.65rem 1rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: var(--qi-purple, #7d3dbd);
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 120ms, transform 120ms;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06), 0 6px 18px rgba(125, 61, 189, 0.18);
+}
+
+.profile-table__toggle:hover {
+  background: #6b2fa8;
+}
+
+.profile-table__toggle:active {
+  transform: translateY(1px);
+}
+
+.profile-table__toggle:focus-visible {
+  outline: 3px solid rgba(125, 61, 189, 0.35);
+  outline-offset: 2px;
+}
+
+.profile-table__toggle-icon {
+  font-size: 0.78rem;
+  transition: transform 200ms ease;
+}
+
+@media (max-width: 700px) {
+  .profile-table__toggle {
+    display: inline-flex;
+  }
+  .profile-table-block--mobile-collapsed .profile-table-row--extra {
+    display: none;
+  }
+}
+
 /* Below 430px: stack each row vertically (attribute title above "your profile" value) */
 @media (max-width: 430px) {
   .profile-table thead {
