@@ -618,6 +618,20 @@
   transition: border-color 120ms;
 }
 
+.tm-chip--clickable {
+  cursor: pointer;
+}
+
+.tm-chip--clickable:focus-visible {
+  outline: 3px solid rgba(125, 61, 189, 0.35);
+  outline-offset: 2px;
+}
+
+.tm-chip--active {
+  border-color: var(--people-accent, #7d3dbd);
+  box-shadow: 0 0 0 3px rgba(125, 61, 189, 0.14);
+}
+
 .tm-chip:hover {
   border-color: #cbd5e1;
 }

@@ -7,10 +7,12 @@ import './TeamMap.css'
 
 interface TeamMapProps {
   selectedPeople: Person[]
+  activePersonId?: string | null
 }
 
-export function TeamMap ({ selectedPeople }: TeamMapProps) {
+export function TeamMap ({ selectedPeople, activePersonId }: TeamMapProps) {
   const n = selectedPeople.length
+  const activePerson = activePersonId ? selectedPeople.find((p) => p.id === activePersonId) : null
 
   if (n === 0) {
     return (
@@ -21,6 +23,18 @@ export function TeamMap ({ selectedPeople }: TeamMapProps) {
         <div className="team-map__center">
           <div className="team-map-result-view">
             <TeamMapEmptyIntro />
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  if (activePerson) {
+    return (
+      <section className="team-map team-map--center-only team-solo-insights-root" aria-label="Individual profile">
+        <div className="team-map__center">
+          <div className="team-map-result-view">
+            <TeamSoloInsights person={activePerson} />
           </div>
         </div>
       </section>

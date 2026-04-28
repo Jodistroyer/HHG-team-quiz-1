@@ -32,10 +32,10 @@
   font-weight: 800;
   letter-spacing: 0.02em;
   text-align: center;
-  color: var(--qi-purple-deep, #5c2d8a);
+  color: #ffffff;
   padding: 11px 14px;
   border-bottom: 1px solid rgba(125, 61, 189, 0.18);
-  background: rgba(125, 61, 189, 0.07);
+  background: var(--qi-purple, #7d3dbd);
 }
 
 .quiz-intro-question-preview__board-wrap {

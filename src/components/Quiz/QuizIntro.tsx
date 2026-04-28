@@ -164,7 +164,7 @@ export function QuizIntro ({
 
             <section className="quiz-intro-copy" aria-label="What to expect">
               <div className="quiz-intro-kicker">Start here</div>
-              <h2 className="quiz-intro-h1">Pick contexts, then choose up to 2 answers.</h2>
+              <h2 className="quiz-intro-h1">In the Quiz, Pick up to 2 Answers.</h2>
               <p className="quiz-intro-lede">
                 Choose the situations that feel relevant right now. You can do one context or all four. Your results will reflect what you complete.
               </p>

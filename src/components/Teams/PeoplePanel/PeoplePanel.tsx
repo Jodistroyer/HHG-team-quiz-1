@@ -1,3 +1,4 @@
+import type { ComponentType } from 'react'
 import { createPortal } from 'react-dom'
 import type { TeamContextKey } from './types'
 import { TeamsLibrary } from './TeamsLibrary'
@@ -16,15 +17,20 @@ export interface PeoplePanelProps extends UseTeamsDirectoryProps {
   activeContext: TeamContextKey
   onRemovePerson?: (id: string) => void
   onClearAll?: () => void
+  activePersonId?: string | null
+  onActivePersonChange?: (id: string | null) => void
 }
 
 export function PeoplePanel({
   activeContext,
   onRemovePerson,
   onClearAll,
+  activePersonId,
+  onActivePersonChange,
   ...directoryProps
 }: PeoplePanelProps) {
   const api = useTeamsDirectory(directoryProps)
+  const SelectedRosterAny = SelectedRoster as unknown as ComponentType<any>
 
   return (
     <div className="people-panel">
@@ -57,11 +63,13 @@ export function PeoplePanel({
         </div>
 
         <div className="people-panel__selected">
-          <SelectedRoster
+          <SelectedRosterAny
             selectedPeople={api.selectedPeople}
             activeContext={activeContext}
             onRemovePerson={onRemovePerson}
             onClearAll={onClearAll}
+            activePersonId={activePersonId ?? null}
+            onActivePersonChange={onActivePersonChange}
           />
         </div>
       </div>

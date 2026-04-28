@@ -7,11 +7,15 @@ import { faUsers } from '@fortawesome/free-solid-svg-icons'
 import '../TeamMap/TeamMap.css'
 import './SelectedList.css'
 
-interface SelectedRosterProps {
+export interface SelectedRosterProps {
   selectedPeople: Person[]
   activeContext: TeamContextKey
   onRemovePerson?: (id: string) => void
   onClearAll?: () => void
+  activePersonId?: string | null
+  onActivePersonChange?: (id: string | null) => void
+  // Allow forwards-compatible props when embedded elsewhere.
+  [key: string]: unknown
 }
 
 const DOMINANT_DOT: Record<string, string> = {
@@ -52,10 +56,14 @@ function MemberChip({
   person,
   context,
   onRemove,
+  isActive,
+  onToggleActive,
 }: {
   person: Person
   context: TeamContextKey
   onRemove?: (id: string) => void
+  isActive: boolean
+  onToggleActive?: (id: string) => void
 }) {
   const scores = getScoresForContext(person, context)
   const isIncompleteContext =
@@ -71,7 +79,19 @@ function MemberChip({
   const meta = [person.team, person.role].filter(Boolean).join(' · ')
 
   return (
-    <div className="tm-chip">
+    <div
+      className={`tm-chip tm-chip--clickable${isActive ? ' tm-chip--active' : ''}`}
+      role="button"
+      tabIndex={0}
+      aria-pressed={isActive}
+      onClick={() => onToggleActive?.(person.id)}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          onToggleActive?.(person.id)
+        }
+      }}
+    >
       <div className="tm-chip__dot" style={{ background: dotColor }} />
       <div className="tm-chip__avatar" style={avatarStyle}>
         {getInitials(person.name)}
@@ -95,7 +115,10 @@ function MemberChip({
           type="button"
           className="tm-chip__remove"
           aria-label={`Remove ${person.name}`}
-          onClick={() => onRemove(person.id)}
+          onClick={(e) => {
+            e.stopPropagation()
+            onRemove(person.id)
+          }}
         >
           ×
         </button>
@@ -110,7 +133,14 @@ export function SelectedRoster({
   activeContext,
   onRemovePerson,
   onClearAll,
+  activePersonId,
+  onActivePersonChange,
 }: SelectedRosterProps) {
+  const toggleActive = (id: string) => {
+    if (!onActivePersonChange) return
+    onActivePersonChange(activePersonId === id ? null : id)
+  }
+
   return (
     <div className="team-map team-map--embedded-roster">
       <aside className="team-map__roster" aria-label="Selected team members">
@@ -138,6 +168,8 @@ export function SelectedRoster({
                 person={person}
                 context={activeContext}
                 onRemove={onRemovePerson}
+                isActive={(activePersonId ?? null) === person.id}
+                onToggleActive={toggleActive}
               />
             ))
           )}
