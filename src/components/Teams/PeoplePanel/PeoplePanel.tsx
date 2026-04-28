@@ -46,7 +46,7 @@ export function PeoplePanel({
             <div className="saved-groups-card__body">
               {api.savedGroups.length === 0 ? (
                 <p className="saved-groups-card__empty">
-                  Select two or more people in the library, then use <strong>Save as group</strong> to store them
+                  Select two or more people in the library, then use <strong>Save as Template</strong> to store them
                   here.
                 </p>
               ) : (

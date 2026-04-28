@@ -33,8 +33,9 @@ function optionByType (type: QuizAnswerType) {
  * Choice buttons mirror primary / secondary selection locally; nothing is saved.
  */
 export function QuizIntroQuestionPreview () {
-  const [firstChoice, setFirstChoice] = useState<QuizAnswerType | null>(null)
-  const [secondChoice, setSecondChoice] = useState<QuizAnswerType | null>(null)
+  // Preselect two options by default so the intro preview demonstrates 1st/2nd choice markers.
+  const [firstChoice, setFirstChoice] = useState<QuizAnswerType | null>('Head')
+  const [secondChoice, setSecondChoice] = useState<QuizAnswerType | null>('Heart')
 
   const head = optionByType('Head')
   const heart = optionByType('Heart')
