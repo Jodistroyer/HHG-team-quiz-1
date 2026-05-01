@@ -233,6 +233,10 @@ export function buildQuizResultsPropsFromPerson (person: Person): {
   sections: typeof QUIZ_SECTIONS
   answers: Record<string, QuizAnswer>
   sectionQuizComplete: boolean[]
+  /** Teams solo profile: always show all 4 contexts in Change Results. */
+  changeAcrossContextsSections: typeof QUIZ_SECTIONS
+  changeAcrossContextsSummaries: QuizResultsSectionScores[]
+  changeAcrossContextsComplete: boolean[]
   quizCompletedAt: string | null
 } {
   const doc = buildPersonQuizResultDocument(person)
@@ -252,6 +256,21 @@ export function buildQuizResultsPropsFromPerson (person: Person): {
   const sectionQuizComplete = doc.sections.map(
     (s) => s.questions.length > 0 && s.questions.every((q) => q.answer.firstChoice != null)
   )
+
+  // For Teams Library individual profiles we still want the "How You Change Across Contexts"
+  // section to show incomplete contexts, but we do NOT want to show the unfinished context
+  // *results* (cards, radars, answers) for those contexts.
+  const completedContextIndices = sectionQuizComplete
+    .map((complete, idx) => (complete ? idx : -1))
+    .filter((idx) => idx >= 0)
+
+  const sections = completedContextIndices.map((i) => QUIZ_SECTIONS[i]!)
+  const sectionSummariesFiltered = completedContextIndices.map((i) => sectionSummaries[i]!)
+
+  const changeAcrossContextsSections = QUIZ_SECTIONS
+  const changeAcrossContextsSummaries = sectionSummaries
+  const changeAcrossContextsComplete = sectionQuizComplete
+
   return {
     overall: {
       headPercent: person.headPercent,
@@ -260,10 +279,13 @@ export function buildQuizResultsPropsFromPerson (person: Person): {
       dominant: person.dominant,
       secondaryBrain: person.secondaryBrain,
     },
-    sectionSummaries,
-    sections: QUIZ_SECTIONS,
+    sectionSummaries: sectionSummariesFiltered,
+    sections,
     answers,
     sectionQuizComplete,
+    changeAcrossContextsSections,
+    changeAcrossContextsSummaries,
+    changeAcrossContextsComplete,
     quizCompletedAt: person.quizCompletedAt ?? null,
   }
 }

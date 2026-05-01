@@ -19,18 +19,21 @@ interface DownloadJSONProps {
   quizCompletedAt: string | null
   /** On mobile show only icon + "JSON" (no "Download" word) */
   iconOnly?: boolean
+  onDownloadStart?: () => void
+  onDownloadDone?: () => void
 }
 
 function fileStampForDownload (iso: string): string {
   return iso.replace(/[:.]/g, '-')
 }
 
-export function DownloadJSON ({ overall, sectionSummaries, sections, answers, quizCompletedAt, iconOnly }: DownloadJSONProps) {
+export function DownloadJSON ({ overall, sectionSummaries, sections, answers, quizCompletedAt, iconOnly, onDownloadStart, onDownloadDone }: DownloadJSONProps) {
   const [loading, setLoading] = useState(false)
   const [progress, setProgress] = useState(0)
 
   const handleDownload = () => {
     if (loading) return
+    onDownloadStart?.()
     setLoading(true)
     setProgress(0)
     requestAnimationFrame(() => {
@@ -52,6 +55,7 @@ export function DownloadJSON ({ overall, sectionSummaries, sections, answers, qu
         setTimeout(() => {
           setLoading(false)
           setProgress(0)
+          onDownloadDone?.()
         }, 280)
       })
     })

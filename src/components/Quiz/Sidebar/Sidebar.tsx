@@ -75,6 +75,7 @@ export function Sidebar ({
   const [currentSectionId, setCurrentSectionId] = useState<string | null>(SECTION_IDS_LIST[0] ?? null)
   const [showStartOverConfirm, setShowStartOverConfirm] = useState(false)
   const [showDownloadOptions, setShowDownloadOptions] = useState(false)
+  const [downloadModalStatus, setDownloadModalStatus] = useState<'idle' | 'downloading' | 'done'>('idle')
 
   const closeStartOverModal = useCallback(() => setShowStartOverConfirm(false), [])
   const confirmStartOver = useCallback(() => {
@@ -222,7 +223,7 @@ export function Sidebar ({
             Download options
           </h3>
           <div className="results-sidebar-download-modal-actions">
-            <div onClick={() => setShowDownloadOptions(false)}>
+            <div>
               <DownloadJSON
                 overall={overall}
                 sectionSummaries={sectionSummaries}
@@ -230,12 +231,23 @@ export function Sidebar ({
                 answers={answers}
                 quizCompletedAt={quizCompletedAt}
                 iconOnly={false}
+                onDownloadStart={() => setDownloadModalStatus('downloading')}
+                onDownloadDone={() => setDownloadModalStatus('done')}
               />
             </div>
-            <div onClick={() => setShowDownloadOptions(false)}>
-              <DownloadPDF containerRef={containerRef} quizCompletedAt={quizCompletedAt} iconOnly={false} />
+            <div>
+              <DownloadPDF
+                containerRef={containerRef}
+                quizCompletedAt={quizCompletedAt}
+                iconOnly={false}
+                onDownloadStart={() => setDownloadModalStatus('downloading')}
+                onDownloadDone={() => setDownloadModalStatus('done')}
+              />
             </div>
           </div>
+          <p className="results-sidebar-download-modal-status" role="status" aria-live="polite">
+            {downloadModalStatus === 'downloading' ? 'Preparing download…' : downloadModalStatus === 'done' ? 'Done!' : '\u00A0'}
+          </p>
           <button
             type="button"
             className="results-sidebar-download-modal-close"

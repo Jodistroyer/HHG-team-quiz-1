@@ -139,10 +139,16 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  align-items: center;
 }
 
 .results-sidebar-download-modal-actions > div {
-  width: 100%;
+  width: fit-content;
+  max-width: 280px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: center;
 }
 
 .results-sidebar-download-modal-actions .btn {
@@ -152,6 +158,11 @@
   text-align: center;
   padding-left: 1rem;
   padding-right: 1rem;
+}
+
+/* Download button wrapper carries a min-width; disable it inside modal so centering works */
+.results-sidebar-download-modal .download-result-btn-wrap {
+  min-width: 0;
 }
 
 .results-sidebar-download-modal-close {
@@ -166,6 +177,16 @@
   font-size: 0.92rem;
   font-weight: 700;
   cursor: pointer;
+}
+
+.results-sidebar-download-modal-status {
+  margin: 10px 0 0;
+  min-height: 1.25rem;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #7d3dbd;
 }
 
 /* Mobile: top bar with section dropdown (left) + download buttons (right) */

@@ -12,6 +12,8 @@ interface DownloadPDFProps {
   quizCompletedAt: string | null
   /** On mobile show only icon + "PDF" (no "Download" word) */
   iconOnly?: boolean
+  onDownloadStart?: () => void
+  onDownloadDone?: () => void
 }
 
 function fileStampForDownload (iso: string): string {
@@ -26,10 +28,12 @@ const PDF_EXPORT_CSS = `
 .pdf-export-view{box-sizing:border-box;overflow:visible;width:800px!important;min-width:800px!important;max-width:800px!important}
 .pdf-export-view>*{width:100%!important;min-width:800px!important;max-width:800px!important;box-sizing:border-box}
 .pdf-export-view *{box-sizing:border-box;word-wrap:break-word;overflow-wrap:break-word}
+.pdf-export-view .quiz-intro-card__media,.pdf-export-view .quiz-context-thumb,.pdf-export-view .section-card-art,.pdf-export-view .change-results-row-art{display:flex!important;align-items:center!important;justify-content:center!important}
+.pdf-export-view .quiz-intro-card__svg{display:block!important;width:100%!important;height:100%!important;max-width:100%!important;max-height:100%!important}
 .pdf-export-view .section-archetype-block::before{display:none!important}
 .pdf-export-view .section-archetype-block{overflow:visible!important}
 .pdf-export-view .section-archetype-name,.pdf-export-view .section-archetype-description,.pdf-export-view .section-archetype-quote{position:static!important;display:block!important;overflow:visible!important}
-.pdf-export-view .section-card-context{color:#475569!important;font-family:'Montserrat',sans-serif!important;font-size:0.9375rem!important;font-weight:600!important;line-height:1.65!important;max-width:52ch!important;margin:0.6rem 0 0!important;padding:0!important}
+.pdf-export-view .section-card-context{color:rgba(255,255,255,0.88)!important;font-family:'Montserrat',sans-serif!important;font-size:0.9375rem!important;font-weight:500!important;line-height:1.6!important;max-width:52ch!important;margin:0!important;padding:0!important;letter-spacing:0.01em!important}
 .pdf-export-view table{table-layout:fixed;width:100%}
 .pdf-export-view th,.pdf-export-view td{word-wrap:break-word;overflow-wrap:break-word;white-space:normal!important;overflow:visible}
 .pdf-export-view .section-archetype-name{font-size:1.25rem !important}
@@ -131,7 +135,7 @@ async function captureSectionForPdf (
   })
 }
 
-export function DownloadPDF ({ containerRef, quizCompletedAt, iconOnly }: DownloadPDFProps) {
+export function DownloadPDF ({ containerRef, quizCompletedAt, iconOnly, onDownloadStart, onDownloadDone }: DownloadPDFProps) {
   const [loading, setLoading] = useState(false)
   const [progress, setProgress] = useState(0)
 
@@ -143,6 +147,7 @@ export function DownloadPDF ({ containerRef, quizCompletedAt, iconOnly }: Downlo
     if (sections.length === 0) return
 
     const total = sections.length
+    onDownloadStart?.()
     setLoading(true)
     setProgress(0)
     try {
@@ -214,6 +219,7 @@ export function DownloadPDF ({ containerRef, quizCompletedAt, iconOnly }: Downlo
       setTimeout(() => {
         setLoading(false)
         setProgress(0)
+        onDownloadDone?.()
       }, 350)
     } catch {
       setLoading(false)

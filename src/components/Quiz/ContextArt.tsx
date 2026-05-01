@@ -21,7 +21,7 @@ export function contextIdForTitle (title: string): QuizSelectedContextId | undef
 export function ContextCardArt ({ id }: { id: QuizSelectedContextId }) {
   if (id === 1) {
     return (
-      <svg className="quiz-intro-card__svg" viewBox="0 0 320 200" aria-hidden>
+      <svg className="quiz-intro-card__svg" viewBox="0 0 320 200" preserveAspectRatio="xMidYMid meet" aria-hidden>
         <rect width="320" height="200" fill="#7d3dbd" />
         <path
           d="M96 78 L 120 62 L 144 78 L 168 62 L 192 78 L 216 62 L 240 78"
@@ -55,7 +55,7 @@ export function ContextCardArt ({ id }: { id: QuizSelectedContextId }) {
   }
   if (id === 2) {
     return (
-      <svg className="quiz-intro-card__svg" viewBox="0 0 320 200" aria-hidden>
+      <svg className="quiz-intro-card__svg" viewBox="0 0 320 200" preserveAspectRatio="xMidYMid meet" aria-hidden>
         <rect width="320" height="200" fill="#7d3dbd" />
         <rect x="46" y="58" width="84" height="84" rx="12" fill="rgba(255, 255, 255, 0.12)" stroke="#ffffff" strokeWidth="2" />
         <path d="M160 72 h124" stroke="#ffffff" strokeWidth="2" opacity="0.55" />
@@ -67,7 +67,7 @@ export function ContextCardArt ({ id }: { id: QuizSelectedContextId }) {
   }
   if (id === 3) {
     return (
-      <svg className="quiz-intro-card__svg" viewBox="0 0 320 200" aria-hidden>
+      <svg className="quiz-intro-card__svg" viewBox="0 0 320 200" preserveAspectRatio="xMidYMid meet" aria-hidden>
         <rect width="320" height="200" fill="#7d3dbd" />
         <circle cx="122" cy="96" r="46" fill="rgba(255, 255, 255, 0.1)" stroke="#ffffff" strokeWidth="2" />
         <circle cx="202" cy="96" r="46" fill="none" stroke="#ffffff" strokeWidth="2" opacity="0.75" />
@@ -75,7 +75,7 @@ export function ContextCardArt ({ id }: { id: QuizSelectedContextId }) {
     )
   }
   return (
-    <svg className="quiz-intro-card__svg" viewBox="0 0 320 200" aria-hidden>
+    <svg className="quiz-intro-card__svg" viewBox="0 0 320 200" preserveAspectRatio="xMidYMid meet" aria-hidden>
       <rect width="320" height="200" fill="#7d3dbd" />
       <g transform="translate(320 0) scale(-1 1)">
         <path
