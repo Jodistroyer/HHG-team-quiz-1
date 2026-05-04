@@ -182,14 +182,14 @@ export const PressureProfileTable = ({ profile, balanceTip, balanceTipBadge }: P
   const rows: ProfileTableRow[] = [
     { label: 'Dominant Style', value: profile.dominantStyle },
     { label: 'Emotional Trigger', value: profile.emotionalTrigger },
+    { label: 'Speak Their Language', value: profile.speakTheirLanguage },
+    { label: 'How They Erupt', value: profile.howTheyErupt },
     { label: 'Mask / Defense', value: profile.maskDefense },
     { label: 'Core Need', value: profile.coreNeed },
-    { label: 'How They Erupt', value: profile.howTheyErupt },
     { label: 'How to Calm Them', value: profile.howToCalmThem },
     { label: 'How to Help Them', value: profile.howToHelpThem },
     { label: 'Rapaille Code', value: profile.rapailleCode },
     { label: 'How to Remove Mask', value: profile.howToRemoveMask },
-    { label: 'Speak Their Language', value: profile.speakTheirLanguage }
   ]
 
   if (balanceTip && balanceTipBadge) {

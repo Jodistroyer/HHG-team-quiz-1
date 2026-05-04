@@ -148,14 +148,7 @@ interface SocialMapTableProps {
 export const SocialMapTable = ({ profile, balanceTip, balanceTipBadge }: SocialMapTableProps) => {
   if (!profile) return null
   const rows: ProfileTableRow[] = [
-    { label: 'Speed of Answer', value: profile.speedOfAnswer },
     { label: 'Triggers', value: profile.triggers },
-    { label: 'Dark Side', value: profile.darkSide },
-    { label: 'How to discuss serious topics', value: profile.howToDiscussSeriousTopics },
-    { label: 'Energizers', value: profile.energizers },
-    { label: 'Drainers', value: profile.drainers },
-    { label: 'Humor style', value: profile.humorStyle },
-    { label: 'Drawn to', value: profile.whoYoureDrawnTo },
     {
       label: 'Love language',
       value: (
@@ -165,7 +158,14 @@ export const SocialMapTable = ({ profile, balanceTip, balanceTipBadge }: SocialM
           ))}
         </ul>
       )
-    }
+    },
+    { label: 'Dark Side', value: profile.darkSide },
+    { label: 'Energizers', value: profile.energizers },
+    { label: 'Drainers', value: profile.drainers },
+    { label: 'Speed of Answer', value: profile.speedOfAnswer },
+    { label: 'How to discuss serious topics', value: profile.howToDiscussSeriousTopics },
+    { label: 'Humor style', value: profile.humorStyle },
+    { label: 'Drawn to', value: profile.whoYoureDrawnTo },
   ]
 
   if (balanceTip && balanceTipBadge) {

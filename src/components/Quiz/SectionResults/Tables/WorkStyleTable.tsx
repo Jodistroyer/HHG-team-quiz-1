@@ -114,7 +114,7 @@ export const WorkStyleTable = ({ profile, balanceTip, balanceTipBadge }: WorkSty
   if (!profile) return null
   const rows: ProfileTableRow[] = [
     { label: 'Speak Their Language', value: profile.speakTheirLanguage },
-    { label: 'Ambiguity Response Style', value: profile.ambiguityResponseStyle },
+    { label: 'Ambiguity Style', value: profile.ambiguityResponseStyle },
     { label: 'Blindspots', value: profile.blindspots },
     { label: 'Burnout Signs', value: profile.burnoutSigns },
     { label: 'What They Secretly Need', value: profile.whatTheySecretlyNeed },

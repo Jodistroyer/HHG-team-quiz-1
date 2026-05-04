@@ -579,14 +579,14 @@ function PairContextSectionCard ({
     [
       ['dominantStyle', 'Dominant Style'],
       ['emotionalTrigger', 'Emotional Trigger'],
+      ['speakTheirLanguage', 'Speak Their Language'],
+      ['howTheyErupt', 'How They Erupt'],
       ['maskDefense', 'Mask / Defense'],
       ['coreNeed', 'Core Need'],
-      ['howTheyErupt', 'How They Erupt'],
       ['howToCalmThem', 'How to Calm Them'],
       ['howToHelpThem', 'How to Help Them'],
       ['rapailleCode', 'Rapaille Code'],
       ['howToRemoveMask', 'How to Remove Mask'],
-      ['speakTheirLanguage', 'Speak Their Language'],
     ]
   )
 
@@ -595,7 +595,7 @@ function PairContextSectionCard ({
     workB,
     [
       ['speakTheirLanguage', 'Speak Their Language'],
-      ['ambiguityResponseStyle', 'Ambiguity Response Style'],
+      ['ambiguityResponseStyle', 'Ambiguity Style'],
       ['blindspots', 'Blindspots'],
       ['burnoutSigns', 'Burnout Signs'],
       ['whatTheySecretlyNeed', 'What They Secretly Need'],
@@ -634,15 +634,15 @@ function PairContextSectionCard ({
     socialA,
     socialB,
     [
-      ['speedOfAnswer', 'Speed of Answer'],
       ['triggers', 'Triggers'],
+      ['loveLanguage', 'Love language'],
       ['darkSide', 'Dark Side'],
-      ['howToDiscussSeriousTopics', 'How to discuss serious topics'],
       ['energizers', 'Energizers'],
       ['drainers', 'Drainers'],
+      ['speedOfAnswer', 'Speed of Answer'],
+      ['howToDiscussSeriousTopics', 'How to discuss serious topics'],
       ['humorStyle', 'Humor style'],
       ['whoYoureDrawnTo', 'Drawn to'],
-      ['loveLanguage', 'Love language'],
     ],
     (key, v) => {
       if (key !== 'loveLanguage') return v as React.ReactNode
@@ -661,11 +661,11 @@ function PairContextSectionCard ({
     feedbackA,
     feedbackB,
     [
-      ['howToTeach', 'How to Teach'],
       ['triggers', 'Triggers'],
+      ['howToTeach', 'How to Teach'],
       ['howToListenToThem', 'How to Listen to Them'],
-      ['whatKindOfFeedbackTheyValue', 'What Kind of Feedback They Value'],
       ['hhgShiftToBalance', 'HHG Shift to Balance'],
+      ['whatKindOfFeedbackTheyValue', 'What Kind of Feedback They Value'],
       ['stuckMode', 'Stuck Mode'],
       ['encouragement', 'Encouragement'],
     ],
@@ -724,7 +724,14 @@ function PairContextSectionCard ({
         )}
 
         {sectionId === 3 && socialRows.length > 0 && (
-          <PairProfileTable title="Social Map" icon={faMap} aHeader={aHeader} bHeader={bHeader} rows={rowsWithCombo(socialRows)} />
+          <PairProfileTable
+            title="Social Map"
+            icon={faMap}
+            aHeader={aHeader}
+            bHeader={bHeader}
+            rows={rowsWithCombo(socialRows)}
+            collapsedRowLimit={5}
+          />
         )}
 
         {sectionId === 4 && feedbackRows.length > 0 && (
@@ -734,7 +741,7 @@ function PairContextSectionCard ({
             aHeader={aHeader}
             bHeader={bHeader}
             rows={rowsWithCombo(feedbackRows)}
-            collapsedRowLimit={3}
+            collapsedRowLimit={4}
           />
         )}
       </div>
