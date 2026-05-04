@@ -1,0 +1,129 @@
+.flows-browse {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.flows-browse__header {
+  width: 100%;
+}
+
+.flows-browse__title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(1.85rem, 4vw, 2.35rem);
+  font-weight: 800;
+  color: var(--flows-purple);
+  letter-spacing: 0.02em;
+  margin: 0 0 0.85rem;
+}
+
+.flows-browse__intro {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--flows-ink-soft);
+}
+
+.flows-browse__sections {
+  display: flex;
+  flex-direction: column;
+  gap: 3.5rem;
+}
+
+.flows-browse__section[id] {
+  scroll-margin-top: 1rem;
+}
+
+@media (min-width: 769px) {
+  .flows-browse__section[id] {
+    scroll-margin-top: 80px;
+  }
+}
+
+.flows-browse__section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+/*
+ * Override the shared `.quiz-context-thumb--md` aspect (80x50) here so the
+ * Flows browse header feels squarer without affecting the Quiz section cards
+ * that use the same component.
+ */
+.flows-browse__section-header .quiz-context-thumb--md {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+}
+
+@media (min-width: 1024px) {
+  .flows-browse__section-header .quiz-context-thumb--md {
+    width: 72px;
+    height: 72px;
+    border-radius: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .flows-browse__section-header .quiz-context-thumb--md {
+    width: 52px;
+    height: 52px;
+    border-radius: 10px;
+  }
+}
+
+.flows-browse__section-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.flows-browse__section-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--flows-purple);
+  margin: 0;
+  letter-spacing: 0.01em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.flows-browse__section-title-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.05rem;
+  color: var(--flows-purple);
+  flex-shrink: 0;
+}
+
+.flows-browse__section-line {
+  font-size: 0.9rem;
+  color: var(--flows-ink-soft);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.flows-browse__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.85rem;
+}
+
+@media (min-width: 900px) {
+  .flows-browse__grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 588px) {
+  .flows-browse__grid {
+    grid-template-columns: 1fr;
+  }
+}

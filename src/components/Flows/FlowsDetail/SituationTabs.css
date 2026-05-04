@@ -1,0 +1,37 @@
+.situation-tabs {
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.situation-tabs__tab {
+  padding: 0.55rem 1rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--flows-ink-soft);
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.situation-tabs__tab:hover {
+  color: var(--flows-ink);
+}
+
+.situation-tabs__tab:focus-visible {
+  outline: 2px solid var(--flows-purple);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.situation-tabs__tab--active {
+  color: var(--flows-purple);
+  border-bottom-color: var(--flows-purple);
+  font-weight: 700;
+}

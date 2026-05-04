@@ -1,0 +1,45 @@
+.flow-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.flow-steps__card {
+  background: var(--flows-surface-soft);
+  border: 1px solid var(--flows-border);
+  border-left: 3px solid var(--flows-purple);
+  border-radius: 12px;
+  padding: 0.85rem 1rem 1rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.flow-steps__card:hover {
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+}
+
+.flow-steps__meta {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--flows-ink-tertiary);
+  margin: 0 0 0.3rem;
+}
+
+.flow-steps__title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--flows-ink);
+  margin: 0 0 0.35rem;
+  line-height: 1.35;
+  letter-spacing: 0.005em;
+}
+
+.flow-steps__body {
+  font-size: 0.85rem;
+  color: var(--flows-ink-soft);
+  line-height: 1.55;
+  margin: 0;
+}

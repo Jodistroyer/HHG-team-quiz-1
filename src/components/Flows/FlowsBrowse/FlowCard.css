@@ -1,0 +1,105 @@
+.flow-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 0;
+  background: var(--flows-surface, #ffffff);
+  border: 1px solid var(--flows-border, #e2e8f0);
+  border-radius: 14px;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+  color: inherit;
+  transition: border-color 0.15s ease, transform 0.15s ease,
+    box-shadow 0.15s ease;
+  overflow: hidden;
+  min-height: 200px;
+}
+
+.flow-card:hover {
+  border-color: var(--flows-border-strong, #cbd5e1);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+}
+
+.flow-card:focus-visible {
+  outline: 2px solid var(--flows-purple, #7d3dbd);
+  outline-offset: 2px;
+}
+
+.flow-card:active {
+  transform: translateY(0);
+}
+
+/*
+ * Edge-to-edge purple thumbnail at the top of the card. The wrapper carries the
+ * purple background so any aspect-ratio letterboxing inside the embedded SVG
+ * (which uses `preserveAspectRatio="xMidYMid meet"`) blends in cleanly.
+ */
+.flow-card__thumb {
+  display: block;
+  width: 100%;
+  height: 84px;
+  flex-shrink: 0;
+  background: var(--flows-purple, #7d3dbd);
+  overflow: hidden;
+  line-height: 0;
+}
+
+.flow-card__thumb .quiz-intro-card__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.flow-card__body {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  padding: 0.85rem 1rem 1rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.flow-card__context {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--flows-ink-tertiary, #94a3b8);
+}
+
+.flow-card__title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--flows-ink, #2d3748);
+  line-height: 1.35;
+  letter-spacing: 0.005em;
+}
+
+.flow-card__meta {
+  font-size: 0.75rem;
+  color: var(--flows-ink-soft, #64748b);
+  margin-top: auto;
+  line-height: 1.4;
+  padding-right: 1.25rem;
+}
+
+.flow-card__arrow {
+  position: absolute;
+  bottom: 0.85rem;
+  right: 0.95rem;
+  font-size: 0.85rem;
+  color: var(--flows-ink-tertiary, #94a3b8);
+  transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.flow-card:hover .flow-card__arrow {
+  color: var(--flows-purple, #7d3dbd);
+  transform: translateX(2px);
+}

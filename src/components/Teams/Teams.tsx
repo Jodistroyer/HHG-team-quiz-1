@@ -1,15 +1,31 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { PeoplePanel } from './PeoplePanel/PeoplePanel'
 import type { Person, TeamContextKey } from './PeoplePanel/types'
 import { TeamMap } from './TeamMap/TeamMap'
 import './Teams.css'
 
 function Teams() {
+  const ACTIVE_PERSON_STORAGE_KEY = 'hhg.teams.activePersonId.v1'
   const [selectedPeople, setSelectedPeople] = useState<Person[]>([])
-  const [activePersonId, setActivePersonId] = useState<string | null>(null)
+  const [activePersonId, setActivePersonId] = useState<string | null>(() => {
+    try {
+      return localStorage.getItem(ACTIVE_PERSON_STORAGE_KEY)
+    } catch {
+      return null
+    }
+  })
   const activeContext: TeamContextKey = 'overall'
   const deselectRef = useRef<(id: string) => void>(() => {})
   const clearAllRef = useRef<() => void>(() => {})
+
+  useEffect(() => {
+    try {
+      if (activePersonId) localStorage.setItem(ACTIVE_PERSON_STORAGE_KEY, activePersonId)
+      else localStorage.removeItem(ACTIVE_PERSON_STORAGE_KEY)
+    } catch {
+      /* ignore */
+    }
+  }, [activePersonId])
 
   return (
     <div className="teams">

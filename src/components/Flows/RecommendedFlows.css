@@ -1,0 +1,149 @@
+/*
+ * Embedded inside SectionCard on the Quiz Results page. Inherits the page's
+ * typography while adding a thin top divider so it reads as a continuation
+ * of the section content above it.
+ */
+.recommended-flows {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.recommended-flows__header {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-bottom: 0.85rem;
+}
+
+.recommended-flows__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: #eeedfe;
+  color: #7d3dbd;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.recommended-flows__title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #7d3dbd;
+  margin: 0;
+  letter-spacing: 0.01em;
+}
+
+/*
+ * Horizontal scroller. The first ~4 cards fit in a row at typical PC widths;
+ * remaining cards (and the See more tile) reveal via horizontal scroll.
+ * `scroll-snap` provides a more deliberate feel when paging through.
+ */
+.recommended-flows__scroller {
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x proximity;
+  padding: 4px 4px 12px;
+  margin: 0 -4px;
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+.recommended-flows__scroller::-webkit-scrollbar {
+  height: 8px;
+}
+.recommended-flows__scroller::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+.recommended-flows__scroller::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/*
+ * Each item takes ~40% of the scroller's visible width, so 2 cards fit fully
+ * with the 3rd peeking halfway through (cueing horizontal scroll). 0.75rem
+ * gaps appear twice between the three cards in view.
+ *
+ * Math: 2.5 * cardWidth + 2 * gap = 100%  →  cardWidth = (100% - 1.5rem) / 2.5
+ */
+.recommended-flows__item {
+  flex: 0 0 calc((100% - 1.5rem) / 2.5);
+  scroll-snap-align: start;
+  display: flex;
+  min-width: 0;
+}
+
+.recommended-flows__item > .flow-card {
+  width: 100%;
+}
+
+.recommended-flows__item--more {
+  flex: 0 0 calc((100% - 1.5rem) / 2.5);
+}
+
+/* "See more" tile: matches the FlowCard footprint (white surface, soft border)
+   but with a centered CTA layout instead of metadata. */
+.recommended-flows__see-more {
+  width: 100%;
+  min-height: 200px;
+  background: #ffffff;
+  border: 1px dashed #cbd5e1;
+  border-radius: 14px;
+  padding: 0.95rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.25rem;
+  cursor: pointer;
+  font-family: inherit;
+  color: #7d3dbd;
+  text-align: left;
+  transition: border-color 0.15s ease, transform 0.15s ease,
+    box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.recommended-flows__see-more:hover {
+  border-color: #7d3dbd;
+  background: #faf8ff;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+}
+
+.recommended-flows__see-more:focus-visible {
+  outline: 2px solid #7d3dbd;
+  outline-offset: 2px;
+}
+
+.recommended-flows__see-more-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #7d3dbd;
+  letter-spacing: 0.005em;
+}
+
+.recommended-flows__see-more-sub {
+  font-size: 0.75rem;
+  color: #64748b;
+  line-height: 1.4;
+}
+
+.recommended-flows__see-more-arrow {
+  margin-top: 0.4rem;
+  font-size: 0.85rem;
+  color: #7d3dbd;
+  transition: transform 0.15s ease;
+}
+
+.recommended-flows__see-more:hover .recommended-flows__see-more-arrow {
+  transform: translateX(3px);
+}
+

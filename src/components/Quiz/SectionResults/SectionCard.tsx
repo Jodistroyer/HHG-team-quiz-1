@@ -6,6 +6,8 @@ import { GettingBetter } from './Sections/GettingBetter'
 import { SECTION_ICONS } from './utils.tsx'
 import { SECTION_CONTEXT_BY_ID } from '../sectionContext'
 import { ContextCardArt, type QuizSelectedContextId } from '../ContextArt'
+import { RecommendedFlows } from '../../Flows/RecommendedFlows'
+import type { FlowContextId } from '../../Flows/flowsData'
 import './SectionCard.css'
 
 interface Section {
@@ -57,6 +59,7 @@ export const SectionCard = ({ section, scores }: SectionCardProps) => {
   }
 
   const sectionSlug = section.title.toLowerCase().replace(/\s+/g, '-')
+  const isFlowContext = section.id === 1 || section.id === 2 || section.id === 3 || section.id === 4
   return (
     <div id={sectionSlug} className="section-card expanded" data-pdf-section={sectionSlug}>
       <div className="section-card-top">
@@ -80,6 +83,9 @@ export const SectionCard = ({ section, scores }: SectionCardProps) => {
         </div>
       </div>
       {renderContent()}
+      {isFlowContext && (
+        <RecommendedFlows contextId={section.id as FlowContextId} />
+      )}
     </div>
   )
 }

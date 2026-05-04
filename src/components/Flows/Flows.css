@@ -1,4 +1,55 @@
+/*
+ * Flows page root: matches the project's other top-level pages
+ * (Labs, Quiz Results) — bounded width, centered, Red Hat Display body
+ * with Montserrat headings.
+ */
 .flows {
-  padding: 1.5rem;
+  --flows-purple: #7d3dbd;
+  --flows-purple-deep: #5c2d8a;
+  --flows-purple-soft: #eeedfe;
+  --flows-ink: #2d3748;
+  --flows-ink-soft: #64748b;
+  --flows-ink-tertiary: #94a3b8;
+  --flows-surface: #ffffff;
+  --flows-surface-soft: #f8fafc;
+  --flows-border: #e2e8f0;
+  --flows-border-strong: #cbd5e1;
+
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+  box-sizing: border-box;
+  font-family: 'Red Hat Display', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    sans-serif;
+  color: var(--flows-ink);
+  align-self: flex-start;
+  min-width: 0;
 }
 
+@media (max-width: 768px) {
+  .flows {
+    padding: 1.25rem 1rem 2rem;
+  }
+}
+
+/* Shared building blocks (used by both Browse and Detail). */
+
+.flows-eyebrow {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--flows-ink-tertiary);
+  margin: 0 0 0.5rem;
+}
+
+.flows-section-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--flows-ink);
+  margin: 0 0 0.75rem;
+  letter-spacing: 0.01em;
+}

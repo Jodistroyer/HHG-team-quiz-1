@@ -26,6 +26,7 @@ const PDF_CONTENT_WIDTH_PX = 800
 
 const PDF_EXPORT_CSS = `
 .pdf-export-view{box-sizing:border-box;overflow:visible;width:800px!important;min-width:800px!important;max-width:800px!important}
+.pdf-export-view .recommended-flows{display:none!important}
 .pdf-export-view>*{width:100%!important;min-width:800px!important;max-width:800px!important;box-sizing:border-box}
 .pdf-export-view *{box-sizing:border-box;word-wrap:break-word;overflow-wrap:break-word}
 .pdf-export-view .profile-table__toggle{display:none!important}

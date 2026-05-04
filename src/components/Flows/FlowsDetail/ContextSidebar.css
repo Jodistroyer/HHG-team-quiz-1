@@ -1,0 +1,115 @@
+.context-sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  background: var(--flows-surface-soft);
+  border-right: 1px solid var(--flows-border);
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem 0;
+}
+
+.context-sidebar__label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--flows-ink-tertiary);
+  margin: 0 0 0.6rem;
+  padding: 0 1.1rem;
+}
+
+.context-sidebar__list {
+  display: flex;
+  flex-direction: column;
+}
+
+.context-sidebar__item {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.65rem 1.1rem;
+  cursor: pointer;
+  font-family: 'Red Hat Display', sans-serif;
+  font-size: 0.9rem;
+  color: var(--flows-ink-soft);
+  border: none;
+  background: transparent;
+  border-left: 2px solid transparent;
+  text-align: left;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.context-sidebar__item:hover {
+  background: var(--flows-surface);
+  color: var(--flows-ink);
+}
+
+.context-sidebar__item:focus-visible {
+  outline: 2px solid var(--flows-purple);
+  outline-offset: -2px;
+}
+
+.context-sidebar__item--active {
+  background: var(--flows-surface);
+  color: var(--flows-ink);
+  border-left-color: var(--flows-purple);
+  font-weight: 700;
+}
+
+.context-sidebar__icon {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+
+.context-sidebar__title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.005em;
+}
+
+.context-sidebar__item--active .context-sidebar__title {
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .context-sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--flows-border);
+    padding: 0.75rem 0;
+  }
+
+  .context-sidebar__label {
+    padding: 0 1rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .context-sidebar__list {
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 0 0.5rem;
+    gap: 0.25rem;
+  }
+
+  .context-sidebar__item {
+    flex-shrink: 0;
+    border-left: none;
+    border-bottom: 2px solid transparent;
+    padding: 0.45rem 0.75rem;
+    border-radius: 8px;
+  }
+
+  .context-sidebar__item--active {
+    border-left-color: transparent;
+    border-bottom-color: var(--flows-purple);
+    background: var(--flows-purple-soft);
+  }
+}

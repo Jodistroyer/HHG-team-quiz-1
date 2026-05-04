@@ -24,6 +24,7 @@ export interface UseTeamsDirectoryProps {
 const STORAGE_KEY_PEOPLE = 'hhg.people.v1'
 const STORAGE_KEY_SAVED_GROUPS = 'hhg.people.savedGroups.v1'
 const STORAGE_KEY_EMPTY_TEAMS = 'hhg.people.emptyTeams.v1'
+const STORAGE_KEY_SELECTED_IDS = 'hhg.teams.selectedPeopleIds.v1'
 
 function groupNamesContainingIds(groups: SavedGroup[], ids: Set<string>): string[] {
   return groups.filter((g) => g.personIds.some((id) => ids.has(id))).map((g) => g.name)
@@ -166,6 +167,18 @@ function loadEmptyTeams(): EmptyTeams {
   }
 }
 
+function loadSelectedIds(): Set<string> {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY_SELECTED_IDS)
+    if (!raw) return new Set()
+    const parsed = JSON.parse(raw)
+    if (!Array.isArray(parsed)) return new Set()
+    return new Set(parsed.filter((x) => typeof x === 'string'))
+  } catch {
+    return new Set()
+  }
+}
+
 export function useTeamsDirectory({
   onSelectedPeopleChange,
   onRegisterDeselect,
@@ -174,7 +187,7 @@ export function useTeamsDirectory({
   const [people, setPeople] = useState<Person[]>(loadPeople)
   const [search, setSearch] = useState('')
   const [viewMode, setViewMode] = useState<ViewMode>('company')
-  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(loadSelectedIds)
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set())
   const [savedGroups, setSavedGroups] = useState<SavedGroup[]>(loadSavedGroups)
   const [emptyTeams, setEmptyTeams] = useState<EmptyTeams>(loadEmptyTeams)
@@ -227,6 +240,24 @@ export function useTeamsDirectory({
   const handleSelectionChange = useCallback((ids: Set<string>) => {
     setSelectedIds(ids)
   }, [])
+
+  // Persist selection across tab switches (Teams is unmounted when leaving the page).
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY_SELECTED_IDS, JSON.stringify(Array.from(selectedIds)))
+    } catch {
+      /* ignore */
+    }
+  }, [selectedIds])
+
+  // If the library changes (imports/deletes), drop any selected ids that no longer exist.
+  useEffect(() => {
+    const existing = new Set(people.map((p) => p.id))
+    setSelectedIds((prev) => {
+      const next = new Set([...prev].filter((id) => existing.has(id)))
+      return next.size === prev.size ? prev : next
+    })
+  }, [people])
 
   const handleAddPerson = useCallback(
     (person: Person) => {
