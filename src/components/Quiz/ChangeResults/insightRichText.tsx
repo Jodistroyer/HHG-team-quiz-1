@@ -1,7 +1,8 @@
-import { Fragment, type ReactNode } from 'react'
+import { Fragment, type CSSProperties, type ReactNode } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDiamond, faHeart, faSquare } from '@fortawesome/free-solid-svg-icons'
 import { SECTION_ICONS } from '../SectionResults/utils.tsx'
+import { CONTEXT_BACKGROUND, type QuizSelectedContextId } from '../ContextArt'
 
 type SectionId = 1 | 2 | 3 | 4
 type Centre = 'Head' | 'Heart' | 'Gut'
@@ -45,8 +46,27 @@ function SectionIcon({ id }: { id: SectionId }) {
   )
 }
 
-function Token({ children, className }: { children: ReactNode; className?: string }) {
-  return <span className={className ? `insight-token ${className}` : 'insight-token'}>{children}</span>
+function Token({
+  children,
+  className,
+  style,
+}: {
+  children: ReactNode
+  className?: string
+  style?: CSSProperties
+}) {
+  return (
+    <span
+      className={className ? `insight-token ${className}` : 'insight-token'}
+      style={style}
+    >
+      {children}
+    </span>
+  )
+}
+
+function sectionTokenStyle (id: SectionId): CSSProperties {
+  return { '--section-context-color': CONTEXT_BACKGROUND[id as QuizSelectedContextId] } as CSSProperties
 }
 
 /** Longest phrase first (case-insensitive match; output preserves source casing). */
@@ -90,7 +110,7 @@ function tryHit(s: string, i: number): Hit | null {
       return {
         len: raw.length,
         node: (
-          <Token>
+          <Token className="insight-token--section" style={sectionTokenStyle(sectionId)}>
             <SectionIcon id={sectionId} />
             {raw}
           </Token>

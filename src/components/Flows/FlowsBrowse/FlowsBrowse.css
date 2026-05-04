@@ -86,7 +86,7 @@
   font-family: 'Montserrat', sans-serif;
   font-size: 1.25rem;
   font-weight: 700;
-  color: var(--flows-purple);
+  color: var(--section-context-color, var(--flows-purple));
   margin: 0;
   letter-spacing: 0.01em;
   display: inline-flex;
@@ -99,7 +99,7 @@
   align-items: center;
   justify-content: center;
   font-size: 1.05rem;
-  color: var(--flows-purple);
+  color: var(--section-context-color, var(--flows-purple));
   flex-shrink: 0;
 }
 

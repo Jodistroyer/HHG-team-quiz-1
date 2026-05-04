@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
-import { ContextCardArt } from '../../Quiz/ContextArt'
+import { CONTEXT_BACKGROUND, ContextCardArt } from '../../Quiz/ContextArt'
 import type { FlowContextId, FlowSituation } from '../flowsData'
 import './FlowCard.css'
 
@@ -13,16 +13,21 @@ interface FlowCardProps {
 
 /**
  * Single flow situation as a clickable card.
- * Layout: edge-to-edge purple SVG thumbnail on top, padded body below.
- * The thumbnail reuses the same `ContextCardArt` SVG used on Quiz section
- * headers and the Flows browse view, so the whole product reads as one piece.
+ * Layout: edge-to-edge SVG thumbnail on top, padded body below. The thumbnail
+ * background is per-context (warm/cool/pink/green) so the four contexts read
+ * distinctly while the body still sits on the white surface used elsewhere.
  */
 export const FlowCard = ({ contextId, contextTitle, situation, onClick }: FlowCardProps) => {
   const stepCount = situation.sequence.length
+  const thumbBg = CONTEXT_BACKGROUND[contextId]
 
   return (
     <button type="button" className="flow-card" onClick={onClick}>
-      <span className="flow-card__thumb" aria-hidden>
+      <span
+        className="flow-card__thumb"
+        style={{ background: thumbBg }}
+        aria-hidden
+      >
         <ContextCardArt id={contextId} />
       </span>
       <span className="flow-card__body">

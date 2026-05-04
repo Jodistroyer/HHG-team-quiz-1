@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { UnderPressure } from './Sections/UnderPressure'
 import { DoingWork } from './Sections/DoingWork'
@@ -5,7 +6,7 @@ import { WithPeople } from './Sections/WithPeople'
 import { GettingBetter } from './Sections/GettingBetter'
 import { SECTION_ICONS } from './utils.tsx'
 import { SECTION_CONTEXT_BY_ID } from '../sectionContext'
-import { ContextCardArt, type QuizSelectedContextId } from '../ContextArt'
+import { CONTEXT_BACKGROUND, ContextCardArt, type QuizSelectedContextId } from '../ContextArt'
 import { RecommendedFlows } from '../../Flows/RecommendedFlows'
 import type { FlowContextId } from '../../Flows/flowsData'
 import './SectionCard.css'
@@ -60,8 +61,17 @@ export const SectionCard = ({ section, scores }: SectionCardProps) => {
 
   const sectionSlug = section.title.toLowerCase().replace(/\s+/g, '-')
   const isFlowContext = section.id === 1 || section.id === 2 || section.id === 3 || section.id === 4
+  const sectionBg = CONTEXT_BACKGROUND[section.id as QuizSelectedContextId]
+  // Cascades to .section-card-top / .section-card-art / .profile-table__toggle
+  // / .profile-table-title / .trait-section-title etc. inside this card.
+  const sectionStyle = { '--section-context-color': sectionBg } as CSSProperties
   return (
-    <div id={sectionSlug} className="section-card expanded" data-pdf-section={sectionSlug}>
+    <div
+      id={sectionSlug}
+      className="section-card expanded"
+      data-pdf-section={sectionSlug}
+      style={sectionStyle}
+    >
       <div className="section-card-top">
         <div className="section-card-top__text">
           <div className="section-card-header">

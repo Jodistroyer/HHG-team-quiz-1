@@ -69,7 +69,7 @@
   justify-content: center;
   flex-shrink: 0;
   width: 1.15rem;
-  color: #7d3dbd;
+  color: var(--section-context-color, #7d3dbd);
 }
 
 .all-radars-card-title__icon svg {
@@ -80,6 +80,7 @@
 .all-radars-card-title__text {
   min-width: 0;
   font-weight: 700;
+  color: var(--section-context-color, #7d3dbd);
 }
 
 .all-radars-card-badges {

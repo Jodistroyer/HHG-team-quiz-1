@@ -1,8 +1,18 @@
+import type { CSSProperties } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChartPie } from '@fortawesome/free-solid-svg-icons'
 import { RadarChart } from './TeamRadarChart'
 import { SECTION_ICONS, getBrainCombination } from '../../../Quiz/SectionResults/utils'
+import { CONTEXT_BACKGROUND, type QuizSelectedContextId } from '../../../Quiz/ContextArt'
 import './TeamAllRadarsSection.css'
+
+function radarCardStyle (sectionId?: number): CSSProperties | undefined {
+  if (sectionId === 1 || sectionId === 2 || sectionId === 3 || sectionId === 4) {
+    const color = CONTEXT_BACKGROUND[sectionId as QuizSelectedContextId]
+    return { '--section-context-color': color } as CSSProperties
+  }
+  return undefined
+}
 
 interface SectionScores {
   headPercent: number
@@ -77,7 +87,7 @@ export const AllRadarsSection = ({ overall, sectionSummaries, sections }: AllRad
       </div>
       <div className="all-radars-grid all-radars-grid-sections">
         {sectionItems.map((item, i) => (
-          <div key={i} className="all-radars-card">
+          <div key={i} className="all-radars-card" style={radarCardStyle(item.id)}>
             <RadarCardTitle title={item.title} sectionId={item.id} />
             <RadarCardBadge headPercent={item.scores.headPercent} heartPercent={item.scores.heartPercent} gutPercent={item.scores.gutPercent} />
             <div className="all-radars-card-chart">

@@ -11,7 +11,7 @@ import { contextComboLabel, type SituationalContextKey } from '../../../Quiz/Cha
 import { sectionContextForTitle } from '../../../Quiz/sectionContext'
 import { SECTION_ICONS } from '../../../Quiz/SectionResults/utils.tsx'
 import { SECTION_CONTEXT_BY_ID } from '../../../Quiz/sectionContext'
-import { ContextCardArt, contextIdForTitle, type QuizSelectedContextId } from '../../../Quiz/ContextArt'
+import { CONTEXT_BACKGROUND, ContextCardArt, contextIdForTitle, type QuizSelectedContextId } from '../../../Quiz/ContextArt'
 import { getUnderPressureBalanceTipInfo } from '../../../Quiz/SectionResults/Sections/UnderPressure'
 import { getDoingWorkBalanceTipInfo } from '../../../Quiz/SectionResults/Sections/DoingWork'
 import { getWithPeopleBalanceTipInfo } from '../../../Quiz/SectionResults/Sections/WithPeople'
@@ -203,7 +203,11 @@ function PairAcrossContextsCard ({ people, insights }: { people: [Person, Person
               <div key={row.title} className="team-pair-insights__pair-change-row">
                 <dt className="team-pair-insights__pair-change-dt">
                   {artId != null && (
-                    <div className="team-pair-insights__pair-change-art" aria-hidden="true">
+                    <div
+                      className="team-pair-insights__pair-change-art"
+                      style={{ background: CONTEXT_BACKGROUND[artId] }}
+                      aria-hidden="true"
+                    >
                       <ContextCardArt id={artId} />
                     </div>
                   )}
@@ -684,8 +688,15 @@ function PairContextSectionCard ({
           comboB.label
         )
 
+  const sectionBg = CONTEXT_BACKGROUND[sectionId as QuizSelectedContextId]
+  const sectionStyle = { '--section-context-color': sectionBg } as React.CSSProperties
   return (
-    <div id={slug} className="section-card expanded team-pair-insights__context-card" data-pdf-section={`pair-${slug}`}>
+    <div
+      id={slug}
+      className="section-card expanded team-pair-insights__context-card"
+      data-pdf-section={`pair-${slug}`}
+      style={sectionStyle}
+    >
       <div className="section-card-top">
         <div className="section-card-top__text">
           <div className="section-card-header">

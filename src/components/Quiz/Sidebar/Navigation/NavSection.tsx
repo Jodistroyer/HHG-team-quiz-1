@@ -1,8 +1,23 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, type CSSProperties } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFire, faBriefcase, faPeopleGroup, faChartLine, faChartPie, faList, faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
+import { CONTEXT_BACKGROUND } from '../../ContextArt'
 import './NavSection.css'
+
+/** Map nav-item id → color for the four quiz contexts. Other ids fall through
+ *  to the brand-purple CSS fallback. */
+const NAV_CONTEXT_COLOR: Record<string, string> = {
+  'under-pressure': CONTEXT_BACKGROUND[1],
+  'doing-work': CONTEXT_BACKGROUND[2],
+  'with-people': CONTEXT_BACKGROUND[3],
+  'getting-better': CONTEXT_BACKGROUND[4],
+}
+
+function navItemStyle (id: string): CSSProperties | undefined {
+  const color = NAV_CONTEXT_COLOR[id]
+  return color ? ({ '--section-context-color': color } as CSSProperties) : undefined
+}
 
 export const SECTION_NAV_ITEMS: { id: string; label: string; icon: IconDefinition }[] = [
   { id: 'under-pressure', label: 'Under Pressure', icon: faFire },
@@ -75,6 +90,7 @@ export function NavSectionDropdown ({ currentSectionId, onSelectSection }: NavSe
                 type="button"
                 className={`nav-section-dropdown-item ${currentSectionId === id ? 'is-current' : ''}`}
                 onClick={() => handleSelect(id)}
+                style={navItemStyle(id)}
               >
                 <FontAwesomeIcon icon={icon} className="nav-section-btn-icon" aria-hidden />
                 <span className="nav-section-btn-label">{label}</span>
@@ -88,6 +104,7 @@ export function NavSectionDropdown ({ currentSectionId, onSelectSection }: NavSe
                 type="button"
                 className={`nav-section-dropdown-item ${currentSectionId === id ? 'is-current' : ''}`}
                 onClick={() => handleSelect(id)}
+                style={navItemStyle(id)}
               >
                 <FontAwesomeIcon icon={icon} className="nav-section-btn-icon" aria-hidden />
                 <span className="nav-section-btn-label">{label}</span>
@@ -116,6 +133,7 @@ export function NavSection ({ currentSectionId = null }: NavSectionProps) {
               className={`nav-section-btn ${currentSectionId === id ? 'is-current' : ''}`}
               onClick={() => scrollToSection(id)}
               aria-current={currentSectionId === id ? 'true' : undefined}
+              style={navItemStyle(id)}
             >
               <FontAwesomeIcon icon={icon} className="nav-section-btn-icon" aria-hidden />
               <span className="nav-section-btn-label">{label}</span>
@@ -130,6 +148,7 @@ export function NavSection ({ currentSectionId = null }: NavSectionProps) {
               className={`nav-section-btn ${currentSectionId === id ? 'is-current' : ''}`}
               onClick={() => scrollToSection(id)}
               aria-current={currentSectionId === id ? 'true' : undefined}
+              style={navItemStyle(id)}
             >
               <FontAwesomeIcon icon={icon} className="nav-section-btn-icon" aria-hidden />
               <span className="nav-section-btn-label">{label}</span>

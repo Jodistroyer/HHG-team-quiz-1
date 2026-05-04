@@ -364,7 +364,7 @@
 }
 
 .quiz-intro-card__media {
-  background: var(--qi-purple);
+  background: var(--section-context-color, var(--qi-purple));
   border-right: 1px solid var(--qi-line);
   width: 180px;
   flex: 0 0 180px;
@@ -402,7 +402,7 @@
   align-items: center;
   justify-content: center;
   width: 1.35rem;
-  color: var(--qi-purple);
+  color: var(--section-context-color, var(--qi-purple));
   font-size: 1.1rem;
   line-height: 1;
 }
@@ -445,7 +445,7 @@
   font-family: 'Montserrat', sans-serif;
   font-size: 1.15rem;
   font-weight: 700;
-  color: var(--qi-purple-deep);
+  color: var(--section-context-color, var(--qi-purple-deep));
   line-height: 1.35;
   min-width: 0;
 }

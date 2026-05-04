@@ -11,7 +11,7 @@
   font-family: 'Montserrat', sans-serif;
   font-size: 1.2rem;
   font-weight: 700;
-  color: #7d3dbd;
+  color: var(--section-context-color, #7d3dbd);
   margin: 0 0 1rem 0;
   display: flex;
   align-items: center;
@@ -19,7 +19,7 @@
 }
 
 .profile-table-icon {
-  color: #7d3dbd;
+  color: var(--section-context-color, #7d3dbd);
 }
 
 .profile-table {
@@ -82,16 +82,16 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #ffffff;
-  background: var(--qi-purple, #7d3dbd);
+  background: var(--section-context-color, var(--qi-purple, #7d3dbd));
   border: none;
   border-radius: 999px;
   cursor: pointer;
-  transition: background 120ms, transform 120ms;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06), 0 6px 18px rgba(125, 61, 189, 0.18);
+  transition: filter 120ms, transform 120ms;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06), 0 6px 18px rgba(15, 23, 42, 0.10);
 }
 
 .profile-table__toggle:hover {
-  background: #6b2fa8;
+  filter: brightness(0.92);
 }
 
 .profile-table__toggle:active {
@@ -99,7 +99,7 @@
 }
 
 .profile-table__toggle:focus-visible {
-  outline: 3px solid rgba(125, 61, 189, 0.35);
+  outline: 3px solid rgba(15, 23, 42, 0.18);
   outline-offset: 2px;
 }
 

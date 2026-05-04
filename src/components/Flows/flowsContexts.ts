@@ -25,6 +25,11 @@ export interface FlowContextMeta {
   accentSoft: string
 }
 
+/**
+ * The per-context thumbnail background colors used by FlowCard live in
+ * `Quiz/ContextArt.ts` (`CONTEXT_BACKGROUND`) so the same colors are shared
+ * with SectionCard, QuizIntro, ChangeResults, and TeamPairInsights.
+ */
 export const FLOW_CONTEXT_META: Record<FlowContextId, FlowContextMeta> = {
   1: { id: 1, icon: faFire, accent: '#D85A30', accentSoft: '#FAECE7' },
   2: { id: 2, icon: faBriefcase, accent: '#185FA5', accentSoft: '#E0EDF7' },

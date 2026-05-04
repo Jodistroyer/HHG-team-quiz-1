@@ -1,10 +1,10 @@
-import { useEffect } from 'react'
+import { useEffect, type CSSProperties } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { BrainTypeHero } from './BrainTypeHero'
 import { FlowCard } from './FlowCard'
 import { FLOW_CONTEXTS, type FlowContextId } from '../flowsData'
 import { FLOW_CONTEXT_META } from '../flowsContexts'
-import { ContextArtThumb } from '../../Quiz/ContextArt'
+import { ContextArtThumb, CONTEXT_BACKGROUND, type QuizSelectedContextId } from '../../Quiz/ContextArt'
 import type { FlowsBrainProfile } from '../Flows'
 import './FlowsBrowse.css'
 
@@ -49,11 +49,15 @@ export const FlowsBrowse = ({
       <div className="flows-browse__sections">
         {FLOW_CONTEXTS.map((ctx) => {
           const meta = FLOW_CONTEXT_META[ctx.id]
+          const sectionStyle = {
+            '--section-context-color': CONTEXT_BACKGROUND[ctx.id as QuizSelectedContextId],
+          } as CSSProperties
           return (
             <section
               key={ctx.id}
               id={flowsBrowseSectionId(ctx.id)}
               className="flows-browse__section"
+              style={sectionStyle}
             >
               <div className="flows-browse__section-header">
                 <ContextArtThumb id={ctx.id} size="md" />

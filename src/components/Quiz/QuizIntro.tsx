@@ -1,4 +1,5 @@
 import './QuizIntro.css'
+import type { CSSProperties } from 'react'
 import { QuizIntroQuestionPreview } from './QuizIntroQuestionPreview'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -9,7 +10,7 @@ import {
   faTriangleExclamation,
 } from '@fortawesome/free-solid-svg-icons'
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
-import { ContextCardArt, type QuizSelectedContextId } from './ContextArt'
+import { CONTEXT_BACKGROUND, ContextCardArt, type QuizSelectedContextId } from './ContextArt'
 
 export type { QuizSelectedContextId }
 
@@ -147,6 +148,11 @@ export function QuizIntro ({
               <div className="quiz-intro-cards" role="group" aria-label="Context cards">
                 {CONTEXT_CARDS.map((card) => {
                   const selected = selectedContextIds.includes(card.id)
+                  // Cascades to .quiz-intro-card__media background, plus
+                  // .quiz-intro-card__title and __title-icon colors.
+                  const cardStyle = {
+                    '--section-context-color': CONTEXT_BACKGROUND[card.id],
+                  } as CSSProperties
                   return (
                     <button
                       key={card.id}
@@ -154,6 +160,7 @@ export function QuizIntro ({
                       className={`quiz-intro-card ${selected ? 'is-selected' : ''}`}
                       onClick={() => onToggleContext(card.id)}
                       aria-pressed={selected}
+                      style={cardStyle}
                     >
                       {selected && (
                         <>
@@ -161,7 +168,10 @@ export function QuizIntro ({
                           <span className="quiz-intro-card__corner-dot" aria-hidden="true" />
                         </>
                       )}
-                      <div className="quiz-intro-card__media" aria-hidden="true">
+                      <div
+                        className="quiz-intro-card__media"
+                        aria-hidden="true"
+                      >
                         <ContextCardArt id={card.id} />
                       </div>
                       <div className="quiz-intro-card__body">

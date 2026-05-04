@@ -1,10 +1,11 @@
+import type { CSSProperties } from 'react'
 import type { ContextComboRow } from './changeResultsLogic'
 import { contextComboLabelForSectionTitle } from './contextComboLabels'
 import { sectionContextForTitle } from '../sectionContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBriefcase, faChartLine, faFire, faPeopleGroup, faDiamond, faHeart, faSquare } from '@fortawesome/free-solid-svg-icons'
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
-import { ContextCardArt, contextIdForTitle } from '../ContextArt'
+import { CONTEXT_BACKGROUND, ContextCardArt, contextIdForTitle } from '../ContextArt'
 import '../SectionResults/SectionCard.css'
 import './ChangeResults.css'
 
@@ -70,14 +71,24 @@ export function CombinationAcrossContexts ({
             typeof onRequestResume === 'function'
 
           const artId = contextIdForTitle(row.title)
+          // Cascades to .change-results-row-art + .change-results-context-icon
+          // + .change-results-context-title via var(--section-context-color).
+          const rowStyle: CSSProperties | undefined =
+            artId != null
+              ? ({ '--section-context-color': CONTEXT_BACKGROUND[artId] } as CSSProperties)
+              : undefined
 
           return (
             <div
               key={row.title}
               className={`change-results-combo-row${artId != null ? ' change-results-combo-row--with-art' : ''}`}
+              style={rowStyle}
             >
               {artId != null && (
-                <div className="change-results-row-art" aria-hidden="true">
+                <div
+                  className="change-results-row-art"
+                  aria-hidden="true"
+                >
                   <ContextCardArt id={artId} />
                 </div>
               )}

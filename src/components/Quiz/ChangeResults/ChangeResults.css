@@ -115,16 +115,17 @@
   padding-bottom: 0;
 }
 
-/* Decorative purple SVG art cube on the left of each context row. */
+/* Decorative SVG art cube on the left of each context row. Color flips per
+   context via --section-context-color set on the row. */
 .change-results-row-art {
   width: 88px;
   height: 88px;
-  background: var(--qi-purple, #7d3dbd);
+  background: var(--section-context-color, var(--qi-purple, #7d3dbd));
   border-radius: 14px;
   overflow: hidden;
   line-height: 0;
   flex-shrink: 0;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05), 0 6px 18px rgba(125, 61, 189, 0.18);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05), 0 6px 18px rgba(15, 23, 42, 0.10);
 }
 
 .change-results-row-art .quiz-intro-card__svg {
@@ -173,13 +174,13 @@
   justify-content: center;
   width: 1.25rem;
   flex: 0 0 1.25rem;
-  color: #7d3dbd;
+  color: var(--section-context-color, #7d3dbd);
   font-size: 1rem;
 }
 
 .change-results-context-title {
   min-width: 0;
-  color: #7d3dbd;
+  color: var(--section-context-color, #7d3dbd);
 }
 
 .change-results-combo-row dd {
@@ -307,7 +308,15 @@
 
 .change-results-insight-headline .insight-inline-icon--section,
 .change-results-insight-body .insight-inline-icon--section {
-  color: #7d3dbd;
+  color: var(--section-context-color, #7d3dbd);
+}
+
+/* Section context phrases (e.g., "Under Pressure", "Doing Work") get the
+   matching context color set via --section-context-color on the token. */
+.change-results-insight-headline .insight-token--section,
+.change-results-insight-body .insight-token--section {
+  color: var(--section-context-color, inherit);
+  font-weight: 600;
 }
 
 .change-results-insight-headline .insight-token--centres .insight-inline-icon--centre + .insight-inline-icon--centre,

@@ -29,7 +29,9 @@
   font-family: 'Montserrat', sans-serif;
   font-size: 0.825rem;
   font-weight: 600;
-  color: #4a5568;
+  /* Context items (1–4) set --section-context-color inline; Section Balance
+     and All Answers don't, so they fall back to the original slate gray. */
+  color: var(--section-context-color, #4a5568);
   background: transparent;
   border: none;
   border-radius: 8px;
@@ -44,7 +46,7 @@
 .nav-section-btn-icon {
   flex-shrink: 0;
   font-size: 0.875rem;
-  color: #7d3dbd;
+  color: var(--section-context-color, #7d3dbd);
   opacity: 0.9;
 }
 
@@ -59,14 +61,14 @@
 }
 
 .nav-section-btn:hover {
-  background: rgba(125, 61, 189, 0.1);
-  color: #7d3dbd;
+  background: color-mix(in srgb, var(--section-context-color, #7d3dbd) 10%, transparent);
+  color: var(--section-context-color, #7d3dbd);
 }
 
 /* Active section (scroll spy) – slight background so user sees which section they're in */
 .nav-section-btn.is-current {
-  background: rgba(125, 61, 189, 0.12);
-  color: #7d3dbd;
+  background: color-mix(in srgb, var(--section-context-color, #7d3dbd) 12%, transparent);
+  color: var(--section-context-color, #7d3dbd);
 }
 
 .nav-section-btn.is-current .nav-section-btn-icon {
@@ -74,7 +76,7 @@
 }
 
 .nav-section-btn:focus-visible {
-  outline: 2px solid #7d3dbd;
+  outline: 2px solid var(--section-context-color, #7d3dbd);
   outline-offset: 2px;
 }
 
@@ -152,7 +154,7 @@
   font-family: 'Montserrat', sans-serif;
   font-size: 0.8125rem;
   font-weight: 600;
-  color: #4a5568;
+  color: var(--section-context-color, #4a5568);
   background: transparent;
   border: none;
   border-radius: 6px;
@@ -163,13 +165,13 @@
 }
 
 .nav-section-dropdown-item:hover {
-  background: rgba(125, 61, 189, 0.1);
-  color: #7d3dbd;
+  background: color-mix(in srgb, var(--section-context-color, #7d3dbd) 10%, transparent);
+  color: var(--section-context-color, #7d3dbd);
 }
 
 .nav-section-dropdown-item.is-current {
-  background: rgba(125, 61, 189, 0.12);
-  color: #7d3dbd;
+  background: color-mix(in srgb, var(--section-context-color, #7d3dbd) 12%, transparent);
+  color: var(--section-context-color, #7d3dbd);
 }
 
 .nav-section-dropdown-panel .nav-section-divider {
