@@ -254,6 +254,7 @@ export const GettingBetter = ({ headPercent, heartPercent, gutPercent }: Getting
         combination={combination}
         balanceTip={traits.balanceTip}
         balanceTipBadge={balanceTipBadge}
+        collapsedRowLimit={3}
       />
 
       <div className="full-width-cards">

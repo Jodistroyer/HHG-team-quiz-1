@@ -14,17 +14,26 @@ interface ProfileTableProps {
   icon: IconDefinition
   rows: ProfileTableRow[]
   className?: string
+  /** Below 700px the table is collapsed to the first N rows; the rest open via "More". */
+  collapsedRowLimit?: number
 }
 
-/** Below 700px the table is collapsed to the first N rows; the rest open via "More". */
-const COLLAPSED_ROW_LIMIT = 4
+const DEFAULT_COLLAPSED_ROW_LIMIT = 4
 
-export const ProfileTable = ({ title, icon, rows, className }: ProfileTableProps) => {
+export const ProfileTable = ({
+  title,
+  icon,
+  rows,
+  className,
+  collapsedRowLimit,
+}: ProfileTableProps) => {
   const [isExpanded, setIsExpanded] = useState(false)
-  const hasOverflow = rows.length > COLLAPSED_ROW_LIMIT
+  const rowLimit = collapsedRowLimit ?? DEFAULT_COLLAPSED_ROW_LIMIT
+  const hasOverflow = rows.length > rowLimit
   const wrapperClass = [
     'profile-table-block',
-    hasOverflow && !isExpanded ? 'profile-table-block--mobile-collapsed' : null,
+    hasOverflow ? 'profile-table-block--collapsible' : null,
+    hasOverflow && !isExpanded ? 'profile-table-block--collapsed' : null,
     className,
   ]
     .filter(Boolean)
@@ -47,7 +56,7 @@ export const ProfileTable = ({ title, icon, rows, className }: ProfileTableProps
           {rows.map((row, i) => (
             <tr
               key={row.label}
-              className={i >= COLLAPSED_ROW_LIMIT ? 'profile-table-row--extra' : undefined}
+              className={i >= rowLimit ? 'profile-table-row--extra' : undefined}
             >
               <th scope="row">{row.label}</th>
               <td>{row.value}</td>

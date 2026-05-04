@@ -108,13 +108,16 @@
   transition: transform 200ms ease;
 }
 
+.profile-table-block--collapsed .profile-table-row--extra {
+  display: none;
+}
+
+.profile-table-block--collapsible .profile-table__toggle {
+  display: inline-flex;
+}
+
 @media (max-width: 700px) {
-  .profile-table__toggle {
-    display: inline-flex;
-  }
-  .profile-table-block--mobile-collapsed .profile-table-row--extra {
-    display: none;
-  }
+  /* keep existing layout tweaks */
 }
 
 /* Below 430px: stack each row vertically (attribute title above "your profile" value) */
@@ -147,6 +150,17 @@
     width: 100%;
     padding: 0 0 0 0;
     font-size: 0.9rem;
+  }
+}
+
+/* Printing/PDF export: always show all rows and hide the toggle. */
+@media print {
+  .profile-table__toggle {
+    display: none !important;
+  }
+
+  .profile-table-row--extra {
+    display: table-row !important;
   }
 }
 

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import Quiz from './components/Quiz/Quiz'
+import Flows from './components/Flows/Flows'
 import Labs from './components/Labs/Labs'
 import Brains from './components/Brains/Brains'
 import Teams from './components/Teams/Teams'
@@ -34,6 +35,8 @@ function App() {
     switch (currentPage) {
       case 'quiz':
         return <Quiz />
+      case 'flows':
+        return <Flows />
       case 'labs':
         return <Labs />
       case 'brain-types':

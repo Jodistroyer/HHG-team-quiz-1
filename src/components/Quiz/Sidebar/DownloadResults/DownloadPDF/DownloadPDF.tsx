@@ -28,6 +28,8 @@ const PDF_EXPORT_CSS = `
 .pdf-export-view{box-sizing:border-box;overflow:visible;width:800px!important;min-width:800px!important;max-width:800px!important}
 .pdf-export-view>*{width:100%!important;min-width:800px!important;max-width:800px!important;box-sizing:border-box}
 .pdf-export-view *{box-sizing:border-box;word-wrap:break-word;overflow-wrap:break-word}
+.pdf-export-view .profile-table__toggle{display:none!important}
+.pdf-export-view .profile-table-row--extra{display:table-row!important}
 .pdf-export-view .quiz-intro-card__media,.pdf-export-view .quiz-context-thumb,.pdf-export-view .section-card-art,.pdf-export-view .change-results-row-art{display:flex!important;align-items:center!important;justify-content:center!important}
 .pdf-export-view .quiz-intro-card__svg{display:block!important;width:100%!important;height:100%!important;max-width:100%!important;max-height:100%!important}
 .pdf-export-view .section-archetype-block::before{display:none!important}

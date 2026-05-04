@@ -112,9 +112,15 @@ interface FeedbackStyleTableProps {
   combination: string
   balanceTip?: string
   balanceTipBadge?: string
+  collapsedRowLimit?: number
 }
 
-export const FeedbackStyleTable = ({ combination, balanceTip, balanceTipBadge }: FeedbackStyleTableProps) => {
+export const FeedbackStyleTable = ({
+  combination,
+  balanceTip,
+  balanceTipBadge,
+  collapsedRowLimit,
+}: FeedbackStyleTableProps) => {
   const data = getFeedbackStyleForCombination(combination)
   if (!data) return null
 
@@ -135,6 +141,13 @@ export const FeedbackStyleTable = ({ combination, balanceTip, balanceTipBadge }:
     })
   }
 
-  return <ProfileTable title="Feedback Style" icon={faComments} rows={rows} />
+  return (
+    <ProfileTable
+      title="Feedback Style"
+      icon={faComments}
+      rows={rows}
+      collapsedRowLimit={collapsedRowLimit}
+    />
+  )
 }
 

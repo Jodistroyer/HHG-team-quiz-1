@@ -269,7 +269,7 @@ type PairProfileTableRow = {
 }
 
 /** Below 700px the pair table is collapsed to the first N rows; "More" reveals the rest. */
-const PAIR_COLLAPSED_ROW_LIMIT = 4
+const DEFAULT_PAIR_COLLAPSED_ROW_LIMIT = 4
 
 function PairProfileTable ({
   title,
@@ -278,6 +278,7 @@ function PairProfileTable ({
   bHeader,
   rows,
   className,
+  collapsedRowLimit,
 }: {
   title: string
   icon: IconDefinition
@@ -285,13 +286,16 @@ function PairProfileTable ({
   bHeader: { label: string; title: string }
   rows: PairProfileTableRow[]
   className?: string
+  collapsedRowLimit?: number
 }) {
   const [isExpanded, setIsExpanded] = useState(false)
-  const hasOverflow = rows.length > PAIR_COLLAPSED_ROW_LIMIT
+  const rowLimit = collapsedRowLimit ?? DEFAULT_PAIR_COLLAPSED_ROW_LIMIT
+  const hasOverflow = rows.length > rowLimit
   const wrapperClass = [
     'profile-table-block',
     'profile-table-block--pair',
-    hasOverflow && !isExpanded ? 'profile-table-block--mobile-collapsed' : null,
+    hasOverflow ? 'profile-table-block--collapsible' : null,
+    hasOverflow && !isExpanded ? 'profile-table-block--collapsed' : null,
     className,
   ]
     .filter(Boolean)
@@ -319,7 +323,7 @@ function PairProfileTable ({
           {rows.map((row, i) => (
             <tr
               key={row.label}
-              className={i >= PAIR_COLLAPSED_ROW_LIMIT ? 'profile-table-row--extra' : undefined}
+              className={i >= rowLimit ? 'profile-table-row--extra' : undefined}
             >
               <th scope="row">{row.label}</th>
               <td data-col={aHeader.label}>{row.aValue}</td>
@@ -724,7 +728,14 @@ function PairContextSectionCard ({
         )}
 
         {sectionId === 4 && feedbackRows.length > 0 && (
-          <PairProfileTable title="Feedback Style" icon={faComments} aHeader={aHeader} bHeader={bHeader} rows={rowsWithCombo(feedbackRows)} />
+          <PairProfileTable
+            title="Feedback Style"
+            icon={faComments}
+            aHeader={aHeader}
+            bHeader={bHeader}
+            rows={rowsWithCombo(feedbackRows)}
+            collapsedRowLimit={3}
+          />
         )}
       </div>
     </div>
