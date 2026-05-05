@@ -52,7 +52,8 @@ const PDF_EXPORT_CSS = `
 .pdf-export-view .overall-brain-badge,.pdf-export-view .overall-icon-badge{font-size:1.5rem !important;padding:1.25rem 2rem !important;white-space:normal!important}
 /* Charts: fixed size in PDF for consistent capture */
 .pdf-export-view .radar-chart-container{width:360px!important;min-width:360px!important;max-width:360px!important;height:360px!important;min-height:360px!important;max-height:360px!important;overflow:visible!important;padding:0!important;margin-left:auto!important;margin-right:auto!important}
-.pdf-export-view .all-radars-card-title,.pdf-export-view .all-radars-card-title__icon,.pdf-export-view .all-radars-card-title__text{color:#7d3dbd!important;font-weight:700!important}
+.pdf-export-view .all-radars-card-title{font-weight:700!important}
+.pdf-export-view .all-radars-card-title__icon,.pdf-export-view .all-radars-card-title__text{color:var(--section-context-color,#7d3dbd)!important;font-weight:700!important}
 .pdf-export-view .all-radars-card,.pdf-export-view .all-radars-card-overall{overflow:visible!important;padding:12px!important}
 .pdf-export-view .all-radars-grid-sections{gap:16px!important}
 .pdf-export-view .all-radars-card-chart,.pdf-export-view .all-radars-card-overall .all-radars-card-chart{width:340px!important;min-width:340px!important;max-width:340px!important;height:340px!important;min-height:340px!important;max-height:340px!important;overflow:visible!important;margin-left:auto!important;margin-right:auto!important}

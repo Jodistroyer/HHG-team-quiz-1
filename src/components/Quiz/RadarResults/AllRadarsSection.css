@@ -20,8 +20,14 @@
   margin-bottom: 24px;
 }
 
+.all-radars-card-overall {
+  width: 100%;
+  max-width: 360px;
+}
+
 .all-radars-card-overall .all-radars-card-chart {
   max-width: 320px;
+  min-width: 280px;
 }
 
 /* Sections: 2x2 grid */
