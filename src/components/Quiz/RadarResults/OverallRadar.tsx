@@ -1,4 +1,4 @@
-import { RadarChart } from './RadarChart'
+import { TreemapChart } from '../TreemapResults/TreemapChart'
 import './OverallRadar.css'
 
 interface OverallRadarProps {
@@ -13,7 +13,7 @@ export const OverallRadar = ({ headPercent, heartPercent, gutPercent }: OverallR
     <>
       {/* <h3 className="overall-breakdown-label">{balanceLabel}</h3> */}
       <div className="radar-chart-container">
-        <RadarChart
+        <TreemapChart
           headPercent={headPercent}
           heartPercent={heartPercent}
           gutPercent={gutPercent}

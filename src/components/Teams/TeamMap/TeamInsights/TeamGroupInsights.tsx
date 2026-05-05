@@ -14,7 +14,7 @@ import { TeamDoingWork } from './TeamDoingWork'
 import { TeamGettingBetter } from './TeamGettingBetter'
 import { TeamUnderPressure } from './TeamUnderPressure'
 import { TeamWithPeople } from './TeamWithPeople'
-import { RadarChart as TeamRadarChart } from '../TeamRadarResults/TeamRadarChart'
+import { TreemapChart } from '../../../Quiz/TreemapResults/TreemapChart'
 import '../../../Quiz/RadarResults/OverallRadar.css'
 import '../../../Quiz/QuizResults.css'
 import '../../../Quiz/ChangeResults/ChangeResults.css'
@@ -154,7 +154,7 @@ export function TeamGroupInsights ({ selectedPeople }: TeamGroupInsightsProps) {
 
             <div className="overall-breakdown">
               <div className="radar-chart-container">
-                <TeamRadarChart
+                <TreemapChart
                   headPercent={overallScores.headPercent}
                   heartPercent={overallScores.heartPercent}
                   gutPercent={overallScores.gutPercent}

@@ -50,14 +50,15 @@ const PDF_EXPORT_CSS = `
 .pdf-export-view .overall-archetype-name{font-size:1.75rem !important}
 .pdf-export-view .overall-archetype-description,.pdf-export-view .overall-archetype-quote{font-size:0.95rem !important}
 .pdf-export-view .overall-brain-badge,.pdf-export-view .overall-icon-badge{font-size:1.5rem !important;padding:1.25rem 2rem !important;white-space:normal!important}
-/* Radar: identical size on mobile and PC – fixed width and height in px */
-.pdf-export-view .radar-chart-container{width:300px!important;min-width:300px!important;max-width:300px!important;height:314px!important;min-height:314px!important;max-height:314px!important;overflow:visible!important;padding:0!important;margin-left:auto!important;margin-right:auto!important}
+/* Charts: fixed size in PDF for consistent capture */
+.pdf-export-view .radar-chart-container{width:360px!important;min-width:360px!important;max-width:360px!important;height:360px!important;min-height:360px!important;max-height:360px!important;overflow:visible!important;padding:0!important;margin-left:auto!important;margin-right:auto!important}
 .pdf-export-view .all-radars-card-title,.pdf-export-view .all-radars-card-title__icon,.pdf-export-view .all-radars-card-title__text{color:#7d3dbd!important;font-weight:700!important}
-.pdf-export-view .all-radars-card,.pdf-export-view .all-radars-card-overall{overflow:visible!important}
-.pdf-export-view .all-radars-card-chart,.pdf-export-view .all-radars-card-overall .all-radars-card-chart{width:300px!important;min-width:300px!important;max-width:300px!important;height:314px!important;min-height:314px!important;max-height:314px!important;overflow:visible!important;margin-left:auto!important;margin-right:auto!important}
+.pdf-export-view .all-radars-card,.pdf-export-view .all-radars-card-overall{overflow:visible!important;padding:12px!important}
+.pdf-export-view .all-radars-grid-sections{gap:16px!important}
+.pdf-export-view .all-radars-card-chart,.pdf-export-view .all-radars-card-overall .all-radars-card-chart{width:340px!important;min-width:340px!important;max-width:340px!important;height:340px!important;min-height:340px!important;max-height:340px!important;overflow:visible!important;margin-left:auto!important;margin-right:auto!important}
 .pdf-export-view .radar-chart,.pdf-export-view .radar-chart-labels{overflow:visible!important}
-.pdf-export-view .radar-chart{width:300px!important;min-width:300px!important;max-width:300px!important;height:314px!important;min-height:314px!important;max-height:314px!important}
-.pdf-export-view .radar-chart svg{width:300px!important;height:314px!important;min-width:300px!important;min-height:314px!important;max-width:300px!important;max-height:314px!important}
+.pdf-export-view .radar-chart{width:360px!important;min-width:360px!important;max-width:360px!important;height:360px!important;min-height:360px!important;max-height:360px!important}
+.pdf-export-view .radar-chart svg{width:360px!important;height:360px!important;min-width:360px!important;min-height:360px!important;max-width:360px!important;max-height:360px!important}
 .pdf-export-view .all-radars-grid-sections{grid-template-columns:repeat(2,1fr)!important}
 .pdf-export-view .radar-chart-label{font-size:12px!important;text-align:center!important;align-items:center!important;max-width:none!important;overflow:visible!important;contain:none!important}
 .pdf-export-view .radar-chart-label-name,.pdf-export-view .radar-chart-label-value{text-align:center!important}
@@ -69,6 +70,14 @@ const PDF_EXPORT_CSS = `
 .pdf-export-view .radar-chart-icon-wrap{width:48px!important;height:48px!important;min-width:48px!important;min-height:48px!important;overflow:visible!important;contain:none!important;flex-shrink:0!important;transform:scale(0.5)!important;transform-origin:center center!important;margin-bottom:0!important;margin-left:1px!important}
 .pdf-export-view .radar-chart-label .radar-chart-label-icon{display:block!important;overflow:visible!important;contain:none!important;width:48px!important;height:48px!important;min-width:48px!important;min-height:48px!important;max-width:48px!important;max-height:48px!important}
 .pdf-export-view .radar-chart-label .radar-chart-label-icon svg{width:48px!important;height:48px!important;min-width:48px!important;min-height:48px!important;max-width:48px!important;max-height:48px!important;overflow:visible!important;display:block!important;contain:none!important}
+/* Treemap: PDF must capture HTML cells only (hide/remove SVG — avoids ghost/double layers in html2canvas). */
+.pdf-export-view .treemap-chart{cursor:default!important}
+.pdf-export-view .treemap-chart__frame{position:relative!important;width:100%!important;aspect-ratio:1/1!important}
+.pdf-export-view .treemap-chart__svg{display:none!important;visibility:hidden!important;width:0!important;height:0!important;overflow:hidden!important;pointer-events:none!important}
+.pdf-export-view .treemap-chart__pdf{display:block!important;position:absolute!important;inset:0!important;width:100%!important;height:100%!important;border-radius:16px!important;overflow:hidden!important}
+.pdf-export-view .treemap-chart__pdf-cell{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;padding:3px!important}
+.pdf-export-view .treemap-chart__pdf-stack{gap:6px!important}
+.pdf-export-view .treemap-chart__pdf-stack--compact{gap:4px!important}
 .pdf-export-view .answer-results-question{min-width:0!important;max-width:100%}
 .pdf-export-view .answer-results-choice{min-width:0!important;max-width:100%}
 /* Your answers by section: match on-screen AnswerResults (Montserrat) */
@@ -134,6 +143,9 @@ async function captureSectionForPdf (
         body.style.padding = '0'
         body.appendChild(wrapper)
       }
+
+      /* Drop treemap SVG from clone entirely — html2canvas still paints foreignObject/text ghosts otherwise */
+      clonedDoc.querySelectorAll('.treemap-chart__svg').forEach((svg) => svg.remove())
     },
   })
 }

@@ -27,7 +27,7 @@ import { getFeedbackStyleForCombination } from '../../../Quiz/SectionResults/Tab
 import { PAIR_OVERALL_DESCRIPTIONS } from './pairOverallArchetypes'
 import { getPairContextInsight } from './pairContextInsight'
 import { WhatStandsOut } from '../../../Quiz/ChangeResults/WhatStandsOut'
-import { RadarChart as TeamRadarChart } from '../TeamRadarResults/TeamRadarChart'
+import { TreemapChart } from '../../../Quiz/TreemapResults/TreemapChart'
 import { buildPairWhatStandsOutFromPeople } from './pairWhatStandsOut'
 import { PairAnswerResults } from './PairAnswerResults'
 import { Sidebar } from '../../../Quiz/Sidebar/Sidebar'
@@ -800,7 +800,7 @@ function PairOverallAsTeamMapSection ({ pairOverall }: { pairOverall: TeamContex
 
         <div className="overall-breakdown">
           <div className="radar-chart-container">
-            <TeamRadarChart
+            <TreemapChart
               headPercent={pairOverall.headPercent}
               heartPercent={pairOverall.heartPercent}
               gutPercent={pairOverall.gutPercent}

@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChartPie } from '@fortawesome/free-solid-svg-icons'
-import { RadarChart } from './RadarChart'
+import { TreemapChart } from '../TreemapResults/TreemapChart'
 import { SECTION_ICONS, getBrainCombination } from '../SectionResults/utils'
 import { CONTEXT_BACKGROUND, type QuizSelectedContextId } from '../ContextArt'
 import './AllRadarsSection.css'
@@ -82,7 +82,7 @@ export const AllRadarsSection = ({ overall, sectionSummaries, sections }: AllRad
           <RadarCardBadge headPercent={overall.headPercent} heartPercent={overall.heartPercent} gutPercent={overall.gutPercent} />
           <RadarCardDivider />
           <div className="all-radars-card-chart">
-            <RadarChart
+            <TreemapChart
               headPercent={overall.headPercent}
               heartPercent={overall.heartPercent}
               gutPercent={overall.gutPercent}
@@ -97,7 +97,7 @@ export const AllRadarsSection = ({ overall, sectionSummaries, sections }: AllRad
             <RadarCardBadge headPercent={item.scores.headPercent} heartPercent={item.scores.heartPercent} gutPercent={item.scores.gutPercent} />
             <RadarCardDivider />
             <div className="all-radars-card-chart">
-              <RadarChart
+              <TreemapChart
                 headPercent={item.scores.headPercent}
                 heartPercent={item.scores.heartPercent}
                 gutPercent={item.scores.gutPercent}
