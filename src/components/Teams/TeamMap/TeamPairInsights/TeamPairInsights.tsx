@@ -199,6 +199,7 @@ function PairAcrossContextsCard ({ people, insights }: { people: [Person, Person
               const contextIcon = contextIconForTitle(row.title)
               const contextLine = sectionContextForTitle(row.title)
               const artId = contextIdForTitle(row.title)
+              const contextColor = artId != null ? CONTEXT_BACKGROUND[artId] : null
               return (
               <div key={row.title} className="team-pair-insights__pair-change-row">
                 <dt className="team-pair-insights__pair-change-dt">
@@ -212,7 +213,14 @@ function PairAcrossContextsCard ({ people, insights }: { people: [Person, Person
                     </div>
                   )}
                   <div className="team-pair-insights__pair-change-text">
-                    <div className="team-pair-insights__pair-change-title-row">
+                    <div
+                      className="team-pair-insights__pair-change-title-row"
+                      style={
+                        contextColor
+                          ? ({ '--section-context-color': contextColor } as React.CSSProperties)
+                          : undefined
+                      }
+                    >
                       {contextIcon && (
                         <span className="change-results-context-icon" aria-hidden="true">
                           <FontAwesomeIcon icon={contextIcon} />

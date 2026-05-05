@@ -166,7 +166,7 @@ const SAME_EXACT_COMBO: Record<string, Record<SituationalContextKey, string>> = 
 const PAIR_CONTEXT_INSIGHTS: Record<string, Record<SituationalContextKey, string>> = {
 'Head|Heart': {
     underPressure:
-      'You are both deeply committed to creating safety when things get loud, which makes you a very grounding pair. Under pressure, one of you leads with {a} to find clarity while the other leads with {b} to find connection. Because you both want the same security, you can bridge any gap by simply acknowledging the different doors you use to get there. It turns a potential tension into a shared safety net.',
+      'You are both deeply committed to creating safety when things get loud, which makes you a very grounding pair. Under pressure, one of you leads with {a} to find clarity while the other leads with {b} to find connection. You both desire the same feeling of security, and can bridge any gap by simply acknowledging the different doors you use to get there. It turns a potential tension into a shared safety net.',
     doingWork:
       'You have a massive shared asset for making choices: the ability to cover both the logic and the morale of a situation. One of you provides the structure of {a} while the other looks after the meaning of {b}. To keep this balance healthy, try deciding early who is making the final call and who is checking on the team. This ensures your shared choices are as humane as they are smart.',
     withPeople:
