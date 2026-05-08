@@ -48,9 +48,11 @@ export function NavSectionDropdown ({ currentSectionId, onSelectSection }: NavSe
   const [isOpen, setIsOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
-  const currentLabel = currentSectionId
-    ? SECTION_NAV_ITEMS.find(({ id }) => id === currentSectionId)?.label ?? 'Section'
-    : SECTION_NAV_ITEMS[0]?.label ?? 'Section'
+  const currentItem = currentSectionId
+    ? SECTION_NAV_ITEMS.find(({ id }) => id === currentSectionId) ?? null
+    : SECTION_NAV_ITEMS[0] ?? null
+  const currentLabel = currentItem?.label ?? 'Section'
+  const currentIcon = currentItem?.icon ?? faList
 
   useEffect(() => {
     if (!isOpen) return
@@ -78,8 +80,12 @@ export function NavSectionDropdown ({ currentSectionId, onSelectSection }: NavSe
         aria-expanded={isOpen}
         aria-haspopup="listbox"
         aria-label="Current section"
+        style={currentSectionId ? navItemStyle(currentSectionId) : undefined}
       >
-        <span className="nav-section-dropdown-trigger-label">{currentLabel}</span>
+        <span className="nav-section-dropdown-trigger-label">
+          <FontAwesomeIcon icon={currentIcon} className="nav-section-btn-icon" aria-hidden />
+          <span className="nav-section-btn-label">{currentLabel}</span>
+        </span>
         <FontAwesomeIcon icon={faChevronDown} className={`nav-section-dropdown-chevron ${isOpen ? 'is-open' : ''}`} aria-hidden />
       </button>
       {isOpen && (

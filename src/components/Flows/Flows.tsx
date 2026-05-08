@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { FlowsBrowse } from './FlowsBrowse/FlowsBrowse'
+import { FlowsContextPage } from './FlowsContextPage'
 import { FlowsDetail } from './FlowsDetail/FlowsDetail'
 import { FLOW_CONTEXTS, getSituation, type FlowContextId } from './flowsData'
 import type { BrainType } from './flowsData'
 import { consumePendingFlow } from './flowsNavigation'
+import { FlowsLibrarySidebar, type FlowsLibraryView } from './FlowsLibrarySidebar'
 import './Flows.css'
 
 type FlowsView =
@@ -58,6 +60,16 @@ const Flows = () => {
   const browseScrollContextId =
     pendingOnMount?.kind === 'browse-context' ? pendingOnMount.contextId : null
 
+  const [libraryView, setLibraryView] = useState<FlowsLibraryView>(() => {
+    if (pendingOnMount?.kind === 'browse-context') return 'context'
+    return 'home'
+  })
+
+  const [libraryContextId, setLibraryContextId] = useState<FlowContextId | null>(() => {
+    if (pendingOnMount?.kind === 'browse-context') return pendingOnMount.contextId
+    return null
+  })
+
   const openSituation = (contextId: FlowContextId, situationId: string) => {
     setView({ kind: 'detail', contextId, situationId })
   }
@@ -81,22 +93,60 @@ const Flows = () => {
 
   return (
     <div className="flows">
-      {view.kind === 'browse' ? (
-        <FlowsBrowse
-          brainProfile={PLACEHOLDER_BRAIN_PROFILE}
-          onOpenSituation={openSituation}
-          scrollToContextId={browseScrollContextId}
+      <div className="flows__layout">
+        <FlowsLibrarySidebar
+          activeView={libraryView}
+          activeContextId={libraryContextId}
+          onHome={() => {
+            setLibraryView('home')
+            setLibraryContextId(null)
+            setView({ kind: 'browse' })
+          }}
+          onPickContext={(contextId) => {
+            setLibraryView('context')
+            setLibraryContextId(contextId)
+            setView({ kind: 'browse' })
+          }}
+          onRecommended={() => {
+            setLibraryView('recommended')
+            setLibraryContextId(null)
+          }}
+          onSaved={() => {
+            setLibraryView('saved')
+            setLibraryContextId(null)
+          }}
         />
-      ) : (
-        <FlowsDetail
-          brainProfile={PLACEHOLDER_BRAIN_PROFILE}
-          contextId={view.contextId}
-          situationId={view.situationId}
-          onBack={goBrowse}
-          onSwitchContext={switchContext}
-          onSwitchSituation={switchSituation}
-        />
-      )}
+
+        <main className="flows__content">
+          {libraryView === 'recommended' || libraryView === 'saved' ? (
+            <section className="flows-library-view" aria-label="My flows">
+              <h1 className="flows-library-view__title">
+                {libraryView === 'recommended' ? 'Recommended' : 'Saved'}
+              </h1>
+              <p className="flows-library-view__body">
+                This view is coming soon. For now, use the context buttons to browse flows.
+              </p>
+            </section>
+          ) : view.kind === 'browse' && libraryView === 'context' && libraryContextId ? (
+            <FlowsContextPage contextId={libraryContextId} onOpenSituation={openSituation} />
+          ) : view.kind === 'browse' ? (
+            <FlowsBrowse
+              brainProfile={PLACEHOLDER_BRAIN_PROFILE}
+              onOpenSituation={openSituation}
+              scrollToContextId={browseScrollContextId}
+            />
+          ) : (
+            <FlowsDetail
+              brainProfile={PLACEHOLDER_BRAIN_PROFILE}
+              contextId={view.contextId}
+              situationId={view.situationId}
+              onBack={goBrowse}
+              onSwitchContext={switchContext}
+              onSwitchSituation={switchSituation}
+            />
+          )}
+        </main>
+      </div>
     </div>
   )
 }

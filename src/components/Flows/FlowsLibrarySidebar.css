@@ -1,0 +1,174 @@
+.flows-library {
+  position: fixed;
+  top: 5.25rem;
+  left: 2rem;
+  align-self: flex-start;
+  width: 240px;
+  flex: 0 0 240px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem;
+  border: 1px solid var(--flows-border);
+  border-radius: 14px;
+  background: var(--flows-surface);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+  min-width: 0;
+  max-height: calc(100vh - 6.25rem);
+  overflow: auto;
+  z-index: 5;
+}
+
+.flows-library__section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.flows-library__title-row {
+  padding: 0.55rem 0.75rem 0;
+  margin-bottom: 8px;
+}
+
+.flows-library__title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--flows-ink-tertiary);
+  margin: 0;
+}
+
+/* Reuse Quiz sidebar's `nav-section-*` styles; just tighten for this card. */
+.flows-library .nav-section-list {
+  gap: 4px;
+}
+
+.flows-library .nav-section-btn {
+  font-family: 'Red Hat Display', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    sans-serif;
+  font-size: 0.95rem;
+  border-radius: 10px;
+  padding: 0.55rem 0.65rem;
+}
+
+.flows-library .nav-section-btn-icon {
+  font-size: 0.95rem;
+}
+
+.flows-library .nav-section-divider {
+  margin: 12px 0.5rem 10px;
+}
+
+@media (max-width: 900px) {
+  .flows-library {
+    width: 210px;
+    flex-basis: 210px;
+    left: 1rem;
+    top: 4.75rem;
+    max-height: calc(100vh - 5.75rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .flows-library {
+    width: 100%;
+    flex: 0 0 auto;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    max-height: none;
+    overflow: visible;
+    z-index: 100;
+    border-bottom: 1px solid var(--flows-border);
+  }
+
+  /* Match the Quiz Results mobile bar height */
+  .flows-library .nav-section-dropdown-trigger {
+    padding: 8px 10px;
+    font-size: 0.85rem;
+    border-radius: 10px;
+  }
+
+  .flows-library .nav-section-dropdown-trigger-label {
+    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}
+
+/* Mobile: collapse library into a dropdown */
+.flows-library__mobile {
+  display: none;
+}
+
+.flows-library__desktop {
+  display: block;
+}
+
+.flows-library__mobile-summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--flows-border);
+  border-radius: 12px;
+  background: var(--flows-surface);
+  font-family: 'Montserrat', sans-serif;
+}
+
+.flows-library__mobile-summary::-webkit-details-marker {
+  display: none;
+}
+
+.flows-library__mobile-title {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--flows-ink-tertiary);
+}
+
+.flows-library__mobile-current {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--flows-purple);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.flows-library__mobile-panel {
+  padding-top: 0.75rem;
+}
+
+@media (max-width: 768px) {
+  .flows-library__mobile {
+    display: block;
+  }
+
+  .flows-library__desktop {
+    display: none;
+  }
+}
+
+.flows-library__mobile-caret {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid #7d3dbd;
+  flex-shrink: 0;
+  margin-left: 0.5rem;
+}
