@@ -170,7 +170,7 @@ const GETTING_BETTER_ARCHETYPES: Record<string, { archetype: string; description
     quote: 'Growth isn\'t measured in inches, but in depth.'
   },
   'Heart+Gut': {
-    archetype: 'Shepherd',
+    archetype: 'Defender',
     description: 'When getting better, you focus on impact over technique. You grow by protecting, serving, and supporting. Improvement is measured by how well you help others and stand strong for them.',
     quote: 'The circle is only as strong as the one holding the gate.'
   },

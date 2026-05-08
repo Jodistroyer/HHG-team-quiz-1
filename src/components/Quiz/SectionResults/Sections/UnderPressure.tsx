@@ -225,7 +225,7 @@ const UNDER_PRESSURE_ARCHETYPES: Record<string, { archetype: string; description
     quote: 'If I feel it, it matters.'
   },
   'Heart+Gut': {
-    archetype: 'Shepherd',
+    archetype: 'Defender',
     description: 'Under pressure, your skin thickens. You feel a fierce, internal "No" to the threat. Your fear transforms into an iron wall; you don\'t care about the cost to yourself as long as the line holds.',
     quote: 'If I stand firm, I am safe.'
   },

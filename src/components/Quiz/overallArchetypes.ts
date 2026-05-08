@@ -33,7 +33,7 @@ export const OVERALL_ARCHETYPES: Record<
     quote: 'If you feel it, it matters.',
   },
   'Heart + Gut': {
-    archetype: 'Shepherd',
+    archetype: 'Defender',
     headline: 'An energetic person who acts with passion and conviction',
     description:
       "You feel deeply and move quickly. You're responsive, energising, and genuinely motivated by the people around you, and you back that care with a willingness to act.\n\n**Others often experience you as warm, direct, and fully present.**\n\nThe challenge is that feeling and instinct together can move faster than thinking. You may commit before you've fully assessed, or act on what feels right without asking whether it's been thought through. You're also more likely to avoid analytical rigour, not because you're incapable of it, but because it can feel slow or cold compared to how naturally you operate.\n\nThe question for you is whether you're bringing enough structure to match your energy, so that what you're trying to do for people actually lands the way you intend.",

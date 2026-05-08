@@ -297,7 +297,7 @@ const WITH_PEOPLE_ARCHETYPES: Record<string, { archetype: string; description: s
     quote: 'If I sense it, I pay attention.'
   },
   'Heart+Gut': {
-    archetype: 'Shepherd',
+    archetype: 'Defender',
     description: 'With people, you are emotionally engaged and responsive. You don\'t just "hang out"; you notice when tension, disrespect, or imbalance enters the space. Loyalty moves you to speak up, stand beside others, and help bring the relationship back into harmony.',
     quote: 'If something feels off, I speak up.'
   },

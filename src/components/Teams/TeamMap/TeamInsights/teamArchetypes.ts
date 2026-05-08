@@ -31,7 +31,7 @@ export const TEAM_ARCHETYPES: Record<
       "This team is genuinely relational and attuned to how people feel, skilled at building trust, and committed to creating an environment where others feel safe and valued. With less Head and Gut, it may find structured analysis and bold decisiveness harder to access. The risk isn't that the team doesn't care;it clearly does, but that caring can become the primary lens through which all decisions are made, making it harder to be rigorous, direct, or fast when the situation calls for it.",
   },
   'Heart + Gut': {
-    archetype: 'Shepherd',
+    archetype: 'Defender',
     headline: 'An energetic team that acts with passion and conviction',
     description:
       "This team moves with heart and speed. It's energising to be around, builds loyalty quickly, and tends to get things done without needing much external push. With less Head, it may underinvest in analytical rigour, structured planning, and objective evaluation of options. The risk isn't that the team doesn't try hard or care;it clearly does both, but that effort and intent can move faster than thinking, and the team may find itself in situations it hasn't fully prepared for."

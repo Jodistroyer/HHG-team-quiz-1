@@ -214,7 +214,7 @@ const DOING_WORK_ARCHETYPES: Record<string, { archetype: string; description: st
     quote: 'If I feel it, it matters.'
   },
   'Heart+Gut': {
-    archetype: 'Shepherd',
+    archetype: 'Defender',
     description: 'When doing work, you create a circle of responsibility. You don\'t just finish tasks; you hold the line. You work hardest when you feel your contribution is the bedrock that keeps your own environment from collapsing.',
     quote: 'If I hold the weight, I find my worth.'
   },

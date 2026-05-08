@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
-import { ContextSidebar } from './ContextSidebar'
+import { BrainTypeSidebar } from './BrainTypeSidebar'
 import { SituationTabs } from './SituationTabs'
 import { FlowSequence } from './FlowSequence'
 import { FlowSteps } from './FlowSteps'
@@ -46,7 +46,7 @@ export const FlowsDetail = ({
       </button>
 
       <div className="flows-detail__shell">
-        <ContextSidebar activeContextId={contextId} onSwitchContext={onSwitchContext} />
+        <BrainTypeSidebar brainProfile={brainProfile} />
 
         <div className="flows-detail__main">
           <div className="flows-detail__top-bar">
