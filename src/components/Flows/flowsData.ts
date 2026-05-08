@@ -70,7 +70,7 @@ function makeSituation (id: string, title: string): FlowSituation {
     title,
     /* Placeholder: in real content this is a longer "How to ..." sentence. */
     cardTitle: title,
-    readMinutes: 4,
+    readMinutes: 1,
     sequence: makeSequence(),
     whyText: PLACEHOLDER_WHY,
   }

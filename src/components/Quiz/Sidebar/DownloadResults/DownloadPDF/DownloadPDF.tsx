@@ -5,6 +5,7 @@ import html2canvas from 'html2canvas'
 import { jsPDF } from 'jspdf'
 import '../DownloadResults.css'
 import './DownloadPDF.css'
+import { ExportNameModal } from './ExportNameModal'
 
 interface DownloadPDFProps {
   /** Ref to the container that holds all elements with data-pdf-section (e.g. .final-summary) */
@@ -29,6 +30,7 @@ const PDF_EXPORT_CSS = `
 .pdf-export-view .recommended-flows{display:none!important}
 .pdf-export-view>*{width:100%!important;min-width:800px!important;max-width:800px!important;box-sizing:border-box}
 .pdf-export-view *{box-sizing:border-box;word-wrap:break-word;overflow-wrap:break-word}
+.pdf-export-view .quiz-results-page__main-title{color:#7d3dbd!important}
 .pdf-export-view .profile-table__toggle{display:none!important}
 .pdf-export-view .profile-table-row--extra{display:table-row!important}
 .pdf-export-view .quiz-intro-card__media,.pdf-export-view .quiz-context-thumb,.pdf-export-view .section-card-art,.pdf-export-view .change-results-row-art{display:flex!important;align-items:center!important;justify-content:center!important}
@@ -93,7 +95,7 @@ const PDF_EXPORT_CSS = `
  */
 async function captureSectionForPdf (
   element: HTMLElement,
-  options: { scale: number; backgroundColor: string }
+  options: { scale: number; backgroundColor: string; exportName?: string }
 ): Promise<HTMLCanvasElement> {
   return html2canvas(element, {
     scale: options.scale,
@@ -145,6 +147,30 @@ async function captureSectionForPdf (
         body.appendChild(wrapper)
       }
 
+      // Inject export name into the main title (PDF-only).
+      const exportName = options.exportName?.trim()
+      if (exportName) {
+        const apostrophe = '’'
+        const raw = exportName.replace(/\s+/g, ' ').trim()
+        const nameMaxChars = 28
+        const displayName =
+          raw.length <= nameMaxChars
+            ? raw
+            : nameMaxChars <= 1
+              ? '…'
+              : `${raw.slice(0, nameMaxChars - 1)}…`
+
+        const isEndsWithS = /s$/i.test(displayName)
+        const possessive = isEndsWithS ? `${displayName}${apostrophe}` : `${displayName}${apostrophe}s`
+        const newTitle = `${possessive} Profile`
+
+        const titleEl = clonedDoc.querySelector<HTMLElement>('.quiz-results-page__main-title')
+        if (titleEl) {
+          titleEl.textContent = newTitle
+          titleEl.setAttribute('title', newTitle)
+        }
+      }
+
       /* Drop treemap SVG from clone entirely — html2canvas still paints foreignObject/text ghosts otherwise */
       clonedDoc.querySelectorAll('.treemap-chart__svg').forEach((svg) => svg.remove())
     },
@@ -154,8 +180,10 @@ async function captureSectionForPdf (
 export function DownloadPDF ({ containerRef, quizCompletedAt, iconOnly, onDownloadStart, onDownloadDone }: DownloadPDFProps) {
   const [loading, setLoading] = useState(false)
   const [progress, setProgress] = useState(0)
+  const [isNameModalOpen, setIsNameModalOpen] = useState(false)
+  const [pendingName, setPendingName] = useState('')
 
-  const handleDownload = async () => {
+  const runDownload = async (exportName: string) => {
     const container = containerRef.current
     if (!container || loading) return
 
@@ -172,12 +200,49 @@ export function DownloadPDF ({ containerRef, quizCompletedAt, iconOnly, onDownlo
       setProgress(5)
 
       const pdf = new jsPDF({ unit: 'mm', format: 'a4' })
-    const pageW = PDF_PAGE_WIDTH_MM
-    const pageH = PDF_PAGE_HEIGHT_MM
-    const margin = 8
-    const contentW = pageW - margin * 2
-    const contentH = pageH - margin * 2
+      const pageW = PDF_PAGE_WIDTH_MM
+      const pageH = PDF_PAGE_HEIGHT_MM
+      const margin = 8
+      const contentW = pageW - margin * 2
+      const contentH = pageH - margin * 2
 
+      setProgress(10)
+
+      // Pages 1..N: captured sections
+      for (let i = 0; i < sections.length; i++) {
+        const el = sections[i]
+        try {
+          const canvas = await captureSectionForPdf(el, {
+            scale: 2,
+            backgroundColor: '#ffffff',
+            exportName,
+          })
+
+          const imgW = canvas.width
+          const imgH = canvas.height
+          const ratio = imgW / imgH
+
+          let drawW = contentW
+          let drawH = contentW / ratio
+          if (drawH > contentH) {
+            drawH = contentH
+            drawW = contentH * ratio
+          }
+
+          const x = margin + (contentW - drawW) / 2
+          const y = margin + (contentH - drawH) / 2
+
+          const imgData = canvas.toDataURL('image/png', 1.0)
+          if (i !== 0) pdf.addPage()
+          pdf.addImage(imgData, 'PNG', x, y, drawW, drawH, undefined, 'FAST')
+        } catch (err) {
+          console.warn('PDF section capture failed:', el.getAttribute('data-pdf-section'), err)
+        }
+        setProgress(10 + Math.round(((i + 1) / total) * 85))
+      }
+
+      // Last page: cover / metadata
+      pdf.addPage()
       pdf.setFontSize(18)
       pdf.text('Quiz results', margin, 22)
       pdf.setFontSize(11)
@@ -196,39 +261,6 @@ export function DownloadPDF ({ containerRef, quizCompletedAt, iconOnly, onDownlo
         coverY
       )
 
-      setProgress(10)
-
-    for (let i = 0; i < sections.length; i++) {
-        const el = sections[i]
-        try {
-          const canvas = await captureSectionForPdf(el, {
-            scale: 2,
-            backgroundColor: '#ffffff',
-          })
-
-          const imgW = canvas.width
-          const imgH = canvas.height
-          const ratio = imgW / imgH
-
-          let drawW = contentW
-          let drawH = contentW / ratio
-          if (drawH > contentH) {
-            drawH = contentH
-            drawW = contentH * ratio
-          }
-
-          const x = margin + (contentW - drawW) / 2
-          const y = margin + (contentH - drawH) / 2
-
-          const imgData = canvas.toDataURL('image/png', 1.0)
-          pdf.addPage()
-          pdf.addImage(imgData, 'PNG', x, y, drawW, drawH, undefined, 'FAST')
-        } catch (err) {
-          console.warn('PDF section capture failed:', el.getAttribute('data-pdf-section'), err)
-        }
-        setProgress(10 + Math.round(((i + 1) / total) * 85))
-      }
-
       const stamp = quizCompletedAt ? fileStampForDownload(quizCompletedAt) : new Date().toISOString().slice(0, 10)
       setProgress(100)
       pdf.save(`quiz-results-${stamp}.pdf`)
@@ -245,10 +277,21 @@ export function DownloadPDF ({ containerRef, quizCompletedAt, iconOnly, onDownlo
 
   return (
     <div className="download-result-btn-wrap">
+      {isNameModalOpen && (
+        <ExportNameModal
+          initialValue={pendingName}
+          onCancel={() => setIsNameModalOpen(false)}
+          onConfirm={(name) => {
+            setPendingName(name)
+            setIsNameModalOpen(false)
+            void runDownload(name)
+          }}
+        />
+      )}
       <button
         type="button"
         className={`btn btn-download-pdf ${iconOnly ? 'btn-download-icon-only' : ''} ${loading ? 'is-loading' : ''}`}
-        onClick={handleDownload}
+        onClick={() => setIsNameModalOpen(true)}
         disabled={loading}
         title="Download PDF"
         aria-label={loading ? 'Preparing PDF…' : 'Download PDF'}

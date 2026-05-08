@@ -187,24 +187,87 @@ function layout (blocks: Block[]) {
   ]
 }
 
+// ---- Shared treemap transition clock (keeps all charts in sync) ----
+type TreemapClock = {
+  mode: ViewMode
+  listeners: Set<(mode: ViewMode) => void>
+  intervalId: number | null
+  tickMs: number
+}
+
+const TREEMAP_CLOCK: TreemapClock = {
+  mode: 'label',
+  listeners: new Set(),
+  intervalId: null,
+  tickMs: 3200,
+}
+
+function ensureTreemapClockRunning () {
+  if (TREEMAP_CLOCK.intervalId != null) return
+  TREEMAP_CLOCK.intervalId = window.setInterval(() => {
+    TREEMAP_CLOCK.mode = TREEMAP_CLOCK.mode === 'label' ? 'percent' : 'label'
+    TREEMAP_CLOCK.listeners.forEach((fn) => fn(TREEMAP_CLOCK.mode))
+  }, TREEMAP_CLOCK.tickMs)
+}
+
+function stopTreemapClockIfUnused () {
+  if (TREEMAP_CLOCK.listeners.size > 0) return
+  if (TREEMAP_CLOCK.intervalId != null) window.clearInterval(TREEMAP_CLOCK.intervalId)
+  TREEMAP_CLOCK.intervalId = null
+  TREEMAP_CLOCK.mode = 'label'
+}
+
 export function TreemapChart ({ headPercent, heartPercent, gutPercent }: TreemapChartProps) {
-  const [mode, setMode] = useState<ViewMode>('label')
-  const intervalRef = useRef<number | null>(null)
-  const AUTO_SWAP_MS = 3200
+  const [mode, setMode] = useState<ViewMode>(() => TREEMAP_CLOCK.mode)
+  const [overrideMode, setOverrideMode] = useState<ViewMode | null>(null)
+  const overrideModeRef = useRef<ViewMode | null>(null)
+  const overrideUntilRef = useRef<number>(0)
+  const clearOverrideTimeoutRef = useRef<number | null>(null)
+  const PAUSE_AFTER_INTERACTION_MS = 8000
+
+  // Keep a ref in sync so the global tick handler
+  // never depends on React state timing.
+  useEffect(() => {
+    overrideModeRef.current = overrideMode
+  }, [overrideMode])
 
   useEffect(() => {
-    if (intervalRef.current != null) window.clearInterval(intervalRef.current)
-    intervalRef.current = window.setInterval(() => {
-      setMode((m) => (m === 'label' ? 'percent' : 'label'))
-    }, AUTO_SWAP_MS)
+    const onTick = (next: ViewMode) => {
+      if (overrideModeRef.current != null && Date.now() < overrideUntilRef.current) return
+      // No override: follow the shared clock.
+      if (overrideModeRef.current != null) {
+        overrideModeRef.current = null
+        setOverrideMode(null)
+      }
+      setMode(next)
+    }
+
+    TREEMAP_CLOCK.listeners.add(onTick)
+    ensureTreemapClockRunning()
+    // Snap once on mount.
+    setMode(TREEMAP_CLOCK.mode)
+
     return () => {
-      if (intervalRef.current != null) window.clearInterval(intervalRef.current)
-      intervalRef.current = null
+      TREEMAP_CLOCK.listeners.delete(onTick)
+      stopTreemapClockIfUnused()
+      if (clearOverrideTimeoutRef.current != null) window.clearTimeout(clearOverrideTimeoutRef.current)
+      clearOverrideTimeoutRef.current = null
     }
   }, [])
 
   function toggleNow () {
-    setMode((m) => (m === 'label' ? 'percent' : 'label'))
+    const next = (overrideModeRef.current ?? mode) === 'label' ? 'percent' : 'label'
+    setOverrideMode(next)
+    setMode(next)
+
+    overrideUntilRef.current = Date.now() + PAUSE_AFTER_INTERACTION_MS
+    if (clearOverrideTimeoutRef.current != null) window.clearTimeout(clearOverrideTimeoutRef.current)
+    clearOverrideTimeoutRef.current = window.setTimeout(() => {
+      // override ended: re-align to global mode (stays in sync)
+      setOverrideMode(null)
+      setMode(TREEMAP_CLOCK.mode)
+      clearOverrideTimeoutRef.current = null
+    }, PAUSE_AFTER_INTERACTION_MS)
   }
 
   const blocks: Block[] = [

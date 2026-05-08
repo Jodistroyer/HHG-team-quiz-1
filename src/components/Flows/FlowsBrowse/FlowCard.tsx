@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import { CONTEXT_BACKGROUND, ContextCardArt } from '../../Quiz/ContextArt'
 import type { FlowContextId, FlowSituation } from '../flowsData'
+import { FLOW_CONTEXT_META } from '../flowsContexts'
 import './FlowCard.css'
 
 interface FlowCardProps {
@@ -31,7 +32,12 @@ export const FlowCard = ({ contextId, contextTitle, situation, onClick }: FlowCa
         <ContextCardArt id={contextId} />
       </span>
       <span className="flow-card__body">
-        <span className="flow-card__context">{contextTitle}</span>
+        <span className="flow-card__context">
+          <span className="flow-card__context-icon" aria-hidden>
+            <FontAwesomeIcon icon={FLOW_CONTEXT_META[contextId].icon} />
+          </span>
+          {contextTitle}
+        </span>
         <span className="flow-card__title">{situation.cardTitle}</span>
         <span className="flow-card__meta">
           {stepCount}-step sequence · {situation.readMinutes} min read

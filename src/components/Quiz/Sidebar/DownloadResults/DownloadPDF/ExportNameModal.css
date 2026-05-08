@@ -1,0 +1,156 @@
+.export-name-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1500;
+  padding: 20px;
+  box-sizing: border-box;
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.export-name-modal {
+  width: min(460px, 100%);
+  max-height: min(85vh, 520px);
+  overflow-y: auto;
+  background: #fff;
+  color: #1e293b;
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+  box-shadow:
+    0 12px 48px rgba(15, 23, 42, 0.16),
+    0 0 0 1px rgba(15, 23, 42, 0.04);
+  padding: 22px 24px 20px;
+  box-sizing: border-box;
+}
+
+.export-name-title {
+  margin: 0 0 10px;
+  font-size: 1.125rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  color: #7d3dbd;
+}
+
+.export-name-message {
+  margin: 0 0 14px;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: #64748b;
+}
+
+.export-name-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.export-name-label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #334155;
+}
+
+.export-name-input {
+  width: 100%;
+  padding: 11px 12px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #0f172a;
+  box-sizing: border-box;
+}
+
+.export-name-input:focus {
+  outline: none;
+  background: #ffffff;
+  border-color: rgba(125, 61, 189, 0.55);
+  box-shadow: 0 0 0 3px rgba(125, 61, 189, 0.18);
+}
+
+.export-name-hint {
+  font-size: 0.82rem;
+  color: #64748b;
+  margin-top: -2px;
+}
+
+.export-name-actions {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-top: 16px;
+  margin-top: 6px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.export-name-btn {
+  padding: 9px 18px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  font-family: inherit;
+  transition:
+    background 120ms ease,
+    border-color 120ms ease,
+    color 120ms ease,
+    box-shadow 120ms ease,
+    filter 120ms ease;
+}
+
+.export-name-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(125, 61, 189, 0.25);
+}
+
+.export-name-btn--cancel {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+  color: #334155;
+}
+
+.export-name-btn--cancel:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+}
+
+.export-name-btn--confirm {
+  background: #7d3dbd;
+  color: #fff;
+  border-color: #622fa3;
+  border-bottom-width: 3px;
+  padding-bottom: 7px;
+  box-shadow: 0 1px 2px rgba(125, 61, 189, 0.2);
+}
+
+.export-name-btn--confirm:hover {
+  background: #6b2fa3;
+  filter: brightness(1.02);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .export-name-backdrop {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .export-name-btn {
+    transition: none;
+  }
+}
+

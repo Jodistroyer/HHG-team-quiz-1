@@ -65,12 +65,24 @@
 }
 
 .flow-card__context {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
   font-family: 'Montserrat', sans-serif;
   font-size: 0.625rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--flows-ink-tertiary, #94a3b8);
+}
+
+.flow-card__context-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  font-size: 0.75rem;
+  opacity: 0.9;
 }
 
 .flow-card__title {
