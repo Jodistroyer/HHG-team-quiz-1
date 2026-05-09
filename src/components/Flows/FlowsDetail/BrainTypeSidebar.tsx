@@ -5,7 +5,7 @@ import type { FlowsBrainProfile } from '../Flows'
 import '../../Quiz/Sidebar/Navigation/NavSection.css'
 import './BrainTypeSidebar.css'
 
-type BrainTypeSidebarItemId =
+export type BrainTypeSidebarItemId =
   | 'head-strong'
   | 'head-gut'
   | 'head-heart'
@@ -94,7 +94,7 @@ function groupBrain (groupId: 'head' | 'heart' | 'gut'): BrainKey {
   return 'Gut'
 }
 
-function profileToActiveId (profile: FlowsBrainProfile): BrainTypeSidebarItemId {
+export function profileToActiveId (profile: FlowsBrainProfile): BrainTypeSidebarItemId {
   const { dominant, secondary, tertiary } = profile
   if (tertiary) return 'balanced'
   if (!secondary) {
@@ -115,12 +115,11 @@ function profileToActiveId (profile: FlowsBrainProfile): BrainTypeSidebarItemId 
 }
 
 interface BrainTypeSidebarProps {
-  brainProfile: FlowsBrainProfile
+  activeId: BrainTypeSidebarItemId
+  onSelect: (id: BrainTypeSidebarItemId) => void
 }
 
-export const BrainTypeSidebar = ({ brainProfile }: BrainTypeSidebarProps) => {
-  const activeId = profileToActiveId(brainProfile)
-
+export const BrainTypeSidebar = ({ activeId, onSelect }: BrainTypeSidebarProps) => {
   const [openGroups, setOpenGroups] = useState({
     head: false,
     heart: false,
@@ -179,7 +178,7 @@ export const BrainTypeSidebar = ({ brainProfile }: BrainTypeSidebarProps) => {
                         type="button"
                         className={`nav-section-btn ${isActive ? 'is-current' : ''}`}
                         aria-current={isActive ? 'true' : undefined}
-                        // no click behavior yet; just visual grouping
+                        onClick={() => onSelect(item.id)}
                         style={{ ['--section-context-color' as never]: itemAccent(item.id) }}
                       >
                         <span className="nav-section-btn-icon braintype-sidebar__item-icons" aria-hidden>
@@ -212,6 +211,7 @@ export const BrainTypeSidebar = ({ brainProfile }: BrainTypeSidebarProps) => {
                 type="button"
                 className={`nav-section-btn ${activeId === 'balanced' ? 'is-current' : ''}`}
                 aria-current={activeId === 'balanced' ? 'true' : undefined}
+                onClick={() => onSelect('balanced')}
                 style={{ ['--section-context-color' as never]: itemAccent('balanced') }}
               >
                 <span className="nav-section-btn-icon braintype-sidebar__item-icons" aria-hidden>

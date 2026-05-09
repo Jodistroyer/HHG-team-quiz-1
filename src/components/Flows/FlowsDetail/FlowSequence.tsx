@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
+import { faArrowRight, faDiamond, faHeart, faSquare } from '@fortawesome/free-solid-svg-icons'
 import { BRAIN_PALETTE } from '../flowsContexts'
 import type { FlowSequenceStep } from '../flowsData'
 import './FlowSequence.css'
@@ -18,16 +18,23 @@ export const FlowSequence = ({ steps }: FlowSequenceProps) => {
     <div className="flow-sequence" aria-label="Sequence overview">
       {steps.map((step, index) => {
         const palette = BRAIN_PALETTE[step.brain]
+        const brainIcon =
+          step.brain === 'Head' ? faDiamond : step.brain === 'Heart' ? faHeart : faSquare
         return (
           <Fragment key={`${step.brain}-${index}`}>
             <div className="flow-sequence__step">
               <span
                 className="flow-sequence__num"
-                style={{ background: palette.soft, color: palette.ink }}
+                  style={{ ['--seq-accent' as never]: palette.color }}
               >
-                {index + 1}
+                <span className="flow-sequence__num-icon" aria-hidden>
+                  <FontAwesomeIcon icon={brainIcon} />
+                </span>
+                <span className="flow-sequence__num-text">{index + 1}</span>
               </span>
-              <span className="flow-sequence__brain">{step.brain}</span>
+                <span className="flow-sequence__brain" style={{ color: palette.color }}>
+                  {step.brain}
+                </span>
               <span className="flow-sequence__sub">{step.label}</span>
             </div>
             {index < steps.length - 1 && (
