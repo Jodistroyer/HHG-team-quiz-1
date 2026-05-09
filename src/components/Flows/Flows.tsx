@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { FlowsBrowse } from './FlowsBrowse/FlowsBrowse'
 import { FlowsContextPage } from './FlowsContextPage'
 import { FlowsDetail } from './FlowsDetail/FlowsDetail'
-import { FLOW_CONTEXTS, getSituation, type FlowContextId } from './flowsData'
+import { getSituation, type FlowContextId } from './flowsData'
 import type { BrainType } from './flowsData'
 import { consumePendingFlow } from './flowsNavigation'
 import { FlowsLibrarySidebar, type FlowsLibraryView } from './FlowsLibrarySidebar'
@@ -76,21 +76,6 @@ const Flows = () => {
 
   const goBrowse = () => setView({ kind: 'browse' })
 
-  const switchContext = (contextId: FlowContextId) => {
-    const next = FLOW_CONTEXTS.find((c) => c.id === contextId)
-    if (!next || next.situations.length === 0) return
-    setView({
-      kind: 'detail',
-      contextId,
-      situationId: next.situations[0]!.id,
-    })
-  }
-
-  const switchSituation = (situationId: string) => {
-    if (view.kind !== 'detail') return
-    setView({ ...view, situationId })
-  }
-
   return (
     <div className="flows">
       <div className="flows__layout">
@@ -141,8 +126,6 @@ const Flows = () => {
               contextId={view.contextId}
               situationId={view.situationId}
               onBack={goBrowse}
-              onSwitchContext={switchContext}
-              onSwitchSituation={switchSituation}
             />
           )}
         </main>

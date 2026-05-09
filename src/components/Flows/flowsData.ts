@@ -28,6 +28,8 @@ export interface FlowSituation {
   title: string
   /** Card title in the browse grid (usually a longer "How to..." sentence). */
   cardTitle: string
+  /** Optional one-line description shown under the card title. */
+  cardDescription?: string
   /** Used for "X min read" meta line on cards. */
   readMinutes: number
   /** Always 3 steps in Head/Heart/Gut order (re-orderable later per brain type). */
@@ -64,12 +66,13 @@ function makeSequence (
   ]
 }
 
-function makeSituation (id: string, title: string): FlowSituation {
+function makeSituation (id: string, title: string, cardDescription?: string): FlowSituation {
   return {
     id,
     title,
     /* Placeholder: in real content this is a longer "How to ..." sentence. */
     cardTitle: title,
+    cardDescription,
     readMinutes: 1,
     sequence: makeSequence(),
     whyText: PLACEHOLDER_WHY,
@@ -83,10 +86,10 @@ export const FLOW_CONTEXTS: FlowContext[] = [
     pageTitle: 'High-stress situations',
     contextLine: 'Time is tight, stakes are high, and consequences are immediate.',
     situations: [
-      makeSituation('speaking-to-authority', 'Speaking to authority'),
-      makeSituation('managing-overwhelm', 'Managing overwhelm'),
-      makeSituation('decision-making', 'Decision making'),
-      makeSituation('conflict-response', 'Conflict response'),
+      makeSituation('speaking-to-authority', 'Speaking to authority', 'Stay clear and steady under scrutiny.'),
+      makeSituation('managing-overwhelm', 'Managing overwhelm', 'Downshift fast when everything spikes.'),
+      makeSituation('decision-making', 'Decision making', 'Choose a next step when time is tight.'),
+      makeSituation('conflict-response', 'Conflict response', 'Respond without escalating the situation.'),
     ],
   },
   {
@@ -95,10 +98,10 @@ export const FLOW_CONTEXTS: FlowContext[] = [
     pageTitle: 'Work situations',
     contextLine: 'Normal execution mode. Just getting things done.',
     situations: [
-      makeSituation('deep-focus', 'Deep focus'),
-      makeSituation('handling-feedback', 'Handling feedback'),
-      makeSituation('collaboration-blocks', 'Collaboration blocks'),
-      makeSituation('perfectionism-loops', 'Perfectionism loops'),
+      makeSituation('deep-focus', 'Deep focus', 'Get into flow and protect your attention.'),
+      makeSituation('handling-feedback', 'Handling feedback', 'Take notes, stay open, act on what matters.'),
+      makeSituation('collaboration-blocks', 'Collaboration blocks', 'Unstick the work without blame or drift.'),
+      makeSituation('perfectionism-loops', 'Perfectionism loops', 'Ship progress without getting trapped.'),
     ],
   },
   {
@@ -107,10 +110,10 @@ export const FLOW_CONTEXTS: FlowContext[] = [
     pageTitle: 'Social situations',
     contextLine: 'Relationships and social dynamics.',
     situations: [
-      makeSituation('managing-social-energy', 'Managing social energy'),
-      makeSituation('difficult-conversations', 'Difficult conversations'),
-      makeSituation('group-dynamics', 'Group dynamics'),
-      makeSituation('setting-limits', 'Setting limits'),
+      makeSituation('managing-social-energy', 'Managing social energy', 'Stay present without burning out.'),
+      makeSituation('difficult-conversations', 'Difficult conversations', 'Say the hard thing with care and clarity.'),
+      makeSituation('group-dynamics', 'Group dynamics', 'Read the room and choose your role.'),
+      makeSituation('setting-limits', 'Setting limits', 'Hold boundaries without guilt or shutdown.'),
     ],
   },
   {
@@ -119,10 +122,10 @@ export const FLOW_CONTEXTS: FlowContext[] = [
     pageTitle: 'Growth situations',
     contextLine: 'Reflection, growth, and self-improvement over time.',
     situations: [
-      makeSituation('building-habits', 'Building habits'),
-      makeSituation('after-setbacks', 'After setbacks'),
-      makeSituation('self-regulation', 'Self-regulation'),
-      makeSituation('long-term-change', 'Long-term change'),
+      makeSituation('building-habits', 'Building habits', 'Make it easy to start and repeat.'),
+      makeSituation('after-setbacks', 'After setbacks', 'Reset quickly and keep momentum.'),
+      makeSituation('self-regulation', 'Self-regulation', 'Stabilize your state before you act.'),
+      makeSituation('long-term-change', 'Long-term change', 'Stay consistent when motivation fades.'),
     ],
   },
 ]

@@ -94,12 +94,36 @@
   letter-spacing: 0.005em;
 }
 
+.flow-card__desc {
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--flows-ink-soft, #64748b);
+  margin-top: -0.1rem;
+}
+
 .flow-card__meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
   font-size: 0.75rem;
   color: var(--flows-ink-soft, #64748b);
   margin-top: auto;
   line-height: 1.4;
   padding-right: 1.25rem;
+}
+
+.flow-card__meta-minutes {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.flow-card__meta-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  opacity: 0.9;
 }
 
 .flow-card__arrow {
