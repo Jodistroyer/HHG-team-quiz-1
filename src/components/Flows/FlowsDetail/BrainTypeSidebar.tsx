@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDiamond, faHeart, faSquare } from '@fortawesome/free-solid-svg-icons'
 import type { FlowsBrainProfile } from '../Flows'
+import { BRAIN_MUTED } from '../flowsContexts'
 import '../../Quiz/Sidebar/Navigation/NavSection.css'
 import './BrainTypeSidebar.css'
 
@@ -18,13 +19,6 @@ export type BrainTypeSidebarItemId =
   | 'balanced'
 
 type BrainKey = 'Head' | 'Heart' | 'Gut'
-
-// Muted palette (matches quiz combo badge feel)
-const BRAIN_MUTED: Record<BrainKey, string> = {
-  Head: '#2e6fa8',
-  Heart: '#bb3a3a',
-  Gut: '#3a8c57',
-}
 
 const GROUPS: {
   groupId: 'head' | 'heart' | 'gut'

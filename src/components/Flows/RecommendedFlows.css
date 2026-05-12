@@ -6,7 +6,6 @@
 .recommended-flows {
   margin-top: 1.5rem;
   padding-top: 1.25rem;
-  border-top: 1px solid #e2e8f0;
 }
 
 .recommended-flows__header {
@@ -88,13 +87,11 @@
   flex: 0 0 calc((100% - 1.5rem) / 2.5);
 }
 
-/* "See more" tile: matches the FlowCard footprint (white surface, soft border)
-   but with a centered CTA layout instead of metadata. */
+/* "See more" tile: matches the FlowCard footprint with a centered CTA layout. */
 .recommended-flows__see-more {
   width: 100%;
   min-height: 200px;
   background: #ffffff;
-  border: 1px dashed #cbd5e1;
   border-radius: 14px;
   padding: 0.95rem 1rem;
   display: flex;
@@ -106,12 +103,10 @@
   font-family: inherit;
   color: #7d3dbd;
   text-align: left;
-  transition: border-color 0.15s ease, transform 0.15s ease,
-    box-shadow 0.15s ease, background 0.15s ease;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
 }
 
 .recommended-flows__see-more:hover {
-  border-color: #7d3dbd;
   background: #faf8ff;
   transform: translateY(-1px);
   box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);

@@ -52,6 +52,24 @@ export const BRAIN_PALETTE: Record<BrainType, BrainPalette> = {
   Gut: { color: '#26890c', soft: '#E1F1DC', ink: '#185708' },
 }
 
+/**
+ * Muted Head / Heart / Gut (quiz-style). Used in Flows detail “How to do it”
+ * steps and the brain-type sidebar so icons don’t compete with the bright
+ * sequence strip.
+ */
+export const BRAIN_MUTED: Record<BrainType, string> = {
+  Head: 'rgb(46, 111, 168)',
+  Heart: '#bb3a3a',
+  Gut: '#3a8c57',
+}
+
+/** Slightly darker muted ink for step titles on white. */
+export const BRAIN_MUTED_INK: Record<BrainType, string> = {
+  Head: '#1f4a6e',
+  Heart: '#722929',
+  Gut: '#2a5234',
+}
+
 /** Brand purple used across the project (also `--qi-purple` in some CSS). */
 export const FLOWS_PURPLE = '#7d3dbd'
 export const FLOWS_PURPLE_DEEP = '#5c2d8a'

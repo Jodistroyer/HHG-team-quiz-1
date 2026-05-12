@@ -1,11 +1,27 @@
+/*
+ * Fixed to the viewport like `.flows-library` — clears the top navbar and does
+ * not scroll with the detail body.
+ */
 .braintype-sidebar {
+  position: fixed;
+  top: 5.25rem;
+  right: 2rem;
   width: 220px;
-  flex-shrink: 0;
-  background: var(--flows-surface-soft);
-  border-left: 1px solid var(--flows-border);
+  z-index: 5;
+  max-height: calc(100vh - 6.25rem);
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   padding: 1.25rem 0;
+  background: transparent;
+}
+
+@media (max-width: 900px) {
+  .braintype-sidebar {
+    top: 4.75rem;
+    right: 1rem;
+    max-height: calc(100vh - 5.75rem);
+  }
 }
 
 .braintype-sidebar__label {
@@ -38,11 +54,20 @@
 .braintype-sidebar__group-summary {
   list-style: none;
   cursor: pointer;
+  margin: 0 0.7rem;
   padding: 0.55rem 1.1rem 0.45rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   user-select: none;
+  border-radius: 8px;
+  background: transparent;
+  box-shadow: none;
+}
+
+.braintype-sidebar__group-summary:hover {
+  background: color-mix(in srgb, var(--brain-accent, #7d3dbd) 8%, transparent);
+  box-shadow: none;
 }
 
 .braintype-sidebar__group-summary::-webkit-details-marker {
@@ -88,19 +113,6 @@
   color: var(--brain-accent, #7d3dbd);
   font-size: 0.85rem;
   flex: 0 0 24px;
-}
-
-.braintype-sidebar__group-summary {
-  margin: 0 0.7rem;
-  border-radius: 12px;
-  background: #ffffff;
-  border: 1px solid rgba(226, 232, 240, 0.9);
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
-}
-
-.braintype-sidebar__group-summary:hover {
-  border-color: color-mix(in srgb, var(--brain-accent, #7d3dbd) 30%, rgba(226, 232, 240, 0.9));
-  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
 }
 
 .braintype-sidebar__balanced {
@@ -155,9 +167,13 @@
 
 @media (max-width: 768px) {
   .braintype-sidebar {
+    position: static;
+    top: auto;
+    right: auto;
     width: 100%;
-    border-left: none;
-    border-bottom: 1px solid var(--flows-border);
+    max-height: none;
+    overflow-y: visible;
+    z-index: auto;
     padding: 0.75rem 0;
   }
 
@@ -172,17 +188,6 @@
 
   .braintype-sidebar__group-summary {
     padding: 0.4rem 1rem;
-  }
-
-  .braintype-sidebar__item {
-    border-left: none;
-    padding: 0.5rem 1rem;
-  }
-
-  .braintype-sidebar__item--active {
-    border-left-color: transparent;
-    border-bottom: 2px solid var(--item-accent, var(--flows-purple));
-    background: color-mix(in srgb, var(--item-accent, #7d3dbd) 12%, transparent);
   }
 }
 

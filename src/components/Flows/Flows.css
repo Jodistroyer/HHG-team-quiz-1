@@ -50,7 +50,6 @@
 
 .flows-library-view {
   width: 100%;
-  border: 1px solid var(--flows-border);
   border-radius: 16px;
   background: var(--flows-surface);
   padding: 1.25rem 1.25rem 1.5rem;

@@ -9,7 +9,6 @@
   flex-direction: column;
   gap: 0.75rem;
   padding: 1rem;
-  border: 1px solid var(--flows-border);
   border-radius: 14px;
   background: var(--flows-surface);
   box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
@@ -86,7 +85,6 @@
     max-height: none;
     overflow: visible;
     z-index: 100;
-    border-bottom: 1px solid var(--flows-border);
   }
 
   /* Match the Quiz Results mobile bar height */
@@ -121,7 +119,6 @@
   justify-content: space-between;
   gap: 0.75rem;
   padding: 0.65rem 0.75rem;
-  border: 1px solid var(--flows-border);
   border-radius: 12px;
   background: var(--flows-surface);
   font-family: 'Montserrat', sans-serif;

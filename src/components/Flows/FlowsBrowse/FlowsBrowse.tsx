@@ -37,7 +37,7 @@ export const FlowsBrowse = ({
   return (
     <div className="flows-browse">
       <header className="flows-browse__header">
-        <h1 className="flows-browse__title">Flows</h1>
+        <h1 className="flows-browse__title">HHG Flows</h1>
         <p className="flows-browse__intro">
           Step-by-step sequences for the situations that matter, tuned to how
           your Head, Heart, and Gut work together.

@@ -238,18 +238,23 @@ export const FlowsDetail = ({
 
           <div className="flows-detail__body">
             <section className="flows-detail__section">
-              <h3 className="flows-detail__section-title">
-                Your sequence for this situation
-              </h3>
+
               <FlowSequence steps={sequenceSteps} />
             </section>
 
-            <section className="flows-detail__section">
-              <h3 className="flows-detail__section-title">What to do</h3>
-              <FlowSteps steps={steps} />
+            <section className="flows-detail__section flows-detail__section--why-order">
+              <WhyItWorks text={whyText} />
             </section>
 
-            <WhyItWorks text={whyText} />
+            <section
+              className="flows-detail__section flows-detail__section--what-to-do"
+              aria-labelledby="flows-detail-how-to-heading"
+            >
+              <h3 id="flows-detail-how-to-heading" className="flows-detail__section-title">
+                How to do it
+              </h3>
+              <FlowSteps steps={steps} />
+            </section>
           </div>
         </div>
 

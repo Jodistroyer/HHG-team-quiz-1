@@ -29,7 +29,7 @@ export interface FlowSequenceStep {
   label: string
   /** Step heading (e.g. "Clarify your intention before you walk in"). */
   title: string
-  /** One-paragraph description of what to do for this step. */
+  /** One-paragraph description of how to do this step. */
   body: string
 }
 
@@ -114,7 +114,7 @@ export const FLOW_CONTEXTS: FlowContext[] = [
         title: 'Speaking to authority',
         cardTitle: 'Speaking to authority',
         cardDescription: 'Stay clear and steady under scrutiny.',
-        readMinutes: 6,
+        readMinutes: 1,
         sequence: makeSequence(),
         whyText: PLACEHOLDER_WHY,
         variants: {

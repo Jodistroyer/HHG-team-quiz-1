@@ -2,7 +2,6 @@
   width: 220px;
   flex-shrink: 0;
   background: var(--flows-surface-soft);
-  border-right: 1px solid var(--flows-border);
   display: flex;
   flex-direction: column;
   padding: 1.25rem 0;
@@ -35,9 +34,8 @@
   color: var(--flows-ink-soft);
   border: none;
   background: transparent;
-  border-left: 2px solid transparent;
   text-align: left;
-  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  transition: background 0.15s ease, color 0.15s ease;
 }
 
 .context-sidebar__item:hover {
@@ -53,7 +51,6 @@
 .context-sidebar__item--active {
   background: var(--flows-surface);
   color: var(--flows-ink);
-  border-left-color: var(--flows-purple);
   font-weight: 700;
 }
 
@@ -82,8 +79,6 @@
 @media (max-width: 768px) {
   .context-sidebar {
     width: 100%;
-    border-right: none;
-    border-bottom: 1px solid var(--flows-border);
     padding: 0.75rem 0;
   }
 
@@ -101,15 +96,11 @@
 
   .context-sidebar__item {
     flex-shrink: 0;
-    border-left: none;
-    border-bottom: 2px solid transparent;
     padding: 0.45rem 0.75rem;
     border-radius: 8px;
   }
 
   .context-sidebar__item--active {
-    border-left-color: transparent;
-    border-bottom-color: var(--flows-purple);
     background: var(--flows-purple-soft);
   }
 }

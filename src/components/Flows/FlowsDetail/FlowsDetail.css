@@ -9,9 +9,9 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.4rem 0;
+  padding: 0.5rem 0;
   font-family: 'Montserrat', sans-serif;
-  font-size: 0.85rem;
+  font-size: 0.9375rem;
   font-weight: 700;
   letter-spacing: 0.02em;
   color: var(--flows-purple);
@@ -42,24 +42,25 @@
  */
 .flows-detail__shell {
   display: flex;
-  border: 1px solid var(--flows-border);
-  border-radius: 16px;
-  overflow: hidden;
-  background: var(--flows-surface);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 12px 40px rgba(0, 0, 0, 0.05);
-  min-height: 600px;
+  overflow: visible;
+  background: transparent;
+  box-shadow: none;
+  min-height: 0;
 }
 
 .flows-detail__main {
   flex: 1;
   min-width: 0;
+  min-height: 600px;
   display: flex;
   flex-direction: column;
+  background: var(--flows-surface);
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 12px 40px rgba(0, 0, 0, 0.05);
 }
 
 .flows-detail__top-bar {
   padding: 1.25rem 1.5rem 0;
-  border-bottom: 1px solid var(--flows-border);
   flex-shrink: 0;
 }
 
@@ -104,20 +105,21 @@
 }
 
 .flows-detail__archetype--right {
-  font-size: 0.9rem;
+  font-size: 1rem;
 }
 
 .flows-detail__context-heading {
   font-family: 'Montserrat', sans-serif;
-  font-size: 0.6875rem;
+  font-size: 0.8125rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--flows-ink-tertiary);
-  margin: 0 0 0.35rem;
+  color: var(--flows-ink-soft);
+  margin: 0 0 0.4rem;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  line-height: 1.4;
 }
 
 .flows-detail__context-heading-icon {
@@ -135,19 +137,20 @@
 
 .flows-detail__page-title {
   font-family: 'Montserrat', sans-serif;
-  font-size: 1.25rem;
+  font-size: clamp(1.3rem, 2.4vw, 1.5rem);
   font-weight: 700;
   color: var(--flows-ink);
   margin: 0 0 0.65rem;
   letter-spacing: 0.005em;
+  line-height: 1.3;
 }
 
 .flows-detail__page-desc {
   margin: 0 0 0.75rem;
-  font-size: 1.1rem;
-  line-height: 1.55;
-  color: var(--flows-ink-soft);
-  max-width: 70ch;
+  font-size: 1.125rem;
+  line-height: 1.65;
+  color: var(--flows-ink);
+  max-width: 68ch;
 }
 
 .flows-detail__body {
@@ -166,13 +169,14 @@
 
 .flows-detail__archetype {
   font-family: 'Montserrat', sans-serif;
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   font-weight: 800;
   color: var(--flows-ink);
   letter-spacing: 0.005em;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  line-height: 1.35;
 }
 
 .flows-detail__archetype-icons {
@@ -184,13 +188,12 @@
 .flows-detail__brain-badge {
   display: inline-flex;
   align-items: center;
-  padding: 0.28rem 0.7rem;
+  padding: 0.32rem 0.75rem;
   border-radius: 999px;
-  border: 4px solid rgb(255, 255, 255);
   background: var(--flows-purple);
   color: #fff;
   font-family: 'Montserrat', sans-serif;
-  font-size: 0.8rem;
+  font-size: 0.875rem;
   font-weight: 700;
   letter-spacing: 0.5px;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
@@ -208,16 +211,63 @@
 
 .flows-detail__section-title {
   font-family: 'Montserrat', sans-serif;
-  font-size: 1rem;
+  font-size: 1.125rem;
   font-weight: 700;
   color: var(--flows-ink);
   margin: 0;
   letter-spacing: 0.005em;
+  line-height: 1.35;
+}
+
+/* Readability: extra rhythm, framed block (“How to do it”). Centered stack. */
+.flows-detail__section--what-to-do {
+  gap: 1.1rem;
+  margin-top: 0.15rem;
+  padding: 1rem 1.15rem 1.35rem;
+  border-radius: 12px;
+  text-align: center;
+  align-items: center;
+}
+
+.flows-detail__section--what-to-do .flows-detail__section-title {
+  padding-bottom: 0.35rem;
+  width: 100%;
+  max-width: 70ch;
+  margin-inline: auto;
+}
+
+.flows-detail__section--what-to-do .flow-steps {
+  width: 100%;
+}
+
+/* “Why this order works for you” — centered stack; chrome lives on `.why-it-works`. */
+.flows-detail__section--why-order {
+  gap: 0.65rem;
+  /* Extra space after the horizontal flow sequence, before the star block */
+  margin-top: 1.35rem;
+  padding: 0;
+  text-align: center;
+  align-items: center;
+}
+
+.flows-detail__section--why-order .why-it-works__title {
+  margin: 0 0 0.65rem;
+  padding-bottom: 0.35rem;
+}
+
+.flows-detail__section--why-order .why-it-works__body {
+  max-width: 70ch;
+  margin-inline: auto;
 }
 
 @media (max-width: 768px) {
   .flows-detail__shell {
     flex-direction: column;
+    min-height: 0;
+    padding-right: 0;
+  }
+
+  .flows-detail__main {
     min-height: 0;
   }
 
@@ -247,5 +297,46 @@
 
   .flows-detail__body {
     padding: 1.1rem;
+  }
+
+  .flows-detail__section--what-to-do {
+    padding: 0.95rem 0.85rem 1.05rem;
+  }
+
+  .flows-detail__section--why-order {
+    padding: 0;
+  }
+}
+
+/* Reserve width for fixed brain-type rail; extra rhythm on desktop for How / Why blocks. */
+@media (min-width: 769px) {
+  .flows-detail__shell {
+    padding-right: 220px;
+  }
+
+  .flows-detail__body {
+    padding: 1.75rem 1.65rem 2.25rem;
+  }
+
+  .flows-detail__section--what-to-do {
+    gap: 1.65rem;
+    padding: 1.65rem 1.5rem 2.15rem;
+    margin-top: 0.35rem;
+  }
+
+  .flows-detail__section--what-to-do .flows-detail__section-title {
+    font-size: 1.3125rem;
+    padding-bottom: 0.6rem;
+  }
+
+  .flows-detail__section--why-order {
+    gap: 1.5rem;
+    padding: 0;
+    margin-top: 1.85rem;
+  }
+
+  .flows-detail__section--why-order .why-it-works__title {
+    margin: 0 0 0.85rem;
+    padding-bottom: 0.55rem;
   }
 }
