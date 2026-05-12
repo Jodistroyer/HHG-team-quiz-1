@@ -1,11 +1,16 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDiamond, faHeart, faSquare } from '@fortawesome/free-solid-svg-icons'
+import type { BrainTypeSidebarItemId } from './BrainTypeSidebar'
+import { FlowStepArt } from './FlowStepArt'
 import { BRAIN_MUTED, BRAIN_MUTED_INK } from '../flowsContexts'
-import type { FlowSequenceStep } from '../flowsData'
+import type { FlowContextId, FlowSequenceStep } from '../flowsData'
 import './FlowSteps.css'
 
 interface FlowStepsProps {
   steps: FlowSequenceStep[]
+  contextId: FlowContextId
+  situationId: string
+  variantId: BrainTypeSidebarItemId
 }
 
 function brainIconFor (brain: FlowSequenceStep['brain']) {
@@ -52,7 +57,7 @@ function FlowStepsBody ({ body }: { body: string }) {
  * Each row uses the same brain badge treatment as the horizontal sequence
  * (large tinted icon + step number).
  */
-export const FlowSteps = ({ steps }: FlowStepsProps) => {
+export const FlowSteps = ({ steps, contextId, situationId, variantId }: FlowStepsProps) => {
   return (
     <div className="flow-steps">
       {steps.map((step, index) => {
@@ -77,6 +82,15 @@ export const FlowSteps = ({ steps }: FlowStepsProps) => {
               <h4 className="flow-steps__title" style={{ color: titleInk }}>
                 {step.title}
               </h4>
+              <div className="flow-steps__art" aria-hidden>
+                <FlowStepArt
+                  contextId={contextId}
+                  situationId={situationId}
+                  variantId={variantId}
+                  stepIndex={index}
+                  brain={step.brain}
+                />
+              </div>
               <p className="flow-steps__body">
                 <FlowStepsBody body={step.body} />
               </p>

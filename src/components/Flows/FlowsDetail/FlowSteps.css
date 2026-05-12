@@ -14,10 +14,6 @@
   padding: 1.25rem 0.75rem 1.35rem;
 }
 
-.flow-steps__card:last-child {
-  padding-bottom: 0.35rem;
-}
-
 .flow-steps__badge {
   flex-shrink: 0;
   display: flex;
@@ -61,7 +57,7 @@
   text-shadow: 0 2px 8px rgba(15, 23, 42, 0.35);
 }
 
-/* Title + body column; bordered panel is only on `.flow-steps__body`. */
+/* Title + body column (no frame on body). */
 .flow-steps__main {
   min-width: 0;
   width: 100%;
@@ -83,17 +79,36 @@
   letter-spacing: 0.005em;
 }
 
-.flow-steps__body {
-  box-sizing: border-box;
+/* Step art: bespoke SVGs or fallback context art (no quiz-intro corner markers). */
+.flow-steps__art {
+  position: relative;
   width: 100%;
-  margin: 0;
-  padding: 1rem 1.15rem 1.2rem;
-  border: 2px solid var(--seq-accent, var(--flows-purple, #7d3dbd));
-  border-radius: 12px;
-  background: var(--flows-surface, #fff);
+  max-width: min(280px, 100%);
+  margin-inline: auto;
+  border-radius: 16px;
+  overflow: hidden;
+  line-height: 0;
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.06),
+    0 8px 22px rgba(15, 23, 42, 0.08);
+  aspect-ratio: 320 / 200;
+  display: flex;
+  align-items: stretch;
+}
+
+.flow-steps__art .quiz-intro-card__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  min-height: 0;
+}
+
+.flow-steps__body {
   font-size: 1rem;
   color: var(--flows-ink);
   line-height: 1.65;
+  margin: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -120,39 +135,65 @@
 
 @media (min-width: 769px) {
   .flow-steps {
-    gap: 2.25rem;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+    align-items: stretch;
     margin-top: 0.35rem;
   }
 
   .flow-steps__card {
-    gap: 1.35rem;
-    padding: 1.85rem 1.15rem 2.1rem;
+    gap: 1.65rem;
+    padding: 1.35rem 1rem 1.5rem;
+    height: 100%;
+    box-sizing: border-box;
+    background: var(--flows-surface, #fff);
+    border: 1px solid var(--flows-border, #e2e8f0);
+    border-radius: 12px;
+    box-shadow:
+      0 1px 3px rgba(0, 0, 0, 0.04),
+      0 8px 24px rgba(0, 0, 0, 0.05);
   }
 
   .flow-steps__main {
-    gap: 0.85rem;
+    gap: 1.3rem;
+    max-width: none;
+    flex: 1;
+    min-height: 0;
+    width: 100%;
   }
 
   .flow-steps__title {
     font-size: 1.1875rem;
     line-height: 1.45;
+    overflow-wrap: break-word;
   }
 
   .flow-steps__body {
-    padding: 1.2rem 1.35rem 1.45rem;
     font-size: 1.125rem;
-    line-height: 1.75;
-    gap: 0.75rem;
+    line-height: 1.7;
+    gap: 0.85rem;
+  }
+
+  .flow-steps__art {
+    max-width: 100%;
+    border-radius: 14px;
   }
 
   .flow-steps__num {
-    width: 60px;
-    height: 60px;
-    font-size: 1.15rem;
+    width: 56px;
+    height: 56px;
+    font-size: 1.1rem;
   }
 
   .flow-steps__num-icon {
-    font-size: 3rem;
+    font-size: 2.75rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .flow-steps__card:last-child {
+    padding-bottom: 0.35rem;
   }
 }
 

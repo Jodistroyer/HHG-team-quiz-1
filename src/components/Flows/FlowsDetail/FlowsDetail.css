@@ -219,21 +219,14 @@
   line-height: 1.35;
 }
 
-/* Readability: extra rhythm, framed block (“How to do it”). Centered stack. */
+/* Steps block: centered stack (no section heading). */
 .flows-detail__section--what-to-do {
-  gap: 1.1rem;
+  gap: 0.75rem;
   margin-top: 0.15rem;
   padding: 1rem 1.15rem 1.35rem;
   border-radius: 12px;
   text-align: center;
   align-items: center;
-}
-
-.flows-detail__section--what-to-do .flows-detail__section-title {
-  padding-bottom: 0.35rem;
-  width: 100%;
-  max-width: 70ch;
-  margin-inline: auto;
 }
 
 .flows-detail__section--what-to-do .flow-steps {
@@ -308,7 +301,7 @@
   }
 }
 
-/* Reserve width for fixed brain-type rail; extra rhythm on desktop for How / Why blocks. */
+/* Reserve width for fixed brain-type rail; extra rhythm on desktop for steps / Why blocks. */
 @media (min-width: 769px) {
   .flows-detail__shell {
     padding-right: 220px;
@@ -319,14 +312,9 @@
   }
 
   .flows-detail__section--what-to-do {
-    gap: 1.65rem;
+    gap: 1.1rem;
     padding: 1.65rem 1.5rem 2.15rem;
     margin-top: 0.35rem;
-  }
-
-  .flows-detail__section--what-to-do .flows-detail__section-title {
-    font-size: 1.3125rem;
-    padding-bottom: 0.6rem;
   }
 
   .flows-detail__section--why-order {

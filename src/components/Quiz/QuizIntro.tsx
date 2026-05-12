@@ -83,15 +83,15 @@ export function QuizIntro ({
         <div className="quiz-intro-columns">
           <div className="quiz-intro-columns__main">
             <header className="quiz-intro-hero">
-              <h1 className="quiz-intro-hero__title">Head Heart Gut Quiz</h1>
+              <h1 className="quiz-intro-hero__title">HHG Quiz (Head, Heart, Gut)</h1>
               <p className="quiz-intro-hero__subtitle">
                 A practical way to understand how someone decides, reacts, and moves forward. Use it for yourself, or use it to understand someone else.
               </p>
             </header>
 
             <section className="quiz-intro-copy" aria-label="What to expect">
-              <div className="quiz-intro-kicker">Start here</div>
-              <h2 className="quiz-intro-h1">In the Quiz, Pick up to 2 Answers.</h2>
+              <div className="quiz-intro-kicker">How to Do It</div>
+              <h2 className="quiz-intro-h1">In the Quiz, You May Pick up to 2 Answers.</h2>
               <p className="quiz-intro-lede">
                 Choose the situations that feel relevant right now. You can do one context or all four. Your results will reflect what you complete.
               </p>

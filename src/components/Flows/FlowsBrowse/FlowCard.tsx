@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowRight, faClock, faHourglassHalf } from '@fortawesome/free-solid-svg-icons'
+import { faArrowRight, faClock } from '@fortawesome/free-solid-svg-icons'
 import { CONTEXT_BACKGROUND, ContextCardArt } from '../../Quiz/ContextArt'
 import type { FlowContextId, FlowSituation } from '../flowsData'
 import { FLOW_CONTEXT_META } from '../flowsContexts'
@@ -19,7 +19,6 @@ interface FlowCardProps {
  * distinctly while the body still sits on the white surface used elsewhere.
  */
 export const FlowCard = ({ contextId, contextTitle, situation, onClick }: FlowCardProps) => {
-  const stepCount = situation.sequence.length
   const thumbBg = CONTEXT_BACKGROUND[contextId]
 
   return (

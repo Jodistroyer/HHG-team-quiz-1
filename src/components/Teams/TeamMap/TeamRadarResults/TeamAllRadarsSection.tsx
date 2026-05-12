@@ -1,7 +1,6 @@
 import type { CSSProperties } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChartPie } from '@fortawesome/free-solid-svg-icons'
-import { RadarChart } from './TeamRadarChart'
 import { TreemapChart } from '../../../Quiz/TreemapResults/TreemapChart'
 import { SECTION_ICONS, getBrainCombination } from '../../../Quiz/SectionResults/utils'
 import { CONTEXT_BACKGROUND, type QuizSelectedContextId } from '../../../Quiz/ContextArt'

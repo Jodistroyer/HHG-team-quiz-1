@@ -246,14 +246,13 @@ export const FlowsDetail = ({
               <WhyItWorks text={whyText} />
             </section>
 
-            <section
-              className="flows-detail__section flows-detail__section--what-to-do"
-              aria-labelledby="flows-detail-how-to-heading"
-            >
-              <h3 id="flows-detail-how-to-heading" className="flows-detail__section-title">
-                How to do it
-              </h3>
-              <FlowSteps steps={steps} />
+            <section className="flows-detail__section flows-detail__section--what-to-do" aria-label="How to do it">
+              <FlowSteps
+                steps={steps}
+                contextId={contextId}
+                situationId={situation.id}
+                variantId={selectedBrainId}
+              />
             </section>
           </div>
         </div>
