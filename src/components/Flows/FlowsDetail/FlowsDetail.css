@@ -260,6 +260,13 @@
     padding-right: 0;
   }
 
+  /* Brain type picker: same row as flows-library mobile — top of detail, before main card */
+  .flows-detail__shell > .braintype-sidebar {
+    order: -1;
+    flex: 0 0 auto;
+    width: 100%;
+  }
+
   .flows-detail__main {
     min-height: 0;
   }
@@ -269,7 +276,12 @@
   }
 
   .flows-detail__top-bar-header {
-    gap: 0.85rem;
+    display: grid;
+    grid-template-columns: 92px minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    align-items: start;
+    column-gap: 0.85rem;
+    row-gap: 0.65rem;
     padding-bottom: 0.85rem;
   }
 
@@ -277,15 +289,31 @@
     width: 92px;
     height: 68px;
     border-radius: 20px;
-    flex-basis: 92px;
+    flex: none;
+    grid-column: 1;
+    grid-row: 1;
   }
 
+  /* Full width beneath the art (and top-right badges), so title/description use the full bar */
   .flows-detail__top-bar-text {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    min-width: 0;
+    width: 100%;
     padding-right: 0;
   }
 
   .flows-detail__top-bar-right {
-    align-items: flex-start;
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 0;
+    justify-self: end;
+    align-items: flex-end;
+    padding-left: 0;
+  }
+
+  .flows-detail__page-desc {
+    max-width: none;
   }
 
   .flows-detail__body {

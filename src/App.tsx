@@ -6,11 +6,14 @@ import Brains from './components/Brains/Brains'
 import Teams from './components/Teams/Teams'
 import NavBar from './components/Navigation/NavBar'
 import { FLOWS_NAVIGATE_EVENT } from './components/Flows/flowsNavigation'
+import { useWindowWidth } from './hooks/useWindowWidth'
 import './App.css'
 
 function App() {
-  const NAV_STORAGE_KEY = 'hhg.nav.currentPage.v1'
   const [currentPage, setCurrentPage] = useState('quiz')
+  /** Flows (browse + detail) is layout-heavy; only subscribe to resize on that tab to keep resizing smooth elsewhere. */
+  const windowWidth = useWindowWidth({ active: currentPage === 'flows' })
+  const NAV_STORAGE_KEY = 'hhg.nav.currentPage.v1'
   /** Remember window scroll per top-level tab so switching NavBar items does not jump to the top. */
   const scrollPositionsRef = useRef<Record<string, { x: number; y: number }>>({})
 
@@ -82,7 +85,7 @@ function App() {
   }
 
   return (
-    <div className="app">
+    <div className="app" data-viewport-width={windowWidth}>
       <NavBar currentPage={currentPage} onNavigate={handleNavigate} />
       <div className="app-content">
         {renderPage()}

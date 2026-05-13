@@ -80,6 +80,15 @@
   .flows__content {
     margin-left: 0;
   }
+
+  /* Detail view: library mobile bar (nav-section-dropdown) scrolls away — avoids stacking over the brain-type bar */
+  .flows.flows--detail .flows-library {
+    position: static;
+    top: auto;
+    left: auto;
+    right: auto;
+    z-index: auto;
+  }
 }
 
 /* Shared building blocks (used by both Browse and Detail). */

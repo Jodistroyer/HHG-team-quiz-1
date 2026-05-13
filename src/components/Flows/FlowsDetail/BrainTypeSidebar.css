@@ -128,6 +128,48 @@
   opacity: 0.92;
 }
 
+.braintype-sidebar__item-icons--dropdown {
+  flex-shrink: 0;
+  font-size: 0.85rem;
+}
+
+/* Mobile: flows-library-style dropdown (hidden on desktop) */
+.braintype-sidebar__mobile {
+  display: none;
+}
+
+.braintype-sidebar__mobile-eyebrow {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--flows-ink-tertiary);
+  margin: 0 0 0.35rem;
+}
+
+.braintype-sidebar__mobile-section-title {
+  list-style: none;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--flows-ink-tertiary);
+  padding: 0.45rem 0.5rem 0.2rem;
+  margin: 0;
+}
+
+.braintype-sidebar__mobile-caret {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid #7d3dbd;
+  flex-shrink: 0;
+  margin-left: 0.5rem;
+}
+
 /* Match Flows Library sizing (override nav-section defaults) */
 .braintype-sidebar .nav-section-list {
   gap: 4px;
@@ -167,27 +209,43 @@
 
 @media (max-width: 768px) {
   .braintype-sidebar {
-    position: static;
-    top: auto;
+    position: sticky;
+    top: 0;
     right: auto;
     width: 100%;
     max-height: none;
-    overflow-y: visible;
-    z-index: auto;
-    padding: 0.75rem 0;
+    overflow: visible;
+    /* Below `.nav-section-dropdown-panel` (z-index: 100) so library / quiz dropdowns stay on top */
+    z-index: 50;
+    padding: 8px 12px;
+    background: var(--flows-surface);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    border-radius: 0;
   }
 
-  .braintype-sidebar__label {
-    padding: 0 1rem;
-    margin-bottom: 0.4rem;
+  .braintype-sidebar__mobile {
+    display: block;
   }
 
-  .braintype-sidebar__groups {
-    gap: 0.25rem;
+  .braintype-sidebar__desktop {
+    display: none;
   }
 
-  .braintype-sidebar__group-summary {
-    padding: 0.4rem 1rem;
+  .braintype-sidebar .nav-section-dropdown-trigger {
+    padding: 8px 10px;
+    font-size: 0.85rem;
+    border-radius: 10px;
+  }
+
+  .braintype-sidebar .nav-section-dropdown-trigger-label {
+    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .braintype-sidebar .nav-section-dropdown-item {
+    font-size: 0.8125rem;
   }
 }
 

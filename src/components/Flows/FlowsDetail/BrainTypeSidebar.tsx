@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDiamond, faHeart, faSquare } from '@fortawesome/free-solid-svg-icons'
 import type { FlowsBrainProfile } from '../Flows'
@@ -88,6 +88,62 @@ function groupBrain (groupId: 'head' | 'heart' | 'gut'): BrainKey {
   return 'Gut'
 }
 
+function labelForId (id: BrainTypeSidebarItemId): string {
+  if (id === 'balanced') return BALANCED_ITEM.label
+  for (const g of GROUPS) {
+    const it = g.items.find((i) => i.id === id)
+    if (it) return it.label
+  }
+  return 'Brain type'
+}
+
+function ItemIcons ({
+  itemId,
+  group,
+}: {
+  itemId: BrainTypeSidebarItemId
+  group?: (typeof GROUPS)[number]
+}) {
+  if (itemId === 'balanced') {
+    return (
+      <span className="braintype-sidebar__item-icons braintype-sidebar__item-icons--dropdown" aria-hidden>
+        {itemBrains('balanced').map((brain) => (
+          <FontAwesomeIcon key={brain} icon={brainIcon(brain)} style={{ color: BRAIN_MUTED[brain] }} />
+        ))}
+      </span>
+    )
+  }
+  if (!group) return null
+  const groupLead = groupBrain(group.groupId)
+  const brains = itemBrains(itemId).filter((brain) => brain !== groupLead)
+  const showGroupIconForStrong =
+    brains.length === 0 && itemId === `${group.groupId}-strong`
+  const groupColor =
+    group.groupId === 'head'
+      ? BRAIN_MUTED.Head
+      : group.groupId === 'heart'
+        ? BRAIN_MUTED.Heart
+        : BRAIN_MUTED.Gut
+  const groupIcon =
+    group.groupId === 'head' ? faDiamond : group.groupId === 'heart' ? faHeart : faSquare
+
+  return (
+    <span className="braintype-sidebar__item-icons braintype-sidebar__item-icons--dropdown" aria-hidden>
+      {showGroupIconForStrong ? (
+        <FontAwesomeIcon icon={groupIcon} style={{ color: groupColor }} />
+      ) : (
+        brains.map((brain, idx) => (
+          <FontAwesomeIcon
+            key={`${itemId}-${brain}-${idx}`}
+            icon={brainIcon(brain)}
+            style={{ color: BRAIN_MUTED[brain] }}
+          />
+        ))
+      )}
+    </span>
+  )
+}
+
 export function profileToActiveId (profile: FlowsBrainProfile): BrainTypeSidebarItemId {
   const { dominant, secondary, tertiary } = profile
   if (tertiary) return 'balanced'
@@ -120,8 +176,97 @@ export const BrainTypeSidebar = ({ activeId, onSelect }: BrainTypeSidebarProps) 
     gut: false,
   })
 
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const mobileRef = useRef<HTMLDivElement>(null)
+
+  const activeGroup = useMemo(
+    () => GROUPS.find((g) => g.items.some((i) => i.id === activeId)),
+    [activeId]
+  )
+  const activeLabel = labelForId(activeId)
+
+  useEffect(() => {
+    if (!mobileOpen) return
+    const handleClickOutside = (e: MouseEvent) => {
+      if (mobileRef.current && !mobileRef.current.contains(e.target as Node)) {
+        setMobileOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [mobileOpen])
+
+  const selectAndCloseMobile = (id: BrainTypeSidebarItemId) => {
+    onSelect(id)
+    setMobileOpen(false)
+  }
+
   return (
     <aside className="braintype-sidebar" aria-label="Brain type options">
+      <div className="braintype-sidebar__mobile" ref={mobileRef}>
+        <p className="braintype-sidebar__mobile-eyebrow">Brain type</p>
+        <div className="nav-section-dropdown">
+          <button
+            type="button"
+            className="nav-section-dropdown-trigger"
+            onClick={() => setMobileOpen((o) => !o)}
+            aria-expanded={mobileOpen}
+            aria-haspopup="listbox"
+            aria-label={`Brain type: ${activeLabel}`}
+            style={{ ['--section-context-color' as never]: itemAccent(activeId) }}
+          >
+            <span className="nav-section-dropdown-trigger-label">
+              <ItemIcons itemId={activeId} group={activeGroup} />
+              <span className="nav-section-btn-label">{activeLabel}</span>
+            </span>
+            <span className="braintype-sidebar__mobile-caret" aria-hidden />
+          </button>
+          {mobileOpen && (
+            <ul className="nav-section-dropdown-panel" role="listbox">
+              {GROUPS.map((group) => (
+                <Fragment key={group.groupId}>
+                  <li className="braintype-sidebar__mobile-section-title" role="presentation">
+                    {group.title}
+                  </li>
+                  {group.items.map((item) => {
+                    const isActive = item.id === activeId
+                    return (
+                      <li key={item.id} role="option" aria-selected={isActive}>
+                        <button
+                          type="button"
+                          className={`nav-section-dropdown-item ${isActive ? 'is-current' : ''}`}
+                          onClick={() => selectAndCloseMobile(item.id)}
+                          style={{ ['--section-context-color' as never]: itemAccent(item.id) }}
+                        >
+                          <ItemIcons itemId={item.id} group={group} />
+                          <span className="nav-section-btn-label">{item.label}</span>
+                        </button>
+                      </li>
+                    )
+                  })}
+                </Fragment>
+              ))}
+              <li className="nav-section-divider" aria-hidden="true" />
+              <li className="braintype-sidebar__mobile-section-title" role="presentation">
+                Balanced
+              </li>
+              <li role="option" aria-selected={activeId === 'balanced'}>
+                <button
+                  type="button"
+                  className={`nav-section-dropdown-item ${activeId === 'balanced' ? 'is-current' : ''}`}
+                  onClick={() => selectAndCloseMobile('balanced')}
+                  style={{ ['--section-context-color' as never]: itemAccent('balanced') }}
+                >
+                  <ItemIcons itemId="balanced" />
+                  <span className="nav-section-btn-label">{BALANCED_ITEM.label}</span>
+                </button>
+              </li>
+            </ul>
+          )}
+        </div>
+      </div>
+
+      <div className="braintype-sidebar__desktop">
       <p className="braintype-sidebar__label">Brain type</p>
       <div className="braintype-sidebar__groups">
         {GROUPS.map((group) => {
@@ -222,6 +367,7 @@ export const BrainTypeSidebar = ({ activeId, onSelect }: BrainTypeSidebarProps) 
             </li>
           </ul>
         </div>
+      </div>
       </div>
     </aside>
   )

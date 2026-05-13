@@ -77,7 +77,7 @@ const Flows = () => {
   const goBrowse = () => setView({ kind: 'browse' })
 
   return (
-    <div className="flows">
+    <div className={view.kind === 'detail' ? 'flows flows--detail' : 'flows'}>
       <div className="flows__layout">
         <FlowsLibrarySidebar
           activeView={libraryView}
