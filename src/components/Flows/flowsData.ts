@@ -11,22 +11,29 @@
 export * from './FlowsData/flowTypes'
 
 import type { FlowContext, FlowContextId, FlowSituation } from './FlowsData/flowTypes'
-import { afterSetbacksFlowSituation } from './FlowsData/FlowsGettingBetter/afterSetbacks'
-import { buildingHabitsFlowSituation } from './FlowsData/FlowsGettingBetter/buildingHabits'
-import { longTermChangeFlowSituation } from './FlowsData/FlowsGettingBetter/longTermChange'
-import { selfRegulationFlowSituation } from './FlowsData/FlowsGettingBetter/selfRegulation'
-import { collaborationBlocksFlowSituation } from './FlowsData/FlowsDoingWork/collaborationBlocks'
-import { deepFocusFlowSituation } from './FlowsData/FlowsDoingWork/deepFocus'
-import { handlingFeedbackFlowSituation } from './FlowsData/FlowsDoingWork/handlingFeedback'
-import { perfectionismLoopsFlowSituation } from './FlowsData/FlowsDoingWork/perfectionismLoops'
+// import { afterSetbacksFlowSituation } from './FlowsData/FlowsGettingBetter/afterSetbacks'
+// import { buildingHabitsFlowSituation } from './FlowsData/FlowsGettingBetter/buildingHabits'
+import { dealingWithGriefFlowSituation } from './FlowsData/FlowsGettingBetter/dealingWithGrief.tsx'
+import { learningStyleFlowSituation } from './FlowsData/FlowsGettingBetter/learningStyle.tsx'
+// import { longTermChangeFlowSituation } from './FlowsData/FlowsGettingBetter/longTermChange'
+// import { selfRegulationFlowSituation } from './FlowsData/FlowsGettingBetter/selfRegulation'
+import { burnoutLoopFlowSituation } from './FlowsData/FlowsDoingWork/burnoutLoop.tsx'
+import { burnoutRecoveryFlowSituation } from './FlowsData/FlowsDoingWork/burnoutRecovery.tsx'
+import { stayOrGoFlowSituation } from './FlowsData/FlowsDoingWork/stayorgo.tsx'
+import { thriveZoneFlowSituation } from './FlowsData/FlowsDoingWork/thriveZone.tsx'
+// import { collaborationBlocksFlowSituation } from './FlowsData/FlowsDoingWork/collaborationBlocks'
+// import { deepFocusFlowSituation } from './FlowsData/FlowsDoingWork/deepFocus'
+// import { handlingFeedbackFlowSituation } from './FlowsData/FlowsDoingWork/handlingFeedback'
+// import { perfectionismLoopsFlowSituation } from './FlowsData/FlowsDoingWork/perfectionismLoops'
 import { conflictResponseFlowSituation } from './FlowsData/FlowsUnderPressure/conflictResponse'
-import { decisionMakingFlowSituation } from './FlowsData/FlowsUnderPressure/decisionMaking'
-import { managingOverwhelmFlowSituation } from './FlowsData/FlowsUnderPressure/managingOverwhelm'
+// import { decisionMakingFlowSituation } from './FlowsData/FlowsUnderPressure/decisionMaking'
+// import { managingOverwhelmFlowSituation } from './FlowsData/FlowsUnderPressure/managingOverwhelm'
 import { speakingToAuthorityFlowSituation } from './FlowsData/FlowsUnderPressure/speakingToAuthority.tsx'
-import { difficultConversationsFlowSituation } from './FlowsData/FlowsWithPeople/difficultConversations'
-import { groupDynamicsFlowSituation } from './FlowsData/FlowsWithPeople/groupDynamics'
+// import { difficultConversationsFlowSituation } from './FlowsData/FlowsWithPeople/difficultConversations'
+// import { groupDynamicsFlowSituation } from './FlowsData/FlowsWithPeople/groupDynamics'
 import { managingSocialEnergyFlowSituation } from './FlowsData/FlowsWithPeople/managingSocialEnergy'
-import { settingLimitsFlowSituation } from './FlowsData/FlowsWithPeople/settingLimits'
+import { relationshipNeedsFlowSituation } from './FlowsData/FlowsWithPeople/relationshipNeeds'
+// import { settingLimitsFlowSituation } from './FlowsData/FlowsWithPeople/settingLimits'
 
 export const FLOW_CONTEXTS: FlowContext[] = [
   {
@@ -36,8 +43,8 @@ export const FLOW_CONTEXTS: FlowContext[] = [
     contextLine: 'Time is tight, stakes are high, and consequences are immediate.',
     situations: [
       speakingToAuthorityFlowSituation,
-      managingOverwhelmFlowSituation,
-      decisionMakingFlowSituation,
+      // managingOverwhelmFlowSituation,
+      // decisionMakingFlowSituation,
       conflictResponseFlowSituation,
     ],
   },
@@ -47,10 +54,14 @@ export const FLOW_CONTEXTS: FlowContext[] = [
     pageTitle: 'Work situations',
     contextLine: 'Normal execution mode. Just getting things done.',
     situations: [
-      deepFocusFlowSituation,
-      handlingFeedbackFlowSituation,
-      collaborationBlocksFlowSituation,
-      perfectionismLoopsFlowSituation,
+      // deepFocusFlowSituation,
+      // handlingFeedbackFlowSituation,
+      // collaborationBlocksFlowSituation,
+      // perfectionismLoopsFlowSituation,
+      burnoutLoopFlowSituation,
+      burnoutRecoveryFlowSituation,
+      stayOrGoFlowSituation,
+      thriveZoneFlowSituation,
     ],
   },
   {
@@ -60,9 +71,10 @@ export const FLOW_CONTEXTS: FlowContext[] = [
     contextLine: 'Relationships and social dynamics.',
     situations: [
       managingSocialEnergyFlowSituation,
-      difficultConversationsFlowSituation,
-      groupDynamicsFlowSituation,
-      settingLimitsFlowSituation,
+      relationshipNeedsFlowSituation,
+      // difficultConversationsFlowSituation,
+      // groupDynamicsFlowSituation,
+      // settingLimitsFlowSituation,
     ],
   },
   {
@@ -71,10 +83,12 @@ export const FLOW_CONTEXTS: FlowContext[] = [
     pageTitle: 'Growth situations',
     contextLine: 'Reflection, growth, and self-improvement over time.',
     situations: [
-      buildingHabitsFlowSituation,
-      afterSetbacksFlowSituation,
-      selfRegulationFlowSituation,
-      longTermChangeFlowSituation,
+      // buildingHabitsFlowSituation,
+      // afterSetbacksFlowSituation,
+      // selfRegulationFlowSituation,
+      // longTermChangeFlowSituation,
+      learningStyleFlowSituation,
+      dealingWithGriefFlowSituation,
     ],
   },
 ]
