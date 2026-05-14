@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight, faClock } from '@fortawesome/free-solid-svg-icons'
-import { CONTEXT_BACKGROUND, ContextCardArt } from '../../Quiz/ContextArt'
+import { CONTEXT_BACKGROUND } from '../../Quiz/ContextArt'
+import { FlowSituationCardArt } from '../FlowSituationCardArt'
 import type { FlowContextId, FlowSituation } from '../flowsData'
 import { FLOW_CONTEXT_META } from '../flowsContexts'
 import './FlowCard.css'
@@ -28,7 +29,7 @@ export const FlowCard = ({ contextId, contextTitle, situation, onClick }: FlowCa
         style={{ background: thumbBg }}
         aria-hidden
       >
-        <ContextCardArt id={contextId} />
+        <FlowSituationCardArt contextId={contextId} situationId={situation.id} />
       </span>
       <span className="flow-card__body">
         <span className="flow-card__context">

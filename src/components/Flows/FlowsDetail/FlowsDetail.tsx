@@ -7,7 +7,8 @@ import { FlowSteps } from './FlowSteps'
 import { WhyItWorks } from './WhyItWorks'
 import { getContextById, getSituation, type FlowContextId } from '../flowsData'
 import { FLOW_CONTEXT_META } from '../flowsContexts'
-import { ContextCardArt, CONTEXT_BACKGROUND } from '../../Quiz/ContextArt'
+import { CONTEXT_BACKGROUND } from '../../Quiz/ContextArt'
+import { FlowSituationCardArt } from '../FlowSituationCardArt'
 import type { FlowsBrainProfile } from '../Flows'
 import './FlowsDetail.css'
 
@@ -204,7 +205,7 @@ export const FlowsDetail = ({
                 style={{ background: CONTEXT_BACKGROUND[contextId] }}
                 aria-hidden
               >
-                <ContextCardArt id={contextId} />
+                <FlowSituationCardArt contextId={contextId} situationId={situationId} />
               </div>
 
               <div className="flows-detail__top-bar-text">
