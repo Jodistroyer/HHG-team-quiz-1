@@ -8,6 +8,10 @@ import {
   SPEAKING_TO_AUTHORITY_SITUATION_ID,
   SpeakingToAuthorityCardArt,
 } from './FlowsData/FlowsUnderPressure/speakingToAuthority.tsx'
+import {
+  BurnoutLoopCardArt,
+} from './FlowsData/FlowsDoingWork/burnoutLoopArt.tsx'
+import { BURNOUT_LOOP_SITUATION_ID } from './FlowsData/FlowsDoingWork/burnoutLoop.tsx'
 
 function isSpeakingToAuthorityCard (contextId: FlowContextId, situationId: string) {
   return contextId === 1 && situationId === SPEAKING_TO_AUTHORITY_SITUATION_ID
@@ -15,6 +19,10 @@ function isSpeakingToAuthorityCard (contextId: FlowContextId, situationId: strin
 
 function isConflictResponseCard (contextId: FlowContextId, situationId: string) {
   return contextId === 1 && situationId === CONFLICT_RESPONSE_SITUATION_ID
+}
+
+function isBurnoutLoopCard (contextId: FlowContextId, situationId: string) {
+  return contextId === 2 && situationId === BURNOUT_LOOP_SITUATION_ID
 }
 
 /**
@@ -33,6 +41,9 @@ export function FlowSituationCardArt ({
   }
   if (isConflictResponseCard(contextId, situationId)) {
     return <ConflictResponseCardArt />
+  }
+  if (isBurnoutLoopCard(contextId, situationId)) {
+    return <BurnoutLoopCardArt />
   }
   return <ContextCardArt id={contextId} />
 }
