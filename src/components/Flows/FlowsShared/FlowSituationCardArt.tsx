@@ -1,17 +1,17 @@
-import { ContextCardArt } from '../Quiz/ContextArt'
-import type { FlowContextId } from './flowsData'
+import { ContextCardArt } from '../../Quiz/ContextArt'
+import type { FlowContextId } from '../flowsData'
 import {
   CONFLICT_RESPONSE_SITUATION_ID,
   ConflictResponseCardArt,
-} from './FlowsData/FlowsUnderPressure/conflictResponse.tsx'
+} from '../FlowsData/FlowsUnderPressure/conflictResponse.tsx'
 import {
   SPEAKING_TO_AUTHORITY_SITUATION_ID,
   SpeakingToAuthorityCardArt,
-} from './FlowsData/FlowsUnderPressure/speakingToAuthority.tsx'
+} from '../FlowsData/FlowsUnderPressure/speakingToAuthority.tsx'
 import {
   BurnoutLoopCardArt,
-} from './FlowsData/FlowsDoingWork/burnoutLoopArt.tsx'
-import { BURNOUT_LOOP_SITUATION_ID } from './FlowsData/FlowsDoingWork/burnoutLoop.tsx'
+} from '../FlowsData/FlowsDoingWork/burnoutLoopArt.tsx'
+import { BURNOUT_LOOP_SITUATION_ID } from '../FlowsData/FlowsDoingWork/burnoutLoop.tsx'
 
 function isSpeakingToAuthorityCard (contextId: FlowContextId, situationId: string) {
   return contextId === 1 && situationId === SPEAKING_TO_AUTHORITY_SITUATION_ID

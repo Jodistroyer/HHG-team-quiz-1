@@ -1,10 +1,10 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDiamond, faHeart, faSquare } from '@fortawesome/free-solid-svg-icons'
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
-import { BRAIN_PALETTE } from '../flowsContexts'
-import { OVERALL_ARCHETYPES } from '../../Quiz/overallArchetypes'
-import type { BrainType } from '../flowsData'
-import type { FlowsBrainProfile } from '../Flows'
+import { BRAIN_PALETTE } from '../../flowsContexts'
+import { OVERALL_ARCHETYPES } from '../../../Quiz/overallArchetypes'
+import type { BrainType } from '../../flowsData'
+import type { FlowsBrainProfile } from '../../flowsTypes'
 import './BrainTypeHero.css'
 
 const BRAIN_ICONS: Record<BrainType, IconDefinition> = {
@@ -17,10 +17,6 @@ interface BrainTypeHeroProps {
   brainProfile: FlowsBrainProfile
 }
 
-/**
- * Resolves a `FlowsBrainProfile` to the same key used by `OVERALL_ARCHETYPES`
- * in QuizResults so we can reuse the archetype label (e.g. "Diplomat").
- */
 function brainComboLabel ({ dominant, secondary, tertiary }: FlowsBrainProfile): string {
   if (!secondary) return `${dominant} Strong`
   if (tertiary) return 'Head + Heart + Gut'

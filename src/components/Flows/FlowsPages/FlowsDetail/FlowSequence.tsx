@@ -1,8 +1,8 @@
 import { Fragment } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight, faDiamond, faHeart, faSquare } from '@fortawesome/free-solid-svg-icons'
-import { BRAIN_PALETTE } from '../flowsContexts'
-import type { FlowSequenceStep } from '../flowsData'
+import { BRAIN_PALETTE } from '../../flowsContexts'
+import type { FlowSequenceStep } from '../../flowsData'
 import './FlowSequence.css'
 
 interface FlowSequenceProps {

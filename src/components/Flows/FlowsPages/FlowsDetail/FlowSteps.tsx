@@ -2,8 +2,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDiamond, faHeart, faSquare } from '@fortawesome/free-solid-svg-icons'
 import type { BrainTypeSidebarItemId } from './BrainTypeSidebar'
 import { FlowStepArt } from './FlowStepArt'
-import { BRAIN_MUTED, BRAIN_MUTED_INK } from '../flowsContexts'
-import type { FlowContextId, FlowSequenceStep } from '../flowsData'
+import { BRAIN_MUTED, BRAIN_MUTED_INK } from '../../flowsContexts'
+import type { FlowContextId, FlowSequenceStep } from '../../flowsData'
 import './FlowSteps.css'
 
 interface FlowStepsProps {

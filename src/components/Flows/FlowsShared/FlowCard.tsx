@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight, faClock } from '@fortawesome/free-solid-svg-icons'
 import { CONTEXT_BACKGROUND } from '../../Quiz/ContextArt'
-import { FlowSituationCardArt } from '../FlowSituationCardArt'
+import { FlowSituationCardArt } from './FlowSituationCardArt'
 import type { FlowContextId, FlowSituation } from '../flowsData'
 import { FLOW_CONTEXT_META } from '../flowsContexts'
 import './FlowCard.css'
@@ -15,9 +15,7 @@ interface FlowCardProps {
 
 /**
  * Single flow situation as a clickable card.
- * Layout: edge-to-edge SVG thumbnail on top, padded body below. The thumbnail
- * background is per-context (warm/cool/pink/green) so the four contexts read
- * distinctly while the body still sits on the white surface used elsewhere.
+ * Layout: edge-to-edge SVG thumbnail on top, padded body below.
  */
 export const FlowCard = ({ contextId, contextTitle, situation, onClick }: FlowCardProps) => {
   const thumbBg = CONTEXT_BACKGROUND[contextId]
@@ -43,7 +41,6 @@ export const FlowCard = ({ contextId, contextTitle, situation, onClick }: FlowCa
           <span className="flow-card__desc">{situation.cardDescription}</span>
         ) : null}
         <span className="flow-card__meta">
-
           <span className="flow-card__meta-minutes">
             <span className="flow-card__meta-icon" aria-hidden>
               <FontAwesomeIcon icon={faClock} />

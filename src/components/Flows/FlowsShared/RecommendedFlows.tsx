@@ -1,8 +1,8 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight, faDiagramProject } from '@fortawesome/free-solid-svg-icons'
-import { FlowCard } from './FlowsBrowse/FlowCard'
-import { getContextById, type FlowContextId } from './flowsData'
-import { requestOpenFlow, requestOpenFlowsContext } from './flowsNavigation'
+import { FlowCard } from './FlowCard'
+import { getContextById, type FlowContextId } from '../flowsData'
+import { requestOpenFlow, requestOpenFlowsContext } from '../flowsNavigation'
 import './RecommendedFlows.css'
 
 interface RecommendedFlowsProps {

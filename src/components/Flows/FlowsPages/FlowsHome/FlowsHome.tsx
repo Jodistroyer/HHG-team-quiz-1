@@ -1,34 +1,36 @@
 import { useEffect, type CSSProperties } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { BrainTypeHero } from './BrainTypeHero'
-import { FlowCard } from './FlowCard'
-import { FLOW_CONTEXTS, type FlowContextId } from '../flowsData'
-import { FLOW_CONTEXT_META } from '../flowsContexts'
-import { ContextArtThumb, CONTEXT_BACKGROUND, type QuizSelectedContextId } from '../../Quiz/ContextArt'
-import type { FlowsBrainProfile } from '../Flows'
-import './FlowsBrowse.css'
+import { FlowCard } from '../../FlowsShared/FlowCard'
+import { FLOW_CONTEXTS, type FlowContextId } from '../../flowsData'
+import { FLOW_CONTEXT_META } from '../../flowsContexts'
+import { ContextArtThumb, CONTEXT_BACKGROUND, type QuizSelectedContextId } from '../../../Quiz/ContextArt'
+import type { FlowsBrainProfile } from '../../flowsTypes'
+import './FlowsHome.css'
 
-interface FlowsBrowseProps {
+interface FlowsHomeProps {
   brainProfile: FlowsBrainProfile
   onOpenSituation: (contextId: FlowContextId, situationId: string) => void
   /** When set, the corresponding context section scrolls into view on mount. */
   scrollToContextId?: FlowContextId | null
 }
 
-export function flowsBrowseSectionId (contextId: FlowContextId): string {
+export function flowsHomeSectionId (contextId: FlowContextId): string {
   return `flows-context-${contextId}`
 }
 
-export const FlowsBrowse = ({
+/** @deprecated Use `flowsHomeSectionId` — kept for deep-link scroll targets. */
+export const flowsBrowseSectionId = flowsHomeSectionId
+
+export const FlowsHome = ({
   brainProfile,
   onOpenSituation,
   scrollToContextId,
-}: FlowsBrowseProps) => {
+}: FlowsHomeProps) => {
   useEffect(() => {
     if (!scrollToContextId) return
-    const target = document.getElementById(flowsBrowseSectionId(scrollToContextId))
+    const target = document.getElementById(flowsHomeSectionId(scrollToContextId))
     if (!target) return
-    // Defer one frame so layout (gradient hero, art SVGs) settles before we scroll.
     requestAnimationFrame(() => {
       target.scrollIntoView({ behavior: 'smooth', block: 'start' })
     })
@@ -55,7 +57,7 @@ export const FlowsBrowse = ({
           return (
             <section
               key={ctx.id}
-              id={flowsBrowseSectionId(ctx.id)}
+              id={flowsHomeSectionId(ctx.id)}
               className="flows-browse__section"
               style={sectionStyle}
             >

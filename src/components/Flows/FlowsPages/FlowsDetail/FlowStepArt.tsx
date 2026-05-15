@@ -1,17 +1,17 @@
-import { ContextCardArt } from '../../Quiz/ContextArt'
-import type { FlowStepArtProps } from '../FlowsData/flowTypes'
+import { ContextCardArt } from '../../../Quiz/ContextArt'
+import type { FlowStepArtProps } from '../../FlowsData/flowTypes'
 import {
   CONFLICT_RESPONSE_SITUATION_ID,
   ConflictResponseStepArt,
-} from '../FlowsData/FlowsUnderPressure/conflictResponse.tsx'
+} from '../../FlowsData/FlowsUnderPressure/conflictResponse.tsx'
 import {
   SPEAKING_TO_AUTHORITY_SITUATION_ID,
   SpeakingToAuthorityStepArt,
-} from '../FlowsData/FlowsUnderPressure/speakingToAuthority.tsx'
-import { BurnoutLoopStepArt } from '../FlowsData/FlowsDoingWork/burnoutLoopArt.tsx'
-import { BURNOUT_LOOP_SITUATION_ID } from '../FlowsData/FlowsDoingWork/burnoutLoop.tsx'
+} from '../../FlowsData/FlowsUnderPressure/speakingToAuthority.tsx'
+import { BurnoutLoopStepArt } from '../../FlowsData/FlowsDoingWork/burnoutLoopArt.tsx'
+import { BURNOUT_LOOP_SITUATION_ID } from '../../FlowsData/FlowsDoingWork/burnoutLoop.tsx'
 
-export type { FlowStepArtProps } from '../FlowsData/flowTypes'
+export type { FlowStepArtProps } from '../../FlowsData/flowTypes'
 
 /**
  * Per-step hero art for “How to do it”. Each situation can supply bespoke SVGs;

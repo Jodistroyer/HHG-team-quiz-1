@@ -7,7 +7,7 @@ import { GettingBetter } from './Sections/GettingBetter'
 import { SECTION_ICONS } from './utils.tsx'
 import { SECTION_CONTEXT_BY_ID } from '../sectionContext'
 import { CONTEXT_BACKGROUND, ContextCardArt, type QuizSelectedContextId } from '../ContextArt'
-import { RecommendedFlows } from '../../Flows/RecommendedFlows'
+import { RecommendedFlows } from '../../Flows/FlowsShared/RecommendedFlows'
 import type { FlowContextId } from '../../Flows/flowsData'
 import './SectionCard.css'
 

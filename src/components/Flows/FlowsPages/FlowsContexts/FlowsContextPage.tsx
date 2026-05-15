@@ -1,11 +1,11 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { FlowCard } from './FlowsBrowse/FlowCard'
-import { getContextById, type FlowContextId } from './flowsData'
-import { FLOW_CONTEXT_META } from './flowsContexts'
-import { CONTEXT_BACKGROUND, ContextCardArt } from '../Quiz/ContextArt'
+import { FlowCard } from '../../FlowsShared/FlowCard'
+import { getContextById, type FlowContextId } from '../../flowsData'
+import { FLOW_CONTEXT_META } from '../../flowsContexts'
+import { CONTEXT_BACKGROUND, ContextCardArt } from '../../../Quiz/ContextArt'
 import './FlowsContextPage.css'
 
-interface FlowsContextPageProps {
+export interface FlowsContextPageProps {
   contextId: FlowContextId
   onOpenSituation: (contextId: FlowContextId, situationId: string) => void
 }
@@ -51,4 +51,3 @@ export const FlowsContextPage = ({ contextId, onOpenSituation }: FlowsContextPag
     </div>
   )
 }
-

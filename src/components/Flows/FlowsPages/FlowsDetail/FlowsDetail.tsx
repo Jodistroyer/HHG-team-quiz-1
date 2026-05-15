@@ -5,11 +5,11 @@ import { BrainTypeSidebar, profileToActiveId, type BrainTypeSidebarItemId } from
 import { FlowSequence } from './FlowSequence'
 import { FlowSteps } from './FlowSteps'
 import { WhyItWorks } from './WhyItWorks'
-import { getContextById, getSituation, type FlowContextId } from '../flowsData'
-import { FLOW_CONTEXT_META } from '../flowsContexts'
-import { CONTEXT_BACKGROUND } from '../../Quiz/ContextArt'
-import { FlowSituationCardArt } from '../FlowSituationCardArt'
-import type { FlowsBrainProfile } from '../Flows'
+import { getContextById, getSituation, type FlowContextId } from '../../flowsData'
+import { FLOW_CONTEXT_META } from '../../flowsContexts'
+import { CONTEXT_BACKGROUND } from '../../../Quiz/ContextArt'
+import { FlowSituationCardArt } from '../../FlowsShared/FlowSituationCardArt'
+import type { FlowsBrainProfile } from '../../flowsTypes'
 import './FlowsDetail.css'
 
 interface FlowsDetailProps {

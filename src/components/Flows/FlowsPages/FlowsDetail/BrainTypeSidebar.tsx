@@ -1,9 +1,9 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDiamond, faHeart, faSquare } from '@fortawesome/free-solid-svg-icons'
-import type { FlowsBrainProfile } from '../Flows'
-import { BRAIN_MUTED } from '../flowsContexts'
-import '../../Quiz/Sidebar/Navigation/NavSection.css'
+import type { FlowsBrainProfile } from '../../flowsTypes'
+import { BRAIN_MUTED } from '../../flowsContexts'
+import '../../../Quiz/Sidebar/Navigation/NavSection.css'
 import './BrainTypeSidebar.css'
 
 export type BrainTypeSidebarItemId =
