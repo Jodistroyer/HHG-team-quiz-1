@@ -1,0 +1,128 @@
+.brains-page {
+  max-width: 52rem;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 4rem;
+}
+
+.brains-page__header {
+  margin-bottom: 2.5rem;
+}
+
+.brains-page__title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  color: #7d3dbd;
+  margin: 0 0 0.75rem;
+  letter-spacing: -0.03em;
+}
+
+.brains-page__intro {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: #475569;
+  margin: 0 0 1.5rem;
+  max-width: 42ch;
+}
+
+.brains-page__toc {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(10.5rem, 1fr));
+  gap: 0.5rem;
+}
+
+.brains-page__toc-link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.65rem 0.75rem;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  text-decoration: none;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.brains-page__toc-link:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.brains-page__toc-archetype {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: #7d3dbd;
+}
+
+.brains-page__toc-combo {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: #64748b;
+  letter-spacing: 0.02em;
+}
+
+.brains-page__list {
+  display: flex;
+  flex-direction: column;
+  gap: 3.5rem;
+}
+
+.brains-page__entry {
+  scroll-margin-top: 1.5rem;
+  display: block;
+  grid-template-columns: 1fr;
+  border-radius: 16px;
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.06),
+    0 12px 40px rgba(15, 23, 42, 0.08);
+  overflow: hidden;
+  background: #fff;
+}
+
+.brains-page__entry-inner {
+  display: flex;
+  flex-direction: column;
+}
+
+.brains-page__entry .quiz-results__natural-default-hero {
+  padding: 2rem 2rem 1.5rem;
+}
+
+.brains-page__entry .quiz-results__natural-default-title {
+  max-width: none;
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.brains-page__combo-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #64748b;
+  margin: 0 0 0.5rem;
+  letter-spacing: 0.04em;
+}
+
+.brains-page__quote {
+  margin: 0;
+  padding-top: 0.5rem;
+}
+
+.brains-page__entry .quiz-results__natural-default-body {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0 2rem 2.25rem;
+}
+
+@media (min-width: 769px) {
+  .brains-page {
+    padding: 2.5rem 2rem 5rem;
+  }
+
+  .brains-page__title {
+    font-size: 2.25rem;
+  }
+}

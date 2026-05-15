@@ -9,7 +9,7 @@ import { AnswerResults } from './AnswerResults/AnswerResults'
 import { Sidebar } from './Sidebar/Sidebar'
 import { ChangeResults } from './ChangeResults/ChangeResults'
 import { OVERALL_ARCHETYPES } from './overallArchetypes'
-import ReactMarkdown from 'react-markdown'
+import { NaturalDefaultArchetypeParts } from './NaturalDefaultArchetypeParts'
 
 type AnswerType = 'Head' | 'Heart' | 'Gut'
 
@@ -142,17 +142,20 @@ export const QuizResults = ({
                         </div>
                       </div>
 
-                      {archetypeData && (
-                        <div className="quiz-results__natural-default-body">
-                          <div className="overall-archetype-description quiz-results__natural-default-description">
-                            <ReactMarkdown>{archetypeData.description}</ReactMarkdown>
-                          </div>
-                        </div>
-                      )}
                     </>
                   )
                 })()}
               </div>
+              {(() => {
+                const combo = getBrainCombination(overall.headPercent, overall.heartPercent, overall.gutPercent)
+                const archetypeData = OVERALL_ARCHETYPES[combo.label]
+                if (!archetypeData) return null
+                return (
+                  <div className="quiz-results__natural-default-body" data-pdf-section="natural-default-parts">
+                    <NaturalDefaultArchetypeParts archetypeKey={combo.label} parts={archetypeData.parts} />
+                  </div>
+                )
+              })()}
 
               <div data-pdf-section="change-across-contexts-summary" id="change-across-contexts-summary">
                 <h3 className="results-section-title">How You Change Across Contexts</h3>

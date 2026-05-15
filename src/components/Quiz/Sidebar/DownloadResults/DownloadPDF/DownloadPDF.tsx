@@ -83,6 +83,16 @@ const PDF_EXPORT_CSS = `
 .pdf-export-view .treemap-chart__pdf-stack--compact{gap:4px!important}
 .pdf-export-view .answer-results-question{min-width:0!important;max-width:100%}
 .pdf-export-view .answer-results-choice{min-width:0!important;max-width:100%}
+/* Natural default: vibe, challenges, question on one PDF page */
+.pdf-export-view [data-pdf-section="natural-default-parts"]{width:800px!important;min-width:800px!important;max-width:800px!important;padding:40px 40px 48px!important;box-sizing:border-box!important}
+.pdf-export-view [data-pdf-section="natural-default-parts"] .archetype-parts{gap:2.5rem!important;max-width:none!important;width:100%!important}
+.pdf-export-view [data-pdf-section="natural-default-parts"] .archetype-parts__pair{display:flex!important;flex-direction:column!important;align-items:center!important;gap:2.25rem!important;width:100%!important;max-width:none!important}
+.pdf-export-view .archetype-part__art{max-width:520px!important;width:100%!important;margin:0 auto 1.25rem!important}
+.pdf-export-view .quiz-results__archetype-part-svg{display:block!important;width:100%!important;height:auto!important}
+.pdf-export-view .archetype-part__headline{font-size:1.375rem!important;margin-bottom:1rem!important}
+.pdf-export-view .archetype-part__body{font-size:1.0625rem!important;max-width:52ch!important;margin-inline:auto!important}
+.pdf-export-view .archetype-part__quote{font-size:1.5rem!important;max-width:42ch!important;margin-inline:auto!important}
+.pdf-export-view .archetype-part__label{font-size:0.8125rem!important}
 /* Your answers by section: match on-screen AnswerResults (Montserrat) */
 .pdf-export-view .answer-results,.pdf-export-view .answer-results-title,.pdf-export-view .answer-results-section,.pdf-export-view .answer-results-section-title,.pdf-export-view .answer-results-section-header,.pdf-export-view .answer-results-table,.pdf-export-view .answer-results-table th,.pdf-export-view .answer-results-table td,.pdf-export-view .answer-results-combo-badge,.pdf-export-view .answer-results-question,.pdf-export-view .answer-results-choice{font-family:'Montserrat',sans-serif!important;-webkit-font-smoothing:antialiased!important}
 `
