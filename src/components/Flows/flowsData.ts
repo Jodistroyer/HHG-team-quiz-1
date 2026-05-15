@@ -25,7 +25,7 @@ import { thriveZoneFlowSituation } from './FlowsData/FlowsDoingWork/thriveZone.t
 // import { deepFocusFlowSituation } from './FlowsData/FlowsDoingWork/deepFocus'
 // import { handlingFeedbackFlowSituation } from './FlowsData/FlowsDoingWork/handlingFeedback'
 // import { perfectionismLoopsFlowSituation } from './FlowsData/FlowsDoingWork/perfectionismLoops'
-import { conflictResponseFlowSituation } from './FlowsData/FlowsUnderPressure/conflictResponse'
+import { conflictResponseFlowSituation } from './FlowsData/FlowsUnderPressure/conflictResponse.tsx'
 // import { decisionMakingFlowSituation } from './FlowsData/FlowsUnderPressure/decisionMaking'
 // import { managingOverwhelmFlowSituation } from './FlowsData/FlowsUnderPressure/managingOverwhelm'
 import { speakingToAuthorityFlowSituation } from './FlowsData/FlowsUnderPressure/speakingToAuthority.tsx'
