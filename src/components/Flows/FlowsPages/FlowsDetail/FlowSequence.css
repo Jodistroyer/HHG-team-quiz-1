@@ -79,6 +79,12 @@
   flex-shrink: 0;
 }
 
+@media (min-width: 769px) {
+  .flow-sequence {
+    padding: 0.35rem 0 0.15rem;
+  }
+}
+
 @media (max-width: 588px) {
   .flow-sequence__step {
     width: 108px;

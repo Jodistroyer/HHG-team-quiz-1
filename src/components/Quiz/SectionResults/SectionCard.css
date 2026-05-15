@@ -128,7 +128,7 @@ section[id="answers"] {
 /* Secondary line under the section title (now sits on the purple block). */
 .section-card-context {
   font-family: 'Montserrat', sans-serif;
-  font-size: 0.9375rem;
+  font-size: 1rem;
   font-weight: 500;
   line-height: 1.6;
   color: rgba(255, 255, 255, 0.88);
@@ -140,7 +140,7 @@ section[id="answers"] {
 
 @media (max-width: 588px) {
   .section-card-context {
-    font-size: 0.875rem;
+    font-size: 0.9375rem;
     max-width: none;
   }
 }

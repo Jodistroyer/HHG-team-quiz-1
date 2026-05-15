@@ -223,10 +223,10 @@
   margin-bottom: 1.75rem;
 }
 
-/* Description: readable block. Level 3 body text */
+/* Description: readable block — matches flow-steps body rest (1.125rem). */
 .overall-archetype-description {
   font-family: 'Montserrat', sans-serif;
-  font-size: 0.95rem;
+  font-size: 1.125rem;
   line-height: 1.65;
   color: #4a5568;
   margin: 0 auto 1.5rem;
@@ -235,6 +235,7 @@
 }
 
 .overall-archetype-description p {
+  font-size: 1.125rem;
   margin: 0 0 0.95rem 0;
 }
 
@@ -249,7 +250,7 @@
 
 .quiz-results__natural-default-description {
   margin: 0;
-  font-size: 1.02rem;
+  font-size: 1.125rem;
   font-weight: 500;
   line-height: 1.85;
   color: #334155;

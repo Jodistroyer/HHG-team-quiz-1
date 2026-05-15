@@ -29,7 +29,7 @@
 }
 
 .profile-table thead th {
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   font-weight: 700;
   color: #64748b;
   text-transform: uppercase;
@@ -49,7 +49,7 @@
 }
 
 .profile-table tbody th {
-  font-size: 0.85rem;
+  font-size: 0.9375rem;
   font-weight: 600;
   color: #64748b;
   text-align: left;
@@ -59,7 +59,7 @@
 }
 
 .profile-table tbody td {
-  font-size: 0.95rem;
+  font-size: 1.0625rem;
   font-weight: 500;
   color: #334155;
   line-height: 1.45;
@@ -77,7 +77,7 @@
   margin-top: 0.85rem;
   padding: 0.65rem 1rem;
   font-family: 'Montserrat', sans-serif;
-  font-size: 0.78rem;
+  font-size: 0.875rem;
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -104,7 +104,7 @@
 }
 
 .profile-table__toggle-icon {
-  font-size: 0.78rem;
+  font-size: 0.875rem;
   transition: transform 200ms ease;
 }
 
@@ -140,7 +140,7 @@
     display: block;
     width: 100%;
     padding: 0 0 0.35rem 0;
-    font-size: 0.8rem;
+    font-size: 0.875rem;
     color: #64748b;
     font-weight: 700;
   }
@@ -149,7 +149,7 @@
     display: block;
     width: 100%;
     padding: 0 0 0 0;
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
 }
 

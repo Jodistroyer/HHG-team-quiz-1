@@ -172,7 +172,7 @@
 .trait-content {
   font-family: 'Montserrat', sans-serif;
   font-weight: 500;
-  font-size: 0.95rem;
+  font-size: 1.0625rem;
   color: #4a5568;
   line-height: 1.7;
   margin: 0;
@@ -281,7 +281,7 @@
 .pair-card-blue .card-content {
   font-family: 'Montserrat', sans-serif;
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 1.0625rem;
   color: #374151;
   line-height: 1.7;
   margin: 0;
@@ -352,7 +352,7 @@
 .warning-card .trait-bullets {
   font-family: 'Montserrat', sans-serif;
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 1.0625rem;
   color: #374151;
   line-height: 1.7;
   margin: 0;
@@ -432,7 +432,7 @@
 .experience-card:not(.pair-card-blue) .trait-bullets {
   font-family: 'Montserrat', sans-serif;
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 1.0625rem;
   color: rgba(255, 255, 255, 0.95);
   line-height: 1.7;
   margin: 0;
@@ -685,7 +685,7 @@
   
   .trait-content,
   .trait-bullets {
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
 
   .action-title {
@@ -725,7 +725,7 @@
 
   .trait-content,
   .trait-bullets {
-    font-size: 0.8rem;
+    font-size: 0.9375rem;
   }
 
   .action-title {

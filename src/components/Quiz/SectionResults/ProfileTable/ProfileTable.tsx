@@ -46,12 +46,12 @@ export const ProfileTable = ({
         {title}
       </h4>
       <table className="profile-table">
-        <thead>
+        {/* <thead>
           <tr>
             <th scope="col">Attribute</th>
             <th scope="col">Your profile</th>
           </tr>
-        </thead>
+        </thead> */}
         <tbody>
           {rows.map((row, i) => (
             <tr

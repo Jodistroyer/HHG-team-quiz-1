@@ -50,7 +50,7 @@ const PDF_EXPORT_CSS = `
 .pdf-export-view .pressure-profile-title,.pdf-export-view .work-style-title,.pdf-export-view .social-map-title,.pdf-export-view .feedback-style-title{position:static!important;display:block!important}
 .pdf-export-view .bento-grid{grid-template-columns:1fr 1.3fr !important;min-width:0}
 .pdf-export-view .overall-archetype-name{font-size:1.75rem !important}
-.pdf-export-view .overall-archetype-description,.pdf-export-view .overall-archetype-quote{font-size:0.95rem !important}
+.pdf-export-view .overall-archetype-description,.pdf-export-view .overall-archetype-quote{font-size:1.125rem !important}
 .pdf-export-view .overall-brain-badge,.pdf-export-view .overall-icon-badge{font-size:1.5rem !important;padding:1.25rem 2rem !important;white-space:normal!important}
 /* Charts: fixed size in PDF for consistent capture */
 .pdf-export-view .radar-chart-container{width:360px!important;min-width:360px!important;max-width:360px!important;height:360px!important;min-height:360px!important;max-height:360px!important;overflow:visible!important;padding:0!important;margin-left:auto!important;margin-right:auto!important}

@@ -24,13 +24,13 @@
   border-radius: 8px;
   background: #eeedfe;
   color: #7d3dbd;
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   flex-shrink: 0;
 }
 
 .recommended-flows__title {
   font-family: 'Montserrat', sans-serif;
-  font-size: 0.95rem;
+  font-size: 1.0625rem;
   font-weight: 700;
   color: #7d3dbd;
   margin: 0;

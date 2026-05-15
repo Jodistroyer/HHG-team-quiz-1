@@ -27,7 +27,7 @@
   width: 100%;
   text-align: left;
   font-family: 'Montserrat', sans-serif;
-  font-size: 0.825rem;
+  font-size: 0.95rem;
   font-weight: 600;
   /* Context items (1–4) set --section-context-color inline; Section Balance
      and All Answers don't, so they fall back to the original slate gray. */
@@ -45,7 +45,7 @@
 
 .nav-section-btn-icon {
   flex-shrink: 0;
-  font-size: 0.875rem;
+  font-size: 0.95rem;
   color: var(--section-context-color, #7d3dbd);
   opacity: 0.9;
 }

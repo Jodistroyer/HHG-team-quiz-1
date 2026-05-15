@@ -238,8 +238,7 @@ export const FlowsDetail = ({
           </div>
 
           <div className="flows-detail__body">
-            <section className="flows-detail__section">
-
+            <section className="flows-detail__section flows-detail__section--sequence">
               <FlowSequence steps={sequenceSteps} />
             </section>
 

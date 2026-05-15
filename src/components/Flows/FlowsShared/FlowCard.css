@@ -95,7 +95,7 @@
 }
 
 .flow-card__desc {
-  font-size: 0.8rem;
+  font-size: 0.875rem;
   line-height: 1.45;
   color: var(--flows-ink-soft, #64748b);
   margin-top: -0.1rem;
@@ -105,7 +105,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   color: var(--flows-ink-soft, #64748b);
   margin-top: auto;
   line-height: 1.4;
@@ -116,6 +116,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
+  font-size: 0.8125rem;
 }
 
 .flow-card__meta-icon {
