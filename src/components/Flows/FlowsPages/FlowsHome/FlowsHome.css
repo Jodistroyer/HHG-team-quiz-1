@@ -573,6 +573,14 @@
   flex-shrink: 0;
 }
 
+/* Mobile: context colour behind flow art reads as a square tile (not a wide thumbnail). */
+@media (max-width: 768px) {
+  .flows-home__moment-art {
+    aspect-ratio: 1 / 1;
+    border-radius: 8px;
+  }
+}
+
 .flows-home__moment-text {
   flex: 1;
   min-width: 0;

@@ -657,6 +657,8 @@
     margin: 0.5rem 0 0.5rem 0.55rem;
     border-right: 1px solid var(--qi-line);
     border-bottom: none;
+    border-radius: 8px;
+    overflow: hidden;
   }
 
   .quiz-intro-card__top {
