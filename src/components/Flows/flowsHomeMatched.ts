@@ -37,3 +37,15 @@ export function getMatchedFlowPreviews (
   }
   return out
 }
+
+/** Matched previews limited to one quiz context (e.g. context browse page strip). */
+export function getMatchedFlowPreviewsForContext (
+  contextId: FlowContextId,
+  completedContextIds: FlowContextId[],
+  max = 12
+): MatchedFlowPreview[] {
+  if (!completedContextIds.includes(contextId)) return []
+  return getMatchedFlowPreviews(completedContextIds, 500)
+    .filter((m) => m.contextId === contextId)
+    .slice(0, max)
+}

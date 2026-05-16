@@ -1,30 +1,26 @@
-import { Fragment, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  faArrowRight,
-  faChevronRight,
-  faDiamond,
-  faHeart,
-  faSquare,
-  faStar,
-} from '@fortawesome/free-solid-svg-icons'
-import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
+import { faChevronRight, faStar } from '@fortawesome/free-solid-svg-icons'
 import { CONTEXT_BACKGROUND, ContextCardArt } from '../../../Quiz/ContextArt'
 import { FlowSituationCardArt } from '../../FlowsShared/FlowSituationCardArt'
 import '../../FlowsShared/FlowCard.css'
-import { BRAIN_MUTED, BRAIN_PALETTE } from '../../flowsContexts'
 import {
   FLOW_CONTEXTS,
   getSituation,
-  type BrainType,
   type FlowContextId,
-  type FlowSituation,
 } from '../../flowsData'
 import { getCompletedFlowsContextIdsForMatchedFlows, getMatchedFlowPreviews } from '../../flowsHomeMatched'
 import type { LastOpenedFlow } from '../../flowsLastOpened'
 import { flowsBrainProfileForStoredContext, useFlowsQuizSnapshot } from '../../flowsQuizSnapshot'
 import type { FlowsBrainProfile } from '../../flowsTypes'
-import { profileToActiveId } from '../FlowsDetail/BrainTypeSidebar'
+import {
+  brainIcons,
+  FlowsHomeQuickCycleRegion,
+  FlowsHomeSequencePills,
+  sequenceAriaLabel,
+  sequenceBrainsForProfile,
+  useQuickCardAutoCycle,
+} from './flowsHomeShared'
 import './FlowsHome.css'
 
 const CONTEXT_MOMENT_LINES: Record<FlowContextId, string> = {
@@ -110,72 +106,11 @@ export function flowsHomeSectionId (contextId: FlowContextId): string {
 /** @deprecated Use `flowsHomeSectionId` — kept for deep-link scroll targets. */
 export const flowsBrowseSectionId = flowsHomeSectionId
 
-const DEFAULT_HEAD_HEART_GUT: BrainType[] = ['Head', 'Heart', 'Gut']
-const FLOW_HOME_BRAIN_ICON: Record<BrainType, IconDefinition> = {
-  Head: faDiamond,
-  Heart: faHeart,
-  Gut: faSquare,
-}
-
-function sequenceBrainsForProfile (situation: FlowSituation, brainProfile: FlowsBrainProfile): BrainType[] {
-  const variantId = profileToActiveId(brainProfile)
-  const variant = situation.variants?.[variantId]
-  const steps = variant?.steps ?? situation.sequence
-  const brains = steps.map((s) => s.brain)
-  return brains.length > 0 ? brains : DEFAULT_HEAD_HEART_GUT
-}
-
-function sequenceAriaLabel (brains: BrainType[]): string {
-  if (brains.length === 0) return 'Sequence'
-  return `Sequence: ${brains.join(', then ')}`
-}
-
-function FlowsHomeSequencePills ({ brains, variant }: { brains: BrainType[]; variant: 'quick' | 'sit' }) {
-  const pillCls = variant === 'quick' ? 'flows-home__pill' : 'flows-home__sit-pill'
-  const arrCls = variant === 'quick' ? 'flows-home__seq-arr' : 'flows-home__sit-arr'
-  return (
-    <>
-      {brains.map((brain, index) => (
-        <Fragment key={`${brain}-${index}`}>
-          <span className={pillCls} style={{ background: BRAIN_PALETTE[brain].soft }}>
-            <FontAwesomeIcon icon={FLOW_HOME_BRAIN_ICON[brain]} style={{ color: BRAIN_MUTED[brain] }} />
-          </span>
-          {index < brains.length - 1 ? (
-            <span className={arrCls} aria-hidden>
-              <FontAwesomeIcon icon={faArrowRight} />
-            </span>
-          ) : null}
-        </Fragment>
-      ))}
-    </>
-  )
-}
-
 function greetingLine (): string {
   const h = new Date().getHours()
   if (h < 12) return 'Good morning'
   if (h < 17) return 'Good afternoon'
   return 'Good evening'
-}
-
-function brainIcons ({ dominant, secondary, tertiary }: FlowsBrainProfile) {
-  const order = tertiary
-    ? (['Head', 'Heart', 'Gut'] as const)
-    : secondary
-      ? ([dominant, secondary] as const)
-      : ([dominant] as const)
-
-  const muted = {
-    Head: '#2e6fa8',
-    Heart: '#bb3a3a',
-    Gut: '#3a8c57',
-  } as const
-
-  return order.map((brain) => {
-    if (brain === 'Head') return { icon: faDiamond, color: muted.Head }
-    if (brain === 'Heart') return { icon: faHeart, color: muted.Heart }
-    return { icon: faSquare, color: muted.Gut }
-  })
 }
 
 export const FlowsHome = ({
@@ -317,7 +252,7 @@ export const FlowsHome = ({
       : null
 
   const quickSequenceBrains = useMemo(() => {
-    if (displayedSituation == null || displayedBrainProfile == null) return DEFAULT_HEAD_HEART_GUT
+    if (displayedSituation == null || displayedBrainProfile == null) return null
     return sequenceBrainsForProfile(displayedSituation, displayedBrainProfile)
   }, [displayedSituation, displayedBrainProfile])
 
@@ -326,12 +261,8 @@ export const FlowsHome = ({
     displayedQuick != null &&
     displayedSituation != null &&
     displayedContext != null &&
-    displayedBrainProfile != null
-
-  const advanceQuickCycle = () => {
-    if (quickCycleTargets.length <= 1) return
-    setQuickCycleIndex((i) => (i + 1) % quickCycleTargets.length)
-  }
+    displayedBrainProfile != null &&
+    quickSequenceBrains != null
 
   useEffect(() => {
     setQuickCycleIndex(0)
@@ -343,6 +274,12 @@ export const FlowsHome = ({
       return Math.min(i, quickCycleTargets.length - 1)
     })
   }, [quickCycleTargets.length])
+
+  const { cycleKey, advanceManual, pauseProps } = useQuickCardAutoCycle(
+    quickCycleTargets.length,
+    setQuickCycleIndex,
+    { resetToken: `${lastOpenedSig}|${quickCycleTargets.length}` }
+  )
 
   const layoutMods = [
     'flows-home__layout',
@@ -382,7 +319,12 @@ export const FlowsHome = ({
             )}
           </header>
 
-          {quizSnap.hasCompletedQuiz && showQuickCard && displayedContext && displayedSituation && displayedQuick ? (
+          {quizSnap.hasCompletedQuiz &&
+          showQuickCard &&
+          displayedContext &&
+          displayedSituation &&
+          displayedQuick &&
+          quickSequenceBrains ? (
             <div className="flows-home__quick-wrap">
               <section
                 className={`flows-home__quick-card flows-home__quick-card--ctx-${displayedQuick.contextId}`}
@@ -391,37 +333,40 @@ export const FlowsHome = ({
                     ? 'Continue last flow'
                     : 'Suggested flow'
                 }
+                {...pauseProps}
               >
-                <div className="flows-home__quick-top">
-                  <p className="flows-home__quick-label">
-                    {quickEyebrow(displayedQuick.phase, displayedContext.title, quickCycleIndex)}
-                  </p>
-                  <div className="flows-home__quick-brain" aria-label={`Brain type for ${displayedContext.title}`}>
-                    <span className="flows-home__quick-brain-icons" aria-hidden>
-                      {brainIcons(displayedBrainProfile!).map(({ icon, color }, idx) => (
-                        <FontAwesomeIcon key={`flows-quick-brain-icon-${idx}`} icon={icon} style={{ color }} />
-                      ))}
-                    </span>
-                  </div>
-                </div>
-                <div className="flows-home__quick-body">
-                  <div className="flows-home__quick-body-main">
-                    <p className="flows-home__quick-title">{displayedSituation.cardTitle}</p>
-                    <div className="flows-home__seq-pills" aria-label={sequenceAriaLabel(quickSequenceBrains)}>
-                      <FlowsHomeSequencePills brains={quickSequenceBrains} variant="quick" />
+                <FlowsHomeQuickCycleRegion cycleKey={cycleKey}>
+                  <div className="flows-home__quick-top">
+                    <p className="flows-home__quick-label">
+                      {quickEyebrow(displayedQuick.phase, displayedContext.title, quickCycleIndex)}
+                    </p>
+                    <div className="flows-home__quick-brain" aria-label={`Brain type for ${displayedContext.title}`}>
+                      <span className="flows-home__quick-brain-icons" aria-hidden>
+                        {brainIcons(displayedBrainProfile!).map(({ icon, color }, idx) => (
+                          <FontAwesomeIcon key={`flows-quick-brain-icon-${idx}`} icon={icon} style={{ color }} />
+                        ))}
+                      </span>
                     </div>
                   </div>
-                  <span
-                    className="flows-home__quick-art"
-                    style={{ background: CONTEXT_BACKGROUND[displayedQuick.contextId] }}
-                    aria-hidden
-                  >
-                    <FlowSituationCardArt
-                      contextId={displayedQuick.contextId}
-                      situationId={displayedQuick.situationId}
-                    />
-                  </span>
-                </div>
+                  <div className="flows-home__quick-body">
+                    <div className="flows-home__quick-body-main">
+                      <p className="flows-home__quick-title">{displayedSituation.cardTitle}</p>
+                      <div className="flows-home__seq-pills" aria-label={sequenceAriaLabel(quickSequenceBrains)}>
+                        <FlowsHomeSequencePills brains={quickSequenceBrains} variant="quick" />
+                      </div>
+                    </div>
+                    <span
+                      className="flows-home__quick-art"
+                      style={{ background: CONTEXT_BACKGROUND[displayedQuick.contextId] }}
+                      aria-hidden
+                    >
+                      <FlowSituationCardArt
+                        contextId={displayedQuick.contextId}
+                        situationId={displayedQuick.situationId}
+                      />
+                    </span>
+                  </div>
+                </FlowsHomeQuickCycleRegion>
                 <div className="flows-home__quick-actions">
                   <button
                     type="button"
@@ -436,7 +381,7 @@ export const FlowsHome = ({
                   >
                     Open flow
                   </button>
-                  <button type="button" className="flows-home__btn flows-home__btn--ghost" onClick={advanceQuickCycle}>
+                  <button type="button" className="flows-home__btn flows-home__btn--ghost" onClick={advanceManual}>
                     Not this
                   </button>
                 </div>

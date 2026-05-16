@@ -83,7 +83,7 @@ export function QuizIntro ({
         <div className="quiz-intro-columns">
           <div className="quiz-intro-columns__main">
             <header className="quiz-intro-hero">
-              <h1 className="quiz-intro-hero__title">HHG Quiz (Head, Heart, Gut)</h1>
+              <h1 className="quiz-intro-hero__title"> The Head, Heart, Gut Quiz</h1>
               <p className="quiz-intro-hero__subtitle">
                 A practical way to understand how someone decides, reacts, and moves forward. Use it for yourself, or use it to understand someone else.
               </p>

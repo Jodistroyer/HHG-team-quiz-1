@@ -153,7 +153,19 @@ const Flows = ({ onNavigate }: FlowsProps) => {
           ) : libraryView === 'saved' ? (
             <FlowsSaved />
           ) : view.kind === 'browse' && libraryView === 'context' && ContextPage ? (
-            <ContextPage onOpenSituation={openSituation} />
+            <ContextPage
+              onOpenMatchedFlow={(contextId, situationId, brainProfile) =>
+                openSituation(
+                  contextId,
+                  situationId,
+                  brainProfile != null
+                    ? { brainProfile }
+                    : { personalizedBrainProfile: true }
+                )
+              }
+              onTakeQuiz={() => onNavigate?.('quiz')}
+              onFinishContext={() => onNavigate?.('quiz')}
+            />
           ) : view.kind === 'browse' ? (
             <FlowsHome
               lastOpened={lastOpened}

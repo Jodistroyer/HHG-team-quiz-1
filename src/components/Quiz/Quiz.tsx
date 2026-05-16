@@ -11,6 +11,7 @@ import {
   type QuizAnswerType as AnswerType,
 } from './quizSections'
 import { calculateSectionScoresDetailed } from './quizScoring'
+import { loadPersistedQuizState, persistResumeQuizContext } from './quizResumeContext'
 import { SECTION_CONTEXT_BY_ID } from './sectionContext'
 
 const SECTION_ICONS: Record<number, IconDefinition> = {
@@ -32,69 +33,8 @@ const QUESTION_WEIGHTS: Record<string, number> = {
   '4-1': 1.0, '4-2': 1.0, '4-3': 1.0, '4-4': 1.0, '4-5': 1.1,
 }
 
-function isQuizSelectedContextId (n: unknown): n is QuizSelectedContextId {
-  return n === 1 || n === 2 || n === 3 || n === 4
-}
-
-function loadSavedQuizState (): {
-  currentQuestionIndex: number
-  answers: Record<string, Answer>
-  showFinalSummary: boolean
-  quizCompletedAt: string | null
-  selectedContextIds: QuizSelectedContextId[]
-  introDismissed: boolean
-  addContextSectionId: QuizSelectedContextId | null
-} {
-  try {
-    const raw = localStorage.getItem(QUIZ_STORAGE_KEY) ?? localStorage.getItem('hhg.quiz.v1')
-    if (!raw) {
-      return {
-        currentQuestionIndex: 0,
-        answers: {},
-        showFinalSummary: false,
-        quizCompletedAt: null,
-        selectedContextIds: [],
-        introDismissed: false,
-        addContextSectionId: null,
-      }
-    }
-    const parsed = JSON.parse(raw) as {
-      currentQuestionIndex?: number
-      answers?: Record<string, Answer>
-      showFinalSummary?: boolean
-      quizCompletedAt?: string
-      selectedContextIds?: QuizSelectedContextId[]
-      introDismissed?: boolean
-      addContextSectionId?: unknown
-    }
-
-    return {
-      currentQuestionIndex:
-        typeof parsed.currentQuestionIndex === 'number' && parsed.currentQuestionIndex >= 0
-          ? parsed.currentQuestionIndex
-          : 0,
-      answers: parsed.answers && typeof parsed.answers === 'object' ? parsed.answers : {},
-      showFinalSummary: typeof parsed.showFinalSummary === 'boolean' ? parsed.showFinalSummary : false,
-      quizCompletedAt: typeof parsed.quizCompletedAt === 'string' ? parsed.quizCompletedAt : null,
-      selectedContextIds: Array.isArray(parsed.selectedContextIds)
-        ? parsed.selectedContextIds.filter((x): x is QuizSelectedContextId => x === 1 || x === 2 || x === 3 || x === 4)
-        : [],
-      introDismissed: typeof parsed.introDismissed === 'boolean' ? parsed.introDismissed : false,
-      addContextSectionId: isQuizSelectedContextId(parsed.addContextSectionId)
-        ? parsed.addContextSectionId
-        : null,
-    }
-  } catch {
-    return {
-      currentQuestionIndex: 0,
-      answers: {},
-      showFinalSummary: false,
-      quizCompletedAt: null,
-      selectedContextIds: [],
-      introDismissed: false,
-      addContextSectionId: null,
-    }
-  }
+function loadSavedQuizState () {
+  return loadPersistedQuizState()
 }
 
 function Quiz() {
@@ -109,6 +49,9 @@ function Quiz() {
   const [introDismissed, setIntroDismissed] = useState(saved.introDismissed)
   const [addContextSectionId, setAddContextSectionId] = useState<QuizSelectedContextId | null>(
     saved.addContextSectionId
+  )
+  const [completedWithContextIds, setCompletedWithContextIds] = useState<QuizSelectedContextId[]>(
+    saved.completedWithContextIds
   )
 
   useEffect(() => {
@@ -128,6 +71,7 @@ function Quiz() {
         selectedContextIds,
         introDismissed,
         addContextSectionId,
+        completedWithContextIds,
       }
       localStorage.setItem(QUIZ_STORAGE_KEY, JSON.stringify(payload))
     } catch {
@@ -141,6 +85,7 @@ function Quiz() {
     selectedContextIds,
     introDismissed,
     addContextSectionId,
+    completedWithContextIds,
   ])
 
   const clearSavedQuiz = () => {
@@ -159,7 +104,6 @@ function Quiz() {
       ? sections.filter((s) => s.id === addContextSectionId)
       : selectedSections
   const allQuestions = quizFlowSections.flatMap((section) => section.questions)
-  const questionsInFullSelection = selectedSections.flatMap((s) => s.questions)
   const currentQuestion = allQuestions[currentQuestionIndex]
   const currentAnswer = currentQuestion ? (answers[currentQuestion.id] || { firstChoice: null, secondChoice: null }) : { firstChoice: null, secondChoice: null }
   const questionSection = currentQuestion
@@ -171,13 +115,14 @@ function Quiz() {
   const calculateSectionScores = (sectionId: number) =>
     calculateSectionScoresDetailed(sectionId, answers, sections)
 
-  const calculateOverallScores = () => {
+  const calculateOverallScores = (sectionsForOverall = selectedSections) => {
+    const questionsInSelection = sectionsForOverall.flatMap((s) => s.questions)
     let totalHead = 0
     let totalHeart = 0
     let totalGut = 0
     let totalSecondary = 0
 
-    selectedSections.forEach((section) => {
+    sectionsForOverall.forEach((section) => {
       const scores = calculateSectionScores(section.id)
       totalHead += scores.headPoints
       totalHeart += scores.heartPoints
@@ -185,7 +130,7 @@ function Quiz() {
       totalSecondary += section.questions.filter(q => answers[q.id]?.secondChoice).length
     })
 
-    const answeredPrimary = questionsInFullSelection.filter((q) => answers[q.id]?.firstChoice).length
+    const answeredPrimary = questionsInSelection.filter((q) => answers[q.id]?.firstChoice).length
     const totalPoints = answeredPrimary + totalSecondary * 0.5
     const headPercent = totalPoints > 0 ? (totalHead / totalPoints) * 100 : 0
     const heartPercent = totalPoints > 0 ? (totalHeart / totalPoints) * 100 : 0
@@ -208,7 +153,7 @@ function Quiz() {
       let weightedHeart = 0
       let weightedGut = 0
 
-      questionsInFullSelection.forEach((question) => {
+      questionsInSelection.forEach((question) => {
         const answer = answers[question.id]
         const weight = QUESTION_WEIGHTS[question.id] ?? 1.0
         if (answer?.firstChoice === 'Head') weightedHead += weight
@@ -350,26 +295,29 @@ function Quiz() {
   }
 
   if (showFinalSummary) {
-    const overall = calculateOverallScores()
-    const sectionSummaries = selectedSections.map(section => calculateSectionScores(section.id))
-    const sectionQuizComplete = selectedSections.map((sec) =>
+    const resultsSections = sections.filter((s) =>
+      completedWithContextIds.includes(s.id as QuizSelectedContextId)
+    )
+    const overall = calculateOverallScores(resultsSections)
+    const sectionSummaries = resultsSections.map((section) => calculateSectionScores(section.id))
+    const sectionQuizComplete = resultsSections.map((sec) =>
       sec.questions.every((q) => answers[q.id]?.firstChoice != null)
     )
 
     const changeAcrossSummaries = sections.map((section) => calculateSectionScores(section.id))
     const changeAcrossComplete = sections.map((sec) =>
-      selectedContextIds.includes(sec.id as QuizSelectedContextId) &&
+      completedWithContextIds.includes(sec.id as QuizSelectedContextId) &&
       sec.questions.every((q) => answers[q.id]?.firstChoice != null)
     )
     const changeAcrossIncluded = sections.map((sec) =>
-      selectedContextIds.includes(sec.id as QuizSelectedContextId)
+      completedWithContextIds.includes(sec.id as QuizSelectedContextId)
     )
 
     return (
       <QuizResults
         overall={overall}
         sectionSummaries={sectionSummaries}
-        sections={selectedSections}
+        sections={resultsSections}
         answers={answers}
         sectionQuizComplete={sectionQuizComplete}
         changeAcrossContextsSections={sections}
@@ -377,31 +325,14 @@ function Quiz() {
         changeAcrossContextsComplete={changeAcrossComplete}
         changeAcrossContextsIncluded={changeAcrossIncluded}
         onResumeQuizContext={(sectionId) => {
-          const sec = sections.find((s) => s.id === sectionId)
-          if (!sec) return
-          const firstUnansweredId = sec.questions.map((q) => q.id).find((id) => !answers[id]?.firstChoice)
-          if (!firstUnansweredId) return
-
-          const alreadyInRun = selectedContextIds.includes(sectionId as QuizSelectedContextId)
-          const nextIds: QuizSelectedContextId[] = alreadyInRun
-            ? selectedContextIds
-            : ([...selectedContextIds, sectionId] as QuizSelectedContextId[]).sort((a, b) => a - b)
-
-          const flowSections = alreadyInRun
-            ? sections.filter((s) => nextIds.includes(s.id as QuizSelectedContextId))
-            : [sec]
-          const flowQuestions = flowSections.flatMap((s) => s.questions)
-          const idx = flowQuestions.findIndex((q) => q.id === firstUnansweredId)
-          if (idx < 0) return
-
-          setSelectedContextIds(nextIds)
-          setShowFinalSummary(false)
-          if (alreadyInRun) {
-            setAddContextSectionId(null)
-          } else {
-            setAddContextSectionId(sectionId as QuizSelectedContextId)
-          }
-          setCurrentQuestionIndex(idx)
+          if (!persistResumeQuizContext(sectionId as QuizSelectedContextId)) return
+          const saved = loadSavedQuizState()
+          setSelectedContextIds(saved.selectedContextIds)
+          setShowFinalSummary(saved.showFinalSummary)
+          setAddContextSectionId(saved.addContextSectionId)
+          setCompletedWithContextIds(saved.completedWithContextIds)
+          setCurrentQuestionIndex(saved.currentQuestionIndex)
+          setIntroDismissed(saved.introDismissed)
         }}
         quizCompletedAt={quizCompletedAt}
         onStartOver={() => {
@@ -413,6 +344,7 @@ function Quiz() {
           setSelectedContextIds([])
           setIntroDismissed(false)
           setAddContextSectionId(null)
+          setCompletedWithContextIds([])
         }}
       />
     )
@@ -651,7 +583,14 @@ function Quiz() {
 
                 if (isLastQuestion) {
                   if (addContextSectionId != null) {
+                    setCompletedWithContextIds((prev) => {
+                      const next = new Set(prev)
+                      next.add(addContextSectionId)
+                      return [...next].sort((a, b) => a - b) as QuizSelectedContextId[]
+                    })
                     setAddContextSectionId(null)
+                  } else if (quizCompletedAt == null) {
+                    setCompletedWithContextIds([...selectedContextIds])
                   }
                   setQuizCompletedAt((prev) => prev ?? new Date().toISOString())
                   setShowFinalSummary(true)

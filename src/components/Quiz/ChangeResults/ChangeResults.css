@@ -90,6 +90,22 @@
   padding: 0.35rem 0.75rem;
 }
 
+.change-results-finish-context-btn--add {
+  background: #533ab7;
+  color: #fff;
+  border-bottom: 3px solid #422d96;
+}
+
+.change-results-finish-context-btn--add:hover:not(:disabled) {
+  background: #452f9a;
+  color: #fff;
+  border-bottom-color: #3a2685;
+}
+
+.change-results-finish-context-btn--add:focus-visible {
+  outline-color: #533ab7;
+}
+
 .change-results-combo-row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;

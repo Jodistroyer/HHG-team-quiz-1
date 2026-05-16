@@ -6,6 +6,13 @@ import Brains from './components/Brains/Brains'
 import Teams from './components/Teams/Teams'
 import NavBar from './components/Navigation/NavBar'
 import { FLOWS_NAVIGATE_EVENT } from './components/Flows/flowsNavigation'
+import { LeaveAddContextQuizModal } from './components/Quiz/ChangeResults/LeaveAddContextQuizModal'
+import {
+  abandonInProgressAddContext,
+  isInProgressAddContextQuiz,
+  loadPersistedQuizState,
+} from './components/Quiz/quizResumeContext'
+import { QUIZ_SECTIONS } from './components/Quiz/quizSections'
 import { useWindowWidth } from './hooks/useWindowWidth'
 import './App.css'
 
@@ -16,8 +23,9 @@ function App() {
   const NAV_STORAGE_KEY = 'hhg.nav.currentPage.v1'
   /** Remember window scroll per top-level tab so switching NavBar items does not jump to the top. */
   const scrollPositionsRef = useRef<Record<string, { x: number; y: number }>>({})
+  const [leaveAddContextTarget, setLeaveAddContextTarget] = useState<string | null>(null)
 
-  const handleNavigate = (page: string) => {
+  const navigateToPage = (page: string) => {
     if (page === currentPage) return
     scrollPositionsRef.current[currentPage] = {
       x: window.scrollX,
@@ -30,6 +38,23 @@ function App() {
       // ignore
     }
   }
+
+  const handleNavigate = (page: string) => {
+    if (page === currentPage) return
+    if (currentPage === 'quiz' && page !== 'quiz' && isInProgressAddContextQuiz()) {
+      setLeaveAddContextTarget(page)
+      return
+    }
+    navigateToPage(page)
+  }
+
+  const leaveAddContextSectionId = leaveAddContextTarget != null
+    ? loadPersistedQuizState().addContextSectionId
+    : null
+  const leaveAddContextTitle =
+    leaveAddContextSectionId != null
+      ? (QUIZ_SECTIONS.find((s) => s.id === leaveAddContextSectionId)?.title ?? 'this context')
+      : 'this context'
 
   const handleNavigateRef = useRef(handleNavigate)
   handleNavigateRef.current = handleNavigate
@@ -90,6 +115,17 @@ function App() {
       <div className="app-content">
         {renderPage()}
       </div>
+      <LeaveAddContextQuizModal
+        open={leaveAddContextTarget != null}
+        contextTitle={leaveAddContextTitle}
+        onClose={() => setLeaveAddContextTarget(null)}
+        onConfirmLeave={() => {
+          abandonInProgressAddContext()
+          const target = leaveAddContextTarget
+          setLeaveAddContextTarget(null)
+          if (target) navigateToPage(target)
+        }}
+      />
     </div>
   )
 }

@@ -93,7 +93,11 @@ export function CombinationAcrossContexts ({
                       {canResume && (
                         <button
                           type="button"
-                          className="btn btn-secondary change-results-finish-context-btn"
+                          className={`btn change-results-finish-context-btn${
+                            row.notInCurrentRun
+                              ? ' change-results-finish-context-btn--add'
+                              : ' btn-secondary'
+                          }`}
                           onClick={() => onRequestResume(sectionId)}
                         >
                           {row.notInCurrentRun ? 'Add this context' : 'Finish this context'}

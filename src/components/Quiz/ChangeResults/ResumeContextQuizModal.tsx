@@ -40,7 +40,7 @@ export function ResumeContextQuizModal ({
         <div className="resume-context-modal-body">
           <p>
             {isAdd
-              ? 'This context will be added to your quiz results. Your profile, overall results, calculations will update once you answer these questions.'
+              ? 'Once complete, your profile and overall results will update.'
               : 'Completing these answers will update your profile. Overall results and context-by-context calculations will change once the new responses are included.'}
           </p>
           <p className="resume-context-modal-meta">

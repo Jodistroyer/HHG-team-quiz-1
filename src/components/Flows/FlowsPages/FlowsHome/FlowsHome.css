@@ -23,6 +23,8 @@
   --flows-home-fs-moment-title: clamp(0.88rem, 2.2vw, 0.98rem);
   --flows-home-fs-moment-sub: clamp(0.74rem, 1.9vw, 0.84rem);
   --flows-home-moment-thumb: clamp(3.4rem, 8.2vw, 4.35rem);
+  /* Last-used quick art beside copy; tracks moment thumb on desktop, scales down in row on narrow */
+  --flows-home-quick-thumb: var(--flows-home-moment-thumb);
   /* Shared browse-thumb frame (moment rows + last-used quick art) */
   --flows-home-thumb-aspect: 320 / 200;
   --flows-home-thumb-radius: 10px;
@@ -34,6 +36,8 @@
   --flows-home-fs-sit-star: clamp(0.74rem, 1.8vw, 0.88rem);
   --flows-home-fs-brain-badge: clamp(0.82rem, 2vw, 0.94rem);
   --flows-home-fs-brain-desc: clamp(0.76rem, 1.85vw, 0.88rem);
+  /* Quick card auto-cycle: one fade leg (out + in ≈ 680ms total) */
+  --flows-home-quick-cycle-fade: 340ms;
 }
 
 /* Intro column + feed column (+ optional brain rail); mobile preserves former vertical order */
@@ -146,6 +150,40 @@
   --quick-ghost-border: var(--ctx-ghost-border-mix);
   background: var(--quick-bg);
   border: 0.5px solid var(--quick-border);
+  transition:
+    background 0.4s ease,
+    border-color 0.4s ease;
+}
+
+.flows-home__quick-cycle {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity var(--flows-home-quick-cycle-fade) ease-in-out,
+    transform var(--flows-home-quick-cycle-fade) ease-in-out;
+}
+
+.flows-home__quick-cycle--hidden {
+  opacity: 0;
+  transform: translateY(3px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flows-home__quick-card {
+    transition: none;
+  }
+
+  .flows-home__quick-cycle {
+    transition: none;
+  }
+
+  .flows-home__quick-cycle--hidden {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /*
@@ -264,12 +302,12 @@
   min-width: 0;
 }
 
-/* Row 2: title + sequence (left / stacked first on narrow screens) · situation art (right on wider screens) */
+/* Row 2: title + sequence (left) · situation art (right) — row at all widths so art stays aligned to copy */
 .flows-home__quick-body {
   display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: clamp(0.65rem, 2vw, 0.85rem);
+  flex-direction: row;
+  align-items: flex-start;
+  gap: clamp(0.65rem, 2vw, 1rem);
   margin-block: 0;
   min-width: 0;
 }
@@ -297,27 +335,13 @@
   box-shadow: var(--flows-home-thumb-shadow);
 }
 
-/* Narrow: stack art under copy; thumbnail spans row width up to browse-thumb cap, centered */
+/* Main column grows; art hugs the end edge beside title + seq pills */
 .flows-home__quick-body .flows-home__quick-art {
-  align-self: center;
-  width: min(100%, var(--flows-home-moment-thumb));
-  max-width: 100%;
-}
-
-/* Wide: row — main column grows; art stays right with thumbnail hugging the end edge */
-@media (min-width: 560px) {
-  .flows-home__quick-body {
-    flex-direction: row;
-    align-items: flex-start;
-    gap: clamp(0.75rem, 2.2vw, 1rem);
-  }
-
-  .flows-home__quick-body .flows-home__quick-art {
-    align-self: flex-start;
-    width: min(100%, var(--flows-home-moment-thumb));
-    margin-inline-start: auto;
-    margin-inline-end: 0;
-  }
+  align-self: flex-start;
+  width: var(--flows-home-quick-thumb);
+  max-width: var(--flows-home-quick-thumb);
+  margin-inline-start: auto;
+  margin-inline-end: 0;
 }
 
 /*
@@ -575,7 +599,13 @@
 
 /* Mobile: context colour behind flow art reads as a square tile (not a wide thumbnail). */
 @media (max-width: 768px) {
-  .flows-home__moment-art {
+  .flows-home {
+    /* Row quick body: square thumb sized to title + seq pills, without crowding copy */
+    --flows-home-quick-thumb: clamp(2.65rem, 24vw, 3.85rem);
+  }
+
+  .flows-home__moment-art,
+  .flows-home__quick-art {
     aspect-ratio: 1 / 1;
     border-radius: 8px;
   }
