@@ -128,6 +128,19 @@
   .app:has(.labs) {
     align-items: stretch;
   }
+
+  /* Flows: same as Teams/Labs — avoid pulling content under the fixed top navbar */
+  .app-content:has(.flows) {
+    margin-top: 0;
+    margin-bottom: 0;
+    align-self: stretch;
+    align-items: stretch;
+    min-height: 0;
+  }
+
+  .app:has(.flows) {
+    align-items: stretch;
+  }
 }
 
 /*

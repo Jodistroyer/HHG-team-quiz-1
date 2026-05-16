@@ -7,7 +7,7 @@ export const thriveZoneFlowSituation: FlowSituation = {
   id: THRIVE_ZONE_SITUATION_ID,
   title: 'Thrive zone',
   cardTitle: 'Thrive zone',
-  cardDescription: 'Find the work environment where head, heart, and gut all stay fed.',
+  cardDescription: 'What the Best Workspace looks like for you.',
   readMinutes: 2,
   sequence: makeSequence(),
   whyText: PLACEHOLDER_WHY,

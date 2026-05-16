@@ -173,16 +173,6 @@
   letter-spacing: 0.01em;
 }
 
-.change-results-context-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.35rem;
-  flex: 0 0 1.35rem;
-  color: var(--section-context-color, #7d3dbd);
-  font-size: 1.1rem;
-}
-
 .change-results-context-title {
   min-width: 0;
   color: var(--section-context-color, #7d3dbd);

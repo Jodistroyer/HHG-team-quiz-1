@@ -16,6 +16,12 @@ export interface PendingFlowDetail {
   kind: 'detail'
   contextId: FlowContextId
   situationId: string
+  /**
+   * When true, Flows detail should open with the user's quiz-derived profile
+   * (Flows Recommended). All other entry points use the browse default
+   * (Head-strong first variant).
+   */
+  personalizedBrainProfile?: boolean
 }
 
 export interface PendingFlowBrowseContext {
@@ -45,11 +51,24 @@ function writePending (target: PendingFlowTarget) {
   }
 }
 
-/** "Recommended Flows" card click → open detail view directly. */
+export type RequestOpenFlowOptions = {
+  personalizedBrainProfile?: boolean
+}
+
+/** Card click (e.g. quiz scroller or Flows library) → open detail view directly. */
 export function requestOpenFlow (
-  target: { contextId: FlowContextId; situationId: string }
+  target: { contextId: FlowContextId; situationId: string },
+  options?: RequestOpenFlowOptions
 ) {
-  writePending({ kind: 'detail', ...target })
+  const detail: PendingFlowDetail = {
+    kind: 'detail',
+    contextId: target.contextId,
+    situationId: target.situationId,
+  }
+  if (options?.personalizedBrainProfile) {
+    detail.personalizedBrainProfile = true
+  }
+  writePending(detail)
   dispatchNavigate()
 }
 
@@ -69,7 +88,13 @@ export function consumePendingFlow (): PendingFlowTarget | null {
     if (!isFlowContextId(parsed.contextId)) return null
     if (parsed.kind === 'detail') {
       if (typeof parsed.situationId !== 'string' || parsed.situationId.length === 0) return null
-      return { kind: 'detail', contextId: parsed.contextId, situationId: parsed.situationId }
+      const personalized = parsed.personalizedBrainProfile === true
+      return {
+        kind: 'detail',
+        contextId: parsed.contextId,
+        situationId: parsed.situationId,
+        ...(personalized ? { personalizedBrainProfile: true as const } : {}),
+      }
     }
     if (parsed.kind === 'browse-context') {
       return { kind: 'browse-context', contextId: parsed.contextId }

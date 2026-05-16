@@ -5,9 +5,17 @@ import { FlowsDetail } from './FlowsPages/FlowsDetail/FlowsDetail'
 import { FlowsRecommended } from './FlowsPages/FlowsRecommended/FlowsRecommended'
 import { FlowsSaved } from './FlowsPages/FlowsSaved/FlowsSaved'
 import { getSituation, type FlowContextId } from './flowsData'
+import {
+  loadLastOpenedFlow,
+  loadRecentOpens,
+  persistLastOpenedFlow,
+  updatePersistedFlowBrainProfile,
+  type LastOpenedFlow,
+} from './flowsLastOpened'
 import { consumePendingFlow } from './flowsNavigation'
 import { FlowsLibrarySidebar, type FlowsLibraryView } from './FlowsSidebar/FlowsLibrarySidebar'
-import type { FlowsBrainProfile } from './flowsTypes'
+import { flowsBrainProfileForStoredContext } from './flowsQuizSnapshot'
+import { FLOWS_BROWSE_DEFAULT_BRAIN_PROFILE, type FlowsBrainProfile } from './flowsTypes'
 import './Flows.css'
 
 export type { FlowsBrainProfile } from './flowsTypes'
@@ -16,13 +24,23 @@ type FlowsView =
   | { kind: 'browse' }
   | { kind: 'detail'; contextId: FlowContextId; situationId: string }
 
-const PLACEHOLDER_BRAIN_PROFILE: FlowsBrainProfile = {
-  dominant: 'Head',
-  secondary: 'Heart',
+function initialDetailBrainProfile (pending: ReturnType<typeof consumePendingFlow>): FlowsBrainProfile {
+  if (pending?.kind === 'detail' && pending.personalizedBrainProfile) {
+    return flowsBrainProfileForStoredContext(pending.contextId)
+  }
+  return FLOWS_BROWSE_DEFAULT_BRAIN_PROFILE
 }
 
-const Flows = () => {
+interface FlowsProps {
+  onNavigate?: (page: string) => void
+}
+
+const Flows = ({ onNavigate }: FlowsProps) => {
   const pendingOnMount = consumePendingFlow()
+
+  const [detailBrainProfile, setDetailBrainProfile] = useState<FlowsBrainProfile>(() =>
+    initialDetailBrainProfile(pendingOnMount)
+  )
 
   const [view, setView] = useState<FlowsView>(() => {
     if (
@@ -38,9 +56,6 @@ const Flows = () => {
     return { kind: 'browse' }
   })
 
-  const browseScrollContextId =
-    pendingOnMount?.kind === 'browse-context' ? pendingOnMount.contextId : null
-
   const [libraryView, setLibraryView] = useState<FlowsLibraryView>(() => {
     if (pendingOnMount?.kind === 'browse-context') return 'context'
     return 'home'
@@ -51,8 +66,48 @@ const Flows = () => {
     return null
   })
 
-  const openSituation = (contextId: FlowContextId, situationId: string) => {
+  const [lastOpened, setLastOpened] = useState<LastOpenedFlow | null>(() => loadLastOpenedFlow())
+  const [recentOpens, setRecentOpens] = useState<LastOpenedFlow[]>(() => loadRecentOpens())
+
+  const openSituation = (
+    contextId: FlowContextId,
+    situationId: string,
+    opts?: { personalizedBrainProfile?: boolean; brainProfile?: FlowsBrainProfile }
+  ) => {
+    const brainProfile =
+      opts?.brainProfile ??
+      (opts?.personalizedBrainProfile
+        ? flowsBrainProfileForStoredContext(contextId)
+        : FLOWS_BROWSE_DEFAULT_BRAIN_PROFILE)
+    persistLastOpenedFlow(contextId, situationId, brainProfile)
+    setLastOpened({
+      contextId,
+      situationId,
+      openedAt: Date.now(),
+      brainProfile,
+    })
+    setRecentOpens(loadRecentOpens())
+    setDetailBrainProfile(brainProfile)
     setView({ kind: 'detail', contextId, situationId })
+  }
+
+  const commitBrainVariantForDetail = (brainProfile: FlowsBrainProfile) => {
+    if (view.kind !== 'detail') return
+    const { contextId, situationId } = view
+    updatePersistedFlowBrainProfile(contextId, situationId, brainProfile)
+    setLastOpened((prev) =>
+      prev != null && prev.contextId === contextId && prev.situationId === situationId
+        ? { ...prev, brainProfile }
+        : prev
+    )
+    setRecentOpens(loadRecentOpens())
+    setDetailBrainProfile(brainProfile)
+  }
+
+  const goToRecommended = () => {
+    setLibraryView('recommended')
+    setLibraryContextId(null)
+    setView({ kind: 'browse' })
   }
 
   const goBrowse = () => setView({ kind: 'browse' })
@@ -79,32 +134,55 @@ const Flows = () => {
           onRecommended={() => {
             setLibraryView('recommended')
             setLibraryContextId(null)
+            setView({ kind: 'browse' })
           }}
           onSaved={() => {
             setLibraryView('saved')
             setLibraryContextId(null)
+            setView({ kind: 'browse' })
           }}
         />
 
         <main className="flows__content">
           {libraryView === 'recommended' ? (
-            <FlowsRecommended />
+            <FlowsRecommended
+              onOpenSituation={(contextId, situationId) =>
+                openSituation(contextId, situationId, { personalizedBrainProfile: true })
+              }
+            />
           ) : libraryView === 'saved' ? (
             <FlowsSaved />
           ) : view.kind === 'browse' && libraryView === 'context' && ContextPage ? (
             <ContextPage onOpenSituation={openSituation} />
           ) : view.kind === 'browse' ? (
             <FlowsHome
-              brainProfile={PLACEHOLDER_BRAIN_PROFILE}
-              onOpenSituation={openSituation}
-              scrollToContextId={browseScrollContextId}
+              lastOpened={lastOpened}
+              recentOpens={recentOpens}
+              onOpenMatchedFlow={(contextId, situationId, brainProfile) =>
+                openSituation(
+                  contextId,
+                  situationId,
+                  brainProfile != null
+                    ? { brainProfile }
+                    : { personalizedBrainProfile: true }
+                )
+              }
+              onGoToRecommended={goToRecommended}
+              onPickContext={(contextId) => {
+                setLibraryView('context')
+                setLibraryContextId(contextId)
+                setView({ kind: 'browse' })
+              }}
+              onTakeQuiz={() => onNavigate?.('quiz')}
             />
           ) : (
             <FlowsDetail
-              brainProfile={PLACEHOLDER_BRAIN_PROFILE}
+              key={`${view.contextId}-${view.situationId}-${detailBrainProfile.dominant}-${detailBrainProfile.secondary ?? 'none'}-${detailBrainProfile.tertiary ?? 'none'}`}
+              brainProfile={detailBrainProfile}
               contextId={view.contextId}
               situationId={view.situationId}
               onBack={goBrowse}
+              onBrainVariantChange={commitBrainVariantForDetail}
             />
           )}
         </main>

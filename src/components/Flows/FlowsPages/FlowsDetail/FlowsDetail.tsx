@@ -1,7 +1,12 @@
 import { useMemo, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faDiamond, faHeart, faSquare } from '@fortawesome/free-solid-svg-icons'
-import { BrainTypeSidebar, profileToActiveId, type BrainTypeSidebarItemId } from './BrainTypeSidebar'
+import {
+  BrainTypeSidebar,
+  brainProfileFromActiveId,
+  profileToActiveId,
+  type BrainTypeSidebarItemId,
+} from './BrainTypeSidebar'
 import { FlowSequence } from './FlowSequence'
 import { FlowSteps } from './FlowSteps'
 import { WhyItWorks } from './WhyItWorks'
@@ -17,6 +22,8 @@ interface FlowsDetailProps {
   contextId: FlowContextId
   situationId: string
   onBack: () => void
+  /** When user picks another archetype in the sidebar (Thinker, Diplomat, …). */
+  onBrainVariantChange?: (profile: FlowsBrainProfile) => void
 }
 
 function brainComboLabel ({ dominant, secondary }: FlowsBrainProfile): string {
@@ -130,6 +137,7 @@ export const FlowsDetail = ({
   contextId,
   situationId,
   onBack,
+  onBrainVariantChange,
 }: FlowsDetailProps) => {
   const context = getContextById(contextId)
   const situation = getSituation(contextId, situationId) ?? context?.situations[0]
@@ -259,7 +267,10 @@ export const FlowsDetail = ({
 
         <BrainTypeSidebar
           activeId={selectedBrainId}
-          onSelect={setSelectedBrainId}
+          onSelect={(id) => {
+            setSelectedBrainId(id)
+            onBrainVariantChange?.(brainProfileFromActiveId(id))
+          }}
         />
       </div>
     </div>

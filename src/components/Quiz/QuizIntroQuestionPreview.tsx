@@ -107,7 +107,7 @@ export function QuizIntroQuestionPreview () {
       aria-label="Sample Under Pressure question. Try choosing one or two answers; nothing is saved."
     >
       <div className="quiz-intro-question-preview__viewport">
-        <p className="quiz-intro-question-preview__header">For Example:</p>
+        <p className="quiz-intro-question-preview__header">↓ THIS IS FOR EXAMPLE ONLY ↓</p>
         <div className="quiz-intro-question-preview__board-wrap">
           <div className="quiz-intro-question-preview__board-slot">
             <div className="quiz-intro-question-preview__board">

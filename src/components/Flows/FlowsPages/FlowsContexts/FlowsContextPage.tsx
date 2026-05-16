@@ -1,7 +1,5 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FlowCard } from '../../FlowsShared/FlowCard'
 import { getContextById, type FlowContextId } from '../../flowsData'
-import { FLOW_CONTEXT_META } from '../../flowsContexts'
 import { CONTEXT_BACKGROUND, ContextCardArt } from '../../../Quiz/ContextArt'
 import './FlowsContextPage.css'
 
@@ -15,7 +13,6 @@ export const FlowsContextPage = ({ contextId, onOpenSituation }: FlowsContextPag
   if (!context) return null
 
   const accent = CONTEXT_BACKGROUND[contextId]
-  const meta = FLOW_CONTEXT_META[contextId]
 
   return (
     <div className="flows-context">
@@ -27,12 +24,7 @@ export const FlowsContextPage = ({ contextId, onOpenSituation }: FlowsContextPag
           <ContextCardArt id={contextId} />
         </div>
         <div className="flows-context__header-body">
-          <h1 className="flows-context__title">
-            <span className="flows-context__title-icon" aria-hidden>
-              <FontAwesomeIcon icon={meta.icon} />
-            </span>
-            {context.title}
-          </h1>
+          <h1 className="flows-context__title">{context.title}</h1>
           <p className="flows-context__line">{context.contextLine}</p>
         </div>
       </header>

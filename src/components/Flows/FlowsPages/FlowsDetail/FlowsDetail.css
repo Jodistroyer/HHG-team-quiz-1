@@ -106,6 +106,7 @@
 
 .flows-detail__archetype--right {
   font-size: 1rem;
+  font-weight: 400;
 }
 
 .flows-detail__context-heading {
@@ -138,7 +139,7 @@
 .flows-detail__page-title {
   font-family: 'Montserrat', sans-serif;
   font-size: clamp(1.3rem, 2.4vw, 1.5rem);
-  font-weight: 700;
+  font-weight: 600;
   color: var(--flows-ink);
   margin: 0 0 0.65rem;
   letter-spacing: 0.005em;

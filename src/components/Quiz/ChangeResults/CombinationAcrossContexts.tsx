@@ -3,7 +3,7 @@ import type { ContextComboRow } from './changeResultsLogic'
 import { contextComboLabelForSectionTitle } from './contextComboLabels'
 import { sectionContextForTitle } from '../sectionContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBriefcase, faChartLine, faFire, faPeopleGroup, faDiamond, faHeart, faSquare } from '@fortawesome/free-solid-svg-icons'
+import { faDiamond, faHeart, faSquare } from '@fortawesome/free-solid-svg-icons'
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 import { CONTEXT_BACKGROUND, ContextCardArt, contextIdForTitle } from '../ContextArt'
 import '../SectionResults/SectionCard.css'
@@ -21,21 +21,6 @@ interface CombinationAcrossContextsProps {
   /** Opens resume confirmation (parent owns modal + navigation). */
   onRequestResume?: (sectionId: number) => void
   showResumeButton?: boolean
-}
-
-function contextIconForTitle(title: string): IconDefinition | null {
-  switch (title.trim().toLowerCase()) {
-    case 'under pressure':
-      return faFire
-    case 'doing work':
-      return faBriefcase
-    case 'with people':
-      return faPeopleGroup
-    case 'getting better':
-      return faChartLine
-    default:
-      return null
-  }
 }
 
 function centreIcon(centre: ContextComboRow['centres'][number]): { icon: IconDefinition; className: string } {
@@ -61,7 +46,6 @@ export function CombinationAcrossContexts ({
     <div className="change-results-combo-block">
       <dl className="change-results-combo-list">
         {rows.map((row) => {
-          const icon = contextIconForTitle(row.title)
           const contextLine = sectionContextForTitle(row.title)
           const sectionId = row.sectionId ?? sections.find((s) => s.title === row.title)?.id
           const canResume =
@@ -71,8 +55,7 @@ export function CombinationAcrossContexts ({
             typeof onRequestResume === 'function'
 
           const artId = contextIdForTitle(row.title)
-          // Cascades to .change-results-row-art + .change-results-context-icon
-          // + .change-results-context-title via var(--section-context-color).
+          // Cascades to .change-results-row-art + .change-results-context-title via var(--section-context-color).
           const rowStyle: CSSProperties | undefined =
             artId != null
               ? ({ '--section-context-color': CONTEXT_BACKGROUND[artId] } as CSSProperties)
@@ -94,11 +77,6 @@ export function CombinationAcrossContexts ({
               )}
               <dt className="change-results-combo-dt">
                 <div className="change-results-context-heading">
-                  {icon && (
-                    <span className="change-results-context-icon" aria-hidden="true">
-                      <FontAwesomeIcon icon={icon} />
-                    </span>
-                  )}
                   <span className="change-results-context-title">{row.title}</span>
                 </div>
                 {contextLine && (

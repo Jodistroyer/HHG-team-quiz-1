@@ -36,17 +36,13 @@ import { getSituationalContextScores } from '../../contextHhgScores'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 import {
-  faBriefcase,
-  faChartLine,
   faChevronDown,
   faChevronUp,
   faComments,
   faDiamond,
-  faFire,
   faFireFlameCurved,
   faHeart,
   faMap,
-  faPeopleGroup,
   faSquare,
   faUserTie,
 } from '@fortawesome/free-solid-svg-icons'
@@ -102,21 +98,6 @@ function averageScores (a: TeamContextScores, b: TeamContextScores): TeamContext
 
 function isEmptyContextScores (s: TeamContextScores): boolean {
   return s.headPercent === 0 && s.heartPercent === 0 && s.gutPercent === 0
-}
-
-function contextIconForTitle (title: string): IconDefinition | null {
-  switch (title.trim().toLowerCase()) {
-    case 'under pressure':
-      return faFire
-    case 'doing work':
-      return faBriefcase
-    case 'with people':
-      return faPeopleGroup
-    case 'getting better':
-      return faChartLine
-    default:
-      return null
-  }
 }
 
 function centreIcon (centre: Centre): { icon: IconDefinition; className: string } {
@@ -196,7 +177,6 @@ function PairAcrossContextsCard ({ people, insights }: { people: [Person, Person
           </div>
           <dl className="change-results-combo-list">
             {rows.map((row) => {
-              const contextIcon = contextIconForTitle(row.title)
               const contextLine = sectionContextForTitle(row.title)
               const artId = contextIdForTitle(row.title)
               const contextColor = artId != null ? CONTEXT_BACKGROUND[artId] : null
@@ -221,11 +201,6 @@ function PairAcrossContextsCard ({ people, insights }: { people: [Person, Person
                           : undefined
                       }
                     >
-                      {contextIcon && (
-                        <span className="change-results-context-icon" aria-hidden="true">
-                          <FontAwesomeIcon icon={contextIcon} />
-                        </span>
-                      )}
                       <span className="change-results-context-title">{row.title}</span>
                     </div>
                     {contextLine && (

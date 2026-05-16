@@ -9,3 +9,18 @@ export interface FlowsBrainProfile {
   secondary: BrainType | null
   tertiary?: BrainType | null
 }
+
+/** Library browse / context pages: detail opens on the first variant (Thinker / Head-strong). */
+export const FLOWS_BROWSE_DEFAULT_BRAIN_PROFILE: FlowsBrainProfile = {
+  dominant: 'Head',
+  secondary: null,
+}
+
+/**
+ * Placeholder for Flows Recommended until profile is derived from quiz results
+ * and completed section scores.
+ */
+export const FLOWS_RECOMMENDED_PLACEHOLDER_BRAIN_PROFILE: FlowsBrainProfile = {
+  dominant: 'Head',
+  secondary: 'Heart',
+}

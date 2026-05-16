@@ -164,17 +164,70 @@ export function profileToActiveId (profile: FlowsBrainProfile): BrainTypeSidebar
   return 'balanced'
 }
 
+/** Inverse of `profileToActiveId` — sidebar archetype id → detail `FlowsBrainProfile`. */
+export function brainProfileFromActiveId (id: BrainTypeSidebarItemId): FlowsBrainProfile {
+  switch (id) {
+    case 'balanced':
+      return { dominant: 'Head', secondary: 'Heart', tertiary: 'Gut' }
+    case 'head-strong':
+      return { dominant: 'Head', secondary: null }
+    case 'heart-strong':
+      return { dominant: 'Heart', secondary: null }
+    case 'gut-strong':
+      return { dominant: 'Gut', secondary: null }
+    case 'head-heart':
+      return { dominant: 'Head', secondary: 'Heart' }
+    case 'head-gut':
+      return { dominant: 'Head', secondary: 'Gut' }
+    case 'heart-head':
+      return { dominant: 'Heart', secondary: 'Head' }
+    case 'heart-gut':
+      return { dominant: 'Heart', secondary: 'Gut' }
+    case 'gut-head':
+      return { dominant: 'Gut', secondary: 'Head' }
+    case 'gut-heart':
+      return { dominant: 'Gut', secondary: 'Heart' }
+    default:
+      return { dominant: 'Head', secondary: null }
+  }
+}
+
+const DESKTOP_BRAIN_SIDEBAR_MQ = '(min-width: 769px)'
+
+/** Desktop only (`max-width: 768px` is mobile in BrainTypeSidebar.css): open one accordion group from initial archetype. */
+function defaultOpenGroupsForDesktopId (
+  activeId: BrainTypeSidebarItemId
+): { head: boolean; heart: boolean; gut: boolean } {
+  const closed = { head: false, heart: false, gut: false }
+  if (activeId === 'balanced') return closed
+  if (activeId.startsWith('head-')) return { ...closed, head: true }
+  if (activeId.startsWith('heart-')) return { ...closed, heart: true }
+  if (activeId.startsWith('gut-')) return { ...closed, gut: true }
+  return closed
+}
+
 interface BrainTypeSidebarProps {
   activeId: BrainTypeSidebarItemId
   onSelect: (id: BrainTypeSidebarItemId) => void
 }
 
 export const BrainTypeSidebar = ({ activeId, onSelect }: BrainTypeSidebarProps) => {
-  const [openGroups, setOpenGroups] = useState({
-    head: false,
-    heart: false,
-    gut: false,
-  })
+  const [openGroups, setOpenGroups] = useState(() =>
+    typeof window !== 'undefined' && window.matchMedia(DESKTOP_BRAIN_SIDEBAR_MQ).matches
+      ? defaultOpenGroupsForDesktopId(activeId)
+      : { head: false, heart: false, gut: false }
+  )
+
+  useEffect(() => {
+    const mq = window.matchMedia(DESKTOP_BRAIN_SIDEBAR_MQ)
+    const sync = () => {
+      if (!mq.matches) return
+      setOpenGroups(defaultOpenGroupsForDesktopId(activeId))
+    }
+    sync()
+    mq.addEventListener('change', sync)
+    return () => mq.removeEventListener('change', sync)
+  }, [activeId])
 
   const [mobileOpen, setMobileOpen] = useState(false)
   const mobileRef = useRef<HTMLDivElement>(null)

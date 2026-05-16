@@ -72,7 +72,7 @@ function App() {
       case 'quiz':
         return <Quiz />
       case 'flows':
-        return <Flows />
+        return <Flows onNavigate={handleNavigate} />
       case 'labs':
         return <Labs />
       case 'brain-types':

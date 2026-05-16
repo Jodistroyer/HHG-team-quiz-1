@@ -1,129 +1,980 @@
-.flows-browse {
+/* HHG Flows home — playbook-style layout (greeting, moments, matched strip, brain strip) */
+
+.flows-home {
+  box-sizing: border-box;
   width: 100%;
+  max-width: min(520px, 100%);
+  margin-inline: auto;
+  /* Narrow screens: one shared horizontal inset (safe-area aware) */
+  --flows-home-gutter: clamp(0.5rem, 4.25vw, 1rem);
+  padding-inline: max(env(safe-area-inset-left, 0px), var(--flows-home-gutter))
+    max(env(safe-area-inset-right, 0px), var(--flows-home-gutter));
+  padding-bottom: clamp(0.75rem, 4vw, 1.25rem);
+  /* Match quiz section cards: scroll targets clear fixed desktop navbar */
+  scroll-margin-top: 1rem;
+  --flows-home-fs-greeting: clamp(1.45rem, 4.2vw, 1.75rem);
+  --flows-home-fs-greeting-sub: clamp(0.94rem, 2.4vw, 1.02rem);
+  --flows-home-fs-section-title: clamp(0.92rem, 2.1vw, 1rem);
+  --flows-home-fs-section-link: clamp(0.82rem, 2vw, 0.92rem);
+  --flows-home-fs-eyebrow: clamp(0.65rem, 1.6vw, 0.72rem);
+  --flows-home-fs-card-title: clamp(1rem, 2.4vw, 1.1rem);
+  --flows-home-fs-body: clamp(0.82rem, 2.1vw, 0.9rem);
+  --flows-home-fs-btn: clamp(0.82rem, 2vw, 0.9rem);
+  --flows-home-fs-moment-title: clamp(0.88rem, 2.2vw, 0.98rem);
+  --flows-home-fs-moment-sub: clamp(0.74rem, 1.9vw, 0.84rem);
+  --flows-home-moment-thumb: clamp(3.4rem, 8.2vw, 4.35rem);
+  /* Shared browse-thumb frame (moment rows + last-used quick art) */
+  --flows-home-thumb-aspect: 320 / 200;
+  --flows-home-thumb-radius: 10px;
+  --flows-home-thumb-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --flows-home-fs-chevron: clamp(0.92rem, 2.2vw, 1.08rem);
+  --flows-home-matched-card-min: 11.25rem;
+  --flows-home-fs-sit-ctx: clamp(0.65rem, 1.5vw, 0.72rem);
+  --flows-home-fs-sit-title: clamp(0.82rem, 2vw, 0.92rem);
+  --flows-home-fs-sit-star: clamp(0.74rem, 1.8vw, 0.88rem);
+  --flows-home-fs-brain-badge: clamp(0.82rem, 2vw, 0.94rem);
+  --flows-home-fs-brain-desc: clamp(0.76rem, 1.85vw, 0.88rem);
+}
+
+/* Intro column + feed column (+ optional brain rail); mobile preserves former vertical order */
+.flows-home__layout {
+  display: grid;
+  gap: clamp(1.35rem, 4vw, 1.65rem);
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    'intro'
+    'feed'
+    'rail';
+}
+
+.flows-home__layout--no-rail {
+  grid-template-areas:
+    'intro'
+    'feed';
+}
+
+.flows-home__intro {
+  grid-area: intro;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: clamp(1.15rem, 3.25vw, 1.45rem);
+  min-width: 0;
+  /* No extra horizontal padding; page gutter + quick-wrap rules define inset */
+  padding-inline: 0;
 }
 
-.flows-browse__header {
+.flows-home__rail {
+  grid-area: rail;
+  min-width: 0;
+}
+
+.flows-home__feed {
+  grid-area: feed;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.15rem, 3.25vw, 1.45rem);
+  min-width: 0;
+}
+
+.flows-home__hero {
+  padding: 0;
+}
+
+/* Last-used quick card: light end inset only; start relies on `.flows-home` gutter (avoids double left inset) */
+.flows-home__quick-wrap {
+  display: flex;
+  justify-content: flex-start;
   width: 100%;
+  box-sizing: border-box;
+  min-width: 0;
+  padding-inline-start: 0;
+  /* Tight end inset vs page gutter; keep small buffer so card border/shadow isn’t clipped */
+  padding-inline-end: clamp(0.05rem, 1vw, 0.3rem);
+  padding-block: clamp(0.3rem, 2.25vw, 0.75rem);
 }
 
-.flows-browse__title {
+.flows-home__quick-wrap > .flows-home__quick-card {
+  flex: 0 1 auto;
+  width: 100%;
+  max-width: min(32rem, 100%);
+  margin-inline: 0;
+}
+
+.flows-home__greeting {
   font-family: 'Montserrat', sans-serif;
-  font-size: clamp(1.85rem, 4vw, 2.35rem);
-  font-weight: 800;
-  color: var(--flows-purple);
-  letter-spacing: 0.02em;
-  margin: 0 0 0.85rem;
+  font-size: var(--flows-home-fs-greeting);
+  font-weight: 600;
+  color: var(--flows-purple-deep, #5c2d8a);
+  margin: 0 0 0.25rem;
+  line-height: 1.25;
 }
 
-.flows-browse__intro {
+.flows-home__greeting-sub {
   margin: 0;
-  font-size: 1.05rem;
-  line-height: 1.65;
+  font-size: var(--flows-home-fs-greeting-sub);
+  color: var(--flows-ink-soft);
+  line-height: 1.45;
+}
+
+/* Quick card (last used) — maps shared `--ctx-*` into `--quick-*` aliases */
+.flows-home__quick-card {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  border-radius: 16px;
+  padding: clamp(1.1rem, 2.75vw, 1.35rem) clamp(1.05rem, 2.65vw, 1.35rem)
+    clamp(1.05rem, 2.6vw, 1.35rem);
+  /* Lavender fallback when no `--ctx-*` modifier (same as former default) */
+  --ctx-art: #7f77dd;
+  --ctx-surface: #eeedfe;
+  --ctx-border-mix: color-mix(in srgb, var(--ctx-art) 35%, #ffffff);
+  --ctx-label: #534ab7;
+  --ctx-title-fg: #26215c;
+  --ctx-seq-accent: #534ab7;
+  --ctx-primary: #533ab7;
+  --ctx-ghost-border-mix: color-mix(in srgb, var(--ctx-art) 28%, transparent);
+  --ctx-ghost-text: #3c3489;
+  --quick-bg: var(--ctx-surface);
+  --quick-border: var(--ctx-border-mix);
+  --quick-label: var(--ctx-label);
+  --quick-title: var(--ctx-title-fg);
+  --quick-seq-arr: var(--ctx-seq-accent);
+  --quick-primary-bg: var(--ctx-primary);
+  --quick-primary-border: var(--ctx-primary);
+  --quick-ghost-bg: rgba(255, 255, 255, 0.72);
+  --quick-ghost-text: var(--ctx-ghost-text);
+  --quick-ghost-border: var(--ctx-ghost-border-mix);
+  background: var(--quick-bg);
+  border: 0.5px solid var(--quick-border);
+}
+
+/*
+ * Shared per-context palette (quiz art rects + soft surfaces).
+ * QuizIntro / ContextCardArt: src/components/Quiz/ContextArt.tsx
+ * Must follow `.flows-home__quick-card` so overrides win on quick + sit modifiers.
+ */
+.flows-home__quick-card--ctx-1,
+.flows-home__sit-card--ctx-1 {
+  /* Quiz art rect: #d8682a — warmer coral mix, softer surface like ctx-2 */
+  --ctx-art: #e6874f;
+  --ctx-surface: #fdf6f1;
+  --ctx-border-mix: color-mix(in srgb, var(--ctx-art) 22%, #ffffff);
+  --ctx-label: #9a5526;
+  --ctx-title-fg: #3d291f;
+  --ctx-seq-accent: #cf7542;
+  --ctx-primary: #d07845;
+  --ctx-ghost-border-mix: color-mix(in srgb, var(--ctx-art) 18%, transparent);
+  --ctx-ghost-text: #6a4024;
+}
+
+/* Ghost on ctx-1: brighter fill — matches lighter peach surface */
+.flows-home__quick-card--ctx-1 {
+  --quick-ghost-bg: rgba(255, 255, 255, 0.84);
+}
+
+.flows-home__quick-card--ctx-2,
+.flows-home__sit-card--ctx-2 {
+  /* Quiz art rect: #2563a8 — chrome mixes lean sky/periwinkle for softer “Doing work” */
+  --ctx-art: #5b8fde;
+  --ctx-surface: #ffffff;
+  --ctx-border-mix: color-mix(in srgb, var(--ctx-art) 22%, #ffffff);
+  --ctx-label: #3566a8;
+  --ctx-title-fg: #1c3550;
+  --ctx-seq-accent: #4986d6;
+  --ctx-primary: #4782d6;
+  --ctx-ghost-border-mix: color-mix(in srgb, var(--ctx-art) 18%, transparent);
+  --ctx-ghost-text: #2a5578;
+}
+
+/* Ghost on ctx-2: slightly brighter fill vs default 72% white — matches lighter surface */
+.flows-home__quick-card--ctx-2 {
+  --quick-ghost-bg: rgba(255, 255, 255, 0.84);
+}
+
+.flows-home__quick-card--ctx-3,
+.flows-home__sit-card--ctx-3 {
+  /* Quiz art rect: #cf5572 — rosier, softer “people” mix */
+  --ctx-art: #e07892;
+  --ctx-surface: #fdf6f8;
+  --ctx-border-mix: color-mix(in srgb, var(--ctx-art) 22%, #ffffff);
+  --ctx-label: #a34e64;
+  --ctx-title-fg: #35242a;
+  --ctx-seq-accent: #d46680;
+  --ctx-primary: #d46b84;
+  --ctx-ghost-border-mix: color-mix(in srgb, var(--ctx-art) 18%, transparent);
+  --ctx-ghost-text: #723542;
+}
+
+/* Ghost on ctx-3: brighter fill — matches blush surface */
+.flows-home__quick-card--ctx-3 {
+  --quick-ghost-bg: rgba(255, 255, 255, 0.84);
+}
+
+.flows-home__quick-card--ctx-4,
+.flows-home__sit-card--ctx-4 {
+  /* Quiz art rect: #6b9c4d — springy green, airy surface */
+  --ctx-art: #85bd66;
+  --ctx-surface: #f4f9f0;
+  --ctx-border-mix: color-mix(in srgb, var(--ctx-art) 22%, #ffffff);
+  --ctx-label: #558038;
+  --ctx-title-fg: #24381d;
+  --ctx-seq-accent: #72a654;
+  --ctx-primary: #78aa58;
+  --ctx-ghost-border-mix: color-mix(in srgb, var(--ctx-art) 18%, transparent);
+  --ctx-ghost-text: #3e6132;
+}
+
+/* Ghost on ctx-4: brighter fill — matches mint surface */
+.flows-home__quick-card--ctx-4 {
+  --quick-ghost-bg: rgba(255, 255, 255, 0.84);
+}
+
+.flows-home__quick-card .flows-home__quick-label {
+  margin: 0;
+  font-size: var(--flows-home-fs-eyebrow);
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  text-align: left;
+  color: var(--quick-label);
+  flex: 1 1 auto;
+  min-width: 0;
+  padding-right: 0.5rem;
+  line-height: 1.35;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.flows-home__quick-card .flows-home__quick-title {
+  margin: 0 0 0.65rem;
+  font-size: var(--flows-home-fs-card-title);
+  font-weight: 600;
+  color: var(--quick-title);
+  line-height: 1.35;
+}
+
+/* Row 1: “Last used” label (left) + brain icons (right) */
+.flows-home__quick-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.35rem;
+  margin-bottom: clamp(0.65rem, 2.4vw, 0.95rem);
+  min-width: 0;
+}
+
+/* Row 2: title + sequence (left / stacked first on narrow screens) · situation art (right on wider screens) */
+.flows-home__quick-body {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: clamp(0.65rem, 2vw, 0.85rem);
+  margin-block: 0;
+  min-width: 0;
+}
+
+.flows-home__quick-body-main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+/* Same thumb box as `.flows-home__moment-art`; placement + alignment vary by breakpoint */
+.flows-home__quick-art {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  aspect-ratio: var(--flows-home-thumb-aspect);
+  height: auto;
+  margin-inline: 0;
+  border-radius: var(--flows-home-thumb-radius);
+  overflow: hidden;
+  line-height: 0;
+  box-shadow: var(--flows-home-thumb-shadow);
+}
+
+/* Narrow: stack art under copy; thumbnail spans row width up to browse-thumb cap, centered */
+.flows-home__quick-body .flows-home__quick-art {
+  align-self: center;
+  width: min(100%, var(--flows-home-moment-thumb));
+  max-width: 100%;
+}
+
+/* Wide: row — main column grows; art stays right with thumbnail hugging the end edge */
+@media (min-width: 560px) {
+  .flows-home__quick-body {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: clamp(0.75rem, 2.2vw, 1rem);
+  }
+
+  .flows-home__quick-body .flows-home__quick-art {
+    align-self: flex-start;
+    width: min(100%, var(--flows-home-moment-thumb));
+    margin-inline-start: auto;
+    margin-inline-end: 0;
+  }
+}
+
+/*
+ * `meet` letterboxing inside 320×200 viewBox shows parent CONTEXT_BACKGROUND; zoom + clip
+ * fills the frame with the illustration. Scoped to quick-art only (moment thumbs unchanged).
+ */
+.flows-home__quick-art .quiz-intro-card__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform: scale(1.06);
+  transform-origin: center center;
+}
+
+.flows-home__quick-brain {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0;
+  flex: 0 0 auto;
+  flex-shrink: 0;
+}
+
+.flows-home__quick-brain-icons {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.flows-home__quick-brain-icons svg {
+  width: clamp(0.82rem, 2vw, 0.92rem);
+  height: clamp(0.82rem, 2vw, 0.92rem);
+  display: block;
+}
+
+.flows-home__seq-pills {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin-bottom: clamp(1.1rem, 2.75vw, 1.35rem);
+}
+
+.flows-home__pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+  padding: clamp(0.26rem, 0.65vw, 0.36rem);
+  min-width: clamp(1.6rem, 3.8vw, 1.9rem);
+  min-height: clamp(1.6rem, 3.8vw, 1.9rem);
+  border-radius: 10px;
+  font-size: clamp(0.78rem, 1.75vw, 0.92rem);
+}
+
+.flows-home__pill svg {
+  width: 1em;
+  height: 1em;
+  display: block;
+}
+
+.flows-home__seq-arr {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+  font-size: clamp(0.52rem, 1.25vw, 0.62rem);
+}
+
+.flows-home__quick-card .flows-home__seq-arr {
+  color: var(--quick-seq-arr);
+}
+
+.flows-home__seq-arr svg {
+  width: 1em;
+  height: 1em;
+  display: block;
+}
+
+.flows-home__quick-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.flows-home__btn {
+  flex: 1;
+  border-radius: 10px;
+  padding: clamp(0.52rem, 1.4vw, 0.62rem) clamp(0.65rem, 1.8vw, 0.82rem);
+  font-size: var(--flows-home-fs-btn);
+  font-weight: 600;
+  cursor: pointer;
+  border: 0.5px solid var(--flows-btn-border, #afa9ec);
+  font-family: inherit;
+}
+
+.flows-home__quick-card .flows-home__btn {
+  --flows-btn-border: var(--quick-ghost-border);
+}
+
+.flows-home__btn--primary {
+  background: #533ab7;
+  color: #fff;
+  border-color: #533ab7;
+}
+
+.flows-home__quick-card .flows-home__btn--primary {
+  background: var(--quick-primary-bg);
+  color: #fff;
+  border-color: var(--quick-primary-border);
+}
+
+.flows-home__btn--ghost {
+  background: rgba(255, 255, 255, 0.65);
+  color: #3c3489;
+}
+
+.flows-home__quick-card .flows-home__btn--ghost {
+  background: var(--quick-ghost-bg);
+  color: var(--quick-ghost-text);
+  border-color: var(--quick-ghost-border);
+}
+
+/* Start here (no quiz) */
+.flows-home__start-card {
+  border-radius: 16px;
+  padding: clamp(1rem, 2.5vw, 1.25rem) clamp(1.1rem, 2.6vw, 1.35rem);
+  background: var(--flows-purple-soft, #eeedfe);
+  border: 0.5px solid #afa9ec;
+}
+
+.flows-home__start-eyebrow {
+  margin: 0 0 0.5rem;
+  font-size: var(--flows-home-fs-eyebrow);
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #534ab7;
+}
+
+.flows-home__start-title {
+  margin: 0 0 0.45rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(1.05rem, 2.6vw, 1.2rem);
+  font-weight: 600;
+  color: #26215c;
+  line-height: 1.35;
+}
+
+.flows-home__start-body {
+  margin: 0 0 0.85rem;
+  font-size: var(--flows-home-fs-body);
+  color: #3c3489;
+  line-height: 1.5;
+}
+
+.flows-home__start-cta {
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  padding: clamp(0.65rem, 1.8vw, 0.8rem);
+  font-size: clamp(0.88rem, 2.1vw, 0.98rem);
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  background: #533ab7;
+  color: #fff;
+}
+
+.flows-home__section-head {
+  padding: 0;
+}
+
+.flows-home__section-head--row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.flows-home__section-title {
+  margin: 0;
+  font-size: var(--flows-home-fs-section-title);
+  font-weight: 600;
+  color: var(--flows-ink);
+}
+
+.flows-home__section-link {
+  border: none;
+  background: none;
+  padding: 0;
+  font-size: var(--flows-home-fs-section-link);
+  font-weight: 500;
+  font-family: inherit;
+  color: #534ab7;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.flows-home__section-link:hover {
+  color: #3c3489;
+}
+
+/* Moment list */
+.flows-home__moments {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.55rem, 2vw, 0.7rem);
+}
+
+.flows-home__moment-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 2vw, 0.95rem);
+  padding: clamp(0.75rem, 2vw, 0.9rem) clamp(0.85rem, 2.2vw, 1rem);
+  border-radius: 14px;
+  border: 0.5px solid var(--flows-border);
+  background: var(--flows-surface);
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  transition: border-color 0.12s ease, background 0.12s ease;
+}
+
+.flows-home__moment-btn:hover {
+  border-color: var(--flows-border-strong);
+  background: var(--flows-surface-soft);
+}
+
+/* Same `quiz-intro-card__svg` art as QuizIntro / ContextArt; widescreen thumbnail in the row */
+.flows-home__moment-art {
+  width: var(--flows-home-moment-thumb);
+  aspect-ratio: var(--flows-home-thumb-aspect);
+  flex-shrink: 0;
+  border-radius: var(--flows-home-thumb-radius);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+  box-shadow: var(--flows-home-thumb-shadow);
+}
+
+/* Fill thumb box so `preserveAspectRatio="xMidYMid meet"` centers art (same idea as `.flow-card__thumb`). */
+.flows-home__moment-art .quiz-intro-card__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  flex-shrink: 0;
+}
+
+.flows-home__moment-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.flows-home__moment-title {
+  font-size: var(--flows-home-fs-moment-title);
+  font-weight: 600;
+  color: var(--flows-ink);
+}
+
+.flows-home__moment-sub {
+  font-size: var(--flows-home-fs-moment-sub);
   color: var(--flows-ink-soft);
 }
 
-.flows-browse__sections {
+.flows-home__moment-sub--dual {
   display: flex;
   flex-direction: column;
-  gap: 3.5rem;
+  align-items: flex-start;
+  gap: 0.15rem;
 }
 
-.flows-browse__section[id] {
-  scroll-margin-top: 1rem;
+.flows-home__moment-sub-primary {
+  display: block;
+}
+
+.flows-home__moment-sub-secondary {
+  display: block;
+  font-size: 0.92em;
+  color: var(--flows-ink-tertiary);
+}
+
+.flows-home__moment-chevron {
+  flex-shrink: 0;
+  font-size: var(--flows-home-fs-chevron);
+  color: var(--flows-ink-tertiary);
+}
+
+.flows-home__moment-chevron svg {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.08em;
+  display: block;
+}
+
+.flows-home__divider {
+  border: none;
+  height: 0.5px;
+  background: var(--flows-border);
+  margin: clamp(0.35rem, 2vw, 0.5rem) 0 0;
+}
+
+.flows-home__matched-empty {
+  margin: 0;
+  padding: 0 0 0.35rem;
+  font-size: var(--flows-home-fs-section-title);
+  line-height: 1.45;
+  color: var(--flows-ink-soft);
+}
+
+/* Horizontal matched strip */
+.flows-home__cards-scroll {
+  display: flex;
+  gap: 0.65rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-block-end: 0.35rem;
+  /* Scroll + snap respect the same inset as body text */
+  scroll-padding-inline: var(--flows-home-gutter);
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Trailing scroll affordance so the last card is not clipped at the edge */
+.flows-home__cards-scroll::after {
+  content: '';
+  flex-shrink: 0;
+  width: var(--flows-home-gutter);
+  min-width: var(--flows-home-gutter);
+}
+
+.flows-home__cards-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* Wrapper: flex so grid / scroll children stretch to one height without affecting track sizing */
+.flows-home__cards-item {
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.flows-home__sit-card {
+  width: var(--flows-home-matched-card-min);
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 0;
+  border-radius: 14px;
+  border: 0.5px solid var(--ctx-border-mix, var(--flows-border));
+  background: var(--ctx-surface, var(--flows-surface));
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  transition: border-color 0.12s ease, background 0.12s ease, box-shadow 0.12s ease;
+}
+
+/* Padded region below edge-to-edge thumb (replaces former `.flows-home__sit-card` padding) */
+.flows-home__sit-card-body {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: clamp(0.65rem, 1.5vw, 0.8rem) clamp(0.7rem, 1.6vw, 0.88rem);
+  border-radius: 0 0 14px 14px;
+}
+
+/* Matched strip only: cap thumb height + SVG zoom (quick-art / moment-art use separate sizing). */
+.flows-home__sit-thumb {
+  --flows-home-matched-thumb-h: clamp(2.68rem, 6.56vw, 3.48rem);
+  --flows-home-sit-thumb-svg-scale: 0.954;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  width: 100%;
+  aspect-ratio: var(--flows-home-thumb-aspect);
+  max-height: var(--flows-home-matched-thumb-h);
+  border-radius: 14px 14px 0 0;
+  overflow: hidden;
+  line-height: 0;
+  box-shadow: var(--flows-home-thumb-shadow);
+}
+
+.flows-home__sit-thumb .quiz-intro-card__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform: scale(var(--flows-home-sit-thumb-svg-scale));
+  transform-origin: center center;
+}
+
+.flows-home__sit-card:hover {
+  border-color: color-mix(in srgb, var(--ctx-art, var(--flows-border-strong)) 40%, #ffffff);
+  background: color-mix(in srgb, var(--ctx-surface, var(--flows-surface)) 90%, white);
+}
+
+.flows-home__sit-card--featured {
+  border-color: color-mix(in srgb, var(--ctx-primary, var(--flows-border-strong)) 45%, white);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+}
+
+.flows-home__sit-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.35rem;
+}
+
+.flows-home__sit-ctx {
+  font-size: var(--flows-home-fs-sit-ctx);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  padding: 0.1rem 0.4rem;
+  border-radius: 6px;
+  line-height: 1.2;
+}
+
+/*
+ * Context pills (`.flows-home__sit-ctx--1` … `--4` in markup): inherit `--ctx-*` from
+ * `.flows-home__sit-card--ctx-N` — label + border tokens match quick-card; background is a light mix of
+ * `--ctx-art` into `--ctx-surface` plus white so the chip stays readable on the tinted card.
+ */
+.flows-home__sit-card .flows-home__sit-ctx {
+  color: var(--ctx-label);
+  border: 0.5px solid var(--ctx-border-mix);
+  background: color-mix(
+    in srgb,
+    color-mix(in srgb, var(--ctx-art) 14%, var(--ctx-surface)) 72%,
+    #ffffff 28%
+  );
+}
+
+.flows-home__sit-star {
+  color: var(--ctx-primary, #534ab7);
+  font-size: var(--flows-home-fs-sit-star);
+}
+
+.flows-home__sit-star svg {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.1em;
+}
+
+.flows-home__sit-title {
+  font-size: var(--flows-home-fs-sit-title);
+  font-weight: 600;
+  color: var(--ctx-title-fg, var(--flows-ink));
+  line-height: 1.35;
+}
+
+.flows-home__sit-seq {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.15rem;
+  margin-top: auto;
+}
+
+.flows-home__sit-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+  padding: clamp(0.16rem, 0.4vw, 0.22rem);
+  min-width: clamp(1.28rem, 3vw, 1.5rem);
+  min-height: clamp(1.28rem, 3vw, 1.5rem);
+  border-radius: 6px;
+  font-size: clamp(0.6rem, 1.3vw, 0.72rem);
+}
+
+.flows-home__sit-pill svg {
+  width: 1em;
+  height: 1em;
+  display: block;
+}
+
+.flows-home__sit-arr {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+  font-size: clamp(0.48rem, 1.05vw, 0.56rem);
+  color: var(--ctx-seq-accent, var(--flows-ink-tertiary));
+}
+
+.flows-home__sit-arr svg {
+  width: 1em;
+  height: 1em;
+  display: block;
+}
+
+/* Brain type strip */
+.flows-home__brain-strip {
+  border: 0.5px solid var(--flows-border);
+  border-radius: 14px;
+  padding: clamp(0.85rem, 2vw, 1.05rem) clamp(1rem, 2.2vw, 1.2rem);
+  background: var(--flows-surface);
+}
+
+.flows-home__brain-label {
+  margin: 0 0 0.5rem;
+  font-size: var(--flows-home-fs-eyebrow);
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--flows-ink-tertiary);
+}
+
+.flows-home__brain-row {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.65rem, 1.8vw, 0.85rem);
+  flex-wrap: wrap;
+}
+
+.flows-home__brain-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: var(--flows-purple-soft, #eeedfe);
+  color: #3c3489;
+  font-size: var(--flows-home-fs-brain-badge);
+  font-weight: 600;
+  padding: clamp(0.38rem, 1vw, 0.48rem) clamp(0.75rem, 2vw, 0.95rem);
+  border-radius: 20px;
+}
+
+.flows-home__brain-desc {
+  font-size: var(--flows-home-fs-brain-desc);
+  color: var(--flows-ink-soft);
+  line-height: 1.4;
+  flex: 1;
+  min-width: 0;
 }
 
 @media (min-width: 769px) {
-  .flows-browse__section[id] {
+  .flows-home {
     scroll-margin-top: 80px;
   }
 }
 
-.flows-browse__section-header {
-  display: flex;
-  align-items: center;
-  gap: 0.85rem;
-  margin-bottom: 1rem;
-}
-
-/*
- * Override the shared `.quiz-context-thumb--md` aspect (80x50) here so the
- * Flows browse header feels squarer without affecting the Quiz section cards
- * that use the same component.
- */
-.flows-browse__section-header .quiz-context-thumb--md {
-  width: 64px;
-  height: 64px;
-  border-radius: 12px;
-}
-
-@media (min-width: 1024px) {
-  .flows-browse__section-header .quiz-context-thumb--md {
-    width: 72px;
-    height: 72px;
-    border-radius: 14px;
-  }
-}
-
-@media (max-width: 768px) {
-  .flows-browse__section-header .quiz-context-thumb--md {
-    width: 52px;
-    height: 52px;
-    border-radius: 10px;
-  }
-}
-
-.flows-browse__section-text {
-  display: flex;
-  flex-direction: column;
-  gap: 0.15rem;
-  min-width: 0;
-}
-
-.flows-browse__section-title {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--section-context-color, var(--flows-purple));
-  margin: 0;
-  letter-spacing: 0.01em;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55rem;
-}
-
-.flows-browse__section-title-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.05rem;
-  color: var(--section-context-color, var(--flows-purple));
-  flex-shrink: 0;
-}
-
-.flows-browse__section-line {
-  font-size: 0.9rem;
-  color: var(--flows-ink-soft);
-  margin: 0;
-  line-height: 1.5;
-}
-
-.flows-browse__grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.85rem;
-}
-
 @media (min-width: 900px) {
-  .flows-browse__grid {
-    grid-template-columns: repeat(4, 1fr);
+  .flows-home {
+    max-width: none;
+    width: 100%;
+    margin: 0;
+    padding-inline: 0;
+    /* Desktop: larger type + controls for multi-column “spread” */
+    --flows-home-fs-greeting: clamp(1.72rem, 2.35vw, 2.35rem);
+    --flows-home-fs-greeting-sub: clamp(1.02rem, 1.25vw, 1.18rem);
+    --flows-home-fs-section-title: clamp(1.06rem, 1.2vw, 1.28rem);
+    --flows-home-fs-section-link: clamp(0.95rem, 1.1vw, 1.06rem);
+    --flows-home-fs-eyebrow: clamp(0.72rem, 0.95vw, 0.82rem);
+    --flows-home-fs-card-title: clamp(1.08rem, 1.35vw, 1.28rem);
+    --flows-home-fs-body: clamp(0.9rem, 1.15vw, 1.05rem);
+    --flows-home-fs-btn: clamp(0.9rem, 1.1vw, 1.02rem);
+    --flows-home-fs-moment-title: clamp(1.02rem, 1.25vw, 1.18rem);
+    --flows-home-fs-moment-sub: clamp(0.88rem, 1.05vw, 1.02rem);
+    --flows-home-moment-thumb: clamp(5.25rem, 7.2vw, 7.5rem);
+    --flows-home-fs-chevron: clamp(1.05rem, 1.2vw, 1.22rem);
+    --flows-home-matched-card-min: 12.75rem;
+    --flows-home-fs-sit-ctx: clamp(0.72rem, 0.85vw, 0.82rem);
+    --flows-home-fs-sit-title: clamp(0.92rem, 1.1vw, 1.06rem);
+    --flows-home-fs-sit-star: clamp(0.85rem, 1vw, 1rem);
+    --flows-home-fs-brain-badge: clamp(0.92rem, 1.1vw, 1.08rem);
+    --flows-home-fs-brain-desc: clamp(0.86rem, 1.05vw, 1.02rem);
   }
-}
 
-@media (max-width: 588px) {
-  .flows-browse__grid {
-    grid-template-columns: 1fr;
+  .flows-home__sit-thumb {
+    --flows-home-matched-thumb-h: clamp(3.16rem, 4.32vw, 4.08rem);
+    --flows-home-sit-thumb-svg-scale: 0.977;
+  }
+
+  .flows-home__layout {
+    grid-template-columns: minmax(288px, 0.42fr) minmax(340px, 1fr);
+    column-gap: 2.1rem;
+    row-gap: 1.5rem;
+    align-items: start;
+    grid-template-areas:
+      'intro feed'
+      'rail feed';
+  }
+
+  .flows-home__layout--no-rail {
+    grid-template-areas: 'intro feed';
+  }
+
+  /* Matched strip → responsive grid inside the wider column */
+  .flows-home__cards-scroll {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(12.75rem, 1fr));
+    gap: 0.85rem;
+    overflow-x: visible;
+    padding-left: 0;
+    padding-right: 0;
+    scroll-padding-inline: 0;
+    scroll-snap-type: none;
+  }
+
+  .flows-home__cards-scroll::after {
+    content: none;
+    display: none;
+    width: 0;
+    min-width: 0;
+  }
+
+  .flows-home__cards-scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  .flows-home__cards-item {
+    scroll-snap-align: unset;
+    min-width: 0;
+  }
+
+  .flows-home__sit-card {
+    width: 100%;
+    max-width: none;
+    min-height: 0;
+  }
+
+  .flows-home__start-title {
+    font-size: clamp(1.14rem, 1.45vw, 1.32rem);
+  }
+
+  .flows-home__start-cta {
+    font-size: clamp(0.95rem, 1.15vw, 1.08rem);
+    padding: 0.78rem 1rem;
+  }
+
+  .flows-home__seq-arr {
+    font-size: clamp(0.74rem, 0.95vw, 0.86rem);
+  }
+
+  .flows-home__quick-art .quiz-intro-card__svg {
+    transform: scale(1.1);
   }
 }

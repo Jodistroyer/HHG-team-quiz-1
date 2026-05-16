@@ -7,7 +7,7 @@ export const burnoutLoopFlowSituation: FlowSituation = {
   id: BURNOUT_LOOP_SITUATION_ID,
   title: 'Burnout loop',
   cardTitle: 'Burnout loop',
-  cardDescription: 'See how your head, heart, and gut can spiral into exhaustion at work.',
+  cardDescription: 'See how you can spiral into exhaustion at work.',
   readMinutes: 2,
   sequence: makeSequence(),
   whyText: PLACEHOLDER_WHY,
