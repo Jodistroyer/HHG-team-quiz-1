@@ -48,29 +48,6 @@
   margin-left: calc(240px + 1.25rem);
 }
 
-.flows-library-view {
-  width: 100%;
-  border-radius: 16px;
-  background: var(--flows-surface);
-  padding: 1.25rem 1.25rem 1.5rem;
-}
-
-.flows-library-view__title {
-  font-family: 'Montserrat', sans-serif;
-  font-size: clamp(1.6rem, 3.5vw, 2rem);
-  font-weight: 800;
-  letter-spacing: 0.02em;
-  color: var(--flows-purple);
-  margin: 0 0 0.75rem;
-}
-
-.flows-library-view__body {
-  margin: 0;
-  font-size: 1rem;
-  line-height: 1.6;
-  color: var(--flows-ink-soft);
-}
-
 @media (max-width: 768px) {
   .flows__layout {
     flex-direction: column;
