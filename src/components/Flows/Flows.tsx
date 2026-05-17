@@ -2,7 +2,7 @@ import { useLayoutEffect, useState } from 'react'
 import { FlowsHome } from './FlowsPages/FlowsHome/FlowsHome'
 import { FLOW_CONTEXT_PAGES } from './FlowsPages/FlowsContexts/contextPages'
 import { FlowsDetail } from './FlowsPages/FlowsDetail/FlowsDetail'
-import { FlowsSaved } from './FlowsPages/FlowsSaved/FlowsSaved'
+import { FlowsFavourites } from './FlowsPages/FlowsFavourites/FlowsFavourites'
 import { getSituation, type FlowContextId } from './flowsData'
 import {
   loadLastOpenedFlow,
@@ -133,16 +133,16 @@ const Flows = ({ onNavigate }: FlowsProps) => {
             setLibraryContextId(contextId)
             setView({ kind: 'browse' })
           }}
-          onSaved={() => {
-            setLibraryView('saved')
+          onFavourites={() => {
+            setLibraryView('favourites')
             setLibraryContextId(null)
             setView({ kind: 'browse' })
           }}
         />
 
         <main className="flows__content">
-          {libraryView === 'saved' ? (
-            <FlowsSaved />
+          {libraryView === 'favourites' ? (
+            <FlowsFavourites />
           ) : view.kind === 'browse' && libraryView === 'context' && ContextPage ? (
             <ContextPage
               onOpenMatchedFlow={(contextId, situationId, brainProfile) =>

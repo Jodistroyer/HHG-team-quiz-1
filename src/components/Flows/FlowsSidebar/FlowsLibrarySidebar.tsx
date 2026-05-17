@@ -1,20 +1,20 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBookmark, faHouse } from '@fortawesome/free-solid-svg-icons'
+import { faHouse, faStar } from '@fortawesome/free-solid-svg-icons'
 import type { FlowContextId } from '../flowsData'
 import { FLOW_CONTEXT_META } from '../flowsContexts'
 import { CONTEXT_BACKGROUND } from '../../Quiz/ContextArt'
 import '../../Quiz/Sidebar/Navigation/NavSection.css'
 import './FlowsLibrarySidebar.css'
 
-export type FlowsLibraryView = 'home' | 'context' | 'saved'
+export type FlowsLibraryView = 'home' | 'context' | 'favourites'
 
 interface FlowsLibrarySidebarProps {
   activeView: FlowsLibraryView
   activeContextId: FlowContextId | null
   onHome: () => void
   onPickContext: (contextId: FlowContextId) => void
-  onSaved: () => void
+  onFavourites: () => void
 }
 
 type FlowLibraryItemId =
@@ -23,7 +23,7 @@ type FlowLibraryItemId =
   | 'doing-work'
   | 'with-people'
   | 'getting-better'
-  | 'saved'
+  | 'favourites'
 
 const LIBRARY_ITEMS: { id: FlowLibraryItemId; label: string }[] = [
   { id: 'home', label: 'Home' },
@@ -31,7 +31,7 @@ const LIBRARY_ITEMS: { id: FlowLibraryItemId; label: string }[] = [
   { id: 'doing-work', label: 'Doing work' },
   { id: 'with-people', label: 'With people' },
   { id: 'getting-better', label: 'Getting better' },
-  { id: 'saved', label: 'Saved' },
+  { id: 'favourites', label: 'Favourites' },
 ]
 
 function currentLibraryItemId (
@@ -39,7 +39,7 @@ function currentLibraryItemId (
   activeContextId: FlowContextId | null
 ): FlowLibraryItemId {
   if (view === 'home') return 'home'
-  if (view === 'saved') return 'saved'
+  if (view === 'favourites') return 'favourites'
   if (activeContextId === 1) return 'under-pressure'
   if (activeContextId === 2) return 'doing-work'
   if (activeContextId === 3) return 'with-people'
@@ -60,7 +60,7 @@ function dropdownItemStyle (id: FlowLibraryItemId): CSSProperties | undefined {
   if (id === 'getting-better') {
     return { '--section-context-color': CONTEXT_BACKGROUND[4] } as CSSProperties
   }
-  // Home / Saved: brand purple like the rest of nav-section-list
+  // Home / Favourites: brand purple like the rest of nav-section-list
   return { '--section-context-color': '#7d3dbd' } as CSSProperties
 }
 
@@ -70,7 +70,7 @@ function dropdownItemIcon (id: FlowLibraryItemId) {
   if (id === 'with-people') return FLOW_CONTEXT_META[3].icon
   if (id === 'getting-better') return FLOW_CONTEXT_META[4].icon
   if (id === 'home') return faHouse
-  return faBookmark
+  return faStar
 }
 
 export const FlowsLibrarySidebar = ({
@@ -78,7 +78,7 @@ export const FlowsLibrarySidebar = ({
   activeContextId,
   onHome,
   onPickContext,
-  onSaved,
+  onFavourites,
 }: FlowsLibrarySidebarProps) => {
   const isContextActive = (id: FlowContextId) =>
     activeView === 'context' && activeContextId === id
@@ -102,7 +102,7 @@ export const FlowsLibrarySidebar = ({
 
   const handleSelect = (id: FlowLibraryItemId) => {
     if (id === 'home') onHome()
-    else if (id === 'saved') onSaved()
+    else if (id === 'favourites') onFavourites()
     else if (id === 'under-pressure') onPickContext(1)
     else if (id === 'doing-work') onPickContext(2)
     else if (id === 'with-people') onPickContext(3)
@@ -230,13 +230,13 @@ export const FlowsLibrarySidebar = ({
         <li>
           <button
             type="button"
-            className={`nav-section-btn ${activeView === 'saved' ? 'is-current' : ''}`}
-            onClick={onSaved}
-            aria-current={activeView === 'saved' ? 'true' : undefined}
+            className={`nav-section-btn ${activeView === 'favourites' ? 'is-current' : ''}`}
+            onClick={onFavourites}
+            aria-current={activeView === 'favourites' ? 'true' : undefined}
             style={{ ['--section-context-color' as never]: '#7d3dbd' }}
           >
-            <FontAwesomeIcon icon={faBookmark} className="nav-section-btn-icon" aria-hidden />
-            <span className="nav-section-btn-label">Saved</span>
+            <FontAwesomeIcon icon={faStar} className="nav-section-btn-icon" aria-hidden />
+            <span className="nav-section-btn-label">Favourites</span>
           </button>
         </li>
       </ul>
