@@ -1,20 +1,19 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBookmark, faHouse, faStar } from '@fortawesome/free-solid-svg-icons'
+import { faBookmark, faHouse } from '@fortawesome/free-solid-svg-icons'
 import type { FlowContextId } from '../flowsData'
 import { FLOW_CONTEXT_META } from '../flowsContexts'
 import { CONTEXT_BACKGROUND } from '../../Quiz/ContextArt'
 import '../../Quiz/Sidebar/Navigation/NavSection.css'
 import './FlowsLibrarySidebar.css'
 
-export type FlowsLibraryView = 'home' | 'context' | 'recommended' | 'saved'
+export type FlowsLibraryView = 'home' | 'context' | 'saved'
 
 interface FlowsLibrarySidebarProps {
   activeView: FlowsLibraryView
   activeContextId: FlowContextId | null
   onHome: () => void
   onPickContext: (contextId: FlowContextId) => void
-  onRecommended: () => void
   onSaved: () => void
 }
 
@@ -24,7 +23,6 @@ type FlowLibraryItemId =
   | 'doing-work'
   | 'with-people'
   | 'getting-better'
-  | 'recommended'
   | 'saved'
 
 const LIBRARY_ITEMS: { id: FlowLibraryItemId; label: string }[] = [
@@ -33,7 +31,6 @@ const LIBRARY_ITEMS: { id: FlowLibraryItemId; label: string }[] = [
   { id: 'doing-work', label: 'Doing work' },
   { id: 'with-people', label: 'With people' },
   { id: 'getting-better', label: 'Getting better' },
-  { id: 'recommended', label: 'Recommended' },
   { id: 'saved', label: 'Saved' },
 ]
 
@@ -42,7 +39,6 @@ function currentLibraryItemId (
   activeContextId: FlowContextId | null
 ): FlowLibraryItemId {
   if (view === 'home') return 'home'
-  if (view === 'recommended') return 'recommended'
   if (view === 'saved') return 'saved'
   if (activeContextId === 1) return 'under-pressure'
   if (activeContextId === 2) return 'doing-work'
@@ -64,7 +60,7 @@ function dropdownItemStyle (id: FlowLibraryItemId): CSSProperties | undefined {
   if (id === 'getting-better') {
     return { '--section-context-color': CONTEXT_BACKGROUND[4] } as CSSProperties
   }
-  // Home / Recommended / Saved: brand purple like the rest of nav-section-list
+  // Home / Saved: brand purple like the rest of nav-section-list
   return { '--section-context-color': '#7d3dbd' } as CSSProperties
 }
 
@@ -74,7 +70,6 @@ function dropdownItemIcon (id: FlowLibraryItemId) {
   if (id === 'with-people') return FLOW_CONTEXT_META[3].icon
   if (id === 'getting-better') return FLOW_CONTEXT_META[4].icon
   if (id === 'home') return faHouse
-  if (id === 'recommended') return faStar
   return faBookmark
 }
 
@@ -83,7 +78,6 @@ export const FlowsLibrarySidebar = ({
   activeContextId,
   onHome,
   onPickContext,
-  onRecommended,
   onSaved,
 }: FlowsLibrarySidebarProps) => {
   const isContextActive = (id: FlowContextId) =>
@@ -108,7 +102,6 @@ export const FlowsLibrarySidebar = ({
 
   const handleSelect = (id: FlowLibraryItemId) => {
     if (id === 'home') onHome()
-    else if (id === 'recommended') onRecommended()
     else if (id === 'saved') onSaved()
     else if (id === 'under-pressure') onPickContext(1)
     else if (id === 'doing-work') onPickContext(2)
@@ -234,18 +227,6 @@ export const FlowsLibrarySidebar = ({
           <h3 className="flows-library__title">My flows</h3>
         </li>
 
-        <li>
-          <button
-            type="button"
-            className={`nav-section-btn ${activeView === 'recommended' ? 'is-current' : ''}`}
-            onClick={onRecommended}
-            aria-current={activeView === 'recommended' ? 'true' : undefined}
-            style={{ ['--section-context-color' as never]: '#7d3dbd' }}
-          >
-            <FontAwesomeIcon icon={faStar} className="nav-section-btn-icon" aria-hidden />
-            <span className="nav-section-btn-label">Recommended</span>
-          </button>
-        </li>
         <li>
           <button
             type="button"

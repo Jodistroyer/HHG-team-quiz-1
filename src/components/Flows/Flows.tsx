@@ -2,7 +2,6 @@ import { useLayoutEffect, useState } from 'react'
 import { FlowsHome } from './FlowsPages/FlowsHome/FlowsHome'
 import { FLOW_CONTEXT_PAGES } from './FlowsPages/FlowsContexts/contextPages'
 import { FlowsDetail } from './FlowsPages/FlowsDetail/FlowsDetail'
-import { FlowsRecommended } from './FlowsPages/FlowsRecommended/FlowsRecommended'
 import { FlowsSaved } from './FlowsPages/FlowsSaved/FlowsSaved'
 import { getSituation, type FlowContextId } from './flowsData'
 import {
@@ -113,12 +112,6 @@ const Flows = ({ onNavigate }: FlowsProps) => {
     setDetailBrainProfile(brainProfile)
   }
 
-  const goToRecommended = () => {
-    setLibraryView('recommended')
-    setLibraryContextId(null)
-    setView({ kind: 'browse' })
-  }
-
   const goBrowse = () => setView({ kind: 'browse' })
 
   const ContextPage =
@@ -140,11 +133,6 @@ const Flows = ({ onNavigate }: FlowsProps) => {
             setLibraryContextId(contextId)
             setView({ kind: 'browse' })
           }}
-          onRecommended={() => {
-            setLibraryView('recommended')
-            setLibraryContextId(null)
-            setView({ kind: 'browse' })
-          }}
           onSaved={() => {
             setLibraryView('saved')
             setLibraryContextId(null)
@@ -153,13 +141,7 @@ const Flows = ({ onNavigate }: FlowsProps) => {
         />
 
         <main className="flows__content">
-          {libraryView === 'recommended' ? (
-            <FlowsRecommended
-              onOpenSituation={(contextId, situationId) =>
-                openSituation(contextId, situationId, { personalizedBrainProfile: true })
-              }
-            />
-          ) : libraryView === 'saved' ? (
+          {libraryView === 'saved' ? (
             <FlowsSaved />
           ) : view.kind === 'browse' && libraryView === 'context' && ContextPage ? (
             <ContextPage
@@ -188,7 +170,6 @@ const Flows = ({ onNavigate }: FlowsProps) => {
                     : { personalizedBrainProfile: true }
                 )
               }
-              onGoToRecommended={goToRecommended}
               onPickContext={(contextId) => {
                 setLibraryView('context')
                 setLibraryContextId(contextId)

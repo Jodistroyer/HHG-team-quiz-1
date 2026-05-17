@@ -95,7 +95,6 @@ interface FlowsHomeProps {
     situationId: string,
     brainProfile?: FlowsBrainProfile
   ) => void
-  onGoToRecommended: () => void
   onPickContext: (contextId: FlowContextId) => void
   onTakeQuiz: () => void
   lastOpened: LastOpenedFlow | null
@@ -119,7 +118,6 @@ function greetingLine (): string {
 
 export const FlowsHome = ({
   onOpenMatchedFlow,
-  onGoToRecommended,
   onPickContext,
   onTakeQuiz,
   lastOpened,
@@ -464,12 +462,7 @@ export const FlowsHome = ({
             <>
               <hr className="flows-home__divider" />
 
-              <div className="flows-home__section-head flows-home__section-head--row">
-                <h2 className="flows-home__section-title">Matched to you</h2>
-                <button type="button" className="flows-home__section-link" onClick={onGoToRecommended}>
-                  See all
-                </button>
-              </div>
+              <h2 className="flows-home__section-title">Matched to you</h2>
 
               {matchedPreviews.length > 0 ? (
                 <div className="flows-home__cards-scroll" role="list">

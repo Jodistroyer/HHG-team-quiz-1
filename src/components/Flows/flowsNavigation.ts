@@ -18,7 +18,7 @@ export interface PendingFlowDetail {
   situationId: string
   /**
    * When true, Flows detail should open with the user's quiz-derived profile
-   * (Flows Recommended). All other entry points use the browse default
+   * (quiz-derived profile). All other entry points use the browse default
    * (Head-strong first variant).
    */
   personalizedBrainProfile?: boolean
