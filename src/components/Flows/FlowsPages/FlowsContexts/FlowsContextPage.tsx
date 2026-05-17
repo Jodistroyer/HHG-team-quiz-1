@@ -148,7 +148,7 @@ export const FlowsContextPage = ({
                   <p className="flows-home__quick-label">{context.title}</p>
                   {comboLabel ? (
                     <div className="flows-home__quick-brain" aria-label={`Brain type for ${context.title}`}>
-                      <span className="flows-home__brain-badge flows-context-page__combo-badge">
+                      <span className="flows-home__brain-badge">
                         {comboLabel}
                       </span>
                     </div>

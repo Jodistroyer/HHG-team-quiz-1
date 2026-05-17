@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useLayoutEffect, useState } from 'react'
 import { FlowsHome } from './FlowsPages/FlowsHome/FlowsHome'
 import { FLOW_CONTEXT_PAGES } from './FlowsPages/FlowsContexts/contextPages'
 import { FlowsDetail } from './FlowsPages/FlowsDetail/FlowsDetail'
@@ -68,6 +68,15 @@ const Flows = ({ onNavigate }: FlowsProps) => {
 
   const [lastOpened, setLastOpened] = useState<LastOpenedFlow | null>(() => loadLastOpenedFlow())
   const [recentOpens, setRecentOpens] = useState<LastOpenedFlow[]>(() => loadRecentOpens())
+
+  const detailScrollKey =
+    view.kind === 'detail' ? `${view.contextId}:${view.situationId}` : null
+
+  // Browse → detail stays on the Flows tab, so App does not reset window scroll.
+  useLayoutEffect(() => {
+    if (detailScrollKey == null) return
+    window.scrollTo(0, 0)
+  }, [detailScrollKey])
 
   const openSituation = (
     contextId: FlowContextId,

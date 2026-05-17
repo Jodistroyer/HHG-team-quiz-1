@@ -34,7 +34,6 @@
   --flows-home-fs-sit-ctx: clamp(0.65rem, 1.5vw, 0.72rem);
   --flows-home-fs-sit-title: clamp(0.82rem, 2vw, 0.92rem);
   --flows-home-fs-sit-star: clamp(0.74rem, 1.8vw, 0.88rem);
-  --flows-home-fs-brain-badge: clamp(0.82rem, 2vw, 0.94rem);
   --flows-home-fs-brain-desc: clamp(0.76rem, 1.85vw, 0.88rem);
   /* Quick card auto-cycle: one fade leg (out + in ≈ 680ms total) */
   --flows-home-quick-cycle-fade: 340ms;
@@ -365,13 +364,15 @@
   flex-shrink: 0;
 }
 
-.flows-home__quick-brain-icons {
+.flows-home__quick-brain-icons,
+.flows-home__brain-badge-icons {
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
 }
 
-.flows-home__quick-brain-icons svg {
+.flows-home__quick-brain-icons svg,
+.flows-home__brain-badge-icons svg {
   width: clamp(0.82rem, 2vw, 0.92rem);
   height: clamp(0.82rem, 2vw, 0.92rem);
   display: block;
@@ -899,10 +900,11 @@
   gap: 0.35rem;
   background: var(--flows-purple-soft, #eeedfe);
   color: #3c3489;
-  font-size: var(--flows-home-fs-brain-badge);
+  font-size: clamp(0.72rem, 1.85vw, 0.82rem);
   font-weight: 600;
-  padding: clamp(0.38rem, 1vw, 0.48rem) clamp(0.75rem, 2vw, 0.95rem);
+  padding: 0.2rem 0.55rem;
   border-radius: 20px;
+  white-space: nowrap;
 }
 
 .flows-home__brain-desc {
@@ -942,7 +944,6 @@
     --flows-home-fs-sit-ctx: clamp(0.72rem, 0.85vw, 0.82rem);
     --flows-home-fs-sit-title: clamp(0.92rem, 1.1vw, 1.06rem);
     --flows-home-fs-sit-star: clamp(0.85rem, 1vw, 1rem);
-    --flows-home-fs-brain-badge: clamp(0.92rem, 1.1vw, 1.08rem);
     --flows-home-fs-brain-desc: clamp(0.86rem, 1.05vw, 1.02rem);
   }
 

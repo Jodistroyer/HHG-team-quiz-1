@@ -84,6 +84,8 @@ function App() {
   // itself reads the pending target from localStorage on mount.
   useEffect(() => {
     const handleNavigateToFlows = () => {
+      // Deep-link from quiz (flow card / see more): do not restore a prior Flows scroll position.
+      delete scrollPositionsRef.current.flows
       handleNavigateRef.current('flows')
     }
     window.addEventListener(FLOWS_NAVIGATE_EVENT, handleNavigateToFlows)

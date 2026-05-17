@@ -4,12 +4,6 @@
   font-size: clamp(1.25rem, 3.5vw, 1.55rem);
 }
 
-.flows-context-page__combo-badge {
-  font-size: clamp(0.72rem, 1.85vw, 0.82rem);
-  padding: 0.2rem 0.55rem;
-  white-space: nowrap;
-}
-
 .flows-context-page .flows-home__quick-brain {
   align-items: flex-end;
 }

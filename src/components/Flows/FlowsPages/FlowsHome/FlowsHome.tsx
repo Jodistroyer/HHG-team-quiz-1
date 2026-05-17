@@ -11,7 +11,11 @@ import {
 } from '../../flowsData'
 import { getCompletedFlowsContextIdsForMatchedFlows, getMatchedFlowPreviews } from '../../flowsHomeMatched'
 import type { LastOpenedFlow } from '../../flowsLastOpened'
-import { flowsBrainProfileForStoredContext, useFlowsQuizSnapshot } from '../../flowsQuizSnapshot'
+import {
+  flowsBrainProfileForStoredContext,
+  recommendedBrainProfileFromSnapshot,
+  useFlowsQuizSnapshot,
+} from '../../flowsQuizSnapshot'
 import type { FlowsBrainProfile } from '../../flowsTypes'
 import {
   brainIcons,
@@ -293,7 +297,14 @@ export const FlowsHome = ({
       <section className="flows-home__brain-strip" aria-label="Your brain type">
         <p className="flows-home__brain-label">Your brain type</p>
         <div className="flows-home__brain-row">
-          <span className="flows-home__brain-badge">{quizSnap.combo.label}</span>
+          <span className="flows-home__brain-badge">
+            <span className="flows-home__brain-badge-icons" aria-hidden>
+              {brainIcons(recommendedBrainProfileFromSnapshot(quizSnap)).map(({ icon, color }, idx) => (
+                <FontAwesomeIcon key={`flows-brain-badge-icon-${idx}`} icon={icon} style={{ color }} />
+              ))}
+            </span>
+            {quizSnap.combo.label}
+          </span>
           {quizSnap.archetypeName ? (
             <span className="flows-home__brain-desc">{quizSnap.archetypeName}</span>
           ) : null}
