@@ -681,6 +681,9 @@ function PairContextSectionCard ({
       style={sectionStyle}
     >
       <div className="section-card-top">
+        <div className="section-card-art" aria-hidden="true">
+          <ContextCardArt id={sectionId as QuizSelectedContextId} />
+        </div>
         <div className="section-card-top__text">
           <div className="section-card-header">
             <div className="section-header-content">
@@ -695,9 +698,6 @@ function PairContextSectionCard ({
           {SECTION_CONTEXT_BY_ID[sectionId] && (
             <p className="section-card-context">{SECTION_CONTEXT_BY_ID[sectionId]}</p>
           )}
-        </div>
-        <div className="section-card-art" aria-hidden="true">
-          <ContextCardArt id={sectionId as QuizSelectedContextId} />
         </div>
       </div>
 

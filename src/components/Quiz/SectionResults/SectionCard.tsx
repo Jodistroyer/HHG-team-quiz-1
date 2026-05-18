@@ -73,6 +73,9 @@ export const SectionCard = ({ section, scores }: SectionCardProps) => {
       style={sectionStyle}
     >
       <div className="section-card-top">
+        <div className="section-card-art" aria-hidden="true">
+          <ContextCardArt id={section.id as QuizSelectedContextId} />
+        </div>
         <div className="section-card-top__text">
           <div className="section-card-header">
             <div className="section-header-content">
@@ -87,9 +90,6 @@ export const SectionCard = ({ section, scores }: SectionCardProps) => {
           {SECTION_CONTEXT_BY_ID[section.id] && (
             <p className="section-card-context">{SECTION_CONTEXT_BY_ID[section.id]}</p>
           )}
-        </div>
-        <div className="section-card-art" aria-hidden="true">
-          <ContextCardArt id={section.id as QuizSelectedContextId} />
         </div>
       </div>
       {renderContent()}

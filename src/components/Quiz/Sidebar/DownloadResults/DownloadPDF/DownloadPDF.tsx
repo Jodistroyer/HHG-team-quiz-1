@@ -33,12 +33,16 @@ const PDF_EXPORT_CSS = `
 .pdf-export-view .quiz-results-page__main-title{color:#7d3dbd!important}
 .pdf-export-view .profile-table__toggle{display:none!important}
 .pdf-export-view .profile-table-row--extra{display:table-row!important}
-.pdf-export-view .quiz-intro-card__media,.pdf-export-view .quiz-context-thumb,.pdf-export-view .section-card-art,.pdf-export-view .change-results-row-art{display:flex!important;align-items:center!important;justify-content:center!important}
-.pdf-export-view .quiz-intro-card__svg{display:block!important;width:100%!important;height:100%!important;max-width:100%!important;max-height:100%!important}
+.pdf-export-view .quiz-intro-card__media,.pdf-export-view .quiz-context-thumb,.pdf-export-view .change-results-row-art{display:flex!important;align-items:center!important;justify-content:center!important}
+.pdf-export-view .section-card-top{display:flex!important;flex-direction:row!important;align-items:stretch!important;gap:1.5rem!important}
+.pdf-export-view .section-card-art{flex:0 0 180px!important;width:180px!important;min-height:110px!important;display:flex!important;align-items:stretch!important;justify-content:stretch!important}
+.pdf-export-view .section-card-top__text{flex:1 1 0!important;min-width:0!important;display:flex!important;flex-direction:column!important;justify-content:center!important}
+.pdf-export-view .quiz-intro-card__svg,.pdf-export-view .section-card-art .quiz-intro-card__svg{display:block!important;width:100%!important;height:110px!important;min-height:110px!important;max-width:100%!important;max-height:none!important}
 .pdf-export-view .section-archetype-block::before{display:none!important}
 .pdf-export-view .section-archetype-block{overflow:visible!important}
 .pdf-export-view .section-archetype-name,.pdf-export-view .section-archetype-description,.pdf-export-view .section-archetype-quote{position:static!important;display:block!important;overflow:visible!important}
-.pdf-export-view .section-card-context{color:rgba(255,255,255,0.88)!important;font-family:'Montserrat',sans-serif!important;font-size:0.9375rem!important;font-weight:500!important;line-height:1.6!important;max-width:52ch!important;margin:0!important;padding:0!important;letter-spacing:0.01em!important}
+.pdf-export-view .section-card-top__text,.pdf-export-view .section-card-top__text .section-header-content h4,.pdf-export-view .section-card-top__text .section-title-icon{color:var(--section-context-color,#7d3dbd)!important}
+.pdf-export-view .section-card-context{color:#64748b!important;font-family:'Montserrat',sans-serif!important;font-size:0.9375rem!important;font-weight:500!important;line-height:1.6!important;max-width:52ch!important;margin:0!important;padding:0!important;letter-spacing:0.01em!important}
 .pdf-export-view table{table-layout:fixed;width:100%}
 .pdf-export-view th,.pdf-export-view td{word-wrap:break-word;overflow-wrap:break-word;white-space:normal!important;overflow:visible}
 .pdf-export-view .section-archetype-name{font-size:1.25rem !important}
@@ -93,6 +97,7 @@ const PDF_EXPORT_CSS = `
 .pdf-export-view .archetype-part__body{font-size:1.0625rem!important;max-width:52ch!important;margin-inline:auto!important}
 .pdf-export-view .archetype-part__quote{font-size:1.5rem!important;max-width:42ch!important;margin-inline:auto!important}
 .pdf-export-view .archetype-part__label{font-size:0.8125rem!important}
+.pdf-export-view .archetype-part--question .archetype-part__icon{font-size:1.125rem!important}
 /* Your answers by section: match on-screen AnswerResults (Montserrat) */
 .pdf-export-view .answer-results,.pdf-export-view .answer-results-title,.pdf-export-view .answer-results-section,.pdf-export-view .answer-results-section-title,.pdf-export-view .answer-results-section-header,.pdf-export-view .answer-results-table,.pdf-export-view .answer-results-table th,.pdf-export-view .answer-results-table td,.pdf-export-view .answer-results-combo-badge,.pdf-export-view .answer-results-question,.pdf-export-view .answer-results-choice{font-family:'Montserrat',sans-serif!important;-webkit-font-smoothing:antialiased!important}
 `

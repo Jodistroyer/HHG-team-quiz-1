@@ -1,3 +1,5 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons'
 import ReactMarkdown from 'react-markdown'
 import type { ArchetypeParts } from './overallArchetypes'
 import { NaturalDefaultArchetypePartArt } from './naturalDefaultArchetypeArt'
@@ -24,7 +26,13 @@ function ArchetypePartBlock ({
 
   return (
     <section className={`archetype-part archetype-part--${variant}`}>
-      <p className="archetype-part__label">{label}</p>
+      {isQuestion ? (
+        <span className="archetype-part__icon" aria-label={label} role="img">
+          <FontAwesomeIcon icon={faQuestionCircle} aria-hidden />
+        </span>
+      ) : (
+        <p className="archetype-part__label">{label}</p>
+      )}
       {showArt ? (
         <div className="archetype-part__art" aria-hidden>
           <NaturalDefaultArchetypePartArt archetypeKey={archetypeKey} variant={variant} />

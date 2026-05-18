@@ -37,7 +37,7 @@
 }
 
 .archetype-part {
-  padding: 0;
+  padding: 1.75rem 1.75rem 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -45,6 +45,13 @@
   text-align: center;
   width: 100%;
   max-width: 48rem;
+  box-sizing: border-box;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.04),
+    0 12px 40px rgba(0, 0, 0, 0.08);
 }
 
 .archetype-part--question {
@@ -60,6 +67,16 @@
   color: #94a3b8;
   margin: 0 0 0.5rem;
   line-height: 1.3;
+}
+
+.archetype-part--question .archetype-part__icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 0 0.5rem;
+  line-height: 1;
+  font-size: 1.25rem;
+  color: var(--qi-purple, #7d3dbd);
 }
 
 .archetype-part__art {
@@ -141,6 +158,10 @@
 }
 
 @media (min-width: 769px) {
+  .archetype-part {
+    padding: 2rem 2.25rem 2.25rem;
+  }
+
   .archetype-parts {
     gap: 3rem;
     padding-top: 0.75rem;
@@ -198,6 +219,11 @@
   .archetype-parts__pair {
     gap: 2.5rem;
     max-width: none;
+  }
+
+  .archetype-part {
+    padding: 1.5rem 1.25rem 1.75rem;
+    border-radius: 14px;
   }
 
   .archetype-part__headline {

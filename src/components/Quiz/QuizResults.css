@@ -263,6 +263,10 @@
   font-size: 0.875rem;
 }
 
+.archetype-parts .archetype-part--question .archetype-part__icon {
+  font-size: 1.375rem;
+}
+
 .quiz-results__natural-default-body {
   margin-top: 1.75rem;
   margin-bottom: 3.5rem;
