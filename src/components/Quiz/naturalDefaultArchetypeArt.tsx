@@ -313,11 +313,13 @@ function SvgNaturalDefaultDoerChallenge () {
 function SvgNaturalDefaultEngineerVibe () {
   const cx = 160
   const cy = 60
+  const tickStartX = cx - 16
+  const tickY = cy + 3
   return (
     <PartSvg>
       <rect x="100" y="32" width="120" height="56" rx="10" fill="none" stroke={HEAD} strokeOpacity="0.55" strokeWidth="2.25" />
       <path
-        d={`M ${cx - 20} ${cy + 2} l10 10 22-26`}
+        d={`M ${tickStartX} ${tickY} l10 10 22-26`}
         fill="none"
         stroke={GUT}
         strokeOpacity="0.9"
