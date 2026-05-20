@@ -509,6 +509,68 @@
   gap: 14px;
 }
 
+/* Two-person trait header (solo quiz trait-section-header × 2, aligned with pair table columns). */
+.team-pair-insights__pair-trait-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 18px 22px;
+  margin: 0 0 6px;
+  padding: 0 0 16px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.team-pair-insights__pair-trait-person {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.team-pair-insights__pair-trait-person-name {
+  display: block;
+  max-width: 100%;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.team-pair-insights__pair-trait-section-header.trait-section-header {
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 10px 12px;
+  padding-bottom: 0;
+}
+
+.team-pair-insights__pair-trait-section-header .trait-section-title {
+  font-size: 1.05rem;
+  line-height: 1.25;
+  margin: 0;
+}
+
+.team-pair-insights__pair-trait-section-header .trait-section-title-row {
+  flex: 1 1 10rem;
+  min-width: 0;
+}
+
+.team-pair-insights__pair-trait-section-header .trait-section-badges {
+  flex: 0 0 auto;
+}
+
+.team-pair-insights__pair-trait-section-header .brain-combo-badge {
+  font-size: 0.78rem;
+  padding: 0.3rem 0.65rem;
+}
+
+@media (max-width: 560px) {
+  .team-pair-insights__pair-trait-header {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+}
+
 .team-pair-insights__pair-context-insight.trait-content {
   margin: 0 0 4px;
 }

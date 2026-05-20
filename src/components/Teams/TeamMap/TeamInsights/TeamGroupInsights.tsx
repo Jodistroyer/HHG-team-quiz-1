@@ -15,7 +15,9 @@ import { buildFacts } from '../../../Quiz/ChangeResults/changeResultsLogic'
 import { CombinationAcrossContexts } from '../../../Quiz/ChangeResults/CombinationAcrossContexts'
 import { WhatStandsOut } from '../../../Quiz/ChangeResults/WhatStandsOut'
 import { SECTION_ICONS, getBrainCombination, getBrainIcons } from '../../../Quiz/SectionResults/utils.tsx'
+import { NaturalDefaultArchetypeParts } from '../../../Quiz/NaturalDefaultArchetypeParts'
 import { TEAM_ARCHETYPES } from './teamArchetypes'
+import { GROUP_OVERALL_PARTS } from './groupOverallArchetypes'
 import { buildTeamWhatStandsOut } from './teamWhatStandsOut'
 import { TeamDoingWork } from './TeamDoingWork'
 import { TeamGettingBetter } from './TeamGettingBetter'
@@ -27,6 +29,7 @@ import { TeamSectionMemberStatus } from './TeamSectionMemberStatus'
 import { TreemapChart } from '../../../Quiz/TreemapResults/TreemapChart'
 import '../../../Quiz/RadarResults/OverallRadar.css'
 import '../../../Quiz/QuizResults.css'
+import '../../../Quiz/NaturalDefaultArchetypeParts.css'
 import '../../../Quiz/ChangeResults/ChangeResults.css'
 import '../TeamMap.css'
 
@@ -167,6 +170,7 @@ export function TeamGroupInsights ({
     : null
   const isLongLabel = combo?.label === 'Head + Heart + Gut'
   const archetypeData = combo ? TEAM_ARCHETYPES[combo.label] : undefined
+  const groupParts = combo ? GROUP_OVERALL_PARTS[combo.label] : undefined
 
   const participationProps = { contributingCount, totalSelected }
 
@@ -219,11 +223,13 @@ export function TeamGroupInsights ({
                   </div>
                 </div>
               </div>
-              {archetypeData && (
-                <div className="team-map-results__natural-default-body">
-                  <p className="overall-archetype-description team-map-results__natural-default-description">
-                    {archetypeData.description}
-                  </p>
+              {groupParts && (
+                <div className="quiz-results__natural-default-body" data-pdf-section="natural-default-parts">
+                  <NaturalDefaultArchetypeParts
+                    archetypeKey={combo.label}
+                    parts={groupParts}
+                    descriptionAriaLabel="This team's natural default breakdown"
+                  />
                 </div>
               )}
             </>

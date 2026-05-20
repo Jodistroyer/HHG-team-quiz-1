@@ -256,6 +256,63 @@ type PairProfileTableRow = {
   bValue: React.ReactNode
 }
 
+type BrainCombo = { label: string; colors: string[] }
+
+function brainComboBadgeStyle (combo: BrainCombo | null, incomplete: boolean): React.CSSProperties {
+  if (incomplete || !combo) {
+    return { background: '#e2e8f0', color: '#475569' }
+  }
+  const { colors } = combo
+  const background =
+    colors.length === 1
+      ? colors[0]
+      : colors.length === 2
+        ? `linear-gradient(90deg, ${colors[0]} 50%, ${colors[1]} 50%)`
+        : `linear-gradient(90deg, ${colors[0]} 33.33%, ${colors[1]} 33.33%, ${colors[1]} 66.66%, ${colors[2]} 66.66%)`
+  return { background }
+}
+
+/** Solo-style trait header for one person in a pair context card. */
+function PairPersonTraitHeader ({
+  personLabel,
+  personTitle,
+  situationalKey,
+  incomplete,
+  combo,
+}: {
+  personLabel: string
+  personTitle: string
+  situationalKey: SituationalContextKey
+  incomplete: boolean
+  combo: BrainCombo | null
+}) {
+  const contextLabel =
+    incomplete || !combo ? CONTEXT_NOT_DONE_LABEL : contextComboLabel(situationalKey, combo.label)
+
+  return (
+    <div className="team-pair-insights__pair-trait-person">
+      <span className="team-pair-insights__pair-trait-person-name team-pair-insights__name-truncate" title={personTitle}>
+        {personLabel}
+      </span>
+      <div className="trait-section-header team-pair-insights__pair-trait-section-header">
+        <div className="trait-section-title-row">
+          <h4 className="trait-section-title">{contextLabel}</h4>
+          {!incomplete && combo ? (
+            <span className="brain-icon-badge brain-icon-badge--inline" aria-label={`${personTitle} brain combination icons`}>
+              {getBrainIcons(combo.label, 'small', 'changeResults')}
+            </span>
+          ) : null}
+        </div>
+        <div className="trait-section-badges">
+          <span className="brain-combo-badge" style={brainComboBadgeStyle(combo, incomplete)}>
+            {incomplete || !combo ? CONTEXT_NOT_DONE_LABEL : combo.label}
+          </span>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 /** Below 700px the pair table is collapsed to the first N rows; "More" reveals the rest. */
 const DEFAULT_PAIR_COLLAPSED_ROW_LIMIT = 4
 
@@ -461,26 +518,6 @@ function PairContextSectionCard ({
   const balanceBadgeA = getBalanceTipBadge(balanceInfoA.brainCombination)
   const balanceBadgeB = getBalanceTipBadge(balanceInfoB.brainCombination)
 
-  const contextStyleRow: PairProfileTableRow = {
-    label: 'In this context',
-    aValue: incompleteA ? CONTEXT_NOT_DONE_LABEL : contextComboLabel(situationalKey, comboA!.label),
-    bValue: incompleteB ? CONTEXT_NOT_DONE_LABEL : contextComboLabel(situationalKey, comboB!.label),
-  }
-
-  const iconsRow: PairProfileTableRow = {
-    label: 'HHG Icon',
-    aValue: (
-      <span className="team-pair-insights__hhg-icons" aria-label={`${aHeader.title} HHG icons`}>
-        {incompleteA || !comboA ? null : getBrainIcons(comboA.label, 'small', 'changeResults')}
-      </span>
-    ),
-    bValue: (
-      <span className="team-pair-insights__hhg-icons" aria-label={`${bHeader.title} HHG icons`}>
-        {incompleteB || !comboB ? null : getBrainIcons(comboB.label, 'small', 'changeResults')}
-      </span>
-    ),
-  }
-
   const balanceTipRow: PairProfileTableRow = {
     label: 'Balance Tip',
     aValue: (
@@ -507,41 +544,35 @@ function PairContextSectionCard ({
     ),
   }
 
+  const contextStyleRow: PairProfileTableRow = {
+    label: 'In this context',
+    aValue: incompleteA ? CONTEXT_NOT_DONE_LABEL : contextComboLabel(situationalKey, comboA!.label),
+    bValue: incompleteB ? CONTEXT_NOT_DONE_LABEL : contextComboLabel(situationalKey, comboB!.label),
+  }
+
+  const iconsRow: PairProfileTableRow = {
+    label: 'HHG Icon',
+    aValue: (
+      <span className="team-pair-insights__hhg-icons" aria-label={`${aHeader.title} HHG icons`}>
+        {incompleteA || !comboA ? null : getBrainIcons(comboA.label, 'small', 'changeResults')}
+      </span>
+    ),
+    bValue: (
+      <span className="team-pair-insights__hhg-icons" aria-label={`${bHeader.title} HHG icons`}>
+        {incompleteB || !comboB ? null : getBrainIcons(comboB.label, 'small', 'changeResults')}
+      </span>
+    ),
+  }
+
   const comboRow: PairProfileTableRow = {
     label: 'HHG Combo',
     aValue: (
-      <span
-        className="brain-combo-badge"
-        style={{
-          background:
-            incompleteA || !comboA
-              ? '#e2e8f0'
-              : comboA.colors.length === 1
-                ? comboA.colors[0]
-                : comboA.colors.length === 2
-                  ? `linear-gradient(90deg, ${comboA.colors[0]} 50%, ${comboA.colors[1]} 50%)`
-                  : `linear-gradient(90deg, ${comboA.colors[0]} 33.33%, ${comboA.colors[1]} 33.33%, ${comboA.colors[1]} 66.66%, ${comboA.colors[2]} 66.66%)`,
-          color: incompleteA || !comboA ? '#475569' : undefined,
-        }}
-      >
+      <span className="brain-combo-badge" style={brainComboBadgeStyle(comboA, incompleteA)}>
         {incompleteA || !comboA ? CONTEXT_NOT_DONE_LABEL : comboA.label}
       </span>
     ),
     bValue: (
-      <span
-        className="brain-combo-badge"
-        style={{
-          background:
-            incompleteB || !comboB
-              ? '#e2e8f0'
-              : comboB.colors.length === 1
-                ? comboB.colors[0]
-                : comboB.colors.length === 2
-                  ? `linear-gradient(90deg, ${comboB.colors[0]} 50%, ${comboB.colors[1]} 50%)`
-                  : `linear-gradient(90deg, ${comboB.colors[0]} 33.33%, ${comboB.colors[1]} 33.33%, ${comboB.colors[1]} 66.66%, ${comboB.colors[2]} 66.66%)`,
-          color: incompleteB || !comboB ? '#475569' : undefined,
-        }}
-      >
+      <span className="brain-combo-badge" style={brainComboBadgeStyle(comboB, incompleteB)}>
         {incompleteB || !comboB ? CONTEXT_NOT_DONE_LABEL : comboB.label}
       </span>
     ),
@@ -703,6 +734,22 @@ function PairContextSectionCard ({
       </div>
 
       <div className="section-expanded-content team-pair-insights__context-card-body">
+        <div className="team-pair-insights__pair-trait-header" aria-label={`${sectionTitle} — each person in this context`}>
+          <PairPersonTraitHeader
+            personLabel={aHeader.label}
+            personTitle={aHeader.title}
+            situationalKey={situationalKey}
+            incomplete={incompleteA}
+            combo={comboA}
+          />
+          <PairPersonTraitHeader
+            personLabel={bHeader.label}
+            personTitle={bHeader.title}
+            situationalKey={situationalKey}
+            incomplete={incompleteB}
+            combo={comboB}
+          />
+        </div>
         <p className="trait-content team-pair-insights__pair-context-insight">{pairContextInsightBody}</p>
         {sectionId === 1 && pressureRows.length > 0 && (
           <PairProfileTable

@@ -148,6 +148,7 @@
 
 .team-map-results__section-heading {
   margin-bottom: 24px;
+  text-align: center;
 }
 
 .team-map-results__section .bento-grid,
@@ -199,6 +200,7 @@
 .team-map-results__section-title.results-section-title {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 12px;
   margin: 0;
   font-family: 'Montserrat', sans-serif;
@@ -207,7 +209,7 @@
   line-height: 1.2;
   letter-spacing: -0.02em;
   color: #7d3dbd;
-  text-align: left;
+  text-align: center;
 }
 
 /* Context card title row: section title left, member-status chip right */
@@ -278,20 +280,6 @@
   max-width: 12ch;
 }
 
-.team-map-results__natural-default-description {
-  margin: 0;
-  font-size: 1.02rem;
-  font-weight: 500;
-  line-height: 1.85;
-  color: #334155;
-  text-align: center;
-}
-
-.team-map-results__natural-default-body {
-  margin-top: 22px;
-  padding: 0 6px 0 0;
-}
-
 .team-map-results__participation {
   margin: -12px 0 20px;
   font-family: 'Montserrat', sans-serif;
@@ -299,6 +287,7 @@
   font-weight: 600;
   line-height: 1.45;
   color: #64748b;
+  text-align: center;
 }
 
 .team-map-results__participation--combo {
@@ -975,11 +964,6 @@
   .team-map-results__natural-default-grid .overall-breakdown {
     padding: 28px 24px;
     border-left: none;
-  }
-
-  .team-map-results__natural-default-body {
-    margin-top: 18px;
-    padding-right: 0;
   }
 }
 
