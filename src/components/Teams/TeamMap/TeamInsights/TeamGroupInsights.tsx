@@ -1,4 +1,4 @@
-import { useMemo, type ReactNode } from 'react'
+import { useMemo, type CSSProperties } from 'react'
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowsRotate, faCompass } from '@fortawesome/free-solid-svg-icons'
@@ -15,6 +15,9 @@ import { buildFacts } from '../../../Quiz/ChangeResults/changeResultsLogic'
 import { CombinationAcrossContexts } from '../../../Quiz/ChangeResults/CombinationAcrossContexts'
 import { WhatStandsOut } from '../../../Quiz/ChangeResults/WhatStandsOut'
 import { SECTION_ICONS, getBrainCombination, getBrainIcons } from '../../../Quiz/SectionResults/utils.tsx'
+import { SECTION_CONTEXT_BY_ID } from '../../../Quiz/sectionContext'
+import { CONTEXT_BACKGROUND, ContextCardArt, contextIdForTitle, type QuizSelectedContextId } from '../../../Quiz/ContextArt'
+import '../../../Quiz/SectionResults/SectionCard.css'
 import { NaturalDefaultArchetypeParts } from '../../../Quiz/NaturalDefaultArchetypeParts'
 import { TEAM_ARCHETYPES } from './teamArchetypes'
 import { GROUP_OVERALL_PARTS } from './groupOverallArchetypes'
@@ -23,9 +26,9 @@ import { TeamDoingWork } from './TeamDoingWork'
 import { TeamGettingBetter } from './TeamGettingBetter'
 import { TeamUnderPressure } from './TeamUnderPressure'
 import { TeamWithPeople } from './TeamWithPeople'
-import { TeamParticipationNote } from './TeamParticipationNote'
+import { TeamParticipationNote, type TeamParticipationNoteProps } from './TeamParticipationNote'
 import { TeamIncompleteMembers } from './TeamIncompleteMembers'
-import { TeamSectionMemberStatus } from './TeamSectionMemberStatus'
+import { TeamSectionMemberStatus, type TeamSectionCompletionKind } from './TeamSectionMemberStatus'
 import { TreemapChart } from '../../../Quiz/TreemapResults/TreemapChart'
 import '../../../Quiz/RadarResults/OverallRadar.css'
 import '../../../Quiz/QuizResults.css'
@@ -44,10 +47,17 @@ interface TeamSectionHeaderProps {
   icon: IconDefinition
 }
 
-interface TeamCardHeaderProps {
+interface TeamContextCardTopProps {
   title: string
   icon: IconDefinition
-  aside?: ReactNode
+}
+
+interface TeamContextCardMetaRowProps {
+  participation: TeamParticipationNoteProps
+  selectedPeople: Person[]
+  completionKind: TeamSectionCompletionKind
+  rosterHighlightId?: string | null
+  onRosterHighlightChange?: (id: string | null) => void
 }
 
 const SITUATIONAL_CONTEXTS: TeamContextKey[] = [...SITUATIONAL_TEAM_CONTEXTS]
@@ -74,18 +84,52 @@ function TeamSectionHeader ({ title, icon }: TeamSectionHeaderProps) {
   )
 }
 
-function TeamCardHeader ({ title, icon, aside }: TeamCardHeaderProps) {
+function TeamContextCardTop ({ title, icon }: TeamContextCardTopProps) {
+  const sectionId = contextIdForTitle(title)
+  if (sectionId === undefined) return null
+
+  const sectionStyle = {
+    '--section-context-color': CONTEXT_BACKGROUND[sectionId],
+  } as CSSProperties
+
   return (
-    <div className="team-map-results__card-header-row">
-      <div className="team-map-results__card-header">
-        <h3 className="results-section-title team-map-results__card-title">
-          <span className="team-map-results__section-icon" aria-hidden>
-            <FontAwesomeIcon icon={icon} />
-          </span>
-          <span>{title}</span>
-        </h3>
+    <div className="section-card-top team-map-results__context-card-top" style={sectionStyle}>
+      <div className="section-card-art" aria-hidden="true">
+        <ContextCardArt id={sectionId as QuizSelectedContextId} />
       </div>
-      {aside}
+      <div className="section-card-top__text">
+        <div className="section-card-header">
+          <div className="section-header-content">
+            <span className="section-title-icon" aria-hidden="true">
+              <FontAwesomeIcon icon={icon} />
+            </span>
+            <h4>{title}</h4>
+          </div>
+        </div>
+        {SECTION_CONTEXT_BY_ID[sectionId] && (
+          <p className="section-card-context">{SECTION_CONTEXT_BY_ID[sectionId]}</p>
+        )}
+      </div>
+    </div>
+  )
+}
+
+function TeamContextCardMetaRow ({
+  participation,
+  selectedPeople,
+  completionKind,
+  rosterHighlightId,
+  onRosterHighlightChange,
+}: TeamContextCardMetaRowProps) {
+  return (
+    <div className="team-map-results__context-card-meta-row">
+      <TeamParticipationNote {...participation} />
+      <TeamSectionMemberStatus
+        selectedPeople={selectedPeople}
+        completionKind={completionKind}
+        rosterHighlightId={rosterHighlightId}
+        onRosterHighlightChange={onRosterHighlightChange}
+      />
     </div>
   )
 }
@@ -268,109 +312,141 @@ export function TeamGroupInsights ({
 
         <section className="team-map-results__section">
           <div className="change-results-card team-map-results__context-card" data-team-section="under-pressure-insight">
-            <TeamCardHeader
-              title="Under Pressure"
-              icon={SECTION_ICONS[1]}
-              aside={
-                <TeamSectionMemberStatus
-                  selectedPeople={selectedPeople}
-                  completionKind="underPressure"
-                  rosterHighlightId={rosterHighlightId}
-                  onRosterHighlightChange={onRosterHighlightChange}
+            <TeamContextCardTop title="Under Pressure" icon={SECTION_ICONS[1]} />
+            <div className="team-map-results__context-card-body section-expanded-content">
+              {hasTeamScores ? (
+                <TeamUnderPressure
+                  headPercent={underPressureScores.headPercent}
+                  heartPercent={underPressureScores.heartPercent}
+                  gutPercent={underPressureScores.gutPercent}
+                  metaRow={
+                    <TeamContextCardMetaRow
+                      participation={situationalParticipation.underPressure}
+                      selectedPeople={selectedPeople}
+                      completionKind="underPressure"
+                      rosterHighlightId={rosterHighlightId}
+                      onRosterHighlightChange={onRosterHighlightChange}
+                    />
+                  }
                 />
-              }
-            />
-            <TeamParticipationNote {...situationalParticipation.underPressure} />
-            {hasTeamScores ? (
-              <TeamUnderPressure
-                headPercent={underPressureScores.headPercent}
-                heartPercent={underPressureScores.heartPercent}
-                gutPercent={underPressureScores.gutPercent}
-              />
-            ) : (
-              <p className="change-results-incomplete-copy">Waiting for completed quiz data from the team.</p>
-            )}
+              ) : (
+                <>
+                  <TeamContextCardMetaRow
+                    participation={situationalParticipation.underPressure}
+                    selectedPeople={selectedPeople}
+                    completionKind="underPressure"
+                    rosterHighlightId={rosterHighlightId}
+                    onRosterHighlightChange={onRosterHighlightChange}
+                  />
+                  <p className="change-results-incomplete-copy">Waiting for completed quiz data from the team.</p>
+                </>
+              )}
+            </div>
           </div>
         </section>
 
         <section className="team-map-results__section">
           <div className="change-results-card team-map-results__context-card" data-team-section="doing-work-insight">
-            <TeamCardHeader
-              title="Doing Work"
-              icon={SECTION_ICONS[2]}
-              aside={
-                <TeamSectionMemberStatus
-                  selectedPeople={selectedPeople}
-                  completionKind="doingWork"
-                  rosterHighlightId={rosterHighlightId}
-                  onRosterHighlightChange={onRosterHighlightChange}
+            <TeamContextCardTop title="Doing Work" icon={SECTION_ICONS[2]} />
+            <div className="team-map-results__context-card-body section-expanded-content">
+              {hasTeamScores ? (
+                <TeamDoingWork
+                  headPercent={doingWorkScores.headPercent}
+                  heartPercent={doingWorkScores.heartPercent}
+                  gutPercent={doingWorkScores.gutPercent}
+                  metaRow={
+                    <TeamContextCardMetaRow
+                      participation={situationalParticipation.doingWork}
+                      selectedPeople={selectedPeople}
+                      completionKind="doingWork"
+                      rosterHighlightId={rosterHighlightId}
+                      onRosterHighlightChange={onRosterHighlightChange}
+                    />
+                  }
                 />
-              }
-            />
-            <TeamParticipationNote {...situationalParticipation.doingWork} />
-            {hasTeamScores ? (
-              <TeamDoingWork
-                headPercent={doingWorkScores.headPercent}
-                heartPercent={doingWorkScores.heartPercent}
-                gutPercent={doingWorkScores.gutPercent}
-              />
-            ) : (
-              <p className="change-results-incomplete-copy">Waiting for completed quiz data from the team.</p>
-            )}
+              ) : (
+                <>
+                  <TeamContextCardMetaRow
+                    participation={situationalParticipation.doingWork}
+                    selectedPeople={selectedPeople}
+                    completionKind="doingWork"
+                    rosterHighlightId={rosterHighlightId}
+                    onRosterHighlightChange={onRosterHighlightChange}
+                  />
+                  <p className="change-results-incomplete-copy">Waiting for completed quiz data from the team.</p>
+                </>
+              )}
+            </div>
           </div>
         </section>
 
         <section className="team-map-results__section">
           <div className="change-results-card team-map-results__context-card" data-team-section="with-people-insight">
-            <TeamCardHeader
-              title="With People"
-              icon={SECTION_ICONS[3]}
-              aside={
-                <TeamSectionMemberStatus
-                  selectedPeople={selectedPeople}
-                  completionKind="withPeople"
-                  rosterHighlightId={rosterHighlightId}
-                  onRosterHighlightChange={onRosterHighlightChange}
+            <TeamContextCardTop title="With People" icon={SECTION_ICONS[3]} />
+            <div className="team-map-results__context-card-body section-expanded-content">
+              {hasTeamScores ? (
+                <TeamWithPeople
+                  headPercent={withPeopleScores.headPercent}
+                  heartPercent={withPeopleScores.heartPercent}
+                  gutPercent={withPeopleScores.gutPercent}
+                  metaRow={
+                    <TeamContextCardMetaRow
+                      participation={situationalParticipation.withPeople}
+                      selectedPeople={selectedPeople}
+                      completionKind="withPeople"
+                      rosterHighlightId={rosterHighlightId}
+                      onRosterHighlightChange={onRosterHighlightChange}
+                    />
+                  }
                 />
-              }
-            />
-            <TeamParticipationNote {...situationalParticipation.withPeople} />
-            {hasTeamScores ? (
-              <TeamWithPeople
-                headPercent={withPeopleScores.headPercent}
-                heartPercent={withPeopleScores.heartPercent}
-                gutPercent={withPeopleScores.gutPercent}
-              />
-            ) : (
-              <p className="change-results-incomplete-copy">Waiting for completed quiz data from the team.</p>
-            )}
+              ) : (
+                <>
+                  <TeamContextCardMetaRow
+                    participation={situationalParticipation.withPeople}
+                    selectedPeople={selectedPeople}
+                    completionKind="withPeople"
+                    rosterHighlightId={rosterHighlightId}
+                    onRosterHighlightChange={onRosterHighlightChange}
+                  />
+                  <p className="change-results-incomplete-copy">Waiting for completed quiz data from the team.</p>
+                </>
+              )}
+            </div>
           </div>
         </section>
 
         <section className="team-map-results__section">
           <div className="change-results-card team-map-results__context-card" data-team-section="getting-better-insight">
-            <TeamCardHeader
-              title="Getting Better"
-              icon={SECTION_ICONS[4]}
-              aside={
-                <TeamSectionMemberStatus
-                  selectedPeople={selectedPeople}
-                  completionKind="gettingBetter"
-                  rosterHighlightId={rosterHighlightId}
-                  onRosterHighlightChange={onRosterHighlightChange}
+            <TeamContextCardTop title="Getting Better" icon={SECTION_ICONS[4]} />
+            <div className="team-map-results__context-card-body section-expanded-content">
+              {hasTeamScores ? (
+                <TeamGettingBetter
+                  headPercent={gettingBetterScores.headPercent}
+                  heartPercent={gettingBetterScores.heartPercent}
+                  gutPercent={gettingBetterScores.gutPercent}
+                  metaRow={
+                    <TeamContextCardMetaRow
+                      participation={situationalParticipation.gettingBetter}
+                      selectedPeople={selectedPeople}
+                      completionKind="gettingBetter"
+                      rosterHighlightId={rosterHighlightId}
+                      onRosterHighlightChange={onRosterHighlightChange}
+                    />
+                  }
                 />
-              }
-            />
-            <TeamParticipationNote {...situationalParticipation.gettingBetter} />
-            {hasTeamScores ? (
-              <TeamGettingBetter
-                headPercent={gettingBetterScores.headPercent}
-                heartPercent={gettingBetterScores.heartPercent}
-                gutPercent={gettingBetterScores.gutPercent}
-              />
-            ) : (
-              <p className="change-results-incomplete-copy">Waiting for completed quiz data from the team.</p>
-            )}
+              ) : (
+                <>
+                  <TeamContextCardMetaRow
+                    participation={situationalParticipation.gettingBetter}
+                    selectedPeople={selectedPeople}
+                    completionKind="gettingBetter"
+                    rosterHighlightId={rosterHighlightId}
+                    onRosterHighlightChange={onRosterHighlightChange}
+                  />
+                  <p className="change-results-incomplete-copy">Waiting for completed quiz data from the team.</p>
+                </>
+              )}
+            </div>
           </div>
         </section>
       </div>

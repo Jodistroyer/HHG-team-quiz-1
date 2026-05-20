@@ -7,19 +7,19 @@ const MODES = [
     icon: faUser,
     countLabel: 'One person',
     title: 'Solo insights',
-    body: 'Select a single person from the library to open their full profile: the same Natural Default, context shifts, radars, and answers as the quiz, right here in Teams.',
+    body: 'Select a single person from the library to open their full profile.',
   },
   {
     icon: faUserGroup,
     countLabel: 'Two people',
     title: 'Pair insights',
-    body: 'Select two people to see how they show up together: where they align, where they clash, what each does to the other’s behaviour, and one small experiment to try.',
+    body: 'Select two people to see how they show up together.',
   },
   {
     icon: faPeopleGroup,
     countLabel: 'Three or more',
     title: 'Team insights',
-    body: 'Select three or more people for averaged HHG maps plus culture-focused prompts: unspoken rules, invisible work, what the group is missing, and how it shifts under pressure.',
+    body: 'Select three or more people for a culture-focused map.',
   },
 ] as const
 
@@ -27,6 +27,9 @@ export function TeamMapEmptyIntro () {
   return (
     <div className="team-map-empty-intro quiz-results-page">
       <h1 className="title team-map-empty-intro__page-title">Team map</h1>
+      <p className="team-map-empty-intro__description">
+        A shared language for describing decision styles in a group
+      </p>
       <ul className="team-map-empty-intro__row" aria-label="Selection modes">
         {MODES.map((mode) => (
           <li key={mode.title} className="team-map-empty-intro__card">

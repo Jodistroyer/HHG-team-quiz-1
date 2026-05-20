@@ -18,6 +18,14 @@ export const getTier = (percent: number): 'Dominant' | 'Secondary' | 'Weak' => {
   return 'Weak'
 }
 
+/** Team style breakdown: High at 50%+, Low below 30%, Medium otherwise (uses rounded %). */
+export function getBrainLevelLabel (percent: number): 'High' | 'Medium' | 'Low' {
+  const p = Math.round(percent)
+  if (p >= 50) return 'High'
+  if (p < 30) return 'Low'
+  return 'Medium'
+}
+
 /** Returns HHG combination key (e.g. "Head", "Head+Gut", "Head+Heart+Gut") for section lookup. */
 export const getBrainCombinationKey = (headPercent: number, heartPercent: number, gutPercent: number): string => {
   const brains: { type: AnswerType; percent: number; tier: string }[] = [

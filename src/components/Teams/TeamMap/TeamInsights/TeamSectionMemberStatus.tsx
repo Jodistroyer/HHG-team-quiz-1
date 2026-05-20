@@ -10,8 +10,11 @@ import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 import type { QuizSelectedContextId } from '../../../Quiz/ContextArt'
 import { CONTEXT_BACKGROUND } from '../../../Quiz/ContextArt'
 import type { Person } from '../../PeoplePanel/types'
+import { getBrainCombination, getBrainIcons } from '../../../Quiz/SectionResults/utils.tsx'
 import {
   getMissingSituationalContexts,
+  getSituationalContextScores,
+  isEmptyContextScores,
   personHasCompletedAllContexts,
   personHasContextData,
   SITUATIONAL_CONTEXT_LABELS,
@@ -47,6 +50,39 @@ function missingContextsForPerson (
 ): SituationalTeamContextKey[] {
   if (completionKind === 'all-contexts') return getMissingSituationalContexts(person)
   return isPersonComplete(person, completionKind) ? [] : [completionKind]
+}
+
+function MemberBrainIcons ({
+  person,
+  completionKind,
+}: {
+  person: Person
+  completionKind: TeamSectionCompletionKind
+}) {
+  if (!isPersonComplete(person, completionKind)) return null
+
+  const scores =
+    completionKind === 'all-contexts'
+      ? {
+          headPercent: person.headPercent,
+          heartPercent: person.heartPercent,
+          gutPercent: person.gutPercent,
+        }
+      : getSituationalContextScores(person, completionKind)
+
+  if (isEmptyContextScores(scores)) return null
+
+  const combo = getBrainCombination(scores.headPercent, scores.heartPercent, scores.gutPercent)
+
+  return (
+    <span
+      className="team-map-results__section-member-brain-icons"
+      title={combo.label}
+      aria-label={`Brain type: ${combo.label}`}
+    >
+      {getBrainIcons(combo.label, 'tiny')}
+    </span>
+  )
 }
 
 function ContextIcon ({ context }: { context: SituationalTeamContextKey }) {
@@ -113,6 +149,7 @@ function MemberRow ({
             </span>
           </span>
         )}
+        <MemberBrainIcons person={person} completionKind={completionKind} />
       </button>
     </li>
   )

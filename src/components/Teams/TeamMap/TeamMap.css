@@ -295,8 +295,45 @@
   padding: 0 4px;
 }
 
-.team-map-results__context-card > .team-map-results__participation {
-  margin: -16px 0 20px;
+/* Context insight cards: quiz-style section-card-top header + body (see TeamGroupInsights) */
+.team-map-results__context-card.change-results-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.team-map-results__context-card-top.section-card-top {
+  margin: 0;
+  border-radius: 18px 18px 0 0;
+}
+
+.team-map-results__context-card-body.section-expanded-content {
+  padding: 32px 40px 48px;
+}
+
+.team-map-results__context-card-meta-row {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 24px;
+  margin: 0 0 28px;
+  min-width: 0;
+}
+
+.team-map-results__context-card-meta-row .team-map-results__participation {
+  margin: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+  text-align: left;
+}
+
+.team-map-results__context-card-meta-row .team-map-results__section-member-status {
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+
+.team-map-results__context-card-body > .team-context-insight {
+  gap: 44px;
 }
 
 /* Title row: main heading left, incomplete-members chip right (single line) */
@@ -384,6 +421,15 @@
 .team-map-results__incomplete-members-details[open] .team-map-results__incomplete-members-summary {
   border-radius: 12px 12px 0 0;
   border-bottom-color: transparent;
+}
+
+.team-map-results__incomplete-members-summary-label {
+  color: #7d3dbd;
+  font-weight: 700;
+}
+
+.team-map-results__incomplete-members-summary:hover .team-map-results__incomplete-members-summary-label {
+  color: #6b32a8;
 }
 
 .team-map-results__incomplete-members-summary-icon {
@@ -606,6 +652,15 @@
   border-bottom-color: transparent;
 }
 
+.team-map-results__section-member-summary-label {
+  color: #7d3dbd;
+  font-weight: 700;
+}
+
+.team-map-results__section-member-summary:hover .team-map-results__section-member-summary-label {
+  color: #6b32a8;
+}
+
 .team-map-results__section-member-summary-icon {
   font-size: 0.8rem;
   transition: transform 0.15s ease;
@@ -669,7 +724,7 @@
 
 .team-map-results__section-member-item {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) auto auto;
   grid-template-rows: auto auto;
   align-items: center;
   column-gap: 12px;
@@ -779,6 +834,23 @@
   box-shadow: 0 1px 2px rgba(15, 23, 42, 0.1);
 }
 
+.team-map-results__section-member-brain-icons {
+  grid-column: 3;
+  grid-row: 1 / -1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 3px;
+  flex-shrink: 0;
+  align-self: center;
+  margin-left: 6px;
+}
+
+.team-map-results__section-member-brain-icons svg {
+  width: 12px;
+  height: 12px;
+}
+
 .team-map-results__empty-card {
   background: #fff;
   border: 1px solid #e2e8f0;
@@ -788,9 +860,9 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 12px 40px rgba(0, 0, 0, 0.08);
 }
 
-/* Context insight blocks: align with quiz section / change-results density */
+/* Context insight blocks: roomier vertical rhythm inside context cards */
 .team-map-results .team-context-insight {
-  gap: 18px;
+  gap: 44px;
 }
 
 .team-map-results .team-context-insight__hero {
@@ -806,17 +878,36 @@
   letter-spacing: -0.015em;
 }
 
+.team-map-results__context-card-insight-title {
+  margin: 0 0 24px;
+  padding: 0;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: #1e293b;
+}
+
+.team-map-results .team-map-results__context-card-insight-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
 .team-map-results .team-context-insight__cards {
-  gap: 16px;
+  gap: 32px;
 }
 
 .team-map-results .team-context-insight__card {
-  padding: 20px 20px 22px;
+  padding: 28px 28px 30px;
   border-radius: 14px;
+  border: none;
 }
 
 .team-map-results .team-context-insight__card-header {
-  margin-bottom: 12px;
+  margin-bottom: 18px;
   min-height: 0;
 }
 
@@ -832,11 +923,11 @@
   line-height: 1.65;
 }
 
-.team-map-results__context-card > .team-context-insight {
-  gap: 18px;
-}
-
 @media (max-width: 768px) {
+  .team-map-results__context-card-body.section-expanded-content {
+    padding: 24px 1.5rem 2rem;
+  }
+
   .team-map-results .team-context-insight__hero {
     padding: 20px 18px 22px;
   }
@@ -845,8 +936,17 @@
     font-size: 1rem;
   }
 
+  .team-map-results .team-map-results__context-card-insight-title {
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+  }
+
   .team-map-results .team-context-insight__cards {
-    gap: 14px;
+    gap: 24px;
+  }
+
+  .team-map-results .team-context-insight {
+    gap: 36px;
   }
 }
 

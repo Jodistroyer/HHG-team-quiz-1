@@ -1,12 +1,15 @@
+import type { ReactNode } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleCheck, faTriangleExclamation, faEye } from '@fortawesome/free-solid-svg-icons'
 import { getBalanceTipBadgeStyle, getBrainCombination, getBrainIcons } from '../../../Quiz/SectionResults/utils.tsx'
+import { TeamStyleBreakdown } from './TeamStyleBreakdown'
 import './TeamGroupInsights.css'
 
 interface TeamUnderPressureProps {
   headPercent: number
   heartPercent: number
   gutPercent: number
+  metaRow?: ReactNode
 }
 
 interface TeamPressureInsight {
@@ -114,35 +117,33 @@ function getMissingBrainCombo(label: string): string | null {
 export function TeamUnderPressure({
   headPercent,
   heartPercent,
-  gutPercent
+  gutPercent,
+  metaRow,
 }: TeamUnderPressureProps) {
   const combo = getBrainCombination(headPercent, heartPercent, gutPercent)
   const normalizedKey = normalizeInsightKey(combo.label)
   const insight = TEAM_UNDER_PRESSURE_INSIGHTS[normalizedKey] ?? TEAM_UNDER_PRESSURE_INSIGHTS.Head
   const missingBrainCombo = getMissingBrainCombo(normalizedKey)
   const missingBrainBadgeStyle = missingBrainCombo ? getBalanceTipBadgeStyle(missingBrainCombo) : null
-  const badgeStyle =
-    combo.colors.length === 1
-      ? { background: combo.colors[0] }
-      : combo.colors.length === 2
-        ? { background: `linear-gradient(90deg, ${combo.colors[0]} 50%, ${combo.colors[1]} 50%)` }
-        : { background: `linear-gradient(90deg, ${combo.colors[0]} 33.33%, ${combo.colors[1]} 33.33%, ${combo.colors[1]} 66.66%, ${combo.colors[2]} 66.66%)` }
-
   return (
     <div className="team-context-insight">
-      <section className="team-context-insight__hero" aria-labelledby="team-under-pressure-title">
-        <div className="team-context-insight__combo-row">
+      <h4
+        id="team-under-pressure-title"
+        className="team-context-insight__title team-map-results__context-card-insight-title"
+      >
+        {insight.title}
+      </h4>
+      {metaRow}
+      <TeamStyleBreakdown
+        headPercent={headPercent}
+        heartPercent={heartPercent}
+        gutPercent={gutPercent}
+        comboIcons={
           <span className="team-context-insight__icons" aria-hidden>
             {getBrainIcons(combo.label, 'large')}
           </span>
-          <span className="brain-combo-badge" style={badgeStyle}>
-            {insight.displayLabel}
-          </span>
-        </div>
-        <h4 id="team-under-pressure-title" className="team-context-insight__title">
-          {insight.title}
-        </h4>
-      </section>
+        }
+      />
 
       <div className="team-context-insight__cards">
         <article className="team-context-insight__card team-context-insight__card--strength">

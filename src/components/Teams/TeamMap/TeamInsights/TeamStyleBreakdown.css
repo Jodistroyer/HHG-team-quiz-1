@@ -1,0 +1,138 @@
+.team-style-breakdown {
+  margin: 0 0 8px;
+  padding: 0;
+}
+
+.team-style-breakdown__header {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  margin-bottom: 14px;
+  min-width: 0;
+}
+
+.team-style-breakdown__header .team-context-insight__icons {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.team-style-breakdown__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  align-items: stretch;
+}
+
+.team-style-breakdown__box {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+  min-width: 0;
+  padding: 16px 14px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+.team-style-breakdown__box-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.team-style-breakdown__brain {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.team-style-breakdown__percent {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.team-style-breakdown__percent--heart {
+  color: #e21b3c;
+}
+
+.team-style-breakdown__percent--head {
+  color: #1368ce;
+}
+
+.team-style-breakdown__percent--gut {
+  color: #26890c;
+}
+
+.team-style-breakdown__level {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+
+.team-style-breakdown__level--high {
+  color: #1e293b;
+}
+
+.team-style-breakdown__level--medium {
+  color: #475569;
+}
+
+.team-style-breakdown__level--low {
+  color: #94a3b8;
+}
+
+.team-style-breakdown__track {
+  width: 100%;
+  height: 10px;
+  margin-top: auto;
+  background: #e2e8f0;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.team-style-breakdown__bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  min-width: 4px;
+  transition: width 0.35s ease;
+}
+
+.team-style-breakdown__bar-fill--head {
+  background: #1368ce;
+}
+
+.team-style-breakdown__bar-fill--heart {
+  background: #e21b3c;
+}
+
+.team-style-breakdown__bar-fill--gut {
+  background: #26890c;
+}
+
+@media (max-width: 768px) {
+  .team-style-breakdown__header {
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .team-style-breakdown__grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .team-style-breakdown__box {
+    padding: 14px 12px;
+  }
+}
