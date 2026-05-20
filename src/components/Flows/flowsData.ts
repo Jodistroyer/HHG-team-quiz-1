@@ -52,7 +52,7 @@ export const FLOW_CONTEXTS: FlowContext[] = [
     id: 2,
     title: 'Doing Work',
     pageTitle: 'Work situations',
-    contextLine: 'Normal execution mode. Just getting things done.',
+    contextLine: 'Normal execution mode. Getting things done.',
     situations: [
       // deepFocusFlowSituation,
       // handlingFeedbackFlowSituation,

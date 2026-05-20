@@ -29,22 +29,22 @@ const CONTEXT_CARDS: Array<{
   {
     id: 1,
     title: 'Under Pressure',
-    contextLine: 'Time is tight, stakes are high, and consequences are immediate.',
+    contextLine: 'When the clock is running and stakes are real, who do you become?',
   },
   {
     id: 2,
     title: 'Doing Work',
-    contextLine: 'Normal execution mode. Just getting things done.',
+    contextLine: 'When its just the task, what does your best look like?',
   },
   {
     id: 3,
     title: 'With People',
-    contextLine: 'Relationships and social dynamics.',
+    contextLine: 'When relationship dynamics are in play, who are you?',
   },
   {
     id: 4,
     title: 'Getting Better',
-    contextLine: 'Reflection, growth, and self-improvement over time.',
+    contextLine: 'When you decide to grow, whats actually driving it?',
   },
 ]
 
