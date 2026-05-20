@@ -1,4 +1,6 @@
+import { useRef } from 'react'
 import type { Person } from '../PeoplePanel/types'
+import { TeamResultsSidebar } from './TeamResultsSidebar'
 import { TeamSoloInsights } from './TeamSoloInsights/TeamSoloInsights'
 import { TeamPairInsights } from './TeamPairInsights/TeamPairInsights'
 import { TeamGroupInsights } from './TeamInsights/TeamGroupInsights'
@@ -13,6 +15,7 @@ interface TeamMapProps {
 }
 
 export function TeamMap ({ selectedPeople, activePersonId, rosterHighlightId, onRosterHighlightChange }: TeamMapProps) {
+  const scrollRootRef = useRef<HTMLDivElement>(null)
   const n = selectedPeople.length
   const activePerson = activePersonId ? selectedPeople.find((p) => p.id === activePersonId) : null
 
@@ -68,14 +71,22 @@ export function TeamMap ({ selectedPeople, activePersonId, rosterHighlightId, on
   }
 
   return (
-    <section className="team-map team-map--center-only team-map-results quiz-results-page" aria-label="Team profile">
-      <div className="team-map__center">
-        <div className="team-map-result-view">
-          <TeamGroupInsights
-            selectedPeople={selectedPeople}
-            rosterHighlightId={rosterHighlightId}
-            onRosterHighlightChange={onRosterHighlightChange}
-          />
+    <section
+      className="team-map team-map--center-only team-map--with-sidebar team-group-insights-root team-map-results quiz-results-page quiz-results-page--embedded"
+      aria-label="Team profile"
+    >
+      <div className="team-map__center" ref={scrollRootRef}>
+        <div className="quiz-results-layout team-map__results-layout">
+          <div className="team-map-result-view team-map__results-main">
+            <TeamGroupInsights
+              selectedPeople={selectedPeople}
+              rosterHighlightId={rosterHighlightId}
+              onRosterHighlightChange={onRosterHighlightChange}
+            />
+          </div>
+          <div className="results-sidebar-outer">
+            <TeamResultsSidebar scrollRootRef={scrollRootRef} />
+          </div>
         </div>
       </div>
     </section>

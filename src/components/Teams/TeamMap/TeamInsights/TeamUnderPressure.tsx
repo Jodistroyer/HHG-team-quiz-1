@@ -1,7 +1,8 @@
 import type { ReactNode } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleCheck, faTriangleExclamation, faEye } from '@fortawesome/free-solid-svg-icons'
-import { getBalanceTipBadgeStyle, getBrainCombination, getBrainIcons } from '../../../Quiz/SectionResults/utils.tsx'
+import { getBalanceTipBadgeStyle, getBrainCombination } from '../../../Quiz/SectionResults/utils.tsx'
+import { TeamContextInsightHeadline } from './TeamContextInsightHeadline'
 import { TeamStyleBreakdown } from './TeamStyleBreakdown'
 import './TeamGroupInsights.css'
 
@@ -127,22 +128,17 @@ export function TeamUnderPressure({
   const missingBrainBadgeStyle = missingBrainCombo ? getBalanceTipBadgeStyle(missingBrainCombo) : null
   return (
     <div className="team-context-insight">
-      <h4
-        id="team-under-pressure-title"
-        className="team-context-insight__title team-map-results__context-card-insight-title"
-      >
-        {insight.title}
-      </h4>
+      <TeamContextInsightHeadline
+        contextKey="underPressure"
+        combo={combo}
+        insightTitleId="team-under-pressure-title"
+        insightTitle={insight.title}
+      />
       {metaRow}
       <TeamStyleBreakdown
         headPercent={headPercent}
         heartPercent={heartPercent}
         gutPercent={gutPercent}
-        comboIcons={
-          <span className="team-context-insight__icons" aria-hidden>
-            {getBrainIcons(combo.label, 'large')}
-          </span>
-        }
       />
 
       <div className="team-context-insight__cards">

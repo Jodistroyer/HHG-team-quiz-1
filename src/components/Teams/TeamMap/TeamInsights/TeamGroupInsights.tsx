@@ -232,7 +232,11 @@ export function TeamGroupInsights ({
       </div>
 
       <div key={selectionAnimationKey} className="final-summary">
-        <section className="team-map-results__section" data-team-section="natural-default">
+        <section
+          id="team-natural-default"
+          className="team-map-results__section"
+          data-team-section="natural-default"
+        >
           <TeamSectionHeader title="Natural Default" icon={faCompass} />
           <TeamParticipationNote {...participationProps} />
           {hasTeamScores && combo ? (
@@ -311,7 +315,11 @@ export function TeamGroupInsights ({
         </section>
 
         <section className="team-map-results__section">
-          <div className="change-results-card team-map-results__context-card" data-team-section="under-pressure-insight">
+          <div
+            id="under-pressure"
+            className="change-results-card team-map-results__context-card"
+            data-team-section="under-pressure-insight"
+          >
             <TeamContextCardTop title="Under Pressure" icon={SECTION_ICONS[1]} />
             <div className="team-map-results__context-card-body section-expanded-content">
               {hasTeamScores ? (
@@ -346,7 +354,11 @@ export function TeamGroupInsights ({
         </section>
 
         <section className="team-map-results__section">
-          <div className="change-results-card team-map-results__context-card" data-team-section="doing-work-insight">
+          <div
+            id="doing-work"
+            className="change-results-card team-map-results__context-card"
+            data-team-section="doing-work-insight"
+          >
             <TeamContextCardTop title="Doing Work" icon={SECTION_ICONS[2]} />
             <div className="team-map-results__context-card-body section-expanded-content">
               {hasTeamScores ? (
@@ -381,7 +393,11 @@ export function TeamGroupInsights ({
         </section>
 
         <section className="team-map-results__section">
-          <div className="change-results-card team-map-results__context-card" data-team-section="with-people-insight">
+          <div
+            id="with-people"
+            className="change-results-card team-map-results__context-card"
+            data-team-section="with-people-insight"
+          >
             <TeamContextCardTop title="With People" icon={SECTION_ICONS[3]} />
             <div className="team-map-results__context-card-body section-expanded-content">
               {hasTeamScores ? (
@@ -416,7 +432,11 @@ export function TeamGroupInsights ({
         </section>
 
         <section className="team-map-results__section">
-          <div className="change-results-card team-map-results__context-card" data-team-section="getting-better-insight">
+          <div
+            id="getting-better"
+            className="change-results-card team-map-results__context-card"
+            data-team-section="getting-better-insight"
+          >
             <TeamContextCardTop title="Getting Better" icon={SECTION_ICONS[4]} />
             <div className="team-map-results__context-card-body section-expanded-content">
               {hasTeamScores ? (

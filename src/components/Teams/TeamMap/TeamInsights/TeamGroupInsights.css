@@ -29,6 +29,20 @@
   gap: 6px;
 }
 
+.team-context-insight__headline-block {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.team-context-insight__trait-header.trait-section-header {
+  padding-bottom: 10px;
+}
+
+.team-context-insight__headline-block .team-map-results__context-card-insight-title {
+  margin: 0;
+}
+
 .team-context-insight__title {
   margin: 0;
   font-family: 'Montserrat', sans-serif;
