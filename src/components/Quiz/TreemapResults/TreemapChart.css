@@ -3,13 +3,26 @@
   width: 100%;
   cursor: pointer;
   outline: none;
+  transform-origin: center;
+  transition: transform 0.22s ease;
+}
+
+.treemap-chart:hover .treemap-chart__frame {
+  transform: scale(1.02);
+}
+
+.treemap-chart:active .treemap-chart__frame {
+  transform: scale(0.99);
+}
+
+.treemap-chart:focus-visible .treemap-chart__frame {
+  transform: scale(1.02);
 }
 
 .treemap-chart:focus-visible .treemap-chart__svg {
   box-shadow:
-    0 0 0 3px rgba(125, 61, 189, 0.35),
-    0 1px 3px rgba(0, 0, 0, 0.04),
-    0 12px 40px rgba(0, 0, 0, 0.08);
+    0 2px 10px rgba(15, 23, 42, 0.1),
+    0 0 0 3px rgba(125, 61, 189, 0.35);
 }
 
 /* Holds square aspect when SVG is hidden (PDF capture). */
@@ -17,6 +30,16 @@
   position: relative;
   width: 100%;
   aspect-ratio: 1 / 1;
+  transform-origin: center;
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.treemap-chart:hover .treemap-chart__svg,
+.treemap-chart.treemap-chart--percent:hover .treemap-chart__svg,
+.treemap-chart.treemap-chart--label:hover .treemap-chart__svg {
+  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.12);
 }
 
 .treemap-chart__svg {
@@ -28,6 +51,7 @@
   border-radius: 16px;
   overflow: hidden;
   box-shadow: none;
+  transition: box-shadow 0.22s ease;
 }
 
 .treemap-chart__fo {
@@ -60,6 +84,33 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .treemap-chart {
+    transition: none;
+  }
+
+  .treemap-chart__frame {
+    transition: none;
+  }
+
+  .treemap-chart__svg {
+    transition: none;
+  }
+
+  .treemap-chart:hover .treemap-chart__frame,
+  .treemap-chart:active .treemap-chart__frame,
+  .treemap-chart:focus-visible .treemap-chart__frame {
+    transform: none;
+  }
+
+  .treemap-chart:hover .treemap-chart__svg,
+  .treemap-chart:focus-visible .treemap-chart__svg {
+    box-shadow: none;
+  }
+
+  .treemap-chart:focus-visible .treemap-chart__svg {
+    box-shadow: 0 0 0 3px rgba(125, 61, 189, 0.35);
+  }
+
   .treemap-chart__overlay {
     transition: none;
   }
@@ -204,6 +255,15 @@
 /* ----- Inside PDF html2canvas clone (.pdf-export-view): only HTML layer ----- */
 .pdf-export-view .treemap-chart {
   cursor: default;
+}
+
+.pdf-export-view .treemap-chart:hover .treemap-chart__frame,
+.pdf-export-view .treemap-chart:active .treemap-chart__frame {
+  transform: none;
+}
+
+.pdf-export-view .treemap-chart:hover .treemap-chart__svg {
+  box-shadow: none;
 }
 
 .pdf-export-view .treemap-chart__frame {

@@ -24,6 +24,89 @@
   display: block;
 }
 
+/* Shared 0.22s scale hover (matches app-wide interactive pattern) */
+.results-sidebar .nav-section-btn {
+  transform-origin: center;
+  transition:
+    transform 0.22s ease,
+    background-color 0.22s ease,
+    color 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.results-sidebar .nav-section-btn:hover {
+  transform: scale(1.03);
+  box-shadow: 0 2px 10px rgba(38, 33, 42, 0.08);
+}
+
+.results-sidebar .nav-section-btn:active {
+  transform: scale(0.98);
+}
+
+.results-sidebar .nav-section-btn:focus-visible {
+  transform: scale(1.02);
+}
+
+.results-sidebar .nav-section-dropdown-trigger,
+.results-sidebar .nav-section-dropdown-item {
+  transform-origin: center;
+  transition:
+    transform 0.22s ease,
+    background-color 0.22s ease,
+    color 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.results-sidebar .nav-section-dropdown-trigger:hover,
+.results-sidebar .nav-section-dropdown-item:hover {
+  transform: scale(1.03);
+  box-shadow: 0 2px 10px rgba(38, 33, 42, 0.08);
+}
+
+.results-sidebar .nav-section-dropdown-trigger:active,
+.results-sidebar .nav-section-dropdown-item:active {
+  transform: scale(0.98);
+}
+
+.results-sidebar .nav-section-dropdown-trigger:focus-visible,
+.results-sidebar .nav-section-dropdown-item:focus-visible {
+  transform: scale(1.02);
+}
+
+.results-sidebar .btn-primary,
+.results-sidebar .btn-download-json,
+.results-sidebar .btn-download-pdf {
+  transform-origin: center;
+  transition:
+    transform 0.22s ease,
+    background-color 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease,
+    border-bottom-color 0.22s ease,
+    color 0.22s ease,
+    opacity 0.22s ease;
+}
+
+.results-sidebar .btn-primary:hover:not(:disabled),
+.results-sidebar .btn-download-json:hover:not(:disabled),
+.results-sidebar .btn-download-pdf:hover:not(:disabled) {
+  transform: scale(1.03);
+  box-shadow: 0 2px 10px rgba(125, 61, 189, 0.28);
+}
+
+.results-sidebar .btn-primary:active:not(:disabled),
+.results-sidebar .btn-download-json:active:not(:disabled),
+.results-sidebar .btn-download-pdf:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.results-sidebar .btn-primary:focus-visible,
+.results-sidebar .btn-download-json:focus-visible,
+.results-sidebar .btn-download-pdf:focus-visible {
+  transform: scale(1.02);
+}
+
 .results-sidebar-footer {
   margin-top: auto;
   padding-top: 16px;
@@ -177,6 +260,52 @@
   font-size: 0.92rem;
   font-weight: 700;
   cursor: pointer;
+  transform-origin: center;
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease,
+    background-color 0.22s ease,
+    border-color 0.22s ease;
+}
+
+.results-sidebar-download-modal-close:hover {
+  transform: scale(1.03);
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.1);
+}
+
+.results-sidebar-download-modal-close:active {
+  transform: scale(0.98);
+}
+
+.results-sidebar-download-modal-close:focus-visible {
+  transform: scale(1.02);
+  outline: 2px solid #7d3dbd;
+  outline-offset: 2px;
+}
+
+.results-sidebar-download-modal-actions .btn {
+  transform-origin: center;
+  transition:
+    transform 0.22s ease,
+    background-color 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease,
+    border-bottom-color 0.22s ease,
+    color 0.22s ease,
+    opacity 0.22s ease;
+}
+
+.results-sidebar-download-modal-actions .btn:hover:not(:disabled) {
+  transform: scale(1.03);
+  box-shadow: 0 2px 10px rgba(125, 61, 189, 0.28);
+}
+
+.results-sidebar-download-modal-actions .btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.results-sidebar-download-modal-actions .btn:focus-visible {
+  transform: scale(1.02);
 }
 
 .results-sidebar-download-modal-status {
@@ -249,5 +378,46 @@
 
   .results-sidebar-nav {
     display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .results-sidebar .nav-section-btn,
+  .results-sidebar .nav-section-dropdown-trigger,
+  .results-sidebar .nav-section-dropdown-item,
+  .results-sidebar .btn-primary,
+  .results-sidebar .btn-download-json,
+  .results-sidebar .btn-download-pdf,
+  .results-sidebar-download-modal-close,
+  .results-sidebar-download-modal-actions .btn {
+    transition: none;
+  }
+
+  .results-sidebar .nav-section-btn:hover,
+  .results-sidebar .nav-section-btn:active,
+  .results-sidebar .nav-section-btn:focus-visible,
+  .results-sidebar .nav-section-dropdown-trigger:hover,
+  .results-sidebar .nav-section-dropdown-trigger:active,
+  .results-sidebar .nav-section-dropdown-trigger:focus-visible,
+  .results-sidebar .nav-section-dropdown-item:hover,
+  .results-sidebar .nav-section-dropdown-item:active,
+  .results-sidebar .nav-section-dropdown-item:focus-visible,
+  .results-sidebar .btn-primary:hover:not(:disabled),
+  .results-sidebar .btn-primary:active:not(:disabled),
+  .results-sidebar .btn-primary:focus-visible,
+  .results-sidebar .btn-download-json:hover:not(:disabled),
+  .results-sidebar .btn-download-json:active:not(:disabled),
+  .results-sidebar .btn-download-json:focus-visible,
+  .results-sidebar .btn-download-pdf:hover:not(:disabled),
+  .results-sidebar .btn-download-pdf:active:not(:disabled),
+  .results-sidebar .btn-download-pdf:focus-visible,
+  .results-sidebar-download-modal-close:hover,
+  .results-sidebar-download-modal-close:active,
+  .results-sidebar-download-modal-close:focus-visible,
+  .results-sidebar-download-modal-actions .btn:hover:not(:disabled),
+  .results-sidebar-download-modal-actions .btn:active:not(:disabled),
+  .results-sidebar-download-modal-actions .btn:focus-visible {
+    transform: none;
+    box-shadow: none;
   }
 }

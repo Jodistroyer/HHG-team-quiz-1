@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { FlowsHome } from './FlowsPages/FlowsHome/FlowsHome'
 import { FLOW_CONTEXT_PAGES } from './FlowsPages/FlowsContexts/contextPages'
 import { FlowsDetail } from './FlowsPages/FlowsDetail/FlowsDetail'
@@ -10,7 +10,8 @@ import {
   updatePersistedFlowBrainProfile,
   type LastOpenedFlow,
 } from './flowsLastOpened'
-import { consumePendingFlow } from './flowsNavigation'
+import { consumePendingFlow, FLOWS_NAVIGATE_EVENT, type PendingFlowTarget } from './flowsNavigation'
+import { loadFlowsSession, persistFlowsSession } from './flowsSession'
 import { FlowsLibrarySidebar, type FlowsLibraryView } from './FlowsSidebar/FlowsLibrarySidebar'
 import { flowsBrainProfileForStoredContext } from './flowsQuizSnapshot'
 import { FLOWS_BROWSE_DEFAULT_BRAIN_PROFILE, type FlowsBrainProfile } from './flowsTypes'
@@ -22,11 +23,58 @@ type FlowsView =
   | { kind: 'browse' }
   | { kind: 'detail'; contextId: FlowContextId; situationId: string }
 
-function initialDetailBrainProfile (pending: ReturnType<typeof consumePendingFlow>): FlowsBrainProfile {
+function brainProfileForPendingDetail (pending: PendingFlowTarget): FlowsBrainProfile {
   if (pending?.kind === 'detail' && pending.personalizedBrainProfile) {
     return flowsBrainProfileForStoredContext(pending.contextId)
   }
   return FLOWS_BROWSE_DEFAULT_BRAIN_PROFILE
+}
+
+function resolveInitialFlowsState (pending: PendingFlowTarget | null) {
+  if (
+    pending?.kind === 'detail' &&
+    getSituation(pending.contextId, pending.situationId)
+  ) {
+    return {
+      view: {
+        kind: 'detail' as const,
+        contextId: pending.contextId,
+        situationId: pending.situationId,
+      },
+      libraryView: 'context' as FlowsLibraryView,
+      libraryContextId: pending.contextId,
+      detailBrainProfile: brainProfileForPendingDetail(pending),
+      restoredFromSession: false,
+    }
+  }
+  if (pending?.kind === 'browse-context') {
+    return {
+      view: { kind: 'browse' as const },
+      libraryView: 'context' as FlowsLibraryView,
+      libraryContextId: pending.contextId,
+      detailBrainProfile: FLOWS_BROWSE_DEFAULT_BRAIN_PROFILE,
+      restoredFromSession: false,
+    }
+  }
+
+  const session = loadFlowsSession()
+  if (session) {
+    return {
+      view: session.view,
+      libraryView: session.libraryView,
+      libraryContextId: session.libraryContextId,
+      detailBrainProfile: session.brainProfile,
+      restoredFromSession: true,
+    }
+  }
+
+  return {
+    view: { kind: 'browse' as const },
+    libraryView: 'home' as FlowsLibraryView,
+    libraryContextId: null,
+    detailBrainProfile: FLOWS_BROWSE_DEFAULT_BRAIN_PROFILE,
+    restoredFromSession: false,
+  }
 }
 
 interface FlowsProps {
@@ -35,34 +83,17 @@ interface FlowsProps {
 
 const Flows = ({ onNavigate }: FlowsProps) => {
   const pendingOnMount = consumePendingFlow()
+  const initial = resolveInitialFlowsState(pendingOnMount)
+  const skipDetailScrollToTopRef = useRef(initial.restoredFromSession)
 
-  const [detailBrainProfile, setDetailBrainProfile] = useState<FlowsBrainProfile>(() =>
-    initialDetailBrainProfile(pendingOnMount)
+  const [detailBrainProfile, setDetailBrainProfile] = useState<FlowsBrainProfile>(
+    () => initial.detailBrainProfile
   )
-
-  const [view, setView] = useState<FlowsView>(() => {
-    if (
-      pendingOnMount?.kind === 'detail' &&
-      getSituation(pendingOnMount.contextId, pendingOnMount.situationId)
-    ) {
-      return {
-        kind: 'detail',
-        contextId: pendingOnMount.contextId,
-        situationId: pendingOnMount.situationId,
-      }
-    }
-    return { kind: 'browse' }
-  })
-
-  const [libraryView, setLibraryView] = useState<FlowsLibraryView>(() => {
-    if (pendingOnMount?.kind === 'browse-context') return 'context'
-    return 'home'
-  })
-
-  const [libraryContextId, setLibraryContextId] = useState<FlowContextId | null>(() => {
-    if (pendingOnMount?.kind === 'browse-context') return pendingOnMount.contextId
-    return null
-  })
+  const [view, setView] = useState<FlowsView>(() => initial.view)
+  const [libraryView, setLibraryView] = useState<FlowsLibraryView>(() => initial.libraryView)
+  const [libraryContextId, setLibraryContextId] = useState<FlowContextId | null>(
+    () => initial.libraryContextId
+  )
 
   const [lastOpened, setLastOpened] = useState<LastOpenedFlow | null>(() => loadLastOpenedFlow())
   const [recentOpens, setRecentOpens] = useState<LastOpenedFlow[]>(() => loadRecentOpens())
@@ -70,9 +101,29 @@ const Flows = ({ onNavigate }: FlowsProps) => {
   const detailScrollKey =
     view.kind === 'detail' ? `${view.contextId}:${view.situationId}` : null
 
-  // Browse → detail stays on the Flows tab, so App does not reset window scroll.
+  useEffect(() => {
+    persistFlowsSession({
+      view,
+      libraryView,
+      libraryContextId,
+      brainProfile: detailBrainProfile,
+    })
+  }, [view, libraryView, libraryContextId, detailBrainProfile])
+
+  const prevDetailScrollKeyRef = useRef<string | null>(null)
   useLayoutEffect(() => {
-    if (detailScrollKey == null) return
+    if (detailScrollKey == null) {
+      prevDetailScrollKeyRef.current = null
+      return
+    }
+    if (skipDetailScrollToTopRef.current) {
+      skipDetailScrollToTopRef.current = false
+      prevDetailScrollKeyRef.current = detailScrollKey
+      return
+    }
+    const prev = prevDetailScrollKeyRef.current
+    prevDetailScrollKeyRef.current = detailScrollKey
+    if (prev === detailScrollKey) return
     window.scrollTo(0, 0)
   }, [detailScrollKey])
 
@@ -95,6 +146,8 @@ const Flows = ({ onNavigate }: FlowsProps) => {
     })
     setRecentOpens(loadRecentOpens())
     setDetailBrainProfile(brainProfile)
+    setLibraryView('context')
+    setLibraryContextId(contextId)
     setView({ kind: 'detail', contextId, situationId })
   }
 
@@ -112,6 +165,30 @@ const Flows = ({ onNavigate }: FlowsProps) => {
   }
 
   const goBrowse = () => setView({ kind: 'browse' })
+
+  const openSituationRef = useRef(openSituation)
+  openSituationRef.current = openSituation
+
+  useEffect(() => {
+    const applyPending = () => {
+      const pending = consumePendingFlow()
+      if (pending?.kind === 'detail' && getSituation(pending.contextId, pending.situationId)) {
+        openSituationRef.current(
+          pending.contextId,
+          pending.situationId,
+          pending.personalizedBrainProfile ? { personalizedBrainProfile: true } : undefined
+        )
+        return
+      }
+      if (pending?.kind === 'browse-context') {
+        setLibraryView('context')
+        setLibraryContextId(pending.contextId)
+        setView({ kind: 'browse' })
+      }
+    }
+    window.addEventListener(FLOWS_NAVIGATE_EVENT, applyPending)
+    return () => window.removeEventListener(FLOWS_NAVIGATE_EVENT, applyPending)
+  }, [])
 
   const ContextPage =
     libraryContextId != null ? FLOW_CONTEXT_PAGES[libraryContextId] : null

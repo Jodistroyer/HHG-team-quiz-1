@@ -17,7 +17,7 @@ function isBrainType (x: unknown): x is BrainType {
   return x === 'Head' || x === 'Heart' || x === 'Gut'
 }
 
-function parseStoredFlowsBrainProfile (raw: unknown): FlowsBrainProfile | undefined {
+export function parseStoredFlowsBrainProfile (raw: unknown): FlowsBrainProfile | undefined {
   if (raw == null) return undefined
   if (typeof raw !== 'object') return undefined
   const o = raw as Record<string, unknown>

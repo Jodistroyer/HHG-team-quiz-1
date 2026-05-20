@@ -88,6 +88,15 @@
   margin-top: 4px;
   font-size: 0.8rem;
   padding: 0.35rem 0.75rem;
+  transform-origin: center;
+  transition:
+    transform 0.22s ease,
+    background-color 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease,
+    border-bottom-color 0.22s ease,
+    color 0.22s ease,
+    opacity 0.22s ease;
 }
 
 .change-results-finish-context-btn--add {
@@ -97,12 +106,20 @@
 }
 
 .change-results-finish-context-btn--add:hover:not(:disabled) {
+  transform: scale(1.03);
   background: #452f9a;
   color: #fff;
   border-bottom-color: #3a2685;
+  box-shadow: 0 2px 10px rgba(83, 58, 183, 0.28);
+}
+
+.change-results-finish-context-btn:active:not(:disabled) {
+  transform: scale(0.98);
+  animation: none;
 }
 
 .change-results-finish-context-btn--add:focus-visible {
+  transform: scale(1.02);
   outline-color: #533ab7;
 }
 
@@ -405,5 +422,18 @@
   .change-results-combo-row--with-art > .change-results-combo-dd .change-results-context-combo-label,
   .change-results-combo-row--with-art > .change-results-combo-dd .change-results-incomplete-copy {
     text-align: right;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .change-results-finish-context-btn {
+    transition: none;
+  }
+
+  .change-results-finish-context-btn:hover:not(:disabled),
+  .change-results-finish-context-btn:active:not(:disabled),
+  .change-results-finish-context-btn:focus-visible {
+    transform: none;
+    box-shadow: none;
   }
 }

@@ -73,6 +73,15 @@
   padding: 0;
 }
 
+.app-page-panel {
+  width: 100%;
+  min-width: 0;
+}
+
+.app-page-panel[hidden] {
+  display: none !important;
+}
+
 /* Desktop: Center content in viewport while preventing navbar overlap */
 @media (min-width: 769px) {
   .app {
@@ -105,7 +114,7 @@
    * the top of the library / Selected columns and hiding their top edges & borders.
    * Also stretch so sidebars get a stable height.
    */
-  .app-content:has(.teams) {
+  .app[data-active-page='teams'] .app-content {
     margin-top: 0;
     margin-bottom: 0;
     align-self: stretch;
@@ -113,11 +122,11 @@
     min-height: 0;
   }
 
-  .app:has(.teams) {
+  .app[data-active-page='teams'] {
     align-items: stretch;
   }
 
-  .app-content:has(.labs) {
+  .app[data-active-page='labs'] .app-content {
     margin-top: 0;
     margin-bottom: 0;
     align-self: stretch;
@@ -125,12 +134,12 @@
     min-height: 0;
   }
 
-  .app:has(.labs) {
+  .app[data-active-page='labs'] {
     align-items: stretch;
   }
 
   /* Flows: same as Teams/Labs — avoid pulling content under the fixed top navbar */
-  .app-content:has(.flows) {
+  .app[data-active-page='flows'] .app-content {
     margin-top: 0;
     margin-bottom: 0;
     align-self: stretch;
@@ -138,7 +147,7 @@
     min-height: 0;
   }
 
-  .app:has(.flows) {
+  .app[data-active-page='flows'] {
     align-items: stretch;
   }
 }

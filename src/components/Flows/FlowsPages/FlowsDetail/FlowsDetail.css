@@ -9,7 +9,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem 0;
+  padding: 0.5rem 0.35rem;
   font-family: 'Montserrat', sans-serif;
   font-size: 0.9375rem;
   font-weight: 700;
@@ -19,17 +19,28 @@
   border: none;
   cursor: pointer;
   width: fit-content;
-  transition: color 0.15s ease;
+  border-radius: 6px;
+  transform-origin: center left;
+  transition:
+    transform 0.22s ease,
+    color 0.22s ease,
+    box-shadow 0.22s ease;
 }
 
 .flows-detail__back:hover {
   color: var(--flows-purple-deep);
+  transform: scale(1.03);
+  box-shadow: 0 2px 10px rgba(125, 61, 189, 0.15);
+}
+
+.flows-detail__back:active {
+  transform: scale(0.98);
 }
 
 .flows-detail__back:focus-visible {
   outline: 2px solid var(--flows-purple);
   outline-offset: 4px;
-  border-radius: 4px;
+  transform: scale(1.02);
 }
 
 .flows-detail__back-icon {
@@ -363,5 +374,18 @@
   .flows-detail__section--why-order .why-it-works__title {
     margin: 0 0 0.85rem;
     padding-bottom: 0.55rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flows-detail__back {
+    transition: none;
+  }
+
+  .flows-detail__back:hover,
+  .flows-detail__back:active,
+  .flows-detail__back:focus-visible {
+    transform: none;
+    box-shadow: none;
   }
 }

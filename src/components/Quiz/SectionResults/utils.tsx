@@ -83,6 +83,32 @@ export const getBrainIcons = (
   return icons
 }
 
+/** Brain accent colors for a combo label, in label order (matches `getBrainIcons`). */
+export function getBrainColorsFromComboLabel (
+  label: string,
+  palette: BrainIconPalette = 'changeResults'
+): string[] {
+  const { head, heart, gut } = BRAIN_ICON_COLORS[palette]
+  const colorByType = { Head: head, Heart: heart, Gut: gut }
+  const parts = label.split(/\+|Strong/).map((part) => part.trim()).filter((part) => part.length > 0)
+  const colors: string[] = []
+  for (const part of parts) {
+    if (part.includes('Head')) colors.push(colorByType.Head)
+    else if (part.includes('Heart')) colors.push(colorByType.Heart)
+    else if (part.includes('Gut')) colors.push(colorByType.Gut)
+  }
+  return colors
+}
+
+/** Segmented horizontal gradient for multi-brain accents (badges, borders). */
+export function getComboAccentGradient (colors: string[]): string | null {
+  if (colors.length <= 1) return null
+  if (colors.length === 2) {
+    return `linear-gradient(90deg, ${colors[0]} 50%, ${colors[1]} 50%)`
+  }
+  return `linear-gradient(90deg, ${colors[0]} 33.33%, ${colors[1]} 33.33%, ${colors[1]} 66.66%, ${colors[2]} 66.66%)`
+}
+
 export const getBrainCombination = (headPercent: number, heartPercent: number, gutPercent: number): { label: string; colors: string[] } => {
   const brains: { type: AnswerType; percent: number; tier: string }[] = [
     { type: 'Head', percent: headPercent, tier: getTier(headPercent) },

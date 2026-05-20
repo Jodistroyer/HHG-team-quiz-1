@@ -50,6 +50,73 @@
   font-size: 0.95rem;
   border-radius: 10px;
   padding: 0.55rem 0.65rem;
+  transform-origin: center;
+  transition:
+    transform 0.22s ease,
+    background-color 0.22s ease,
+    color 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.flows-library .nav-section-btn:hover {
+  transform: scale(1.03);
+  box-shadow: 0 2px 10px rgba(38, 33, 92, 0.08);
+}
+
+.flows-library .nav-section-btn:active {
+  transform: scale(0.98);
+}
+
+.flows-library .nav-section-btn:focus-visible {
+  transform: scale(1.02);
+}
+
+.flows-library .nav-section-dropdown-trigger,
+.flows-library .nav-section-dropdown-item {
+  transform-origin: center;
+  transition:
+    transform 0.22s ease,
+    background-color 0.22s ease,
+    color 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.flows-library .nav-section-dropdown-trigger:hover,
+.flows-library .nav-section-dropdown-item:hover {
+  transform: scale(1.02);
+  box-shadow: 0 2px 10px rgba(38, 33, 92, 0.08);
+}
+
+.flows-library .nav-section-dropdown-trigger:active,
+.flows-library .nav-section-dropdown-item:active {
+  transform: scale(0.99);
+}
+
+.flows-library .nav-section-dropdown-trigger:focus-visible,
+.flows-library .nav-section-dropdown-item:focus-visible {
+  transform: scale(1.02);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flows-library .nav-section-btn,
+  .flows-library .nav-section-dropdown-trigger,
+  .flows-library .nav-section-dropdown-item {
+    transition: none;
+  }
+
+  .flows-library .nav-section-btn:hover,
+  .flows-library .nav-section-btn:active,
+  .flows-library .nav-section-btn:focus-visible,
+  .flows-library .nav-section-dropdown-trigger:hover,
+  .flows-library .nav-section-dropdown-trigger:active,
+  .flows-library .nav-section-dropdown-trigger:focus-visible,
+  .flows-library .nav-section-dropdown-item:hover,
+  .flows-library .nav-section-dropdown-item:active,
+  .flows-library .nav-section-dropdown-item:focus-visible {
+    transform: none;
+    box-shadow: none;
+  }
 }
 
 .flows-library .nav-section-btn-icon {

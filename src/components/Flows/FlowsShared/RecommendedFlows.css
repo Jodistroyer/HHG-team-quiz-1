@@ -80,6 +80,25 @@
 
 .recommended-flows__item > .flow-card {
   width: 100%;
+  transform-origin: center;
+  transition:
+    transform 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.recommended-flows__item > .flow-card:hover {
+  transform: scale(1.03);
+  border-color: var(--flows-border-strong, #cbd5e1);
+  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.1);
+}
+
+.recommended-flows__item > .flow-card:active {
+  transform: scale(0.98);
+}
+
+.recommended-flows__item > .flow-card:focus-visible {
+  transform: scale(1.02);
 }
 
 .recommended-flows__item--more {
@@ -102,16 +121,25 @@
   font-family: inherit;
   color: #7d3dbd;
   text-align: left;
-  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  transform-origin: center;
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease,
+    background-color 0.22s ease;
 }
 
 .recommended-flows__see-more:hover {
   background: #faf8ff;
-  transform: translateY(-1px);
-  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+  transform: scale(1.03);
+  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.1);
+}
+
+.recommended-flows__see-more:active {
+  transform: scale(0.98);
 }
 
 .recommended-flows__see-more:focus-visible {
+  transform: scale(1.02);
   outline: 2px solid #7d3dbd;
   outline-offset: 2px;
 }
@@ -139,5 +167,22 @@
 
 .recommended-flows__see-more:hover .recommended-flows__see-more-arrow {
   transform: translateX(3px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .recommended-flows__item > .flow-card,
+  .recommended-flows__see-more {
+    transition: none;
+  }
+
+  .recommended-flows__item > .flow-card:hover,
+  .recommended-flows__item > .flow-card:active,
+  .recommended-flows__item > .flow-card:focus-visible,
+  .recommended-flows__see-more:hover,
+  .recommended-flows__see-more:active,
+  .recommended-flows__see-more:focus-visible {
+    transform: none;
+    box-shadow: none;
+  }
 }
 

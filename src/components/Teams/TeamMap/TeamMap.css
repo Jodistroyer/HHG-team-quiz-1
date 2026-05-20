@@ -595,6 +595,50 @@
   gap: 7px;
 }
 
+.team-map__roster-chips .tm-chip {
+  transform-origin: center;
+  transition:
+    transform 0.22s ease,
+    border-color 0.22s ease,
+    background-color 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.team-map__roster-chips .tm-chip:hover {
+  transform: scale(1.03);
+  border-color: #cbd5e1;
+  box-shadow: 0 2px 10px rgba(38, 33, 92, 0.08);
+}
+
+.team-map__roster-chips .tm-chip--active:hover {
+  box-shadow: 0 0 0 3px rgba(125, 61, 189, 0.14), 0 2px 10px rgba(38, 33, 92, 0.08);
+}
+
+.team-map__roster-chips .tm-chip:active {
+  transform: scale(0.98);
+}
+
+.team-map__roster-chips .tm-chip--clickable:focus-visible {
+  transform: scale(1.02);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .team-map__roster-chips .tm-chip {
+    transition: none;
+  }
+
+  .team-map__roster-chips .tm-chip:hover,
+  .team-map__roster-chips .tm-chip:active,
+  .team-map__roster-chips .tm-chip--clickable:focus-visible {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .team-map__roster-chips .tm-chip--active:hover {
+    box-shadow: 0 0 0 3px rgba(125, 61, 189, 0.14);
+  }
+}
+
 .team-map__roster-empty {
   font-size: 12px;
   color: #94a3b8;

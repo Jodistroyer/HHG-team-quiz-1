@@ -338,7 +338,11 @@
   padding: 0;
   text-align: left;
   cursor: pointer;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  transform-origin: center;
+  transition:
+    transform 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease;
   overflow: hidden;
   display: flex;
   flex-direction: row;
@@ -348,9 +352,9 @@
 }
 
 .quiz-intro-card:hover {
+  transform: scale(1.02);
   border-color: rgba(125, 61, 189, 0.55);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 20px 50px rgba(0, 0, 0, 0.08);
-  transform: translateY(-1px);
 }
 
 .quiz-intro-card.is-selected {
@@ -560,6 +564,39 @@
   font-size: 1.35rem;
 }
 
+.quiz-intro-actions__left .btn,
+.quiz-intro-actions__right .btn {
+  transform-origin: center;
+  transition:
+    transform 0.22s ease,
+    background-color 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease,
+    border-bottom-color 0.22s ease,
+    opacity 0.22s ease;
+}
+
+.quiz-intro-actions__left .btn:hover:not(:disabled),
+.quiz-intro-actions__right .btn:hover:not(:disabled) {
+  transform: scale(1.03);
+  box-shadow: 0 2px 10px rgba(38, 33, 92, 0.12);
+}
+
+.quiz-intro-actions__right .btn.btn-primary:hover:not(:disabled) {
+  box-shadow: 0 2px 10px rgba(83, 58, 183, 0.28);
+}
+
+.quiz-intro-actions__left .btn:active:not(:disabled),
+.quiz-intro-actions__right .btn:active:not(:disabled) {
+  transform: scale(0.98);
+  animation: none;
+}
+
+.quiz-intro-actions__left .btn:focus-visible,
+.quiz-intro-actions__right .btn:focus-visible {
+  transform: scale(1.02);
+}
+
 .quiz-intro-actions__center {
   justify-self: center;
   min-width: 0;
@@ -709,6 +746,31 @@
   .quiz-intro-actions__center {
     order: -1;
     max-width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quiz-intro-card {
+    transition: none;
+  }
+
+  .quiz-intro-card:hover {
+    transform: none;
+  }
+
+  .quiz-intro-actions__left .btn,
+  .quiz-intro-actions__right .btn {
+    transition: none;
+  }
+
+  .quiz-intro-actions__left .btn:hover:not(:disabled),
+  .quiz-intro-actions__right .btn:hover:not(:disabled),
+  .quiz-intro-actions__left .btn:active:not(:disabled),
+  .quiz-intro-actions__right .btn:active:not(:disabled),
+  .quiz-intro-actions__left .btn:focus-visible,
+  .quiz-intro-actions__right .btn:focus-visible {
+    transform: none;
+    box-shadow: none;
   }
 }
 
