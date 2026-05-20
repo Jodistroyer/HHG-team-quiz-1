@@ -8,6 +8,8 @@ import './NaturalDefaultArchetypeParts.css'
 interface NaturalDefaultArchetypePartsProps {
   archetypeKey: string
   parts: ArchetypeParts
+  /** Defaults to solo-quiz copy. */
+  descriptionAriaLabel?: string
 }
 
 function ArchetypePartBlock ({
@@ -52,11 +54,15 @@ function ArchetypePartBlock ({
   )
 }
 
-export function NaturalDefaultArchetypeParts ({ archetypeKey, parts }: NaturalDefaultArchetypePartsProps) {
+export function NaturalDefaultArchetypeParts ({
+  archetypeKey,
+  parts,
+  descriptionAriaLabel = 'Your natural default breakdown',
+}: NaturalDefaultArchetypePartsProps) {
   return (
     <div
       className="archetype-parts overall-archetype-description quiz-results__natural-default-description"
-      aria-label="Your natural default breakdown"
+      aria-label={descriptionAriaLabel}
     >
       <div className="archetype-parts__pair">
         <ArchetypePartBlock label="vibe" part={parts.vibe} variant="vibe" archetypeKey={archetypeKey} />

@@ -1,5 +1,4 @@
 import { useMemo, useRef, useState, type ReactNode } from 'react'
-import ReactMarkdown from 'react-markdown'
 import type { Person, TeamContextKey, TeamContextScores } from '../../PeoplePanel/types'
 import { getBrainCombination, getBalanceTipBadge, getBrainIcons } from '../../../Quiz/SectionResults/utils.tsx'
 import { getBrainCombinationKey } from '../../../Quiz/SectionResults/utils.tsx'
@@ -24,7 +23,8 @@ import type { SocialMapData } from '../../../Quiz/SectionResults/Tables/SocialMa
 import { getSocialMapForScores } from '../../../Quiz/SectionResults/Tables/SocialMapTable.tsx'
 import type { FeedbackStyleData } from '../../../Quiz/SectionResults/Tables/FeedbackStyleTable.tsx'
 import { getFeedbackStyleForCombination } from '../../../Quiz/SectionResults/Tables/FeedbackStyleTable.tsx'
-import { PAIR_OVERALL_DESCRIPTIONS } from './pairOverallArchetypes'
+import { NaturalDefaultArchetypeParts } from '../../../Quiz/NaturalDefaultArchetypeParts'
+import { PAIR_OVERALL_PARTS } from './pairOverallArchetypes'
 import { getPairContextInsight } from './pairContextInsight'
 import { WhatStandsOut } from '../../../Quiz/ChangeResults/WhatStandsOut'
 import { TreemapChart } from '../../../Quiz/TreemapResults/TreemapChart'
@@ -49,6 +49,7 @@ import {
 import '../../../Quiz/ChangeResults/ChangeResults.css'
 import '../../../Quiz/RadarResults/OverallRadar.css'
 import '../../../Quiz/QuizResults.css'
+import '../../../Quiz/NaturalDefaultArchetypeParts.css'
 import '../../../Quiz/SectionResults/SectionCard.css'
 import '../../../Quiz/SectionResults/SectionResults.css'
 import '../../../Quiz/SectionResults/ProfileTable/ProfileTable.css'
@@ -748,7 +749,7 @@ function PairOverallAsTeamMapSection ({ pairOverall }: { pairOverall: TeamContex
   const combo = getBrainCombination(pairOverall.headPercent, pairOverall.heartPercent, pairOverall.gutPercent)
   const isLongLabel = combo.label === 'Head + Heart + Gut'
   const archetypeData = OVERALL_ARCHETYPES[combo.label]
-  const pairDescription = PAIR_OVERALL_DESCRIPTIONS[combo.label]
+  const pairParts = PAIR_OVERALL_PARTS[combo.label]
 
   return (
     <div
@@ -783,11 +784,13 @@ function PairOverallAsTeamMapSection ({ pairOverall }: { pairOverall: TeamContex
           </div>
         </div>
       </div>
-      {pairDescription && (
-        <div className="team-map-results__natural-default-body">
-          <div className="overall-archetype-description team-map-results__natural-default-description">
-            <ReactMarkdown>{pairDescription}</ReactMarkdown>
-          </div>
+      {pairParts && (
+        <div className="quiz-results__natural-default-body" data-pdf-section="natural-default-parts">
+          <NaturalDefaultArchetypeParts
+            archetypeKey={combo.label}
+            parts={pairParts}
+            descriptionAriaLabel="This pair's natural default breakdown"
+          />
         </div>
       )}
     </div>
