@@ -32,7 +32,7 @@ export const SECTION_IDS = SECTION_NAV_ITEMS.map(({ id, label }) => ({ id, label
 
 export const SECTION_IDS_LIST = SECTION_NAV_ITEMS.map(({ id }) => id)
 
-function scrollToSection (targetId: string) {
+export function scrollToSection (targetId: string) {
   const el = document.getElementById(targetId)
   if (el) {
     el.scrollIntoView({ behavior: 'smooth', block: 'start' })

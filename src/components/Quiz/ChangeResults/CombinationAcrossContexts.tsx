@@ -6,8 +6,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDiamond, faHeart, faSquare } from '@fortawesome/free-solid-svg-icons'
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 import { CONTEXT_BACKGROUND, ContextCardArt, contextIdForTitle } from '../ContextArt'
+import { scrollToSection } from '../Sidebar/Navigation/NavSection'
 import '../SectionResults/SectionCard.css'
 import './ChangeResults.css'
+
+function sectionNavIdForTitle (title: string): string | undefined {
+  const id = contextIdForTitle(title)
+  if (id == null) return undefined
+  return title.trim().toLowerCase().replace(/\s+/g, '-')
+}
 
 interface SectionForResume {
   id: number
@@ -55,6 +62,7 @@ export function CombinationAcrossContexts ({
             typeof onRequestResume === 'function'
 
           const artId = contextIdForTitle(row.title)
+          const sectionNavId = sectionNavIdForTitle(row.title)
           // Cascades to .change-results-row-art + .change-results-context-title via var(--section-context-color).
           const rowStyle: CSSProperties | undefined =
             artId != null
@@ -67,13 +75,15 @@ export function CombinationAcrossContexts ({
               className={`change-results-combo-row${artId != null ? ' change-results-combo-row--with-art' : ''}`}
               style={rowStyle}
             >
-              {artId != null && (
-                <div
+              {artId != null && sectionNavId != null && (
+                <button
+                  type="button"
                   className="change-results-row-art"
-                  aria-hidden="true"
+                  aria-label={`Go to ${row.title}`}
+                  onClick={() => scrollToSection(sectionNavId)}
                 >
                   <ContextCardArt id={artId} />
-                </div>
+                </button>
               )}
               <dt className="change-results-combo-dt">
                 <div className="change-results-context-heading">

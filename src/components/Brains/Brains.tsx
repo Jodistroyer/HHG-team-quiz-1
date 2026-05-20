@@ -67,7 +67,7 @@ function BrainsQuizCta ({ onTakeQuiz }: { onTakeQuiz?: () => void }) {
       <p className="flows-home__start-eyebrow">Start here</p>
       <h2 className="flows-home__start-title">Find out which brain type you are</h2>
       <p className="flows-home__start-body">
-        Take the short HHG quiz to discover your natural brain type and how you show up
+        Take the short HHG quiz to discover your decision style, natural brain type and how you show up
         across contexts.
       </p>
       <button type="button" className="flows-home__start-cta" onClick={onTakeQuiz}>
@@ -151,7 +151,7 @@ const Brains = ({ onTakeQuiz }: BrainsProps) => {
   return (
     <div className="brains-page brains-page--toc">
       <header className="brains-page__header">
-        <h1 className="brains-page__title">Brain types</h1>
+        <h1 className="brains-page__title">3 Brain types</h1>
         <p className="brains-page__intro">
           10 Decision Making Archetypes
         </p>
