@@ -61,21 +61,25 @@
 /*
  * Pull all three modes down to sit closer to Quiz Results perceived size. Uses `zoom` like App.css.
  * Mid-width: stacks with .app zoom; use a gentler factor. Large screens: .app has no zoom, so scale a bit more.
+ * Team profile (3+): `.quiz-results-layout` sits between centre and `.team-map-result-view`, so target that wrapper too.
  */
 @media (min-width: 769px) and (max-width: 1919px) {
-  .team-map__center > .team-map-result-view {
+  .team-map__center > .team-map-result-view,
+  .team-group-insights-root .team-map__center > .quiz-results-layout {
     zoom: 0.83;
   }
 }
 
 @media (min-width: 1920px) {
-  .team-map__center > .team-map-result-view {
+  .team-map__center > .team-map-result-view,
+  .team-group-insights-root .team-map__center > .quiz-results-layout {
     zoom: 0.78;
   }
 }
 
 @media (max-width: 768px) {
-  .team-map__center > .team-map-result-view {
+  .team-map__center > .team-map-result-view,
+  .team-group-insights-root .team-map__center > .quiz-results-layout {
     zoom: 0.86;
   }
 }

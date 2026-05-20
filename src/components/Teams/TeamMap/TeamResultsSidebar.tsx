@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { TeamNavSection, TeamNavSectionDropdown } from './TeamNavSection'
 import { TEAM_GROUP_NAV_IDS, TEAM_GROUP_NAV_ITEMS } from './teamGroupNav'
-import '../../../Quiz/Sidebar/Sidebar.css'
+import '../../Quiz/Sidebar/Sidebar.css'
 
 const MOBILE_BREAKPOINT = 768
 const SCROLL_OFFSET = 120
