@@ -63,12 +63,14 @@ const BRAIN_ICON_COLORS: Record<BrainIconPalette, { head: string; heart: string;
 
 export const getBrainIcons = (
   label: string,
-  size: 'small' | 'large' = 'small',
+  size: 'tiny' | 'small' | 'large' = 'small',
   palette: BrainIconPalette = 'muted'
 ): ReactElement[] => {
   const icons: ReactElement[] = []
-  const iconSize = size === 'large' ? '1.2rem' : '0.9rem'
-  const iconMargin = size === 'large' ? '8px' : '4px'
+  const iconSize =
+    size === 'large' ? '1.2rem' : size === 'tiny' ? '7px' : '0.9rem'
+  const iconMargin =
+    size === 'large' ? '8px' : size === 'tiny' ? '0' : '4px'
   const colors = BRAIN_ICON_COLORS[palette]
   const parts = label.split(/\+|Strong/).map(part => part.trim()).filter(part => part.length > 0)
   parts.forEach((part, index) => {

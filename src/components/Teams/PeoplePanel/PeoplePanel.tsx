@@ -19,6 +19,8 @@ export interface PeoplePanelProps extends UseTeamsDirectoryProps {
   onClearAll?: () => void
   activePersonId?: string | null
   onActivePersonChange?: (id: string | null) => void
+  rosterHighlightId?: string | null
+  onRosterHighlightChange?: (id: string | null) => void
 }
 
 export function PeoplePanel({
@@ -27,6 +29,8 @@ export function PeoplePanel({
   onClearAll,
   activePersonId,
   onActivePersonChange,
+  rosterHighlightId,
+  onRosterHighlightChange,
   ...directoryProps
 }: PeoplePanelProps) {
   const api = useTeamsDirectory(directoryProps)
@@ -70,6 +74,8 @@ export function PeoplePanel({
             onClearAll={onClearAll}
             activePersonId={activePersonId ?? null}
             onActivePersonChange={onActivePersonChange}
+            rosterHighlightId={rosterHighlightId ?? null}
+            onRosterHighlightChange={onRosterHighlightChange}
           />
         </div>
       </div>

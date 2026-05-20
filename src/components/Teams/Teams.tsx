@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { PeoplePanel } from './PeoplePanel/PeoplePanel'
 import type { Person, TeamContextKey } from './PeoplePanel/types'
 import { TeamMap } from './TeamMap/TeamMap'
+import { useTeamInsightScroll } from './useTeamInsightScroll'
 import './Teams.css'
 
 function Teams() {
@@ -14,9 +15,16 @@ function Teams() {
       return null
     }
   })
+  /** Roster pulse/highlight from incomplete-members list only (not solo focus). */
+  const [rosterHighlightId, setRosterHighlightId] = useState<string | null>(null)
   const activeContext: TeamContextKey = 'overall'
   const deselectRef = useRef<(id: string) => void>(() => {})
   const clearAllRef = useRef<() => void>(() => {})
+
+  const { rememberScrollBeforeSolo } = useTeamInsightScroll(
+    activePersonId,
+    selectedPeople.length
+  )
 
   useEffect(() => {
     try {
@@ -27,6 +35,12 @@ function Teams() {
     }
   }, [activePersonId])
 
+  const handleActivePersonChange = (id: string | null) => {
+    rememberScrollBeforeSolo(id, activePersonId)
+    setRosterHighlightId(null)
+    setActivePersonId(id)
+  }
+
   return (
     <div className="teams">
       <aside className="teams__panel">
@@ -36,17 +50,24 @@ function Teams() {
           onClearAll={() => clearAllRef.current()}
           onSelectedPeopleChange={(people) => {
             setSelectedPeople(people)
-            // If the focused person is no longer selected, drop focus.
             if (activePersonId && !people.some((p) => p.id === activePersonId)) setActivePersonId(null)
+            if (rosterHighlightId && !people.some((p) => p.id === rosterHighlightId)) setRosterHighlightId(null)
           }}
           onRegisterDeselect={(fn) => { deselectRef.current = fn }}
           onRegisterClearAll={(fn) => { clearAllRef.current = fn }}
           activePersonId={activePersonId}
-          onActivePersonChange={setActivePersonId}
+          onActivePersonChange={handleActivePersonChange}
+          rosterHighlightId={rosterHighlightId}
+          onRosterHighlightChange={setRosterHighlightId}
         />
       </aside>
       <main className="teams__main">
-        <TeamMap selectedPeople={selectedPeople} activePersonId={activePersonId} />
+        <TeamMap
+          selectedPeople={selectedPeople}
+          activePersonId={activePersonId}
+          rosterHighlightId={rosterHighlightId}
+          onRosterHighlightChange={setRosterHighlightId}
+        />
       </main>
     </div>
   )

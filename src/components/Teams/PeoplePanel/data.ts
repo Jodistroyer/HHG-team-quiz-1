@@ -350,7 +350,6 @@ function buildCompanyTree(people: Person[], emptyTeams: EmptyTeams = {}): TreeNo
         ...teamVisuals,
       })
     }
-    const companyVisuals = groupHhgVisuals(companyPeople)
     nodes.push({
       id: `company-${companyName}`,
       kind: 'company',
@@ -358,7 +357,6 @@ function buildCompanyTree(people: Person[], emptyTeams: EmptyTeams = {}): TreeNo
       count: companyPeople.length,
       children: childNodes,
       path: [],
-      ...companyVisuals,
     })
   }
 
@@ -383,17 +381,17 @@ function averageHhgPercents(people: Person[]): { headPercent: number; heartPerce
   return { headPercent: h / n, heartPercent: he / n, gutPercent: g / n }
 }
 
-/** Same ordering/rules as brain combo badge, from group averages (smaller tree dots). */
-function groupHhgVisuals(people: Person[]): { aggregateLabel: string; indicatorDotColors: string[] } | undefined {
+/** Same ordering/rules as brain combo badge, from group averages. */
+function groupHhgVisuals(people: Person[]): { aggregateLabel: string } | undefined {
   if (people.length === 0) return undefined
   const { headPercent, heartPercent, gutPercent } = averageHhgPercents(people)
   const combo = getBrainCombination(headPercent, heartPercent, gutPercent)
-  return { aggregateLabel: combo.label, indicatorDotColors: combo.colors }
+  return { aggregateLabel: combo.label }
 }
 
-function personHhgVisuals(person: Person): { aggregateLabel: string; indicatorDotColors: string[] } {
+function personHhgVisuals(person: Person): { aggregateLabel: string } {
   const combo = getBrainCombination(person.headPercent, person.heartPercent, person.gutPercent)
-  return { aggregateLabel: combo.label, indicatorDotColors: combo.colors }
+  return { aggregateLabel: combo.label }
 }
 
 function buildTeamTree(people: Person[]): TreeNode[] {

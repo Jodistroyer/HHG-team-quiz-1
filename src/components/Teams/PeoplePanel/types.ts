@@ -50,10 +50,8 @@ export interface TreeNode {
   kind: TreeNodeKind
   label: string
   count?: number
-  /** For groups: brain combo label from averaged HHG (a11y + future UI) */
+  /** Brain combo label (person scores or group average) for HHG icons in the tree row */
   aggregateLabel?: string
-  /** Dot colours in badge order (1–3): from averaged HHG via getBrainCombination */
-  indicatorDotColors?: string[]
   children: TreeNode[]
   /** Only for kind === 'person' */
   person?: Person

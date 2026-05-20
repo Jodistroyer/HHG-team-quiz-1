@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { TreeNode as TreeNodeType } from './types'
 import { getPersonIdsUnder } from './data'
+import { getBrainColorsFromComboLabel, getBrainIcons } from '../../Quiz/SectionResults/utils.tsx'
 import './TreeNode.css'
 
 interface TreeNodeProps {
@@ -170,6 +171,10 @@ export function TreeNode({
         ? 'tree-node__title tree-node__title--person'
         : 'tree-node__title'
 
+  const brainIconCount = node.aggregateLabel
+    ? getBrainColorsFromComboLabel(node.aggregateLabel, 'changeResults').length
+    : 0
+
   return (
     <div
       className={`tree-node tree-node--depth-${depth} ${isDropTarget ? 'tree-node--drop-target' : ''} ${isDragging ? 'tree-node--dragging' : ''}`}
@@ -187,7 +192,11 @@ export function TreeNode({
         onMouseLeave={() => setIsHovered(false)}
       >
         <span
-          className="tree-node__expand"
+          className={`tree-node__expand${
+            hasChildren
+              ? ` tree-node__expand--has-children${isExpanded ? ' tree-node__expand--expanded' : ' tree-node__expand--collapsed'}`
+              : ''
+          }`}
           role="button"
           tabIndex={0}
           onClick={() => hasChildren && onToggleExpand(node.id)}
@@ -227,14 +236,17 @@ export function TreeNode({
                   <span className="tree-node__count"> ({node.count})</span>
                 )}
               </span>
-              {node.indicatorDotColors && node.indicatorDotColors.length > 0 && (
+              {node.aggregateLabel && (
                 <span
-                  className="tree-node__dots"
-                  aria-label={node.aggregateLabel ? `HHG balance: ${node.aggregateLabel}` : 'HHG balance'}
+                  className={`tree-node__brain-icons${
+                    brainIconCount >= 1 && brainIconCount <= 3
+                      ? ` tree-node__brain-icons--count-${brainIconCount}`
+                      : ''
+                  }`}
+                  title={node.aggregateLabel}
+                  aria-label={`HHG balance: ${node.aggregateLabel}`}
                 >
-                  {node.indicatorDotColors.map((color, i) => (
-                    <span key={i} className="tree-node__dot" style={{ backgroundColor: color }} />
-                  ))}
+                  {getBrainIcons(node.aggregateLabel, 'tiny', 'changeResults')}
                 </span>
               )}
             </>

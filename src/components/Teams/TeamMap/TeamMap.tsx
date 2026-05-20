@@ -8,9 +8,11 @@ import './TeamMap.css'
 interface TeamMapProps {
   selectedPeople: Person[]
   activePersonId?: string | null
+  rosterHighlightId?: string | null
+  onRosterHighlightChange?: (id: string | null) => void
 }
 
-export function TeamMap ({ selectedPeople, activePersonId }: TeamMapProps) {
+export function TeamMap ({ selectedPeople, activePersonId, rosterHighlightId, onRosterHighlightChange }: TeamMapProps) {
   const n = selectedPeople.length
   const activePerson = activePersonId ? selectedPeople.find((p) => p.id === activePersonId) : null
 
@@ -69,7 +71,11 @@ export function TeamMap ({ selectedPeople, activePersonId }: TeamMapProps) {
     <section className="team-map team-map--center-only team-map-results quiz-results-page" aria-label="Team profile">
       <div className="team-map__center">
         <div className="team-map-result-view">
-          <TeamGroupInsights selectedPeople={selectedPeople} />
+          <TeamGroupInsights
+            selectedPeople={selectedPeople}
+            rosterHighlightId={rosterHighlightId}
+            onRosterHighlightChange={onRosterHighlightChange}
+          />
         </div>
       </div>
     </section>

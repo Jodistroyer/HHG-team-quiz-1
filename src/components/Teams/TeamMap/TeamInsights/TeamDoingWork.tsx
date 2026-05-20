@@ -151,7 +151,7 @@ export function TeamDoingWork({
               <span className="team-context-insight__card-icon" aria-hidden>
                 <FontAwesomeIcon icon={faCircleCheck} />
               </span>
-              Best Case
+              Best Case Scenario
             </h5>
           </div>
           <p className="team-context-insight__card-text">{insight.strength}</p>
