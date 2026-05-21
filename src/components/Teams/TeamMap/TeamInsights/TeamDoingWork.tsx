@@ -128,13 +128,13 @@ export function TeamDoingWork({
   const missingBrainBadgeStyle = missingBrainCombo ? getBalanceTipBadgeStyle(missingBrainCombo) : null
   return (
     <div className="team-context-insight">
+      {metaRow}
       <TeamContextInsightHeadline
         contextKey="doingWork"
         combo={combo}
         insightTitleId="team-doing-work-title"
         insightTitle={insight.title}
       />
-      {metaRow}
       <TeamStyleBreakdown
         headPercent={headPercent}
         heartPercent={heartPercent}

@@ -1,129 +1,67 @@
-import { useState } from 'react'
+import type { CSSProperties } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faDiamond, faHeart, faSquare } from '@fortawesome/free-solid-svg-icons'
+import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 import './QuizIntroQuestionPreview.css'
-import { QUIZ_SECTIONS } from './quizSections'
-import type { QuizAnswerType } from './quizSections'
 
-const PREVIEW_QUESTION = QUIZ_SECTIONS[0].questions[0]
+const CONTROL_CENTERS: Array<{
+  id: string
+  label: string
+  subtitle: string
+  color: string
+  icon: IconDefinition
+}> = [
+  { id: 'head', label: 'Head', subtitle: 'Logical', color: '#1368ce', icon: faDiamond },
+  { id: 'heart', label: 'Heart', subtitle: 'Emotional', color: '#e21b3c', icon: faHeart },
+  { id: 'gut', label: 'Gut', subtitle: 'Instinctual', color: '#26890c', icon: faSquare },
+]
 
-const TYPE_COLORS: Record<QuizAnswerType, string> = {
-  Head: '#1368ce',
-  Heart: '#e21b3c',
-  Gut: '#26890c',
-}
+const SOURCE_URL =
+  'https://www.researchgate.net/publication/283296213_Head_Heart_and_Gut_in_Decision_Making'
 
-function getDarkerColor (hex: string): string {
-  const h = hex.replace('#', '')
-  const r = parseInt(h.slice(0, 2), 16)
-  const g = parseInt(h.slice(2, 4), 16)
-  const b = parseInt(h.slice(4, 6), 16)
-  return `rgb(${Math.max(0, Math.floor(r * 0.7))}, ${Math.max(0, Math.floor(g * 0.7))}, ${Math.max(0, Math.floor(b * 0.7))})`
-}
-
-function formatOptionText (text: string): string[] {
-  return text.split('•').map((p) => p.trim()).filter((p) => p.length > 0)
-}
-
-function optionByType (type: QuizAnswerType) {
-  return PREVIEW_QUESTION.options.find((o) => o.type === type)
-}
-
-/**
- * Replica of the real quiz question UI (Under Pressure Q1). Desktop: scaled 800px
- * board. Viewport ≤768px: same 2×2 option layout as the live quiz (Quiz.css).
- * Choice buttons mirror primary / secondary selection locally; nothing is saved.
- */
 export function QuizIntroQuestionPreview () {
-  // Preselect two options by default so the intro preview demonstrates 1st/2nd choice markers.
-  const [firstChoice, setFirstChoice] = useState<QuizAnswerType | null>('Head')
-  const [secondChoice, setSecondChoice] = useState<QuizAnswerType | null>('Heart')
-
-  const head = optionByType('Head')
-  const heart = optionByType('Heart')
-  const gut = optionByType('Gut')
-
-  const handleOptionClick = (type: QuizAnswerType) => {
-    if (!firstChoice) {
-      setFirstChoice(type)
-      setSecondChoice(null)
-      return
-    }
-    if (firstChoice !== type && !secondChoice) {
-      setSecondChoice(type)
-      return
-    }
-    if (firstChoice === type) {
-      setFirstChoice(null)
-      setSecondChoice(null)
-      return
-    }
-    if (secondChoice === type) {
-      setSecondChoice(null)
-    }
-  }
-
-  const cell = (type: QuizAnswerType, option: { label: string; type: QuizAnswerType } | undefined, gridClass: string) => {
-    if (!option) return null
-    const bg = TYPE_COLORS[type]
-    const primary = firstChoice === type
-    const secondary = secondChoice === type
-    const selClass = primary ? ' selected primary' : secondary ? ' selected secondary' : ''
-    return (
-      <button
-        key={type}
-        type="button"
-        className={`qip-grid-option ${gridClass}${selClass}`}
-        style={{
-          backgroundColor: bg,
-          borderColor: bg,
-          borderBottom: `4px solid ${getDarkerColor(bg)}`,
-        }}
-        onClick={() => handleOptionClick(type)}
-        aria-pressed={primary || secondary}
-        aria-label={
-          primary
-            ? `Preview: ${type}, first choice (${option.label})`
-            : secondary
-              ? `Preview: ${type}, second choice (${option.label})`
-              : `Preview: ${type} (${option.label})`
-        }
-      >
-        <div className="qip-option-text">
-          {formatOptionText(option.label).map((line, idx) => (
-            <div key={idx} className="qip-option-line">
-              {line}
-            </div>
-          ))}
-        </div>
-        {primary && <span className="qip-selection-marker">1</span>}
-        {secondary && <span className="qip-selection-marker">2</span>}
-      </button>
-    )
-  }
-
   return (
-    <div
-      className="quiz-intro-question-preview"
-      role="region"
-      aria-label="Sample Under Pressure question. Try choosing one or two answers; nothing is saved."
+    <figure
+      className="quiz-intro-control-centers"
+      aria-labelledby="quiz-intro-control-centers-title"
     >
-      <div className="quiz-intro-question-preview__viewport">
-        <p className="quiz-intro-question-preview__header">↓ THIS IS FOR EXAMPLE ONLY ↓</p>
-        <div className="quiz-intro-question-preview__board-wrap">
-          <div className="quiz-intro-question-preview__board-slot">
-            <div className="quiz-intro-question-preview__board">
-              <h2 className="qip-question-text">
-                <span className="qip-question-text-inner">{PREVIEW_QUESTION.text}</span>
-              </h2>
-              <p className="qip-quiz-instructions">Choose 1 or 2 choices.</p>
-              <div className="qip-options-grid">
-                {cell('Head', head, 'qip-grid-option-top-left')}
-                {cell('Heart', heart, 'qip-grid-option-top-right')}
-                {cell('Gut', gut, 'qip-grid-option-bottom-left')}
-              </div>
+      <p className="quiz-intro-control-centers__source">
+        Source:{' '}
+        <a
+          href={SOURCE_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="quiz-intro-control-centers__source-link"
+        >
+          ResearchGate – Head, Heart, and Gut in Decision Making
+        </a>
+      </p>
+
+      <figcaption className="quiz-intro-control-centers__header">
+        <p id="quiz-intro-control-centers-title" className="quiz-intro-control-centers__headline">
+          These are our <strong>Control Centers</strong>.
+        </p>
+        <p className="quiz-intro-control-centers__tagline">They drive our actions.</p>
+      </figcaption>
+
+      <div className="quiz-intro-control-centers__grid" role="list">
+        {CONTROL_CENTERS.map((center) => (
+          <div
+            key={center.id}
+            className="quiz-intro-control-centers__item"
+            role="listitem"
+            style={{ '--center-color': center.color } as CSSProperties}
+          >
+            <div className="quiz-intro-control-centers__icon-wrap" aria-hidden="true">
+              <FontAwesomeIcon icon={center.icon} className="quiz-intro-control-centers__icon" />
+            </div>
+            <div className="quiz-intro-control-centers__label">
+              <span className="quiz-intro-control-centers__name">{center.label}</span>
+              <span className="quiz-intro-control-centers__subtitle">({center.subtitle})</span>
             </div>
           </div>
-        </div>
+        ))}
       </div>
-    </div>
+    </figure>
   )
 }

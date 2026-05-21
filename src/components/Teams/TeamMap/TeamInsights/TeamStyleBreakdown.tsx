@@ -11,18 +11,18 @@ interface TeamStyleBreakdownProps {
 
 const BREAKDOWN_ROWS = [
   {
-    key: 'heart',
-    label: 'Heart',
-    percent: (p: TeamStyleBreakdownProps) => p.heartPercent,
-    fillClass: 'team-style-breakdown__bar-fill--heart',
-    percentClass: 'team-style-breakdown__percent--heart',
-  },
-  {
     key: 'head',
     label: 'Head',
     percent: (p: TeamStyleBreakdownProps) => p.headPercent,
     fillClass: 'team-style-breakdown__bar-fill--head',
     percentClass: 'team-style-breakdown__percent--head',
+  },
+  {
+    key: 'heart',
+    label: 'Heart',
+    percent: (p: TeamStyleBreakdownProps) => p.heartPercent,
+    fillClass: 'team-style-breakdown__bar-fill--heart',
+    percentClass: 'team-style-breakdown__percent--heart',
   },
   {
     key: 'gut',

@@ -3,6 +3,154 @@
  * ≤768px: same responsive layout as Quiz.css — full width, 2×2 grid, no transform scale.
  */
 
+/* Control Centers infographic (replaces static brain chart image) */
+
+.quiz-intro-control-centers {
+  --qi-purple: #7d3dbd;
+  --qi-purple-deep: #5c2d8a;
+  --qi-line: rgba(125, 61, 189, 0.22);
+  width: 100%;
+  max-width: 100%;
+  margin: 0 0 1.35rem;
+  padding: 1.35rem 1.25rem 1.1rem;
+  box-sizing: border-box;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #faf8fc 0%, #ffffff 48%);
+  font-family: 'Montserrat', sans-serif;
+}
+
+.quiz-intro-control-centers__header {
+  margin: 0 0 1.25rem;
+  text-align: center;
+}
+
+.quiz-intro-control-centers__headline {
+  margin: 0 0 0.35rem;
+  font-size: clamp(1.05rem, 2.5vw, 1.2rem);
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--qi-purple-deep);
+}
+
+.quiz-intro-control-centers__headline strong {
+  font-weight: 800;
+  color: var(--qi-purple);
+}
+
+.quiz-intro-control-centers__tagline {
+  margin: 0;
+  font-size: clamp(0.95rem, 2.2vw, 1.05rem);
+  font-weight: 600;
+  line-height: 1.4;
+  color: #262626;
+}
+
+.quiz-intro-control-centers__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+}
+
+.quiz-intro-control-centers__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.65rem;
+  min-width: 0;
+}
+
+.quiz-intro-control-centers__icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  color: var(--center-color);
+}
+
+.quiz-intro-control-centers__icon {
+  font-size: 2.35rem;
+  line-height: 1;
+}
+
+.quiz-intro-control-centers__label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 4.5rem;
+  padding: 0.65rem 0.5rem;
+  box-sizing: border-box;
+  border-radius: 6px;
+  background-color: color-mix(in srgb, var(--center-color) 22%, white);
+  text-align: center;
+}
+
+.quiz-intro-control-centers__name {
+  font-size: clamp(0.9rem, 2vw, 1rem);
+  font-weight: 800;
+  line-height: 1.2;
+  color: #1a1a2e;
+}
+
+.quiz-intro-control-centers__subtitle {
+  margin-top: 0.15rem;
+  font-size: clamp(0.82rem, 1.8vw, 0.92rem);
+  font-weight: 700;
+  line-height: 1.25;
+  color: #1a1a2e;
+}
+
+.quiz-intro-control-centers__source {
+  margin: 0 0 1rem;
+  font-size: 0.72rem;
+  font-style: italic;
+  line-height: 1.45;
+  text-align: center;
+  color: #64748b;
+}
+
+.quiz-intro-control-centers__source-link {
+  color: #1368ce;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.quiz-intro-control-centers__source-link:hover {
+  color: var(--qi-purple);
+}
+
+@media (min-width: 769px) {
+  .quiz-intro-control-centers {
+    width: 85%;
+    max-width: 32rem;
+  }
+}
+
+@media (min-width: 981px) {
+  .quiz-intro-control-centers {
+    transform: scale(1.25);
+    transform-origin: top left;
+    margin-bottom: 2.75rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .quiz-intro-control-centers {
+    padding: 1.15rem 1rem 0.95rem;
+  }
+
+  .quiz-intro-control-centers__grid {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+    max-width: 16rem;
+    margin: 0 auto;
+  }
+}
+
 .quiz-intro-question-preview {
   --qip-scale: 0.64;
   --qip-inner-h: 452px;

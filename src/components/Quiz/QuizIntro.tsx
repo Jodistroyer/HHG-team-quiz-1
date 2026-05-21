@@ -90,13 +90,10 @@ export function QuizIntro ({
             </header>
 
             <section className="quiz-intro-copy" aria-label="What to expect">
+              <QuizIntroQuestionPreview />
+
               <div className="quiz-intro-kicker">How to Do It</div>
               <h2 className="quiz-intro-h1">In the Quiz, You May Pick up to 2 Answers.</h2>
-              <p className="quiz-intro-lede">
-                Choose the situations that feel relevant right now. You can do one context or all four. Your results will reflect what you complete.
-              </p>
-
-              <QuizIntroQuestionPreview />
 
               <div className="quiz-intro-steps" aria-label="Steps">
                 <div className="quiz-intro-step">
