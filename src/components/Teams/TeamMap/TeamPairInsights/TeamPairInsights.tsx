@@ -796,7 +796,6 @@ function PairOverallAsTeamMapSection ({ pairOverall }: { pairOverall: TeamContex
   const combo = getBrainCombination(pairOverall.headPercent, pairOverall.heartPercent, pairOverall.gutPercent)
   const isLongLabel = combo.label === 'Head + Heart + Gut'
   const archetypeData = OVERALL_ARCHETYPES[combo.label]
-  const pairParts = PAIR_OVERALL_PARTS[combo.label]
 
   return (
     <div
@@ -831,15 +830,6 @@ function PairOverallAsTeamMapSection ({ pairOverall }: { pairOverall: TeamContex
           </div>
         </div>
       </div>
-      {pairParts && (
-        <div className="quiz-results__natural-default-body" data-pdf-section="natural-default-parts">
-          <NaturalDefaultArchetypeParts
-            archetypeKey={combo.label}
-            parts={pairParts}
-            descriptionAriaLabel="This pair's natural default breakdown"
-          />
-        </div>
-      )}
     </div>
   )
 }
@@ -863,6 +853,12 @@ export function TeamPairInsights ({ people }: TeamPairInsightsProps) {
     () => averageScores(scoresFor(a, 'overall'), scoresFor(b, 'overall')),
     [a, b]
   )
+
+  const pairNaturalDefaultCombo = useMemo(
+    () => getBrainCombination(pairOverall.headPercent, pairOverall.heartPercent, pairOverall.gutPercent),
+    [pairOverall]
+  )
+  const pairNaturalDefaultParts = PAIR_OVERALL_PARTS[pairNaturalDefaultCombo.label]
 
   const pairHeadlineNames = useMemo(() => {
     const fullA = a.name.trim()
@@ -909,6 +905,15 @@ export function TeamPairInsights ({ people }: TeamPairInsightsProps) {
                     <h2 className="results-section-title team-pair-insights__heading">Natural Default</h2>
                     <PairOverallAsTeamMapSection pairOverall={pairOverall} />
                   </div>
+                  {pairNaturalDefaultParts && (
+                    <div className="quiz-results__natural-default-body" data-pdf-section="natural-default-parts">
+                      <NaturalDefaultArchetypeParts
+                        archetypeKey={pairNaturalDefaultCombo.label}
+                        parts={pairNaturalDefaultParts}
+                        descriptionAriaLabel="This pair's natural default breakdown"
+                      />
+                    </div>
+                  )}
                   <div
                     id="balance"
                     className="team-pair-insights__pair-change-outer"
