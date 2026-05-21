@@ -98,6 +98,15 @@ const PDF_EXPORT_CSS = `
 .pdf-export-view .archetype-part__quote{font-size:1.5rem!important;max-width:42ch!important;margin-inline:auto!important}
 .pdf-export-view .archetype-part__label{font-size:0.8125rem!important}
 .pdf-export-view .archetype-part--question .archetype-part__icon{font-size:1.125rem!important}
+/* Team profile (3+): stacked sections, participation notes, context insight cards */
+.pdf-export-view [data-pdf-section^="team-"]{width:800px!important;min-width:800px!important;max-width:800px!important;padding:32px 40px 40px!important;box-sizing:border-box!important}
+.pdf-export-view .team-map-results__incomplete-members,.pdf-export-view .team-map-results__section-member-status{display:none!important}
+.pdf-export-view [data-pdf-section="team-title-natural-default"] .team-map-results__page-header{margin-bottom:1.5rem!important}
+.pdf-export-view .team-map-results__section-title{display:flex!important;align-items:center!important;gap:0.5rem!important;color:#7d3dbd!important}
+.pdf-export-view .team-map-results__section-icon{color:#7d3dbd!important}
+.pdf-export-view .team-map-results__participation{font-size:0.9375rem!important;line-height:1.5!important;margin:0 0 1rem!important}
+.pdf-export-view .team-map-results__context-card-body{padding:0 1.25rem 1.25rem!important}
+.pdf-export-view .team-map-results__context-card .change-results-incomplete-copy{margin:0 1.25rem 1.25rem!important}
 /* Your answers by section: match on-screen AnswerResults (Montserrat) */
 .pdf-export-view .answer-results,.pdf-export-view .answer-results-title,.pdf-export-view .answer-results-section,.pdf-export-view .answer-results-section-title,.pdf-export-view .answer-results-section-header,.pdf-export-view .answer-results-table,.pdf-export-view .answer-results-table th,.pdf-export-view .answer-results-table td,.pdf-export-view .answer-results-combo-badge,.pdf-export-view .answer-results-question,.pdf-export-view .answer-results-choice{font-family:'Montserrat',sans-serif!important;-webkit-font-smoothing:antialiased!important}
 `

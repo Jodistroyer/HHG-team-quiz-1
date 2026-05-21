@@ -1,4 +1,4 @@
-import { useMemo, type CSSProperties } from 'react'
+import { useMemo, type CSSProperties, type RefObject } from 'react'
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowsRotate, faCompass } from '@fortawesome/free-solid-svg-icons'
@@ -40,6 +40,8 @@ interface TeamGroupInsightsProps {
   selectedPeople: Person[]
   rosterHighlightId?: string | null
   onRosterHighlightChange?: (id: string | null) => void
+  /** PDF export captures elements with `data-pdf-section` inside this container. */
+  resultsContainerRef?: RefObject<HTMLDivElement | null>
 }
 
 interface TeamSectionHeaderProps {
@@ -164,6 +166,7 @@ export function TeamGroupInsights ({
   selectedPeople,
   rosterHighlightId,
   onRosterHighlightChange,
+  resultsContainerRef,
 }: TeamGroupInsightsProps) {
   const participation = useMemo(() => getTeamQuizParticipation(selectedPeople), [selectedPeople])
   const { contributingCount, totalSelected, incompletePeople } = participation
@@ -219,19 +222,19 @@ export function TeamGroupInsights ({
   const participationProps = { contributingCount, totalSelected }
 
   return (
-    <div className="team-map-results__inner">
-      <div className="team-map-results__page-header">
-        <h1 className="title">Your Team Profile</h1>
-        {totalSelected > 0 && (
-          <TeamIncompleteMembers
-            incompletePeople={incompletePeople}
-            rosterHighlightId={rosterHighlightId}
-            onRosterHighlightChange={onRosterHighlightChange}
-          />
-        )}
-      </div>
+    <div className="team-map-results__inner final-summary" ref={resultsContainerRef}>
+      <div data-pdf-section="team-title-natural-default">
+        <div className="team-map-results__page-header">
+          <h1 className="title quiz-results-page__main-title">Your Team Profile</h1>
+          {totalSelected > 0 && (
+            <TeamIncompleteMembers
+              incompletePeople={incompletePeople}
+              rosterHighlightId={rosterHighlightId}
+              onRosterHighlightChange={onRosterHighlightChange}
+            />
+          )}
+        </div>
 
-      <div key={selectionAnimationKey} className="final-summary">
         <section
           id="team-natural-default"
           className="team-map-results__section"
@@ -240,47 +243,36 @@ export function TeamGroupInsights ({
           <TeamSectionHeader title="Natural Default" icon={faCompass} />
           <TeamParticipationNote {...participationProps} />
           {hasTeamScores && combo ? (
-            <>
-              <div className="bento-grid team-map-results__natural-default-grid">
-                <div className="team-map-results__natural-default-hero">
-                  <div className="team-map-results__natural-default-meta">
-                    {archetypeData && (
-                      <p className="team-map-results__natural-default-label">{archetypeData.archetype}</p>
-                    )}
-                    <div className="overall-badges-row team-map-results__natural-default-badges">
-                      <div
-                        className={`overall-icon-badge ${isLongLabel ? 'long-label' : ''}`}
-                        style={{ background: 'transparent' }}
-                      >
-                        {getBrainIcons(combo.label, 'large', 'changeResults')}
-                      </div>
+            <div className="bento-grid team-map-results__natural-default-grid">
+              <div className="team-map-results__natural-default-hero">
+                <div className="team-map-results__natural-default-meta">
+                  {archetypeData && (
+                    <p className="team-map-results__natural-default-label">{archetypeData.archetype}</p>
+                  )}
+                  <div className="overall-badges-row team-map-results__natural-default-badges">
+                    <div
+                      className={`overall-icon-badge ${isLongLabel ? 'long-label' : ''}`}
+                      style={{ background: 'transparent' }}
+                    >
+                      {getBrainIcons(combo.label, 'large', 'changeResults')}
                     </div>
                   </div>
-                  <h3 className="team-map-results__natural-default-title">
-                    {archetypeData?.headline ?? combo.label}
-                  </h3>
                 </div>
-
-                <div className="overall-breakdown">
-                  <div className="radar-chart-container">
-                    <TreemapChart
-                      headPercent={overallScores.headPercent}
-                      heartPercent={overallScores.heartPercent}
-                      gutPercent={overallScores.gutPercent}
-                    />
-                  </div>
-                </div>
+                <h3 className="team-map-results__natural-default-title">
+                  {archetypeData?.headline ?? combo.label}
+                </h3>
               </div>
-              {groupParts && (
-                <div className="quiz-results__natural-default-body" data-pdf-section="natural-default-parts">
-                  <NaturalDefaultArchetypeParts
-                    archetypeKey={combo.label}
-                    parts={groupParts}
-                    descriptionAriaLabel="This team's natural default breakdown"
+
+              <div className="overall-breakdown">
+                <div className="radar-chart-container">
+                  <TreemapChart
+                    headPercent={overallScores.headPercent}
+                    heartPercent={overallScores.heartPercent}
+                    gutPercent={overallScores.gutPercent}
                   />
                 </div>
-              )}
-            </>
+              </div>
+            </div>
           ) : (
             <p className="team-map-results__empty-card change-results-incomplete-copy">
               No team members have completed all HHG contexts yet. Scores and insights appear once at least one member
@@ -288,8 +280,20 @@ export function TeamGroupInsights ({
             </p>
           )}
         </section>
+      </div>
 
-        <section className="team-map-results__section">
+      {groupParts && combo && (
+        <div className="quiz-results__natural-default-body" data-pdf-section="natural-default-parts">
+          <NaturalDefaultArchetypeParts
+            archetypeKey={combo.label}
+            parts={groupParts}
+            descriptionAriaLabel="This team's natural default breakdown"
+          />
+        </div>
+      )}
+
+      <div key={selectionAnimationKey}>
+        <section className="team-map-results__section" data-pdf-section="team-change-across-contexts">
           <TeamSectionHeader title="Team Changes Across Contexts" icon={faArrowsRotate} />
           <TeamParticipationNote {...participationProps} />
           {changeFacts ? (
@@ -299,10 +303,6 @@ export function TeamGroupInsights ({
               data-team-section="change-across-contexts"
             >
               <div className="change-results-card change-results-card--combo">
-                <TeamParticipationNote
-                  {...participationProps}
-                  className="team-map-results__participation--combo"
-                />
                 <CombinationAcrossContexts rows={changeFacts.rows} sections={SITUATIONAL_SECTIONS_FOR_COMBO_UI} />
               </div>
               <WhatStandsOut insights={teamInsights} />
@@ -318,6 +318,7 @@ export function TeamGroupInsights ({
           <div
             id="under-pressure"
             className="change-results-card team-map-results__context-card"
+            data-pdf-section="team-under-pressure"
             data-team-section="under-pressure-insight"
           >
             <TeamContextCardTop title="Under Pressure" icon={SECTION_ICONS[1]} />
@@ -357,6 +358,7 @@ export function TeamGroupInsights ({
           <div
             id="doing-work"
             className="change-results-card team-map-results__context-card"
+            data-pdf-section="team-doing-work"
             data-team-section="doing-work-insight"
           >
             <TeamContextCardTop title="Doing Work" icon={SECTION_ICONS[2]} />
@@ -396,6 +398,7 @@ export function TeamGroupInsights ({
           <div
             id="with-people"
             className="change-results-card team-map-results__context-card"
+            data-pdf-section="team-with-people"
             data-team-section="with-people-insight"
           >
             <TeamContextCardTop title="With People" icon={SECTION_ICONS[3]} />
@@ -435,6 +438,7 @@ export function TeamGroupInsights ({
           <div
             id="getting-better"
             className="change-results-card team-map-results__context-card"
+            data-pdf-section="team-getting-better"
             data-team-section="getting-better-insight"
           >
             <TeamContextCardTop title="Getting Better" icon={SECTION_ICONS[4]} />

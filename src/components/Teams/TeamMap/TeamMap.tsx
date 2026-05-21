@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useMemo, useRef } from 'react'
 import type { Person } from '../PeoplePanel/types'
 import { TeamResultsSidebar } from './TeamResultsSidebar'
 import { TeamSoloInsights } from './TeamSoloInsights/TeamSoloInsights'
@@ -14,8 +14,20 @@ interface TeamMapProps {
   onRosterHighlightChange?: (id: string | null) => void
 }
 
+function latestQuizCompletedAt (people: Person[]): string | null {
+  let latest: string | null = null
+  for (const person of people) {
+    const at = person.quizCompletedAt
+    if (!at) continue
+    if (!latest || at > latest) latest = at
+  }
+  return latest
+}
+
 export function TeamMap ({ selectedPeople, activePersonId, rosterHighlightId, onRosterHighlightChange }: TeamMapProps) {
   const scrollRootRef = useRef<HTMLDivElement>(null)
+  const resultsContainerRef = useRef<HTMLDivElement>(null)
+  const teamQuizCompletedAt = useMemo(() => latestQuizCompletedAt(selectedPeople), [selectedPeople])
   const n = selectedPeople.length
   const activePerson = activePersonId ? selectedPeople.find((p) => p.id === activePersonId) : null
 
@@ -82,10 +94,15 @@ export function TeamMap ({ selectedPeople, activePersonId, rosterHighlightId, on
               selectedPeople={selectedPeople}
               rosterHighlightId={rosterHighlightId}
               onRosterHighlightChange={onRosterHighlightChange}
+              resultsContainerRef={resultsContainerRef}
             />
           </div>
           <div className="results-sidebar-outer">
-            <TeamResultsSidebar scrollRootRef={scrollRootRef} />
+            <TeamResultsSidebar
+              scrollRootRef={scrollRootRef}
+              containerRef={resultsContainerRef}
+              quizCompletedAt={teamQuizCompletedAt}
+            />
           </div>
         </div>
       </div>

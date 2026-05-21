@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react'
 import { TeamNavSection, TeamNavSectionDropdown } from './TeamNavSection'
 import { TEAM_GROUP_NAV_IDS, TEAM_GROUP_NAV_ITEMS } from './teamGroupNav'
+import { DownloadPDF } from '../../Quiz/Sidebar/DownloadResults/DownloadPDF/DownloadPDF'
 import '../../Quiz/Sidebar/Sidebar.css'
+import '../../Quiz/Sidebar/DownloadResults/DownloadResults.css'
 
 const MOBILE_BREAKPOINT = 768
 const SCROLL_OFFSET = 120
@@ -9,11 +11,16 @@ const SCROLL_OFFSET = 120
 interface TeamResultsSidebarProps {
   /** Scroll container for team map centre column (not window). */
   scrollRootRef: React.RefObject<HTMLElement | null>
+  /** Container with `data-pdf-section` markers (team group insights). */
+  containerRef: React.RefObject<HTMLDivElement | null>
+  quizCompletedAt?: string | null
   sidebarHeading?: string
 }
 
 export function TeamResultsSidebar ({
   scrollRootRef,
+  containerRef,
+  quizCompletedAt = null,
   sidebarHeading = 'Team',
 }: TeamResultsSidebarProps) {
   const [iconOnly, setIconOnly] = useState(false)
@@ -54,9 +61,21 @@ export function TeamResultsSidebar ({
     return () => scrollTarget.removeEventListener('scroll', updateCurrent)
   }, [scrollRootRef])
 
+  const downloadButtons = (
+    <div className="results-sidebar-downloads">
+      <DownloadPDF containerRef={containerRef} quizCompletedAt={quizCompletedAt} iconOnly={iconOnly} />
+    </div>
+  )
+
+  const sidebarFooter = (
+    <div className="results-sidebar-footer">
+      <div className="results-sidebar-footer-section results-sidebar-footer-section--downloads">{downloadButtons}</div>
+    </div>
+  )
+
   if (iconOnly) {
     return (
-      <aside className="results-sidebar results-sidebar-mobile" aria-label="Team profile navigation">
+      <aside className="results-sidebar results-sidebar-mobile" aria-label="Team profile navigation and download">
         <div className="results-sidebar-mobile-bar">
           <div className="results-sidebar-mobile-left">
             <TeamNavSectionDropdown
@@ -64,17 +83,19 @@ export function TeamResultsSidebar ({
               currentSectionId={currentSectionId}
             />
           </div>
+          <div className="results-sidebar-mobile-right">{downloadButtons}</div>
         </div>
       </aside>
     )
   }
 
   return (
-    <aside className="results-sidebar" aria-label="Team profile navigation">
+    <aside className="results-sidebar" aria-label="Team profile navigation and download">
       <h2 className="results-sidebar-title">{sidebarHeading}</h2>
       <div className="results-sidebar-nav">
         <TeamNavSection items={TEAM_GROUP_NAV_ITEMS} currentSectionId={currentSectionId} />
       </div>
+      {sidebarFooter}
     </aside>
   )
 }

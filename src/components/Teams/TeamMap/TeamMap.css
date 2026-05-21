@@ -330,11 +330,6 @@
   text-align: center;
 }
 
-.team-map-results__participation--combo {
-  margin: 0 0 18px;
-  padding: 0 4px;
-}
-
 /* Context insight cards: quiz-style section-card-top header + body (see TeamGroupInsights) */
 .team-map-results__context-card.change-results-card {
   padding: 0;
