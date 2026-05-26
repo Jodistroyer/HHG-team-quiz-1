@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { Person, ViewMode, SavedGroup, TreeNode as TreeNodeType } from './types'
 import type { EmptyTeams } from './data'
 import {
-  SAMPLE_PEOPLE,
   filterPeopleBySearch,
   parsePersonDisplayLabel,
   personFromQuizExport,
@@ -10,6 +9,14 @@ import {
   isQuizExport,
   nextId,
 } from './data'
+import {
+  loadPeople,
+  loadSavedGroups,
+  loadEmptyTeams,
+  savePeopleToStorage,
+  STORAGE_KEY_PEOPLE,
+  PEOPLE_UPDATED_EVENT,
+} from '../peopleStorage'
 import type { ContextMenuItem } from './ContextMenu'
 import type { DeleteImpact } from './DeleteConfirmModal'
 
@@ -21,7 +28,6 @@ export interface UseTeamsDirectoryProps {
   onRegisterClearAll?: (clearAll: () => void) => void
 }
 
-const STORAGE_KEY_PEOPLE = 'hhg.people.v1'
 const STORAGE_KEY_SAVED_GROUPS = 'hhg.people.savedGroups.v1'
 const STORAGE_KEY_EMPTY_TEAMS = 'hhg.people.emptyTeams.v1'
 const STORAGE_KEY_SELECTED_IDS = 'hhg.teams.selectedPeopleIds.v1'
@@ -125,48 +131,6 @@ function emptyTeamsAfterRemovingPeople(
   return nextEmpty
 }
 
-function loadPeople(): Person[] {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY_PEOPLE)
-    if (!raw) return SAMPLE_PEOPLE
-    const parsed = JSON.parse(raw)
-    if (!Array.isArray(parsed)) return SAMPLE_PEOPLE
-    // Migrate old data: department → team
-    return parsed.map((p: Person & { department?: string }) => {
-      const { department, ...rest } = p
-      return { ...rest, team: p.team ?? department } as Person
-    })
-  } catch {
-    return SAMPLE_PEOPLE
-  }
-}
-
-function loadSavedGroups(): SavedGroup[] {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY_SAVED_GROUPS)
-    if (!raw) return []
-    const parsed = JSON.parse(raw)
-    return Array.isArray(parsed) ? parsed : []
-  } catch {
-    return []
-  }
-}
-
-function loadEmptyTeams(): EmptyTeams {
-  try {
-    let raw = localStorage.getItem(STORAGE_KEY_EMPTY_TEAMS)
-    if (!raw) {
-      // Migrate from old key (emptyDepartments → emptyTeams)
-      raw = localStorage.getItem('hhg.people.emptyDepartments.v1')
-    }
-    if (!raw) return {}
-    const parsed = JSON.parse(raw)
-    return typeof parsed === 'object' && parsed !== null ? parsed : {}
-  } catch {
-    return {}
-  }
-}
-
 function loadSelectedIds(): Set<string> {
   try {
     const raw = localStorage.getItem(STORAGE_KEY_SELECTED_IDS)
@@ -212,10 +176,20 @@ export function useTeamsDirectory({
 
   const persistPeople = useCallback((next: Person[]) => {
     setPeople(next)
-    try {
-      localStorage.setItem(STORAGE_KEY_PEOPLE, JSON.stringify(next))
-    } catch {
-      /* ignore */
+    savePeopleToStorage(next)
+  }, [])
+
+  // Teams stays mounted when switching NavBar tabs; Quiz "Save to Teams" writes storage only.
+  useEffect(() => {
+    const syncPeopleFromStorage = () => setPeople(loadPeople())
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === STORAGE_KEY_PEOPLE || e.key === null) syncPeopleFromStorage()
+    }
+    window.addEventListener(PEOPLE_UPDATED_EVENT, syncPeopleFromStorage)
+    window.addEventListener('storage', onStorage)
+    return () => {
+      window.removeEventListener(PEOPLE_UPDATED_EVENT, syncPeopleFromStorage)
+      window.removeEventListener('storage', onStorage)
     }
   }, [])
 

@@ -6,6 +6,13 @@ export const STORAGE_KEY_PEOPLE = 'hhg.people.v1'
 export const STORAGE_KEY_SAVED_GROUPS = 'hhg.people.savedGroups.v1'
 export const STORAGE_KEY_EMPTY_TEAMS = 'hhg.people.emptyTeams.v1'
 
+/** Fired after people are written to localStorage (same-tab listeners; `storage` is cross-tab only). */
+export const PEOPLE_UPDATED_EVENT = 'hhg.people.updated'
+
+export function notifyPeopleUpdated(): void {
+  window.dispatchEvent(new Event(PEOPLE_UPDATED_EVENT))
+}
+
 export function loadPeople(): Person[] {
   try {
     const raw = localStorage.getItem(STORAGE_KEY_PEOPLE)
@@ -49,6 +56,7 @@ export function loadEmptyTeams(): EmptyTeams {
 export function savePeopleToStorage(people: Person[]): void {
   try {
     localStorage.setItem(STORAGE_KEY_PEOPLE, JSON.stringify(people))
+    notifyPeopleUpdated()
   } catch {
     /* ignore */
   }
