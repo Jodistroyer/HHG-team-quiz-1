@@ -26,6 +26,7 @@ import '../../../Quiz/ChangeResults/ChangeResults.css'
 import '../../../Quiz/Quiz.css'
 import type { FlowsBrainProfile } from '../../flowsTypes'
 import {
+  brainIcons,
   FlowsHomeQuickCycleRegion,
   FlowsHomeSequencePills,
   sequenceAriaLabel,
@@ -148,8 +149,19 @@ export const FlowsContextPage = ({
                   <p className="flows-home__quick-label">{context.title}</p>
                   {comboLabel ? (
                     <div className="flows-home__quick-brain" aria-label={`Brain type for ${context.title}`}>
-                      <span className="flows-home__brain-badge">
-                        {comboLabel}
+                      <span
+                        className="flows-home__brain-badge"
+                        aria-label={`Brain type: ${comboLabel}`}
+                      >
+                        <span className="flows-home__brain-badge-icons" aria-hidden>
+                          {brainIcons(brainProfile).map(({ icon, color }, idx) => (
+                            <FontAwesomeIcon
+                              key={`flows-ctx-brain-badge-icon-${idx}`}
+                              icon={icon}
+                              style={{ color }}
+                            />
+                          ))}
+                        </span>
                       </span>
                     </div>
                   ) : null}

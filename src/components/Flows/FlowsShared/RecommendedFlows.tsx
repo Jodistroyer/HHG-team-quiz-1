@@ -18,7 +18,8 @@ interface RecommendedFlowsProps {
 
 /**
  * Horizontal scroller of flow cards rendered under each Quiz Result section.
- * - Cards open the flow's detail view in the Flows tab.
+ * - Cards open the flow's detail view in the Flows tab using the user's
+ *   quiz-derived brain profile for that context.
  * - Trailing "See more" tile opens the Flows browse view, scrolled to that
  *   context's section.
  */
@@ -49,7 +50,12 @@ export const RecommendedFlows = ({
               contextId={context.id}
               contextTitle={context.title}
               situation={sit}
-              onClick={() => requestOpenFlow({ contextId: context.id, situationId: sit.id })}
+              onClick={() =>
+                requestOpenFlow(
+                  { contextId: context.id, situationId: sit.id },
+                  { personalizedBrainProfile: true }
+                )
+              }
             />
           </div>
         ))}

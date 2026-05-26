@@ -1053,14 +1053,8 @@
 .flows-home__brain-badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
-  background: var(--flows-purple-soft, #eeedfe);
-  color: #3c3489;
-  font-size: clamp(0.72rem, 1.85vw, 0.82rem);
-  font-weight: 600;
-  padding: 0.2rem 0.55rem;
-  border-radius: 20px;
-  white-space: nowrap;
+  justify-content: center;
+  padding: 0.28rem 0.42rem;
 }
 
 .flows-home__brain-desc {
