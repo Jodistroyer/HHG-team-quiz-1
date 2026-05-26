@@ -11,7 +11,11 @@ import {
   type QuizAnswerType as AnswerType,
 } from './quizSections'
 import { calculateSectionScoresDetailed } from './quizScoring'
-import { loadPersistedQuizState, persistResumeQuizContext } from './quizResumeContext'
+import {
+  loadPersistedQuizState,
+  persistResumeQuizContext,
+  QUIZ_UPDATED_EVENT,
+} from './quizResumeContext'
 import { SECTION_CONTEXT_BY_ID } from './sectionContext'
 
 const SECTION_ICONS: Record<number, IconDefinition> = {
@@ -53,6 +57,25 @@ function Quiz() {
   const [completedWithContextIds, setCompletedWithContextIds] = useState<QuizSelectedContextId[]>(
     saved.completedWithContextIds
   )
+
+  const syncFromPersistedStorage = () => {
+    const next = loadSavedQuizState()
+    setCurrentQuestionIndex(next.currentQuestionIndex)
+    setAnswers(next.answers)
+    setShowFinalSummary(next.showFinalSummary)
+    setQuizCompletedAt(next.quizCompletedAt)
+    setSelectedContextIds(next.selectedContextIds)
+    setIntroDismissed(next.introDismissed)
+    setAddContextSectionId(next.addContextSectionId)
+    setCompletedWithContextIds(next.completedWithContextIds)
+  }
+
+  // Flows “Add / Finish this context” persists via `persistResumeQuizContext` while Quiz stays mounted.
+  useEffect(() => {
+    const onQuizUpdated = () => syncFromPersistedStorage()
+    window.addEventListener(QUIZ_UPDATED_EVENT, onQuizUpdated)
+    return () => window.removeEventListener(QUIZ_UPDATED_EVENT, onQuizUpdated)
+  }, [])
 
   useEffect(() => {
     if (addContextSectionId != null && !selectedContextIds.includes(addContextSectionId)) {
@@ -325,14 +348,7 @@ function Quiz() {
         changeAcrossContextsComplete={changeAcrossComplete}
         changeAcrossContextsIncluded={changeAcrossIncluded}
         onResumeQuizContext={(sectionId) => {
-          if (!persistResumeQuizContext(sectionId as QuizSelectedContextId)) return
-          const saved = loadSavedQuizState()
-          setSelectedContextIds(saved.selectedContextIds)
-          setShowFinalSummary(saved.showFinalSummary)
-          setAddContextSectionId(saved.addContextSectionId)
-          setCompletedWithContextIds(saved.completedWithContextIds)
-          setCurrentQuestionIndex(saved.currentQuestionIndex)
-          setIntroDismissed(saved.introDismissed)
+          persistResumeQuizContext(sectionId as QuizSelectedContextId)
         }}
         quizCompletedAt={quizCompletedAt}
         onStartOver={() => {
