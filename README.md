@@ -1,3 +1,71 @@
+# HHG: Head, Heart, Gut System
+
+---
+
+## Final Year Product Explanation Video
+
+[![Watch the video](https://img.youtube.com/vi/R0vKr5tqZfU/maxresdefault.jpg)](https://youtu.be/R0vKr5tqZfU)
+
+A human decision-making framework that translates complex thinking into a shared visual language.
+
+---
+
+## What is HHG?
+
+HHG stands for:
+
+- Head → Logic
+- Heart → Emotion
+- Gut → Instinct
+
+The system helps people understand how different forms of thinking interact during decision-making, communication, creativity, and self-awareness.
+
+Rather than relying on highly technical terminology, HHG uses concepts that most people already understand intuitively in daily life.
+
+---
+
+## Features
+
+- Interactive visual system
+- Real-time relationship mapping
+- Human-centered framework
+- Designed for accessibility and shared understanding
+- Built with React + TypeScript + Vite
+
+---
+
+## Philosophy
+
+HHG is designed to create a shared language between people.
+
+The goal is not to replace existing psychological or academic models, but to make complex internal experiences easier to discuss, visualize, and reflect on.
+
+---
+
+## Tech Stack
+
+- React
+- TypeScript
+- Vite
+- CSS / Tailwind
+
+---
+
+## Installation
+
+```bash
+npm install
+npm run dev
+```
+
+---
+
+## Author
+
+Created by Wong Jo-Hann
+
+
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
