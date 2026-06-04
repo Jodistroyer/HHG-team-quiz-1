@@ -5,7 +5,6 @@ export const LEARNING_STYLE_SITUATION_ID = 'learning-style' as const
 
 export const learningStyleFlowSituation: FlowSituation = {
   id: LEARNING_STYLE_SITUATION_ID,
-  title: 'Learning style',
   cardTitle: 'Learning style',
   cardDescription: 'Turn what you study into skill you can use.',
   readMinutes: 2,

@@ -38,12 +38,10 @@ export interface FlowVariant {
   steps: FlowSequenceStep[]
 }
 
-/** A specific situation within a context (e.g. "Managing social energy"). */
+/** A specific situation within a context (e.g. "Manage your social energy"). */
 export interface FlowSituation {
   id: string
-  /** Tab label in the detail view. */
-  title: string
-  /** Card title in the browse grid (usually a longer "How to..." sentence). */
+  /** Human-readable title on cards and detail pages. */
   cardTitle: string
   /** Optional one-line description shown under the card title. */
   cardDescription?: string

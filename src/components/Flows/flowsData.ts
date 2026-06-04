@@ -13,26 +13,26 @@ export * from './FlowsData/flowTypes'
 import type { FlowContext, FlowContextId, FlowSituation } from './FlowsData/flowTypes'
 // import { afterSetbacksFlowSituation } from './FlowsData/FlowsGettingBetter/afterSetbacks'
 // import { buildingHabitsFlowSituation } from './FlowsData/FlowsGettingBetter/buildingHabits'
-import { dealingWithGriefFlowSituation } from './FlowsData/FlowsGettingBetter/dealingWithGrief.tsx'
-import { learningStyleFlowSituation } from './FlowsData/FlowsGettingBetter/learningStyle.tsx'
+import { dealingWithGriefFlowSituation } from './FlowsData/FlowsGettingBetter/DealingWithGrief.tsx'
+import { learningStyleFlowSituation } from './FlowsData/FlowsGettingBetter/LearningStyle.tsx'
 // import { longTermChangeFlowSituation } from './FlowsData/FlowsGettingBetter/longTermChange'
 // import { selfRegulationFlowSituation } from './FlowsData/FlowsGettingBetter/selfRegulation'
-import { burnoutLoopFlowSituation } from './FlowsData/FlowsDoingWork/burnoutLoop.tsx'
-import { burnoutRecoveryFlowSituation } from './FlowsData/FlowsDoingWork/burnoutRecovery.tsx'
-import { stayOrGoFlowSituation } from './FlowsData/FlowsDoingWork/stayorgo.tsx'
+import { burnoutLoopFlowSituation } from './FlowsData/FlowsDoingWork/BurnoutLoop.tsx'
+import { burnoutRecoveryFlowSituation } from './FlowsData/FlowsDoingWork/BurnoutRecovery.tsx'
+import { stayOrGoFlowSituation } from './FlowsData/FlowsDoingWork/StayOrGo.tsx'
 import { thriveZoneFlowSituation } from './FlowsData/FlowsDoingWork/thriveZone.tsx'
 // import { collaborationBlocksFlowSituation } from './FlowsData/FlowsDoingWork/collaborationBlocks'
 // import { deepFocusFlowSituation } from './FlowsData/FlowsDoingWork/deepFocus'
 // import { handlingFeedbackFlowSituation } from './FlowsData/FlowsDoingWork/handlingFeedback'
 // import { perfectionismLoopsFlowSituation } from './FlowsData/FlowsDoingWork/perfectionismLoops'
-import { conflictResponseFlowSituation } from './FlowsData/FlowsUnderPressure/conflictResponse.tsx'
+import { handlingConflictFlowSituation } from './FlowsData/FlowsUnderPressure/HandlingConflict.tsx'
 // import { decisionMakingFlowSituation } from './FlowsData/FlowsUnderPressure/decisionMaking'
 // import { managingOverwhelmFlowSituation } from './FlowsData/FlowsUnderPressure/managingOverwhelm'
-import { speakingToAuthorityFlowSituation } from './FlowsData/FlowsUnderPressure/speakingToAuthority.tsx'
+import { facingAuthorityFlowSituation } from './FlowsData/FlowsUnderPressure/FacingAuthority.tsx'
 // import { difficultConversationsFlowSituation } from './FlowsData/FlowsWithPeople/difficultConversations'
 // import { groupDynamicsFlowSituation } from './FlowsData/FlowsWithPeople/groupDynamics'
-import { managingSocialEnergyFlowSituation } from './FlowsData/FlowsWithPeople/managingSocialEnergy'
-import { relationshipNeedsFlowSituation } from './FlowsData/FlowsWithPeople/relationshipNeeds'
+import { manageYourSocialEnergyFlowSituation } from './FlowsData/FlowsWithPeople/ManageYourSocialEnergy.tsx'
+import { relationshipNeedsFlowSituation } from './FlowsData/FlowsWithPeople/RelationshipNeeds.tsx'
 // import { settingLimitsFlowSituation } from './FlowsData/FlowsWithPeople/settingLimits'
 
 export const FLOW_CONTEXTS: FlowContext[] = [
@@ -42,10 +42,10 @@ export const FLOW_CONTEXTS: FlowContext[] = [
     pageTitle: 'High-stress situations',
     contextLine: 'Time is tight, stakes are high, and consequences are immediate.',
     situations: [
-      speakingToAuthorityFlowSituation,
+      facingAuthorityFlowSituation,
       // managingOverwhelmFlowSituation,
       // decisionMakingFlowSituation,
-      conflictResponseFlowSituation,
+      handlingConflictFlowSituation,
     ],
   },
   {
@@ -70,7 +70,7 @@ export const FLOW_CONTEXTS: FlowContext[] = [
     pageTitle: 'Social situations',
     contextLine: 'Relationships and social dynamics.',
     situations: [
-      managingSocialEnergyFlowSituation,
+      manageYourSocialEnergyFlowSituation,
       relationshipNeedsFlowSituation,
       // difficultConversationsFlowSituation,
       // groupDynamicsFlowSituation,

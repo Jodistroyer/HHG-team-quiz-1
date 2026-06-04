@@ -3,12 +3,11 @@ import { ContextCardArt, CONTEXT_BACKGROUND } from '../../../Quiz/ContextArt'
 import type { FlowSituation, FlowStepArtProps } from '../flowTypes'
 import { makeSequence, PLACEHOLDER_WHY } from '../situationHelpers'
 
-export const CONFLICT_RESPONSE_SITUATION_ID = 'conflict-response' as const
+export const HANDLING_CONFLICT_SITUATION_ID = 'handling-conflict' as const
 
-export const conflictResponseFlowSituation: FlowSituation = {
-  id: CONFLICT_RESPONSE_SITUATION_ID,
-  title: 'Conflict response',
-  cardTitle: 'Conflict response',
+export const handlingConflictFlowSituation: FlowSituation = {
+  id: HANDLING_CONFLICT_SITUATION_ID,
+  cardTitle: 'Handling Conflict',
   cardDescription: 'Respond without escalating the situation.',
   readMinutes: 2,
   sequence: makeSequence(),
@@ -365,8 +364,8 @@ function spikyBallPath (cx: number, cy: number, outer: number, inner: number, sp
   return `${parts.join(' ')} Z`
 }
 
-/** Under Pressure · Conflict response — two spiky balls, separated (no overlap). */
-export function ConflictResponseCardArt () {
+/** Under Pressure · Handling conflict — two spiky balls, separated (no overlap). */
+export function HandlingConflictCardArt () {
   const bg = CONTEXT_BACKGROUND[1]
   const gapBetween = 10
   const rLarge = 46
@@ -403,7 +402,7 @@ export function ConflictResponseCardArt () {
   )
 }
 
-export function ConflictResponseStepArt ({
+export function HandlingConflictStepArt ({
   contextId,
   variantId,
   stepIndex,

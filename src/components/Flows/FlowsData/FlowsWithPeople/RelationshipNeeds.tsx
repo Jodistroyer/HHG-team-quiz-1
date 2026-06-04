@@ -5,8 +5,7 @@ export const RELATIONSHIP_NEEDS_SITUATION_ID = 'relationship-needs' as const
 
 export const relationshipNeedsFlowSituation: FlowSituation = {
   id: RELATIONSHIP_NEEDS_SITUATION_ID,
-  title: 'Relationship needs',
-  cardTitle: 'Relationship needs',
+  cardTitle: 'Relationship Needs',
   cardDescription: 'Express what you need in a way your partner can hear.',
   readMinutes: 2,
   sequence: makeSequence(),

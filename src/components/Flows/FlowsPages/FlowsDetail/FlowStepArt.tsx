@@ -1,15 +1,17 @@
 import { ContextCardArt } from '../../../Quiz/ContextArt'
 import type { FlowStepArtProps } from '../../FlowsData/flowTypes'
 import {
-  CONFLICT_RESPONSE_SITUATION_ID,
-  ConflictResponseStepArt,
-} from '../../FlowsData/FlowsUnderPressure/conflictResponse.tsx'
+  HANDLING_CONFLICT_SITUATION_ID,
+  HandlingConflictStepArt,
+} from '../../FlowsData/FlowsUnderPressure/HandlingConflict.tsx'
 import {
-  SPEAKING_TO_AUTHORITY_SITUATION_ID,
-  SpeakingToAuthorityStepArt,
-} from '../../FlowsData/FlowsUnderPressure/speakingToAuthority.tsx'
-import { BurnoutLoopStepArt } from '../../FlowsData/FlowsDoingWork/burnoutLoopArt.tsx'
-import { BURNOUT_LOOP_SITUATION_ID } from '../../FlowsData/FlowsDoingWork/burnoutLoop.tsx'
+  FACING_AUTHORITY_SITUATION_ID,
+  FacingAuthorityStepArt,
+} from '../../FlowsData/FlowsUnderPressure/FacingAuthority.tsx'
+import {
+  BURNOUT_LOOP_SITUATION_ID,
+  BurnoutLoopStepArt,
+} from '../../FlowsData/FlowsDoingWork/BurnoutLoop.tsx'
 
 export type { FlowStepArtProps } from '../../FlowsData/flowTypes'
 
@@ -24,9 +26,9 @@ export function FlowStepArt ({
   stepIndex,
   brain,
 }: FlowStepArtProps) {
-  if (contextId === 1 && situationId === SPEAKING_TO_AUTHORITY_SITUATION_ID) {
+  if (contextId === 1 && situationId === FACING_AUTHORITY_SITUATION_ID) {
     return (
-      <SpeakingToAuthorityStepArt
+      <FacingAuthorityStepArt
         contextId={contextId}
         situationId={situationId}
         variantId={variantId}
@@ -36,9 +38,9 @@ export function FlowStepArt ({
     )
   }
 
-  if (contextId === 1 && situationId === CONFLICT_RESPONSE_SITUATION_ID) {
+  if (contextId === 1 && situationId === HANDLING_CONFLICT_SITUATION_ID) {
     return (
-      <ConflictResponseStepArt
+      <HandlingConflictStepArt
         contextId={contextId}
         situationId={situationId}
         variantId={variantId}

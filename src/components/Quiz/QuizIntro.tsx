@@ -85,7 +85,7 @@ export function QuizIntro ({
             <header className="quiz-intro-hero">
               <h1 className="quiz-intro-hero__title"> The Head, Heart, Gut Quiz</h1>
               <p className="quiz-intro-hero__subtitle">
-              Better understand yourself, your team, your partner, or anyone you work closely with.
+              Better understand the decision-making patterns of yourself, your team, your partner, or anyone you work closely with.
               </p>
             </header>
 

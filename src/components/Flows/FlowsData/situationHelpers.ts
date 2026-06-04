@@ -16,12 +16,10 @@ export function makeSequence (
   ]
 }
 
-export function makeSituation (id: string, title: string, cardDescription?: string): FlowSituation {
+export function makeSituation (id: string, cardTitle: string, cardDescription?: string): FlowSituation {
   return {
     id,
-    title,
-    /* Placeholder: in real content this is a longer "How to ..." sentence. */
-    cardTitle: title,
+    cardTitle,
     cardDescription,
     readMinutes: 1,
     sequence: makeSequence(),

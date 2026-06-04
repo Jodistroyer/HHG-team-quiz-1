@@ -5,7 +5,6 @@ export const STAY_OR_GO_SITUATION_ID = 'stay-or-go' as const
 
 export const stayOrGoFlowSituation: FlowSituation = {
   id: STAY_OR_GO_SITUATION_ID,
-  title: 'Stay or Go',
   cardTitle: 'Stay or Go',
   cardDescription: 'Decide whether to commit or leave.',
   readMinutes: 2,

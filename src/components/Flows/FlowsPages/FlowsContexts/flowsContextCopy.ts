@@ -3,8 +3,8 @@ import type { FlowContextId } from '../../flowsData'
 /** Per-situation prompt on each context browse page quick card (cycles with "Not this"). */
 const SITUATION_QUICK_QUESTIONS: Record<FlowContextId, Record<string, string>> = {
   1: {
-    'speaking-to-authority': 'Walking into a tough conversation?',
-    'conflict-response': 'Need to respond without escalating things?',
+    'facing-authority': 'Walking into a tough conversation?',
+    'handling-conflict': 'Need to respond without escalating things?',
   },
   2: {
     'burnout-loop': 'Caught in an exhaustion spiral at work?',
@@ -13,7 +13,7 @@ const SITUATION_QUICK_QUESTIONS: Record<FlowContextId, Record<string, string>> =
     'thrive-zone': 'Want to find your best way to thrive at work?',
   },
   3: {
-    'managing-social-energy': 'Heading into a social situation?',
+    'manage-your-social-energy': 'Heading into a social situation?',
     'relationship-needs': 'Need to say what you need in a relationship?',
   },
   4: {

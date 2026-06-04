@@ -5,7 +5,6 @@ export const THRIVE_ZONE_SITUATION_ID = 'thrive-zone' as const
 
 export const thriveZoneFlowSituation: FlowSituation = {
   id: THRIVE_ZONE_SITUATION_ID,
-  title: 'Thrive zone',
   cardTitle: 'Thrive zone',
   cardDescription: 'What the Best Workspace looks like for you.',
   readMinutes: 2,

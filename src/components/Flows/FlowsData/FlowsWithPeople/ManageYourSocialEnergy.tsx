@@ -1,13 +1,12 @@
 import type { FlowSituation } from '../flowTypes'
 import { makeSequence, PLACEHOLDER_WHY } from '../situationHelpers'
 
-export const MANAGING_SOCIAL_ENERGY_SITUATION_ID = 'managing-social-energy' as const
+export const MANAGE_YOUR_SOCIAL_ENERGY_SITUATION_ID = 'manage-your-social-energy' as const
 
-export const managingSocialEnergyFlowSituation: FlowSituation = {
-  id: MANAGING_SOCIAL_ENERGY_SITUATION_ID,
-  title: 'Managing social energy',
-  cardTitle: 'Managing social energy',
-  cardDescription: 'Stay present without burning out.',
+export const manageYourSocialEnergyFlowSituation: FlowSituation = {
+  id: MANAGE_YOUR_SOCIAL_ENERGY_SITUATION_ID,
+  cardTitle: 'Manage Your Social Energy',
+  cardDescription: 'How to stay present without burning out.',
   readMinutes: 2,
   sequence: makeSequence(),
   whyText: PLACEHOLDER_WHY,

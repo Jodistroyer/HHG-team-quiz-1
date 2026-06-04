@@ -5,7 +5,6 @@ export const DEALING_WITH_GRIEF_SITUATION_ID = 'dealing-with-grief' as const
 
 export const dealingWithGriefFlowSituation: FlowSituation = {
   id: DEALING_WITH_GRIEF_SITUATION_ID,
-  title: 'Dealing with grief',
   cardTitle: 'Dealing with grief',
   cardDescription: 'Move through loss at your own pace, with head, heart, and body.',
   readMinutes: 2,

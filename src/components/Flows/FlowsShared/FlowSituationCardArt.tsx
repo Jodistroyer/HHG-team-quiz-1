@@ -1,24 +1,24 @@
 import { ContextCardArt } from '../../Quiz/ContextArt'
 import type { FlowContextId } from '../flowsData'
 import {
-  CONFLICT_RESPONSE_SITUATION_ID,
-  ConflictResponseCardArt,
-} from '../FlowsData/FlowsUnderPressure/conflictResponse.tsx'
+  HANDLING_CONFLICT_SITUATION_ID,
+  HandlingConflictCardArt,
+} from '../FlowsData/FlowsUnderPressure/HandlingConflict.tsx'
 import {
-  SPEAKING_TO_AUTHORITY_SITUATION_ID,
-  SpeakingToAuthorityCardArt,
-} from '../FlowsData/FlowsUnderPressure/speakingToAuthority.tsx'
+  FACING_AUTHORITY_SITUATION_ID,
+  FacingAuthorityCardArt,
+} from '../FlowsData/FlowsUnderPressure/FacingAuthority.tsx'
 import {
+  BURNOUT_LOOP_SITUATION_ID,
   BurnoutLoopCardArt,
-} from '../FlowsData/FlowsDoingWork/burnoutLoopArt.tsx'
-import { BURNOUT_LOOP_SITUATION_ID } from '../FlowsData/FlowsDoingWork/burnoutLoop.tsx'
+} from '../FlowsData/FlowsDoingWork/BurnoutLoop.tsx'
 
-function isSpeakingToAuthorityCard (contextId: FlowContextId, situationId: string) {
-  return contextId === 1 && situationId === SPEAKING_TO_AUTHORITY_SITUATION_ID
+function isFacingAuthorityCard (contextId: FlowContextId, situationId: string) {
+  return contextId === 1 && situationId === FACING_AUTHORITY_SITUATION_ID
 }
 
-function isConflictResponseCard (contextId: FlowContextId, situationId: string) {
-  return contextId === 1 && situationId === CONFLICT_RESPONSE_SITUATION_ID
+function isHandlingConflictCard (contextId: FlowContextId, situationId: string) {
+  return contextId === 1 && situationId === HANDLING_CONFLICT_SITUATION_ID
 }
 
 function isBurnoutLoopCard (contextId: FlowContextId, situationId: string) {
@@ -36,11 +36,11 @@ export function FlowSituationCardArt ({
   contextId: FlowContextId
   situationId: string
 }) {
-  if (isSpeakingToAuthorityCard(contextId, situationId)) {
-    return <SpeakingToAuthorityCardArt />
+  if (isFacingAuthorityCard(contextId, situationId)) {
+    return <FacingAuthorityCardArt />
   }
-  if (isConflictResponseCard(contextId, situationId)) {
-    return <ConflictResponseCardArt />
+  if (isHandlingConflictCard(contextId, situationId)) {
+    return <HandlingConflictCardArt />
   }
   if (isBurnoutLoopCard(contextId, situationId)) {
     return <BurnoutLoopCardArt />

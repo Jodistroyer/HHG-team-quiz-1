@@ -5,8 +5,7 @@ export const BURNOUT_RECOVERY_SITUATION_ID = 'burnout-recovery' as const
 
 export const burnoutRecoveryFlowSituation: FlowSituation = {
   id: BURNOUT_RECOVERY_SITUATION_ID,
-  title: 'Burnout recovery',
-  cardTitle: 'Burnout recovery',
+  cardTitle: 'Burnout Recovery',
   cardDescription: 'How to recover the best way possible.',
   readMinutes: 2,
   sequence: makeSequence(),

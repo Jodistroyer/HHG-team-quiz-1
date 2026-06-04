@@ -2,13 +2,12 @@ import { ContextCardArt, CONTEXT_BACKGROUND } from '../../../Quiz/ContextArt'
 import type { FlowSituation, FlowStepArtProps } from '../flowTypes'
 import { makeSequence, PLACEHOLDER_WHY } from '../situationHelpers'
 
-export const SPEAKING_TO_AUTHORITY_SITUATION_ID = 'speaking-to-authority' as const
+export const FACING_AUTHORITY_SITUATION_ID = 'facing-authority' as const
 
-export const speakingToAuthorityFlowSituation: FlowSituation = {
-  id: 'speaking-to-authority',
-  title: 'Speaking to authority',
-  cardTitle: 'Speaking to authority',
-  cardDescription: 'Stay clear and steady under scrutiny.',
+export const facingAuthorityFlowSituation: FlowSituation = {
+  id: 'facing-authority',
+  cardTitle: 'Facing Authority',
+  cardDescription: 'Speak confidently when others hold influence over you.',
   readMinutes: 1,
   sequence: makeSequence(),
   whyText: PLACEHOLDER_WHY,
@@ -316,8 +315,8 @@ export const speakingToAuthorityFlowSituation: FlowSituation = {
   },
 }
 
-/** Under Pressure · Speaking to authority — two figures, abstract power height. */
-export function SpeakingToAuthorityCardArt () {
+/** Under Pressure · Facing authority — two figures, abstract power height. */
+export function FacingAuthorityCardArt () {
   const bg = CONTEXT_BACKGROUND[1]
   const w = 52
   const gap = 28
@@ -361,7 +360,7 @@ export function SpeakingToAuthorityCardArt () {
   )
 }
 
-export function SpeakingToAuthorityStepArt ({
+export function FacingAuthorityStepArt ({
   contextId,
   variantId,
   stepIndex,
@@ -374,57 +373,57 @@ export function SpeakingToAuthorityStepArt ({
   }
 
   if (variantId === 'head-gut') {
-    if (stepIndex === 0 && brain === 'Head') return <SvgTacticianSpeakingAuthorityHeadStep1 />
-    if (stepIndex === 1 && brain === 'Gut') return <SvgTacticianSpeakingAuthorityGutStep2 />
-    if (stepIndex === 2 && brain === 'Heart') return <SvgTacticianSpeakingAuthorityHeartStep3 />
+    if (stepIndex === 0 && brain === 'Head') return <SvgTacticianFacingAuthorityHeadStep1 />
+    if (stepIndex === 1 && brain === 'Gut') return <SvgTacticianFacingAuthorityGutStep2 />
+    if (stepIndex === 2 && brain === 'Heart') return <SvgTacticianFacingAuthorityHeartStep3 />
   }
 
   if (variantId === 'head-heart') {
-    if (stepIndex === 0 && brain === 'Head') return <SvgDiplomatSpeakingAuthorityHeadStep1 />
-    if (stepIndex === 1 && brain === 'Heart') return <SvgDiplomatSpeakingAuthorityHeartStep2 />
-    if (stepIndex === 2 && brain === 'Gut') return <SvgDiplomatSpeakingAuthorityGutStep3 />
+    if (stepIndex === 0 && brain === 'Head') return <SvgDiplomatFacingAuthorityHeadStep1 />
+    if (stepIndex === 1 && brain === 'Heart') return <SvgDiplomatFacingAuthorityHeartStep2 />
+    if (stepIndex === 2 && brain === 'Gut') return <SvgDiplomatFacingAuthorityGutStep3 />
   }
 
   if (variantId === 'heart-strong') {
-    if (stepIndex === 0 && brain === 'Head') return <SvgEmpathSpeakingAuthorityHeadStep1 />
-    if (stepIndex === 1 && brain === 'Heart') return <SvgEmpathSpeakingAuthorityHeartStep2 />
-    if (stepIndex === 2 && brain === 'Gut') return <SvgEmpathSpeakingAuthorityGutStep3 />
+    if (stepIndex === 0 && brain === 'Head') return <SvgEmpathFacingAuthorityHeadStep1 />
+    if (stepIndex === 1 && brain === 'Heart') return <SvgEmpathFacingAuthorityHeartStep2 />
+    if (stepIndex === 2 && brain === 'Gut') return <SvgEmpathFacingAuthorityGutStep3 />
   }
 
   if (variantId === 'heart-gut') {
-    if (stepIndex === 0 && brain === 'Head') return <SvgDefenderSpeakingAuthorityHeadStep1 />
-    if (stepIndex === 1 && brain === 'Gut') return <SvgDefenderSpeakingAuthorityGutStep2 />
-    if (stepIndex === 2 && brain === 'Heart') return <SvgDefenderSpeakingAuthorityHeartStep3 />
+    if (stepIndex === 0 && brain === 'Head') return <SvgDefenderFacingAuthorityHeadStep1 />
+    if (stepIndex === 1 && brain === 'Gut') return <SvgDefenderFacingAuthorityGutStep2 />
+    if (stepIndex === 2 && brain === 'Heart') return <SvgDefenderFacingAuthorityHeartStep3 />
   }
 
   if (variantId === 'heart-head') {
-    if (stepIndex === 0 && brain === 'Head') return <SvgAdvisorSpeakingAuthorityHeadStep1 />
-    if (stepIndex === 1 && brain === 'Heart') return <SvgAdvisorSpeakingAuthorityHeartStep2 />
-    if (stepIndex === 2 && brain === 'Gut') return <SvgAdvisorSpeakingAuthorityGutStep3 />
+    if (stepIndex === 0 && brain === 'Head') return <SvgAdvisorFacingAuthorityHeadStep1 />
+    if (stepIndex === 1 && brain === 'Heart') return <SvgAdvisorFacingAuthorityHeartStep2 />
+    if (stepIndex === 2 && brain === 'Gut') return <SvgAdvisorFacingAuthorityGutStep3 />
   }
 
   if (variantId === 'gut-strong') {
-    if (stepIndex === 0 && brain === 'Gut') return <SvgDoerSpeakingAuthorityGutStep1 />
-    if (stepIndex === 1 && brain === 'Head') return <SvgDoerSpeakingAuthorityHeadStep2 />
-    if (stepIndex === 2 && brain === 'Heart') return <SvgDoerSpeakingAuthorityHeartStep3 />
+    if (stepIndex === 0 && brain === 'Gut') return <SvgDoerFacingAuthorityGutStep1 />
+    if (stepIndex === 1 && brain === 'Head') return <SvgDoerFacingAuthorityHeadStep2 />
+    if (stepIndex === 2 && brain === 'Heart') return <SvgDoerFacingAuthorityHeartStep3 />
   }
 
   if (variantId === 'gut-head') {
-    if (stepIndex === 0 && brain === 'Gut') return <SvgEngineerSpeakingAuthorityGutStep1 />
-    if (stepIndex === 1 && brain === 'Head') return <SvgEngineerSpeakingAuthorityHeadStep2 />
-    if (stepIndex === 2 && brain === 'Heart') return <SvgEngineerSpeakingAuthorityHeartStep3 />
+    if (stepIndex === 0 && brain === 'Gut') return <SvgEngineerFacingAuthorityGutStep1 />
+    if (stepIndex === 1 && brain === 'Head') return <SvgEngineerFacingAuthorityHeadStep2 />
+    if (stepIndex === 2 && brain === 'Heart') return <SvgEngineerFacingAuthorityHeartStep3 />
   }
 
   if (variantId === 'gut-heart') {
-    if (stepIndex === 0 && brain === 'Head') return <SvgHeroSpeakingAuthorityHeadStep1 />
-    if (stepIndex === 1 && brain === 'Gut') return <SvgHeroSpeakingAuthorityGutStep2 />
-    if (stepIndex === 2 && brain === 'Heart') return <SvgHeroSpeakingAuthorityHeartStep3 />
+    if (stepIndex === 0 && brain === 'Head') return <SvgHeroFacingAuthorityHeadStep1 />
+    if (stepIndex === 1 && brain === 'Gut') return <SvgHeroFacingAuthorityGutStep2 />
+    if (stepIndex === 2 && brain === 'Heart') return <SvgHeroFacingAuthorityHeartStep3 />
   }
 
   if (variantId === 'balanced') {
-    if (stepIndex === 0 && brain === 'Head') return <SvgSovereignSpeakingAuthorityHeadStep1 />
-    if (stepIndex === 1 && brain === 'Heart') return <SvgSovereignSpeakingAuthorityHeartStep2 />
-    if (stepIndex === 2 && brain === 'Gut') return <SvgSovereignSpeakingAuthorityGutStep3 />
+    if (stepIndex === 0 && brain === 'Head') return <SvgSovereignFacingAuthorityHeadStep1 />
+    if (stepIndex === 1 && brain === 'Heart') return <SvgSovereignFacingAuthorityHeartStep2 />
+    if (stepIndex === 2 && brain === 'Gut') return <SvgSovereignFacingAuthorityGutStep3 />
   }
 
   return <ContextCardArt id={contextId} />
@@ -435,7 +434,7 @@ const AUDIT_STEP_BG = '#2563C8'
 const WARMTH_STEP_BG = '#C2385A'
 const STANCE_STEP_BG = '#1A9E6E'
 
-/** Thinker · Under Pressure · Speaking to authority — step 1 (Head): audit / proof / logic. */
+/** Thinker · Under Pressure · Facing authority — step 1 (Head): audit / proof / logic. */
 function SvgThinkerUnderPressureAuthorityHeadStep1 () {
   return (
     <svg
@@ -576,10 +575,10 @@ function SvgThinkerUnderPressureAuthorityGutStep3 () {
   )
 }
 
-/* --- Tactician (Head + Gut) · Speaking to authority — same fills as Thinker per brain --- */
+/* --- Tactician (Head + Gut) · Facing authority — same fills as Thinker per brain --- */
 
 /** Step 1 Head: clear objective / target. */
-function SvgTacticianSpeakingAuthorityHeadStep1 () {
+function SvgTacticianFacingAuthorityHeadStep1 () {
   const cx = 160
   const cy = 100
   return (
@@ -623,7 +622,7 @@ function SvgTacticianSpeakingAuthorityHeadStep1 () {
 }
 
 /** Step 2 Gut: horizontal ground + single vertical at center. */
-function SvgTacticianSpeakingAuthorityGutStep2 () {
+function SvgTacticianFacingAuthorityGutStep2 () {
   const groundY = 154
   const topY = 58
   const cx = 160
@@ -655,7 +654,7 @@ function SvgTacticianSpeakingAuthorityGutStep2 () {
 }
 
 /** Step 3 Heart: simple bridge / rapport arc. */
-function SvgTacticianSpeakingAuthorityHeartStep3 () {
+function SvgTacticianFacingAuthorityHeartStep3 () {
   return (
     <svg
       className="quiz-intro-card__svg"
@@ -685,8 +684,8 @@ function SvgTacticianSpeakingAuthorityHeartStep3 () {
   )
 }
 
-/** Diplomat · Speaking to authority — step 1 (Head): clear value proposition. */
-function SvgDiplomatSpeakingAuthorityHeadStep1 () {
+/** Diplomat · Facing authority — step 1 (Head): clear value proposition. */
+function SvgDiplomatFacingAuthorityHeadStep1 () {
   return (
     <svg
       className="quiz-intro-card__svg"
@@ -725,7 +724,7 @@ function SvgDiplomatSpeakingAuthorityHeadStep1 () {
 }
 
 /** Step 2 (Heart): smooth curved arch + X (group rotated 180°). */
-function SvgDiplomatSpeakingAuthorityHeartStep2 () {
+function SvgDiplomatFacingAuthorityHeartStep2 () {
   const groundY = 130
   return (
     <svg
@@ -760,7 +759,7 @@ function SvgDiplomatSpeakingAuthorityHeartStep2 () {
 }
 
 /** Step 3 (Gut): square (the ask) on a centered stem above a horizontal ground. */
-function SvgDiplomatSpeakingAuthorityGutStep3 () {
+function SvgDiplomatFacingAuthorityGutStep3 () {
   const cx = 160
   const groundY = 148
   const stemBottom = groundY
@@ -805,10 +804,10 @@ function SvgDiplomatSpeakingAuthorityGutStep3 () {
   )
 }
 
-/* --- Empath (Heart strong) · Speaking to authority — Head → Heart → Gut --- */
+/* --- Empath (Heart strong) · Facing authority — Head → Heart → Gut --- */
 
 /** Step 1 (Head): logic shield + one cold fact line. */
-function SvgEmpathSpeakingAuthorityHeadStep1 () {
+function SvgEmpathFacingAuthorityHeadStep1 () {
   return (
     <svg
       className="quiz-intro-card__svg"
@@ -838,7 +837,7 @@ function SvgEmpathSpeakingAuthorityHeadStep1 () {
 }
 
 /** Step 2 (Heart): six-petal flower (radial symmetry). */
-function SvgEmpathSpeakingAuthorityHeartStep2 () {
+function SvgEmpathFacingAuthorityHeartStep2 () {
   const petal =
     'M 0 0 C 24 -10 30 -38 0 -50 C -30 -38 -24 -10 0 0 Z'
   const angles = [0, 60, 120, 180, 240, 300] as const
@@ -870,7 +869,7 @@ function SvgEmpathSpeakingAuthorityHeartStep2 () {
 }
 
 /** Step 3 (Gut): physical weight — wide mass on a heavy ground line. */
-function SvgEmpathSpeakingAuthorityGutStep3 () {
+function SvgEmpathFacingAuthorityGutStep3 () {
   const groundY = 154
   return (
     <svg
@@ -904,10 +903,10 @@ function SvgEmpathSpeakingAuthorityGutStep3 () {
   )
 }
 
-/* --- Defender (Heart + Gut) · Speaking to authority — Head → Gut → Heart --- */
+/* --- Defender (Heart + Gut) · Facing authority — Head → Gut → Heart --- */
 
 /** Step 1 (Head): script on rails — parallel tracks + ties. */
-function SvgDefenderSpeakingAuthorityHeadStep1 () {
+function SvgDefenderFacingAuthorityHeadStep1 () {
   const yTop = 92
   const yBot = 112
   const ties = [104, 140, 176, 216] as const
@@ -951,7 +950,7 @@ function SvgDefenderSpeakingAuthorityHeadStep1 () {
 }
 
 /** Step 2 (Gut): neutral stance — wide shoulders, calm torso, open hands. */
-function SvgDefenderSpeakingAuthorityGutStep2 () {
+function SvgDefenderFacingAuthorityGutStep2 () {
   return (
     <svg
       className="quiz-intro-card__svg"
@@ -983,7 +982,7 @@ function SvgDefenderSpeakingAuthorityGutStep2 () {
 }
 
 /** Step 3 (Heart): connect the dots — curve through three nodes. */
-function SvgDefenderSpeakingAuthorityHeartStep3 () {
+function SvgDefenderFacingAuthorityHeartStep3 () {
   return (
     <svg
       className="quiz-intro-card__svg"
@@ -1009,10 +1008,10 @@ function SvgDefenderSpeakingAuthorityHeartStep3 () {
   )
 }
 
-/* --- Advisor (Heart + Head) · Speaking to authority — Head → Heart → Gut --- */
+/* --- Advisor (Heart + Head) · Facing authority — Head → Heart → Gut --- */
 
 /** Step 1 (Head): widening scope — broader business context. */
-function SvgAdvisorSpeakingAuthorityHeadStep1 () {
+function SvgAdvisorFacingAuthorityHeadStep1 () {
   return (
     <svg
       className="quiz-intro-card__svg"
@@ -1050,7 +1049,7 @@ function SvgAdvisorSpeakingAuthorityHeadStep1 () {
 }
 
 /** Step 2 (Heart): overlapping circles — aligned interests / shared vision. */
-function SvgAdvisorSpeakingAuthorityHeartStep2 () {
+function SvgAdvisorFacingAuthorityHeartStep2 () {
   return (
     <svg
       className="quiz-intro-card__svg"
@@ -1082,7 +1081,7 @@ function SvgAdvisorSpeakingAuthorityHeartStep2 () {
 }
 
 /** Step 3 (Gut): timeline with pinned commitment / follow-up. */
-function SvgAdvisorSpeakingAuthorityGutStep3 () {
+function SvgAdvisorFacingAuthorityGutStep3 () {
   const pinX = 160
   const groundY = 148
   const ringR = 12
@@ -1125,10 +1124,10 @@ function SvgAdvisorSpeakingAuthorityGutStep3 () {
   )
 }
 
-/* --- Doer (Gut strong) · Speaking to authority — Gut → Head → Heart --- */
+/* --- Doer (Gut strong) · Facing authority — Gut → Head → Heart --- */
 
 /** Step 1 (Gut): calm presence — still frame in the room + center breath. */
-function SvgDoerSpeakingAuthorityGutStep1 () {
+function SvgDoerFacingAuthorityGutStep1 () {
   return (
     <svg
       className="quiz-intro-card__svg"
@@ -1163,7 +1162,7 @@ function SvgDoerSpeakingAuthorityGutStep1 () {
 }
 
 /** Step 2 (Head): three tight lines — three strong points, brief evidence. */
-function SvgDoerSpeakingAuthorityHeadStep2 () {
+function SvgDoerFacingAuthorityHeadStep2 () {
   return (
     <svg
       className="quiz-intro-card__svg"
@@ -1201,7 +1200,7 @@ function SvgDoerSpeakingAuthorityHeadStep2 () {
 }
 
 /** Step 3 (Heart): respectful lift — arc honoring the other party. */
-function SvgDoerSpeakingAuthorityHeartStep3 () {
+function SvgDoerFacingAuthorityHeartStep3 () {
   return (
     <svg
       className="quiz-intro-card__svg"
@@ -1226,10 +1225,10 @@ function SvgDoerSpeakingAuthorityHeartStep3 () {
   )
 }
 
-/* --- Engineer (Gut + Head) · Speaking to authority — Gut → Head → Heart --- */
+/* --- Engineer (Gut + Head) · Facing authority — Gut → Head → Heart --- */
 
 /** Step 1 (Gut): steady center — composed crosshair in a calm ring. */
-function SvgEngineerSpeakingAuthorityGutStep1 () {
+function SvgEngineerFacingAuthorityGutStep1 () {
   const cx = 160
   const cy = 100
   const r = 50
@@ -1272,7 +1271,7 @@ function SvgEngineerSpeakingAuthorityGutStep1 () {
 }
 
 /** Step 2 (Head): spine + ruler ticks — precise, minimal answers. */
-function SvgEngineerSpeakingAuthorityHeadStep2 () {
+function SvgEngineerFacingAuthorityHeadStep2 () {
   const cx = 160
   const tickYs = [74, 88, 102, 116, 130] as const
   return (
@@ -1307,7 +1306,7 @@ function SvgEngineerSpeakingAuthorityHeadStep2 () {
 }
 
 /** Step 3 (Heart): courtesy bridge — soft arch between two grounded sides. */
-function SvgEngineerSpeakingAuthorityHeartStep3 () {
+function SvgEngineerFacingAuthorityHeartStep3 () {
   const groundY = 150
   return (
     <svg
@@ -1338,10 +1337,10 @@ function SvgEngineerSpeakingAuthorityHeartStep3 () {
   )
 }
 
-/* --- Hero (Gut + Heart) · Speaking to authority — Head → Gut → Heart --- */
+/* --- Hero (Gut + Heart) · Facing authority — Head → Gut → Heart --- */
 
 /** Step 1 (Head): formal frame + rule lines — hierarchy / process. */
-function SvgHeroSpeakingAuthorityHeadStep1 () {
+function SvgHeroFacingAuthorityHeadStep1 () {
   return (
     <svg
       className="quiz-intro-card__svg"
@@ -1391,7 +1390,7 @@ function SvgHeroSpeakingAuthorityHeadStep1 () {
 }
 
 /** Step 2 (Gut): grounded upright column — stable height, no shrinking. */
-function SvgHeroSpeakingAuthorityGutStep2 () {
+function SvgHeroFacingAuthorityGutStep2 () {
   const groundY = 154
   const cx = 160
   return (
@@ -1431,7 +1430,7 @@ function SvgHeroSpeakingAuthorityGutStep2 () {
 }
 
 /** Step 3 (Heart): light smile arc — soften the energy after the tension. */
-function SvgHeroSpeakingAuthorityHeartStep3 () {
+function SvgHeroFacingAuthorityHeartStep3 () {
   return (
     <svg
       className="quiz-intro-card__svg"
@@ -1454,10 +1453,10 @@ function SvgHeroSpeakingAuthorityHeartStep3 () {
   )
 }
 
-/* --- Sovereign (balanced) · Speaking to authority — Head → Heart → Gut --- */
+/* --- Sovereign (balanced) · Facing authority — Head → Heart → Gut --- */
 
 /** Step 1 (Head): nested horizons — synthesized big-picture view. */
-function SvgSovereignSpeakingAuthorityHeadStep1 () {
+function SvgSovereignFacingAuthorityHeadStep1 () {
   const baseY = 138
   return (
     <svg
@@ -1496,7 +1495,7 @@ function SvgSovereignSpeakingAuthorityHeadStep1 () {
 }
 
 /** Step 2 (Heart): calibration dial — read the room, set the energy. */
-function SvgSovereignSpeakingAuthorityHeartStep2 () {
+function SvgSovereignFacingAuthorityHeartStep2 () {
   return (
     <svg
       className="quiz-intro-card__svg"
@@ -1527,7 +1526,7 @@ function SvgSovereignSpeakingAuthorityHeartStep2 () {
 }
 
 /** Step 3 (Gut): forward arrow — clear delivery, zero hesitation. */
-function SvgSovereignSpeakingAuthorityGutStep3 () {
+function SvgSovereignFacingAuthorityGutStep3 () {
   return (
     <svg
       className="quiz-intro-card__svg"
