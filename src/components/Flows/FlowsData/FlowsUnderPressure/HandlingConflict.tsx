@@ -166,7 +166,7 @@ export const handlingConflictFlowSituation: FlowSituation = {
           label: 'Step 3',
           title: 'Fact-check the triggers',
           body:
-            'Ask: Is this about right now, or is this about something else? Distinguishing current reality from past baggage allows you to come back with a clear head.',
+            'Is this about right now, or is this about something else? Distinguishing current reality from past baggage allows you to come back with a clear head.',
         },
         {
           brain: 'Gut',

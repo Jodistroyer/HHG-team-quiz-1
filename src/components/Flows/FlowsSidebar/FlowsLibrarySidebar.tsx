@@ -105,7 +105,8 @@ export const FlowsLibrarySidebar = ({
   return (
     <nav className="flows-library" aria-label="Flows library">
       <div className="flows-library__mobile" ref={dropdownRef}>
-        <div className="nav-section-dropdown">
+        <div className="flows-library__mobile-picker">
+          <div className="nav-section-dropdown">
           <button
             type="button"
             className="nav-section-dropdown-trigger"
@@ -146,6 +147,7 @@ export const FlowsLibrarySidebar = ({
               ))}
             </ul>
           )}
+          </div>
         </div>
       </div>
 

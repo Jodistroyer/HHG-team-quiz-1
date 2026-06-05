@@ -5,6 +5,126 @@
   gap: 1rem;
 }
 
+.flows-detail__breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  min-height: 2rem;
+}
+
+.flows-detail__crumb-sep {
+  color: var(--flows-ink-tertiary);
+  font-size: 0.9rem;
+  user-select: none;
+}
+
+.flows-detail__crumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--flows-ink-soft);
+  min-width: 0;
+}
+
+.flows-detail__crumb-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--flows-ink-tertiary);
+  font-size: 0.8rem;
+}
+
+.flows-detail__mobile-back {
+  display: none;
+}
+
+.flows-detail__crumb-back-label {
+  display: none;
+}
+
+.flows-detail__crumb--context,
+.flows-detail__crumb--context .flows-detail__crumb-icon {
+  color: var(--flows-purple);
+}
+
+.flows-detail__crumb--link {
+  padding: 0.25rem 0.35rem;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.flows-detail__crumb--link:hover {
+  color: var(--flows-purple-deep);
+  transform: scale(1.03);
+  box-shadow: 0 2px 10px rgba(125, 61, 189, 0.15);
+}
+
+.flows-detail__crumb--link:active {
+  transform: scale(0.98);
+}
+
+.flows-detail__crumb--link:focus-visible {
+  outline: 2px solid var(--flows-purple);
+  outline-offset: 3px;
+  transform: scale(1.02);
+}
+
+.flows-detail__crumb--current {
+  font-weight: 700;
+  color: #fff;
+  background: var(--section-context-color, var(--flows-purple));
+  padding: 0.35rem 0.85rem 0.35rem 0.45rem;
+  border-radius: 999px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  gap: 0.1rem;
+}
+
+.flows-detail__crumb-art {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 3.35rem;
+  height: 2.1rem;
+  margin-right: -0.4rem;
+  border-radius: 6px;
+  overflow: visible;
+  line-height: 0;
+  background: transparent;
+}
+
+.flows-detail__crumb-art .quiz-intro-card__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform: scale(1.28);
+  transform-origin: center center;
+}
+
+/* Breadcrumb thumb: white line art on context-colored pill */
+.flows-detail__crumb-art .quiz-intro-card__svg > rect:first-child {
+  fill: transparent !important;
+}
+
+.flows-detail__crumb-art .quiz-intro-card__svg :is(path, circle, line, polyline, polygon, ellipse, rect:not(:first-child)) {
+  fill: transparent !important;
+  stroke: currentColor !important;
+  stroke-opacity: 1 !important;
+  stroke-width: 3.25px !important;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 .flows-detail__back {
   display: inline-flex;
   align-items: center;
@@ -70,56 +190,6 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 12px 40px rgba(0, 0, 0, 0.05);
 }
 
-.flows-detail__top-bar {
-  padding: 1.25rem 1.5rem 0;
-  flex-shrink: 0;
-}
-
-.flows-detail__top-bar-header {
-  display: flex;
-  align-items: flex-start;
-  gap: 1rem;
-  padding-bottom: 1rem;
-  position: relative;
-}
-
-.flows-detail__top-bar-art {
-  width: 104px;
-  height: 76px;
-  border-radius: 22px;
-  overflow: hidden;
-  flex: 0 0 104px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.flows-detail__top-bar-art .quiz-intro-card__svg {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-
-.flows-detail__top-bar-text {
-  min-width: 0;
-  flex: 1;
-  padding-right: 0;
-}
-
-.flows-detail__top-bar-right {
-  flex: 0 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.75rem;
-  padding-left: 0.5rem;
-}
-
-.flows-detail__archetype--right {
-  font-size: 1rem;
-  font-weight: 400;
-}
-
 .flows-detail__context-heading {
   font-family: 'Montserrat', sans-serif;
   font-size: 0.8125rem;
@@ -179,24 +249,6 @@
   flex-wrap: wrap;
 }
 
-.flows-detail__archetype {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 1.05rem;
-  font-weight: 800;
-  color: var(--flows-ink);
-  letter-spacing: 0.005em;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  line-height: 1.35;
-}
-
-.flows-detail__archetype-icons {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-}
-
 .flows-detail__brain-badge {
   display: inline-flex;
   align-items: center;
@@ -212,8 +264,6 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   width: fit-content;
 }
-
-/* (Moved into `.flows-detail__top-bar-right`, no longer absolute.) */
 
 .flows-detail__section {
   display: flex;
@@ -248,8 +298,8 @@
 /* “Why this order works for you” — centered stack; chrome lives on `.why-it-works`. */
 .flows-detail__section--why-order {
   gap: 0.65rem;
-  /* Extra space after the horizontal flow sequence, before the star block */
-  margin-top: 1.35rem;
+  margin-top: 0.65rem;
+  margin-bottom: -0.65rem;
   padding: 0;
   text-align: center;
   align-items: center;
@@ -283,53 +333,12 @@
     min-height: 0;
   }
 
-  .flows-detail__top-bar {
-    padding: 1rem 1.1rem 0;
-  }
-
-  .flows-detail__top-bar-header {
-    display: grid;
-    grid-template-columns: 92px minmax(0, 1fr);
-    grid-template-rows: auto auto;
-    align-items: start;
-    column-gap: 0.85rem;
-    row-gap: 0.65rem;
-    padding-bottom: 0.85rem;
-  }
-
-  .flows-detail__top-bar-art {
-    width: 92px;
-    height: 68px;
-    border-radius: 20px;
-    flex: none;
-    grid-column: 1;
-    grid-row: 1;
-  }
-
-  /* Full width beneath the art (and top-right badges), so title/description use the full bar */
-  .flows-detail__top-bar-text {
-    grid-column: 1 / -1;
-    grid-row: 2;
-    min-width: 0;
-    width: 100%;
-    padding-right: 0;
-  }
-
-  .flows-detail__top-bar-right {
-    grid-column: 2;
-    grid-row: 1;
-    min-width: 0;
-    justify-self: end;
-    align-items: flex-end;
-    padding-left: 0;
-  }
-
   .flows-detail__page-desc {
     max-width: none;
   }
 
   .flows-detail__body {
-    padding: 1.1rem;
+    padding: 1.25rem 1.1rem 1.1rem;
   }
 
   .flows-detail__section--what-to-do {
@@ -337,54 +346,137 @@
   }
 
   .flows-detail__section--why-order {
+    margin-top: 1.25rem;
+    margin-bottom: -0.5rem;
     padding: 0;
+  }
+
+  .flows-detail__breadcrumb {
+    flex-wrap: nowrap;
+    gap: 0.35rem;
+    width: 100%;
+  }
+
+  .flows-detail__mobile-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    flex: 0 0 auto;
+    padding: 0.35rem 0.25rem 0.35rem 0.35rem;
+    color: var(--flows-purple);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .flows-detail__mobile-back .flows-detail__crumb-back-label {
+    display: inline;
+  }
+
+  .flows-detail__crumb-sep,
+  .flows-detail__crumb--context {
+    display: none;
+  }
+
+  .flows-detail__crumb--current {
+    flex: 0 1 auto;
+    width: fit-content;
+    max-width: calc(100% - 4.5rem);
+    min-width: 0;
+    margin-left: auto;
+    justify-content: flex-end;
+  }
+
+  .flows-detail__crumb-art {
+    margin-right: 0;
+    overflow: hidden;
+  }
+
+  .flows-detail__crumb-art .quiz-intro-card__svg {
+    transform: scale(1.15);
   }
 }
 
-/* Reserve width for fixed brain-type rail; extra rhythm on desktop for steps / Why blocks. */
+/* Reserve width for fixed brain-type rail; compact rhythm on desktop. */
 @media (min-width: 769px) {
   .flows-detail__shell {
     padding-right: 220px;
   }
 
-  .flows-detail__body {
-    padding: 1.5rem 1.65rem 2rem;
-    gap: 0.85rem;
+  .flows-detail__breadcrumb {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+    padding-right: 220px;
+    min-height: 2.5rem;
   }
 
-  /* Sequence is mobile-only; desktop shows brain + label on each step badge. */
-  .flows-detail__section--sequence {
+  .flows-detail__mobile-back {
     display: none;
+  }
+
+  .flows-detail__crumb--context {
+    position: absolute;
+    left: 0;
+    padding: 0.35rem 0.35rem 0.35rem 0.25rem;
+  }
+
+  .flows-detail__crumb--current {
+    justify-content: center;
+    max-width: min(56ch, calc(100% - 6rem));
+    text-align: center;
+  }
+
+  .flows-detail__page-title {
+    margin-bottom: 0.3rem;
+  }
+
+  .flows-detail__page-desc {
+    margin-bottom: 0.35rem;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  .flows-detail__body {
+    padding: 0 1.65rem 2rem;
+    gap: 0.35rem;
   }
 
   .flows-detail__section--why-order {
     order: 1;
     gap: 0;
     padding: 0;
-    margin-top: 0;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
   }
 
   .flows-detail__section--what-to-do {
     order: 2;
-    gap: 1.1rem;
-    padding: 1.15rem 1.5rem 1.65rem;
-    margin-top: 0;
+    gap: 0.65rem;
+    padding: 0.25rem 1.5rem 1.25rem;
+    margin-top: 0.5rem;
   }
 
   .flows-detail__section--why-order .why-it-works__title {
-    margin: 0 0 0.85rem;
-    padding-bottom: 0.55rem;
+    margin: 0 0 0.5rem;
+    padding-bottom: 0.35rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .flows-detail__back {
+  .flows-detail__back,
+  .flows-detail__crumb--link {
     transition: none;
   }
 
   .flows-detail__back:hover,
   .flows-detail__back:active,
-  .flows-detail__back:focus-visible {
+  .flows-detail__back:focus-visible,
+  .flows-detail__crumb--link:hover,
+  .flows-detail__crumb--link:active,
+  .flows-detail__crumb--link:focus-visible {
     transform: none;
     box-shadow: none;
   }

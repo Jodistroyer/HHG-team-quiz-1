@@ -233,7 +233,7 @@ export const learningStyleFlowSituation: FlowSituation = {
           label: 'Step 1',
           title: 'Test the utility',
           body:
-            'Ask: "What can I do with this right now?" Solve a real problem immediately. If the knowledge is not useful, you will not bother learning it. Your "Gut" needs to see the immediate ROI of the effort.',
+            '"What can I do with this right now?" Solve a real problem immediately. If the knowledge is not useful, you will not bother learning it. Your "Gut" needs to see the immediate ROI of the effort.',
         },
         {
           brain: 'Head',

@@ -1,9 +1,10 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faStar } from '@fortawesome/free-solid-svg-icons'
+import { NaturalDefaultArchetypePartArt } from '../../../Quiz/naturalDefaultArchetypeArt'
+import '../../../Quiz/NaturalDefaultArchetypeParts.css'
 import './WhyItWorks.css'
 
 interface WhyItWorksProps {
   text: string
+  archetypeKey: string
 }
 
 function splitWhyLead (text: string): { lead: string | null; body: string } {
@@ -18,13 +19,15 @@ function splitWhyLead (text: string): { lead: string | null; body: string } {
 /**
  * Purple-accented callout explaining why the sequence fits this brain type.
  */
-export const WhyItWorks = ({ text }: WhyItWorksProps) => {
+export const WhyItWorks = ({ text, archetypeKey }: WhyItWorksProps) => {
   const { lead, body } = splitWhyLead(text)
 
   return (
     <aside className="why-it-works" aria-labelledby="why-it-works-heading">
       <div className="why-it-works__icon-wrap" aria-hidden>
-        <FontAwesomeIcon icon={faStar} className="why-it-works__icon" />
+        <div className="why-it-works__art">
+          <NaturalDefaultArchetypePartArt archetypeKey={archetypeKey} variant="vibe" />
+        </div>
       </div>
       {lead ? (
         <div className="why-it-works__main">

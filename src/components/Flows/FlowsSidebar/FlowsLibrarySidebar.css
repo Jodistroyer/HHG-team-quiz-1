@@ -169,6 +169,15 @@
   }
 }
 
+.flows-library__mobile-picker {
+  width: 100%;
+  min-width: 0;
+}
+
+.flows-library__mobile-picker .nav-section-dropdown {
+  width: 100%;
+}
+
 /* Mobile: collapse library into a dropdown */
 .flows-library__mobile {
   display: none;

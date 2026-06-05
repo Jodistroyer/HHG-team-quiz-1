@@ -92,7 +92,7 @@ export const stayOrGoFlowSituation: FlowSituation = {
           label: 'Step 2',
           title: 'Check for emotional alignment',
           body:
-            'Ask: Does staying here make me the person I want to be? If the situation is forcing you to compromise your integrity or your joy, the Heart must agree that the cost of staying is too high. This alignment provides the emotional "permission" to leave.',
+            'Does staying here make me the person I want to be? If the situation is forcing you to compromise your integrity or your joy, the Heart must agree that the cost of staying is too high. This alignment provides the emotional "permission" to leave.',
         },
         {
           brain: 'Gut',
@@ -272,7 +272,7 @@ export const stayOrGoFlowSituation: FlowSituation = {
           label: 'Step 2',
           title: 'Check for lingering regrets',
           body:
-            'Ask: If I left right now, would I feel like I left things unsaid or undone? Use your Heart to ensure that you are leaving for the right reasons, not just to escape a temporary discomfort.',
+            'If I left right now, would I feel like I left things unsaid or undone? Use your Heart to ensure that you are leaving for the right reasons, not just to escape a temporary discomfort.',
         },
         {
           brain: 'Head',
