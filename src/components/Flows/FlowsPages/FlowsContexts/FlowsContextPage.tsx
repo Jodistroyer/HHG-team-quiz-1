@@ -190,7 +190,7 @@ export const FlowsContextPage = ({
                     className="flows-home__btn flows-home__btn--primary"
                     onClick={() => onOpenMatchedFlow(contextId, quickSituation.id, brainProfile)}
                   >
-                    Find a flow
+                    Open Flow
                   </button>
                   <button
                     type="button"

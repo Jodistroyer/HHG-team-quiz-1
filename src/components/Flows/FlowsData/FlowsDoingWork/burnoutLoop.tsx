@@ -318,7 +318,10 @@ export const burnoutLoopFlowSituation: FlowSituation = {
 /** Doing Work · Burnout loop — tightening spiral (Head / Heart / Gut draining together). */
 export function BurnoutLoopCardArt () {
   const bg = CONTEXT_BACKGROUND[2]
-  const cy = 48
+  const cx = 160
+  const rMid = 78
+  const rInner = 48
+  const cy = 90 - (rMid - rInner) / 2
   return (
     <svg
       className="quiz-intro-card__svg"
@@ -328,15 +331,15 @@ export function BurnoutLoopCardArt () {
     >
       <rect width="320" height="200" fill={bg} />
       <path
-        d={`M 248 ${cy} A 88 88 0 1 1 96 ${cy} A 64 64 0 1 0 224 ${cy} A 40 40 0 1 1 120 ${cy}`}
+        d={`M ${cx - rMid} ${cy} A ${rMid} ${rMid} 0 1 0 ${cx + rMid} ${cy} A ${rInner} ${rInner} 0 1 1 ${cx - rInner} ${cy}`}
         fill="none"
         stroke="#ffffff"
         strokeOpacity="0.55"
-        strokeWidth="2.5"
+        strokeWidth="2.75"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <circle cx="160" cy={cy} r="6" fill="#ffffff" fillOpacity="0.45" />
+      <circle cx={cx} cy={cy} r="8" fill="#ffffff" fillOpacity="0.45" />
     </svg>
   )
 }

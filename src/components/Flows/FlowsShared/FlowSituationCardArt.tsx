@@ -12,6 +12,10 @@ import {
   BURNOUT_LOOP_SITUATION_ID,
   BurnoutLoopCardArt,
 } from '../FlowsData/FlowsDoingWork/BurnoutLoop.tsx'
+import {
+  BURNOUT_RECOVERY_SITUATION_ID,
+  BurnoutRecoveryCardArt,
+} from '../FlowsData/FlowsDoingWork/BurnoutRecovery.tsx'
 
 function isFacingAuthorityCard (contextId: FlowContextId, situationId: string) {
   return contextId === 1 && situationId === FACING_AUTHORITY_SITUATION_ID
@@ -23,6 +27,10 @@ function isHandlingConflictCard (contextId: FlowContextId, situationId: string) 
 
 function isBurnoutLoopCard (contextId: FlowContextId, situationId: string) {
   return contextId === 2 && situationId === BURNOUT_LOOP_SITUATION_ID
+}
+
+function isBurnoutRecoveryCard (contextId: FlowContextId, situationId: string) {
+  return contextId === 2 && situationId === BURNOUT_RECOVERY_SITUATION_ID
 }
 
 /**
@@ -44,6 +52,9 @@ export function FlowSituationCardArt ({
   }
   if (isBurnoutLoopCard(contextId, situationId)) {
     return <BurnoutLoopCardArt />
+  }
+  if (isBurnoutRecoveryCard(contextId, situationId)) {
+    return <BurnoutRecoveryCardArt />
   }
   return <ContextCardArt id={contextId} />
 }

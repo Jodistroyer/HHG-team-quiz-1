@@ -76,6 +76,10 @@ export function loadPersistedQuizState (): PersistedQuizState {
       ? parsed.selectedContextIds.filter((x): x is QuizSelectedContextId => isQuizSelectedContextId(x))
       : []
 
+    const addContextSectionId = isQuizSelectedContextId(parsed.addContextSectionId)
+      ? parsed.addContextSectionId
+      : null
+
     return {
       currentQuestionIndex:
         typeof parsed.currentQuestionIndex === 'number' && parsed.currentQuestionIndex >= 0
@@ -86,10 +90,16 @@ export function loadPersistedQuizState (): PersistedQuizState {
       quizCompletedAt: typeof parsed.quizCompletedAt === 'string' ? parsed.quizCompletedAt : null,
       selectedContextIds,
       introDismissed: typeof parsed.introDismissed === 'boolean' ? parsed.introDismissed : false,
-      addContextSectionId: isQuizSelectedContextId(parsed.addContextSectionId)
-        ? parsed.addContextSectionId
-        : null,
-      completedWithContextIds: migrateCompletedWithContextIds(parsed, selectedContextIds),
+      addContextSectionId,
+      completedWithContextIds: migrateCompletedWithContextIds(
+        {
+          completedWithContextIds: parsed.completedWithContextIds,
+          quizCompletedAt: parsed.quizCompletedAt,
+          selectedContextIds,
+          addContextSectionId,
+        },
+        selectedContextIds
+      ),
     }
   } catch {
     return {
