@@ -28,6 +28,10 @@ import {
   MANAGE_YOUR_SOCIAL_ENERGY_SITUATION_ID,
   ManageYourSocialEnergyCardArt,
 } from '../FlowsData/FlowsWithPeople/ManageYourSocialEnergy.tsx'
+import {
+  RELATIONSHIP_NEEDS_SITUATION_ID,
+  RelationshipNeedsCardArt,
+} from '../FlowsData/FlowsWithPeople/RelationshipNeeds.tsx'
 
 function isFacingAuthorityCard (contextId: FlowContextId, situationId: string) {
   return contextId === 1 && situationId === FACING_AUTHORITY_SITUATION_ID
@@ -55,6 +59,10 @@ function isThriveZoneCard (contextId: FlowContextId, situationId: string) {
 
 function isManageYourSocialEnergyCard (contextId: FlowContextId, situationId: string) {
   return contextId === 3 && situationId === MANAGE_YOUR_SOCIAL_ENERGY_SITUATION_ID
+}
+
+function isRelationshipNeedsCard (contextId: FlowContextId, situationId: string) {
+  return contextId === 3 && situationId === RELATIONSHIP_NEEDS_SITUATION_ID
 }
 
 /**
@@ -88,6 +96,9 @@ export function FlowSituationCardArt ({
   }
   if (isManageYourSocialEnergyCard(contextId, situationId)) {
     return <ManageYourSocialEnergyCardArt />
+  }
+  if (isRelationshipNeedsCard(contextId, situationId)) {
+    return <RelationshipNeedsCardArt />
   }
   return <ContextCardArt id={contextId} />
 }

@@ -28,6 +28,10 @@ import {
   MANAGE_YOUR_SOCIAL_ENERGY_SITUATION_ID,
   ManageYourSocialEnergyStepArt,
 } from '../../FlowsData/FlowsWithPeople/ManageYourSocialEnergy.tsx'
+import {
+  RELATIONSHIP_NEEDS_SITUATION_ID,
+  RelationshipNeedsStepArt,
+} from '../../FlowsData/FlowsWithPeople/RelationshipNeeds.tsx'
 
 export type { FlowStepArtProps } from '../../FlowsData/flowTypes'
 
@@ -117,6 +121,18 @@ export function FlowStepArt ({
   if (contextId === 3 && situationId === MANAGE_YOUR_SOCIAL_ENERGY_SITUATION_ID) {
     return (
       <ManageYourSocialEnergyStepArt
+        contextId={contextId}
+        situationId={situationId}
+        variantId={variantId}
+        stepIndex={stepIndex}
+        brain={brain}
+      />
+    )
+  }
+
+  if (contextId === 3 && situationId === RELATIONSHIP_NEEDS_SITUATION_ID) {
+    return (
+      <RelationshipNeedsStepArt
         contextId={contextId}
         situationId={situationId}
         variantId={variantId}
