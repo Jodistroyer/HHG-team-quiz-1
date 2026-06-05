@@ -24,6 +24,10 @@ import {
   THRIVE_ZONE_SITUATION_ID,
   ThriveZoneStepArt,
 } from '../../FlowsData/FlowsDoingWork/thriveZone.tsx'
+import {
+  MANAGE_YOUR_SOCIAL_ENERGY_SITUATION_ID,
+  ManageYourSocialEnergyStepArt,
+} from '../../FlowsData/FlowsWithPeople/ManageYourSocialEnergy.tsx'
 
 export type { FlowStepArtProps } from '../../FlowsData/flowTypes'
 
@@ -101,6 +105,18 @@ export function FlowStepArt ({
   if (contextId === 2 && situationId === THRIVE_ZONE_SITUATION_ID) {
     return (
       <ThriveZoneStepArt
+        contextId={contextId}
+        situationId={situationId}
+        variantId={variantId}
+        stepIndex={stepIndex}
+        brain={brain}
+      />
+    )
+  }
+
+  if (contextId === 3 && situationId === MANAGE_YOUR_SOCIAL_ENERGY_SITUATION_ID) {
+    return (
+      <ManageYourSocialEnergyStepArt
         contextId={contextId}
         situationId={situationId}
         variantId={variantId}

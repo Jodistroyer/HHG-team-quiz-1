@@ -24,6 +24,10 @@ import {
   THRIVE_ZONE_SITUATION_ID,
   ThriveZoneCardArt,
 } from '../FlowsData/FlowsDoingWork/thriveZone.tsx'
+import {
+  MANAGE_YOUR_SOCIAL_ENERGY_SITUATION_ID,
+  ManageYourSocialEnergyCardArt,
+} from '../FlowsData/FlowsWithPeople/ManageYourSocialEnergy.tsx'
 
 function isFacingAuthorityCard (contextId: FlowContextId, situationId: string) {
   return contextId === 1 && situationId === FACING_AUTHORITY_SITUATION_ID
@@ -47,6 +51,10 @@ function isStayOrGoCard (contextId: FlowContextId, situationId: string) {
 
 function isThriveZoneCard (contextId: FlowContextId, situationId: string) {
   return contextId === 2 && situationId === THRIVE_ZONE_SITUATION_ID
+}
+
+function isManageYourSocialEnergyCard (contextId: FlowContextId, situationId: string) {
+  return contextId === 3 && situationId === MANAGE_YOUR_SOCIAL_ENERGY_SITUATION_ID
 }
 
 /**
@@ -77,6 +85,9 @@ export function FlowSituationCardArt ({
   }
   if (isThriveZoneCard(contextId, situationId)) {
     return <ThriveZoneCardArt />
+  }
+  if (isManageYourSocialEnergyCard(contextId, situationId)) {
+    return <ManageYourSocialEnergyCardArt />
   }
   return <ContextCardArt id={contextId} />
 }

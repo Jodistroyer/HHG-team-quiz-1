@@ -316,23 +316,30 @@ export const thriveZoneFlowSituation: FlowSituation = {
   },
 }
 
-/** Doing Work · Thrive zone — sweet-spot band with center marker. */
+/** Doing Work · Thrive zone — branching tree (growth in your sweet spot). */
 export function ThriveZoneCardArt () {
   const bg = CONTEXT_BACKGROUND[2]
   const cx = 160
-  const cy = 100
+  const cy = 102
+  const s = 1.35
+  const stroke = {
+    fill: 'none',
+    stroke: '#ffffff',
+    strokeOpacity: 0.88,
+    strokeWidth: 2.25,
+    strokeLinecap: 'round' as const,
+    strokeLinejoin: 'round' as const,
+  }
   return (
     <svg className="quiz-intro-card__svg" viewBox="0 0 320 200" preserveAspectRatio="xMidYMid meet" aria-hidden>
       <rect width="320" height="200" fill={bg} />
-      <path
-        d="M 64 88 Q 160 74 256 88 L 256 112 Q 160 126 64 112 Z"
-        fill="rgba(255,255,255,0.1)"
-        stroke="none"
-      />
-      <path d="M 64 88 Q 160 74 256 88" fill="none" stroke="#ffffff" strokeOpacity="0.55" strokeWidth="2.25" strokeLinecap="round" />
-      <path d="M 64 112 Q 160 126 256 112" fill="none" stroke="#ffffff" strokeOpacity="0.55" strokeWidth="2.25" strokeLinecap="round" />
-      <circle cx={cx} cy={cy} r="14" fill="rgba(255,255,255,0.12)" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="2.75" />
-      <circle cx={cx} cy={cy} r="5" fill="#ffffff" fillOpacity="0.5" />
+      <g transform={`translate(${cx} ${cy}) scale(${s}) translate(-60 -60)`}>
+        <path d="M60 100 V40" {...stroke} />
+        <path d="M60 60 L40 45" {...stroke} />
+        <path d="M60 60 L80 45" {...stroke} />
+        <path d="M60 40 L50 25" {...stroke} />
+        <path d="M60 40 L70 25" {...stroke} />
+      </g>
     </svg>
   )
 }
