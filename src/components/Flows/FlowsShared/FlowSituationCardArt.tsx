@@ -20,6 +20,10 @@ import {
   STAY_OR_GO_SITUATION_ID,
   StayOrGoCardArt,
 } from '../FlowsData/FlowsDoingWork/StayOrGo.tsx'
+import {
+  THRIVE_ZONE_SITUATION_ID,
+  ThriveZoneCardArt,
+} from '../FlowsData/FlowsDoingWork/thriveZone.tsx'
 
 function isFacingAuthorityCard (contextId: FlowContextId, situationId: string) {
   return contextId === 1 && situationId === FACING_AUTHORITY_SITUATION_ID
@@ -39,6 +43,10 @@ function isBurnoutRecoveryCard (contextId: FlowContextId, situationId: string) {
 
 function isStayOrGoCard (contextId: FlowContextId, situationId: string) {
   return contextId === 2 && situationId === STAY_OR_GO_SITUATION_ID
+}
+
+function isThriveZoneCard (contextId: FlowContextId, situationId: string) {
+  return contextId === 2 && situationId === THRIVE_ZONE_SITUATION_ID
 }
 
 /**
@@ -66,6 +74,9 @@ export function FlowSituationCardArt ({
   }
   if (isStayOrGoCard(contextId, situationId)) {
     return <StayOrGoCardArt />
+  }
+  if (isThriveZoneCard(contextId, situationId)) {
+    return <ThriveZoneCardArt />
   }
   return <ContextCardArt id={contextId} />
 }

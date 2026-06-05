@@ -20,6 +20,10 @@ import {
   STAY_OR_GO_SITUATION_ID,
   StayOrGoStepArt,
 } from '../../FlowsData/FlowsDoingWork/StayOrGo.tsx'
+import {
+  THRIVE_ZONE_SITUATION_ID,
+  ThriveZoneStepArt,
+} from '../../FlowsData/FlowsDoingWork/thriveZone.tsx'
 
 export type { FlowStepArtProps } from '../../FlowsData/flowTypes'
 
@@ -85,6 +89,18 @@ export function FlowStepArt ({
   if (contextId === 2 && situationId === STAY_OR_GO_SITUATION_ID) {
     return (
       <StayOrGoStepArt
+        contextId={contextId}
+        situationId={situationId}
+        variantId={variantId}
+        stepIndex={stepIndex}
+        brain={brain}
+      />
+    )
+  }
+
+  if (contextId === 2 && situationId === THRIVE_ZONE_SITUATION_ID) {
+    return (
+      <ThriveZoneStepArt
         contextId={contextId}
         situationId={situationId}
         variantId={variantId}
