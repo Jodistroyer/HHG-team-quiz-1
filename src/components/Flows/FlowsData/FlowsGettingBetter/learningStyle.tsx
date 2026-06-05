@@ -1,4 +1,6 @@
-import type { FlowSituation } from '../flowTypes'
+import type { ReactNode } from 'react'
+import { ContextCardArt, CONTEXT_BACKGROUND } from '../../../Quiz/ContextArt'
+import type { FlowSituation, FlowStepArtProps } from '../flowTypes'
 import { makeSequence, PLACEHOLDER_WHY } from '../situationHelpers'
 
 export const LEARNING_STYLE_SITUATION_ID = 'learning-style' as const
@@ -312,4 +314,428 @@ export const learningStyleFlowSituation: FlowSituation = {
       ],
     },
   },
+}
+
+/** Getting Better · Learning style — open book. */
+export function LearningStyleCardArt () {
+  const bg = CONTEXT_BACKGROUND[4]
+  const cx = 160
+  const cy = 100
+  const pageW = 52
+  const pageH = 72
+  const gap = 6
+  const stroke = { stroke: '#ffffff', strokeOpacity: 0.88, strokeWidth: 2.75 } as const
+  return (
+    <svg className="quiz-intro-card__svg" viewBox="0 0 320 200" preserveAspectRatio="xMidYMid meet" aria-hidden>
+      <rect width="320" height="200" fill={bg} />
+      <path
+        d={`M ${cx - gap / 2} ${cy - pageH / 2} L ${cx - gap / 2 - pageW} ${cy - pageH / 2 + 8} L ${cx - gap / 2 - pageW} ${cy + pageH / 2 - 8} L ${cx - gap / 2} ${cy + pageH / 2} Z`}
+        fill="rgba(255,255,255,0.1)"
+        {...stroke}
+        strokeLinejoin="round"
+      />
+      <path
+        d={`M ${cx + gap / 2} ${cy - pageH / 2} L ${cx + gap / 2 + pageW} ${cy - pageH / 2 + 8} L ${cx + gap / 2 + pageW} ${cy + pageH / 2 - 8} L ${cx + gap / 2} ${cy + pageH / 2} Z`}
+        fill="rgba(255,255,255,0.1)"
+        {...stroke}
+        strokeLinejoin="round"
+      />
+      {[0, 1, 2].map((i) => (
+        <path
+          key={i}
+          d={`M ${cx - gap / 2 - pageW + 14} ${cy - 16 + i * 16} h${pageW - 28}`}
+          fill="none"
+          stroke="#ffffff"
+          strokeOpacity={0.35 + i * 0.1}
+          strokeWidth="2"
+          strokeLinecap="round"
+        />
+      ))}
+    </svg>
+  )
+}
+
+const AUDIT_STEP_BG = '#2563C8'
+const WARMTH_STEP_BG = '#C2385A'
+const STANCE_STEP_BG = '#1A9E6E'
+
+const stepSvg = (bg: string, children: ReactNode) => (
+  <svg className="quiz-intro-card__svg" viewBox="0 0 320 200" preserveAspectRatio="xMidYMid meet" aria-hidden>
+    <rect width="320" height="200" fill={bg} />
+    {children}
+  </svg>
+)
+
+export function LearningStyleStepArt ({ contextId, variantId, stepIndex, brain }: FlowStepArtProps) {
+  if (variantId === 'head-strong') {
+    if (stepIndex === 0 && brain === 'Head') return <SvgLearnThinkerHeadStep1 />
+    if (stepIndex === 1 && brain === 'Heart') return <SvgLearnThinkerHeartStep2 />
+    if (stepIndex === 2 && brain === 'Gut') return <SvgLearnThinkerGutStep3 />
+  }
+  if (variantId === 'head-gut') {
+    if (stepIndex === 0 && brain === 'Head') return <SvgLearnTacticianHeadStep1 />
+    if (stepIndex === 1 && brain === 'Gut') return <SvgLearnTacticianGutStep2 />
+    if (stepIndex === 2 && brain === 'Heart') return <SvgLearnTacticianHeartStep3 />
+  }
+  if (variantId === 'head-heart') {
+    if (stepIndex === 0 && brain === 'Head') return <SvgLearnDiplomatHeadStep1 />
+    if (stepIndex === 1 && brain === 'Heart') return <SvgLearnDiplomatHeartStep2 />
+    if (stepIndex === 2 && brain === 'Gut') return <SvgLearnDiplomatGutStep3 />
+  }
+  if (variantId === 'heart-strong') {
+    if (stepIndex === 0 && brain === 'Heart') return <SvgLearnEmpathHeartStep1 />
+    if (stepIndex === 1 && brain === 'Head') return <SvgLearnEmpathHeadStep2 />
+    if (stepIndex === 2 && brain === 'Gut') return <SvgLearnEmpathGutStep3 />
+  }
+  if (variantId === 'heart-gut') {
+    if (stepIndex === 0 && brain === 'Heart') return <SvgLearnDefenderHeartStep1 />
+    if (stepIndex === 1 && brain === 'Gut') return <SvgLearnDefenderGutStep2 />
+    if (stepIndex === 2 && brain === 'Head') return <SvgLearnDefenderHeadStep3 />
+  }
+  if (variantId === 'heart-head') {
+    if (stepIndex === 0 && brain === 'Heart') return <SvgLearnAdvisorHeartStep1 />
+    if (stepIndex === 1 && brain === 'Head') return <SvgLearnAdvisorHeadStep2 />
+    if (stepIndex === 2 && brain === 'Gut') return <SvgLearnAdvisorGutStep3 />
+  }
+  if (variantId === 'gut-strong') {
+    if (stepIndex === 0 && brain === 'Gut') return <SvgLearnDoerGutStep1 />
+    if (stepIndex === 1 && brain === 'Head') return <SvgLearnDoerHeadStep2 />
+    if (stepIndex === 2 && brain === 'Heart') return <SvgLearnDoerHeartStep3 />
+  }
+  if (variantId === 'gut-head') {
+    if (stepIndex === 0 && brain === 'Gut') return <SvgLearnEngineerGutStep1 />
+    if (stepIndex === 1 && brain === 'Head') return <SvgLearnEngineerHeadStep2 />
+    if (stepIndex === 2 && brain === 'Heart') return <SvgLearnEngineerHeartStep3 />
+  }
+  if (variantId === 'gut-heart') {
+    if (stepIndex === 0 && brain === 'Gut') return <SvgLearnHeroGutStep1 />
+    if (stepIndex === 1 && brain === 'Heart') return <SvgLearnHeroHeartStep2 />
+    if (stepIndex === 2 && brain === 'Head') return <SvgLearnHeroHeadStep3 />
+  }
+  if (variantId === 'balanced') {
+    if (stepIndex === 0 && brain === 'Head') return <SvgLearnSovereignHeadStep1 />
+    if (stepIndex === 1 && brain === 'Heart') return <SvgLearnSovereignHeartStep2 />
+    if (stepIndex === 2 && brain === 'Gut') return <SvgLearnSovereignGutStep3 />
+  }
+  return <ContextCardArt id={contextId} />
+}
+
+function SvgLearnThinkerHeadStep1 () {
+  const cx = 160; const cy = 100; const g = 28
+  const x0 = cx - 1.5 * g; const y0 = cy - 1.5 * g
+  return stepSvg(AUDIT_STEP_BG, <>
+    {[0, 1, 2].flatMap((row) =>
+      [0, 1, 2].map((col) => (
+        <rect
+          key={`${row}-${col}`}
+          x={x0 + col * g}
+          y={y0 + row * g}
+          width={g - 6}
+          height={g - 6}
+          rx="4"
+          fill="rgba(255,255,255,0.08)"
+          stroke="#ffffff"
+          strokeOpacity={0.45 + (row + col) * 0.08}
+          strokeWidth="2"
+        />
+      ))
+    )}
+  </>)
+}
+function SvgLearnThinkerHeartStep2 () {
+  const cx = 160; const cy = 100
+  return stepSvg(WARMTH_STEP_BG, <>
+    <path d={`M ${cx - 40} ${cy + 8} Q ${cx} ${cy - 28} ${cx + 40} ${cy + 8}`} fill="none" stroke="#ffffff" strokeOpacity="0.82" strokeWidth="2.75" strokeLinecap="round" />
+    <circle cx={cx} cy={cy - 4} r="6" fill="#ffffff" fillOpacity="0.45" />
+  </>)
+}
+function SvgLearnThinkerGutStep3 () {
+  const cy = 100
+  const r = 28; const wing = 12
+  const baseX = 188; const cx = baseX + 8; const tipX = cx + 16
+  return stepSvg(STANCE_STEP_BG, <>
+    <circle cx={cx} cy={cy} r={r} fill="none" stroke="#ffffff" strokeOpacity="0.35" strokeWidth="2.25" />
+    <path d={`M 88 ${cy} L ${baseX} ${cy}`} fill="none" stroke="#ffffff" strokeOpacity="0.9" strokeWidth="3" strokeLinecap="round" />
+    <path d={`M ${baseX} ${cy - wing} L ${tipX} ${cy} L ${baseX} ${cy + wing}`} fill="none" stroke="#ffffff" strokeOpacity="0.92" strokeWidth="2.75" strokeLinecap="round" strokeLinejoin="round" />
+  </>)
+}
+
+function SvgLearnTacticianHeadStep1 () {
+  const y = 100
+  return stepSvg(AUDIT_STEP_BG, <>
+    <path d={`M 72 ${y} L 248 ${y}`} fill="none" stroke="#ffffff" strokeOpacity="0.45" strokeWidth="2.5" strokeLinecap="round" />
+    <path d={`M 208 ${y - 32} L 208 ${y + 32}`} fill="none" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="3" strokeLinecap="round" />
+    <circle cx="96" cy={y} r="5" fill="#ffffff" fillOpacity="0.4" />
+    <circle cx="160" cy={y} r="5" fill="#ffffff" fillOpacity="0.55" />
+    <circle cx="208" cy={y} r="5" fill="#ffffff" fillOpacity="0.7" />
+  </>)
+}
+function SvgLearnTacticianGutStep2 () {
+  const cx = 160; const cy = 100
+  const w = 56; const h = 72
+  return stepSvg(STANCE_STEP_BG, <>
+    <rect x={cx - w / 2 - 10} y={cy - h / 2 - 8} width={w} height={h} rx="6" fill="none" stroke="#ffffff" strokeOpacity="0.35" strokeWidth="2.25" strokeDasharray="6 5" />
+    <rect x={cx - w / 2 + 10} y={cy - h / 2 + 8} width={w} height={h} rx="6" fill="rgba(255,255,255,0.1)" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="2.75" />
+    <path d={`M ${cx - 8} ${cy - 8} h32 M ${cx - 8} ${cy + 8} h20 M ${cx - 8} ${cy + 24} h28`} fill="none" stroke="#ffffff" strokeOpacity="0.55" strokeWidth="2.25" strokeLinecap="round" />
+  </>)
+}
+function SvgLearnTacticianHeartStep3 () {
+  return stepSvg(WARMTH_STEP_BG, <path d="M 72 104 Q 160 148 248 104" fill="none" stroke="#ffffff" strokeOpacity="0.82" strokeWidth="2.75" strokeLinecap="round" />)
+}
+
+function SvgLearnDiplomatHeadStep1 () {
+  const cx = 160; const cy = 100
+  const widths = [96, 72, 48]
+  return stepSvg(AUDIT_STEP_BG, <>
+    {widths.map((w, i) => (
+      <path key={w} d={`M ${cx - w / 2} ${cy - 24 + i * 24} h${w}`} fill="none" stroke="#ffffff" strokeOpacity={0.45 + i * 0.2} strokeWidth="2.5" strokeLinecap="round" />
+    ))}
+  </>)
+}
+function SvgLearnDiplomatHeartStep2 () {
+  const cx = 160; const cy = 100
+  return stepSvg(WARMTH_STEP_BG, <>
+    <path d={`M ${cx - 48} ${cy - 20} L ${cx} ${cy + 24} L ${cx + 48} ${cy - 20}`} fill="none" stroke="#ffffff" strokeOpacity="0.45" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round" />
+    <circle cx={cx} cy={cy + 8} r="8" fill="rgba(255,255,255,0.12)" stroke="#ffffff" strokeOpacity="0.82" strokeWidth="2.5" />
+  </>)
+}
+function SvgLearnDiplomatGutStep3 () {
+  const cx = 160; const cy = 100
+  return stepSvg(STANCE_STEP_BG, <>
+    <rect x={cx - 40} y={cy - 28} width="80" height="56" rx="8" fill="rgba(255,255,255,0.08)" stroke="#ffffff" strokeOpacity="0.55" strokeWidth="2.25" />
+    <path d={`M ${cx - 16} ${cy + 2} l8 8 18-22`} fill="none" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="2.75" strokeLinecap="round" strokeLinejoin="round" />
+  </>)
+}
+
+function SvgLearnEmpathHeartStep1 () {
+  const cx = 160; const cy = 100
+  return stepSvg(WARMTH_STEP_BG, <>
+    <path d={`M ${cx - 56} ${cy + 4} Q ${cx - 20} ${cy - 32} ${cx} ${cy + 4} T ${cx + 56} ${cy + 4}`} fill="none" stroke="#ffffff" strokeOpacity="0.82" strokeWidth="2.75" strokeLinecap="round" />
+    <circle cx={cx - 20} cy={cy - 8} r="5" fill="#ffffff" fillOpacity="0.45" />
+  </>)
+}
+function SvgLearnEmpathHeadStep2 () {
+  const cx = 160; const cy = 100
+  return stepSvg(AUDIT_STEP_BG, <>
+    <path d={`M ${cx} ${cy + 28} L ${cx} ${cy - 20}`} fill="none" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="2.75" strokeLinecap="round" />
+    <path d={`M ${cx - 32} ${cy - 8} L ${cx} ${cy - 20} L ${cx + 32} ${cy - 8}`} fill="none" stroke="#ffffff" strokeOpacity="0.55" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round" />
+    <path d={`M ${cx - 24} ${cy + 8} L ${cx} ${cy - 2} L ${cx + 24} ${cy + 8}`} fill="none" stroke="#ffffff" strokeOpacity="0.55" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round" />
+  </>)
+}
+function SvgLearnEmpathGutStep3 () {
+  const cx = 160; const cy = 100
+  const r = 14
+  const top = { x: cx, y: cy - 30 }
+  const left = { x: cx - 38, y: cy + 18 }
+  const right = { x: cx + 38, y: cy + 18 }
+  const nodes = [top, left, right]
+  return stepSvg(STANCE_STEP_BG, <>
+    <path
+      d={`M ${top.x} ${top.y + r} L ${left.x + 12} ${left.y - r + 2} L ${right.x - 12} ${right.y - r + 2} Z`}
+      fill="none"
+      stroke="#ffffff"
+      strokeOpacity="0.35"
+      strokeWidth="2.25"
+      strokeLinejoin="round"
+    />
+    {nodes.map(({ x, y }, i) => (
+      <circle key={i} cx={x} cy={y} r={r} fill="rgba(255,255,255,0.1)" stroke="#ffffff" strokeOpacity={0.55 + i * 0.12} strokeWidth="2.25" />
+    ))}
+  </>)
+}
+
+function SvgLearnDefenderHeartStep1 () {
+  const cx = 160; const cy = 100
+  return stepSvg(WARMTH_STEP_BG, <>
+    <path d={`M ${cx} ${cy + 20} L ${cx} ${cy - 16}`} fill="none" stroke="#ffffff" strokeOpacity="0.45" strokeWidth="2.25" strokeLinecap="round" />
+    <path d={`M ${cx} ${cy - 16} C ${cx + 6} ${cy - 28} ${cx + 20} ${cy - 24} ${cx + 20} ${cy - 10} C ${cx + 20} ${cy + 4} ${cx} ${cy + 8} ${cx} ${cy + 8} C ${cx} ${cy + 8} ${cx - 20} ${cy + 4} ${cx - 20} ${cy - 10} C ${cx - 20} ${cy - 24} ${cx - 6} ${cy - 28} ${cx} ${cy - 16} Z`} fill="rgba(255,255,255,0.1)" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="2.5" strokeLinejoin="round" />
+  </>)
+}
+function SvgLearnDefenderGutStep2 () {
+  const cx = 160; const cy = 100
+  return stepSvg(STANCE_STEP_BG, <>
+    <path d={`M ${cx - 48} ${cy + 12} L ${cx - 16} ${cy - 20} L ${cx + 8} ${cy + 4} L ${cx + 40} ${cy - 28}`} fill="none" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="2.75" strokeLinecap="round" strokeLinejoin="round" />
+    <circle cx={cx + 40} cy={cy - 28} r="5" fill="#ffffff" fillOpacity="0.55" />
+  </>)
+}
+function SvgLearnDefenderHeadStep3 () {
+  const cx = 160; const cy = 100
+  const rowYs = [cy - 24, cy, cy + 24]
+  const tickX = cx - 40; const lineX = cx - 20
+  return stepSvg(AUDIT_STEP_BG, <>
+    {rowYs.map((y, i) => (
+      <g key={y}>
+        <path d={`M ${tickX} ${y - 2} l6 6 10-12`} fill="none" stroke="#ffffff" strokeOpacity={0.55 + i * 0.15} strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round" />
+        <path d={`M ${lineX} ${y} h80`} fill="none" stroke="#ffffff" strokeOpacity={0.45 + i * 0.15} strokeWidth="2.25" strokeLinecap="round" />
+      </g>
+    ))}
+  </>)
+}
+
+function SvgLearnAdvisorHeartStep1 () {
+  const cx = 160; const cy = 100
+  return stepSvg(WARMTH_STEP_BG, <>
+    <circle cx={cx} cy={cy} r="10" fill="#ffffff" fillOpacity="0.45" />
+    {[0, 1, 2].map((i) => (
+      <path key={i} d={`M ${cx + 14} ${cy - 4 + i * 4} Q ${cx + 36} ${cy - 8 + i * 8} ${cx + 52} ${cy - 4 + i * 4}`} fill="none" stroke="#ffffff" strokeOpacity={0.45 + i * 0.18} strokeWidth="2.25" strokeLinecap="round" />
+    ))}
+  </>)
+}
+function SvgLearnAdvisorHeadStep2 () {
+  const cx = 160; const cy = 100
+  return stepSvg(AUDIT_STEP_BG, <>
+    <rect x={cx - 48} y={cy - 32} width="28" height="64" rx="6" fill="rgba(255,255,255,0.08)" stroke="#ffffff" strokeOpacity="0.55" strokeWidth="2" />
+    <rect x={cx - 14} y={cy - 32} width="28" height="64" rx="6" fill="rgba(255,255,255,0.1)" stroke="#ffffff" strokeOpacity="0.72" strokeWidth="2.25" />
+    <rect x={cx + 20} y={cy - 32} width="28" height="64" rx="6" fill="rgba(255,255,255,0.08)" stroke="#ffffff" strokeOpacity="0.55" strokeWidth="2" />
+  </>)
+}
+function SvgLearnAdvisorGutStep3 () {
+  const cy = 100
+  const fromX = 108
+  const toX = 212
+  const r = 16
+  const gap = 10
+  const arrowTip = toX - r - gap
+  return stepSvg(STANCE_STEP_BG, <>
+    <circle cx={fromX} cy={cy} r={r} fill="rgba(255,255,255,0.12)" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="2.5" />
+    <path d={`M ${fromX + r + gap} ${cy} L ${arrowTip - 12} ${cy}`} fill="none" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="2.75" strokeLinecap="round" />
+    <path d={`M ${arrowTip - 12} ${cy - 10} L ${arrowTip} ${cy} L ${arrowTip - 12} ${cy + 10}`} fill="none" stroke="#ffffff" strokeOpacity="0.9" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+    <circle cx={toX} cy={cy} r={r} fill="rgba(255,255,255,0.08)" stroke="#ffffff" strokeOpacity="0.55" strokeWidth="2.25" />
+  </>)
+}
+
+function SvgLearnDoerGutStep1 () {
+  const cx = 160; const cy = 100
+  return stepSvg(STANCE_STEP_BG, <>
+    <path d={`M ${cx} ${cy - 44} L ${cx} ${cy + 20}`} fill="none" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="3" strokeLinecap="round" />
+    <path d={`M ${cx - 16} ${cy + 20} L ${cx} ${cy + 36} L ${cx + 16} ${cy + 20}`} fill="none" stroke="#ffffff" strokeOpacity="0.82" strokeWidth="2.75" strokeLinecap="round" strokeLinejoin="round" />
+    <circle cx={cx} cy={cy - 44} r="6" fill="#ffffff" fillOpacity="0.45" />
+  </>)
+}
+function SvgLearnDoerHeadStep2 () {
+  const cx = 160; const cy = 100
+  const arm = 14
+  return stepSvg(AUDIT_STEP_BG, <>
+    <circle cx={cx} cy={cy} r="28" fill="none" stroke="#ffffff" strokeOpacity="0.35" strokeWidth="2.25" />
+    <path d={`M ${cx - arm} ${cy} h${arm * 2} M ${cx} ${cy - arm} v${arm * 2}`} fill="none" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="2.75" strokeLinecap="round" />
+    <circle cx={cx + 20} cy={cy - 20} r="4" fill="#ffffff" fillOpacity="0.55" />
+  </>)
+}
+function SvgLearnDoerHeartStep3 () {
+  const cy = 100
+  const mentorX = 114
+  const menteeX = 206
+  const mentorR = 18
+  const menteeR = 11
+  const gap = 8
+  const arrowTip = menteeX - menteeR - gap
+  return stepSvg(WARMTH_STEP_BG, <>
+    <circle cx={mentorX} cy={cy} r={mentorR} fill="rgba(255,255,255,0.12)" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="2.5" />
+    <circle cx={menteeX} cy={cy} r={menteeR} fill="rgba(255,255,255,0.08)" stroke="#ffffff" strokeOpacity="0.55" strokeWidth="2.25" />
+    <path d={`M ${mentorX + mentorR + gap} ${cy} L ${arrowTip - 10} ${cy}`} fill="none" stroke="#ffffff" strokeOpacity="0.82" strokeWidth="2.5" strokeLinecap="round" />
+    <path d={`M ${arrowTip - 10} ${cy - 8} L ${arrowTip} ${cy} L ${arrowTip - 10} ${cy + 8}`} fill="none" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round" />
+  </>)
+}
+
+function SvgLearnEngineerGutStep1 () {
+  const cx = 160; const cy = 100
+  return stepSvg(STANCE_STEP_BG, <>
+    <rect x={cx - 36} y={cy - 24} width="72" height="48" rx="8" fill="rgba(255,255,255,0.08)" stroke="#ffffff" strokeOpacity="0.55" strokeWidth="2.25" />
+    <path d={`M ${cx - 16} ${cy + 24} l16-32 16 32`} fill="none" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="2.75" strokeLinecap="round" strokeLinejoin="round" />
+  </>)
+}
+function SvgLearnEngineerHeadStep2 () {
+  const cx = 160; const cy = 100
+  const bars = [
+    { w: 112, opacity: 0.45 },
+    { w: 88, opacity: 0.58 },
+    { w: 64, opacity: 0.72 },
+    { w: 40, opacity: 0.88 },
+  ]
+  const rowGap = 20
+  const startY = cy - 1.5 * rowGap
+  return stepSvg(AUDIT_STEP_BG, <>
+    {bars.map(({ w, opacity }, i) => (
+      <path key={w} d={`M ${cx - w / 2} ${startY + i * rowGap} h${w}`} fill="none" stroke="#ffffff" strokeOpacity={opacity} strokeWidth="2.5" strokeLinecap="round" />
+    ))}
+  </>)
+}
+function SvgLearnEngineerHeartStep3 () {
+  const cy = 100
+  return stepSvg(WARMTH_STEP_BG, <>
+    {[108, 160, 212].map((x) => <circle key={x} cx={x} cy={cy} r="14" fill="rgba(255,255,255,0.08)" stroke="#ffffff" strokeOpacity="0.78" strokeWidth="2.25" />)}
+    <path d="M 122 100 L 148 100 M 172 100 L 198 100" fill="none" stroke="#ffffff" strokeOpacity="0.55" strokeWidth="2.25" strokeLinecap="round" />
+  </>)
+}
+
+function SvgLearnHeroGutStep1 () {
+  const cy = 100
+  const count = 3; const spacing = 24; const shaftLen = 28; const wing = 8
+  const groupW = (count - 1) * spacing + shaftLen
+  const xs = [0, 1, 2].map((i) => 160 - groupW / 2 + i * spacing)
+  return stepSvg(STANCE_STEP_BG, <>
+    {xs.map((x) => (
+      <path key={x} d={`M ${x} ${cy} L ${x + shaftLen} ${cy}`} fill="none" stroke="#ffffff" strokeOpacity="0.82" strokeWidth="2.75" strokeLinecap="round" />
+    ))}
+    {xs.map((x) => (
+      <path key={`a-${x}`} d={`M ${x + shaftLen - wing} ${cy - wing} L ${x + shaftLen} ${cy} L ${x + shaftLen - wing} ${cy + wing}`} fill="none" stroke="#ffffff" strokeOpacity="0.9" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round" />
+    ))}
+  </>)
+}
+function SvgLearnHeroHeartStep2 () {
+  const cx = 160; const cy = 100
+  return stepSvg(WARMTH_STEP_BG, <>
+    <path d={`M ${cx - 64} ${cy} Q ${cx} ${cy + 32} ${cx + 64} ${cy} Q ${cx} ${cy - 32} ${cx - 64} ${cy}`} fill="none" stroke="#ffffff" strokeOpacity="0.72" strokeWidth="2.75" strokeLinecap="round" />
+    <circle cx={cx} cy={cy} r="6" fill="#ffffff" fillOpacity="0.55" />
+  </>)
+}
+function SvgLearnHeroHeadStep3 () {
+  const cx = 160; const cy = 100
+  return stepSvg(AUDIT_STEP_BG, <>
+    <rect x={cx - 40} y={cy - 32} width="80" height="64" rx="8" fill="rgba(255,255,255,0.08)" stroke="#ffffff" strokeOpacity="0.55" strokeWidth="2.25" />
+    <path d={`M ${cx - 24} ${cy - 12} h48 M ${cx - 24} ${cy + 4} h32 M ${cx - 24} ${cy + 20} h40`} fill="none" stroke="#ffffff" strokeOpacity="0.82" strokeWidth="2.5" strokeLinecap="round" />
+  </>)
+}
+
+function SvgLearnSovereignHeadStep1 () {
+  const cx = 160; const cy = 100
+  return stepSvg(AUDIT_STEP_BG, <>
+    <circle cx={cx} cy={cy} r="8" fill="#ffffff" fillOpacity="0.55" />
+    {[[-40, 0], [40, 0], [0, -36], [0, 36]].map(([dx, dy]) => (
+      <path key={`${dx}-${dy}`} d={`M ${cx} ${cy} L ${cx + dx} ${cy + dy}`} fill="none" stroke="#ffffff" strokeOpacity="0.78" strokeWidth="2.5" strokeLinecap="round" />
+    ))}
+    {[[-40, 0], [40, 0], [0, -36], [0, 36]].map(([dx, dy]) => (
+      <circle key={`c-${dx}-${dy}`} cx={cx + dx} cy={cy + dy} r="6" fill="#ffffff" fillOpacity="0.35" />
+    ))}
+  </>)
+}
+function SvgLearnSovereignHeartStep2 () {
+  const cx = 160; const cy = 128
+  return stepSvg(WARMTH_STEP_BG, <>
+    <path d={`M ${cx - 48} ${cy} h96`} fill="none" stroke="#ffffff" strokeOpacity="0.45" strokeWidth="2.5" strokeLinecap="round" />
+    <path d={`M ${cx} ${cy - 48} v48`} fill="none" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="2.75" strokeLinecap="round" />
+    <circle cx={cx - 48} cy={cy} r="5" fill="#ffffff" fillOpacity="0.4" />
+    <circle cx={cx + 48} cy={cy} r="5" fill="#ffffff" fillOpacity="0.4" />
+  </>)
+}
+function SvgLearnSovereignGutStep3 () {
+  const canvasCx = 160
+  const cy = 100
+  const boxW = 56
+  const boxH = 48
+  const gap = 12
+  const shaftLen = 52
+  const tipLen = 16
+  const wing = 12
+  const groupW = boxW + gap + shaftLen + tipLen
+  const boxX = canvasCx - groupW / 2
+  const boxY = cy - boxH / 2
+  const shaftStart = boxX + boxW + gap
+  const shaftEnd = shaftStart + shaftLen
+  const tipX = shaftEnd + tipLen
+  return stepSvg(STANCE_STEP_BG, <>
+    <rect x={boxX} y={boxY} width={boxW} height={boxH} rx="8" fill="rgba(255,255,255,0.1)" stroke="#ffffff" strokeOpacity="0.82" strokeWidth="2.5" />
+    <path d={`M ${shaftStart} ${cy} L ${shaftEnd} ${cy}`} fill="none" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="3" strokeLinecap="round" />
+    <path d={`M ${shaftEnd} ${cy - wing} L ${tipX} ${cy} L ${shaftEnd} ${cy + wing}`} fill="none" stroke="#ffffff" strokeOpacity="0.92" strokeWidth="2.75" strokeLinecap="round" strokeLinejoin="round" />
+  </>)
 }

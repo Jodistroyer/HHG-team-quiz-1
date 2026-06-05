@@ -32,6 +32,10 @@ import {
   RELATIONSHIP_NEEDS_SITUATION_ID,
   RelationshipNeedsCardArt,
 } from '../FlowsData/FlowsWithPeople/RelationshipNeeds.tsx'
+import {
+  LEARNING_STYLE_SITUATION_ID,
+  LearningStyleCardArt,
+} from '../FlowsData/FlowsGettingBetter/LearningStyle.tsx'
 
 function isFacingAuthorityCard (contextId: FlowContextId, situationId: string) {
   return contextId === 1 && situationId === FACING_AUTHORITY_SITUATION_ID
@@ -63,6 +67,10 @@ function isManageYourSocialEnergyCard (contextId: FlowContextId, situationId: st
 
 function isRelationshipNeedsCard (contextId: FlowContextId, situationId: string) {
   return contextId === 3 && situationId === RELATIONSHIP_NEEDS_SITUATION_ID
+}
+
+function isLearningStyleCard (contextId: FlowContextId, situationId: string) {
+  return contextId === 4 && situationId === LEARNING_STYLE_SITUATION_ID
 }
 
 /**
@@ -99,6 +107,9 @@ export function FlowSituationCardArt ({
   }
   if (isRelationshipNeedsCard(contextId, situationId)) {
     return <RelationshipNeedsCardArt />
+  }
+  if (isLearningStyleCard(contextId, situationId)) {
+    return <LearningStyleCardArt />
   }
   return <ContextCardArt id={contextId} />
 }
