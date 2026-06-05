@@ -7,7 +7,7 @@ export const BURNOUT_LOOP_SITUATION_ID = 'burnout-loop' as const
 export const burnoutLoopFlowSituation: FlowSituation = {
   id: BURNOUT_LOOP_SITUATION_ID,
   cardTitle: 'Burnout Loop',
-  cardDescription: 'See how you can spiral into exhaustion at work.',
+  cardDescription: 'See how certain work patterns quietly pull you toward burnout.',
   readMinutes: 2,
   sequence: makeSequence(),
   whyText: PLACEHOLDER_WHY,
@@ -315,13 +315,39 @@ export const burnoutLoopFlowSituation: FlowSituation = {
   },
 }
 
-/** Doing Work · Burnout loop — tightening spiral (Head / Heart / Gut draining together). */
+/** Doing Work · Burnout loop — circular restart arrow (stuck in the same cycle). */
 export function BurnoutLoopCardArt () {
   const bg = CONTEXT_BACKGROUND[2]
   const cx = 160
-  const rMid = 78
-  const rInner = 48
-  const cy = 90 - (rMid - rInner) / 2
+  const cy = 100
+  const r = 56
+  const rad = (deg: number) => (deg * Math.PI) / 180
+  const xy = (deg: number) => {
+    const t = rad(deg)
+    return { x: cx + r * Math.cos(t), y: cy + r * Math.sin(t) }
+  }
+  const fmt = (p: { x: number; y: number }) => `${p.x.toFixed(2)} ${p.y.toFixed(2)}`
+  const gapMidDeg = 322
+  const gapHalfDeg = 24
+  const arcStartDeg = gapMidDeg + gapHalfDeg
+  const arcEndDeg = gapMidDeg - gapHalfDeg
+  const start = xy(arcStartDeg)
+  const end = xy(arcEndDeg)
+  const arcD = `M ${fmt(start)} A ${r} ${r} 0 1 1 ${fmt(end)}`
+  const θ = rad(arcStartDeg)
+  const tanx = Math.sin(θ)
+  const tany = -Math.cos(θ)
+  const nx = Math.cos(θ)
+  const ny = Math.sin(θ)
+  const tip = { x: start.x + 12 * tanx, y: start.y + 12 * tany }
+  const wing = 10
+  const w1 = { x: start.x - 4 * tanx + wing * nx, y: start.y - 4 * tany + wing * ny }
+  const w2 = { x: start.x - 4 * tanx - wing * nx, y: start.y - 4 * tany - wing * ny }
+  const headD = `M ${fmt(w1)} L ${fmt(tip)} L ${fmt(w2)}`
+  const fireScale = 2.5
+  const fireStroke = 0.72
+  const fireD =
+    'M11.1758045,11.5299649 C11.7222481,10.7630248 11.6612694,9.95529555 11.2823626,8.50234466 C10.5329929,5.62882187 10.8313891,4.05382867 13.4147321,2.18916004 L14.6756139,1.27904986 L14.9805807,2.80388386 C15.3046861,4.42441075 15.8369398,5.42670671 17.2035766,7.35464078 C17.2578735,7.43122022 17.2578735,7.43122022 17.3124108,7.50814226 C19.2809754,10.2854144 20,11.9596204 20,15 C20,18.6883517 16.2713564,22 12,22 C7.72840879,22 4,18.6888043 4,15 C4,14.9310531 4.00007066,14.9331427 3.98838852,14.6284506 C3.89803284,12.2718054 4.33380946,10.4273676 6.09706666,8.43586022 C6.46961415,8.0150872 6.8930834,7.61067534 7.36962714,7.22370749 L8.42161802,6.36945926 L8.9276612,7.62657706 C9.30157948,8.55546878 9.73969716,9.28566491 10.2346078,9.82150804 C10.6537848,10.2753538 10.9647401,10.8460665 11.1758045,11.5299649 Z'
   return (
     <svg
       className="quiz-intro-card__svg"
@@ -331,15 +357,32 @@ export function BurnoutLoopCardArt () {
     >
       <rect width="320" height="200" fill={bg} />
       <path
-        d={`M ${cx - rMid} ${cy} A ${rMid} ${rMid} 0 1 0 ${cx + rMid} ${cy} A ${rInner} ${rInner} 0 1 1 ${cx - rInner} ${cy}`}
+        d={arcD}
         fill="none"
         stroke="#ffffff"
-        strokeOpacity="0.55"
+        strokeOpacity="0.82"
         strokeWidth="2.75"
+        strokeLinecap="round"
+      />
+      <path
+        d={headD}
+        fill="none"
+        stroke="#ffffff"
+        strokeOpacity="0.88"
+        strokeWidth="2.5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <circle cx={cx} cy={cy} r="8" fill="#ffffff" fillOpacity="0.45" />
+      <g transform={`translate(${cx} ${cy + 2}) scale(${fireScale}) translate(-12 -12)`}>
+        <path
+          d={fireD}
+          fill="none"
+          stroke="#ffffff"
+          strokeOpacity="0.78"
+          strokeWidth={fireStroke}
+          strokeLinejoin="round"
+        />
+      </g>
     </svg>
   )
 }

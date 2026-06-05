@@ -2,8 +2,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDiamond, faHeart, faSquare } from '@fortawesome/free-solid-svg-icons'
 import type { BrainTypeSidebarItemId } from './BrainTypeSidebar'
 import { FlowStepArt } from './FlowStepArt'
-import { BRAIN_MUTED, BRAIN_MUTED_INK } from '../../flowsContexts'
+import { BRAIN_MUTED, BRAIN_MUTED_INK, BRAIN_PALETTE } from '../../flowsContexts'
 import type { FlowContextId, FlowSequenceStep } from '../../flowsData'
+import './FlowSequence.css'
 import './FlowSteps.css'
 
 interface FlowStepsProps {
@@ -63,6 +64,7 @@ export const FlowSteps = ({ steps, contextId, situationId, variantId }: FlowStep
       {steps.map((step, index) => {
         const accent = BRAIN_MUTED[step.brain]
         const titleInk = BRAIN_MUTED_INK[step.brain]
+        const brainColor = BRAIN_PALETTE[step.brain].color
         return (
           <article
             key={`${step.brain}-${index}`}
@@ -76,6 +78,9 @@ export const FlowSteps = ({ steps, contextId, situationId, variantId }: FlowStep
                   <FontAwesomeIcon icon={brainIconFor(step.brain)} />
                 </span>
                 <span className="flow-steps__num-text">{index + 1}</span>
+              </span>
+              <span className="flow-sequence__brain" style={{ color: brainColor }}>
+                {step.brain}
               </span>
             </div>
             <div className="flow-steps__main">

@@ -21,6 +21,11 @@
   width: 100%;
 }
 
+/* Brain label lives in the horizontal sequence on mobile only */
+.flow-steps__badge .flow-sequence__brain {
+  display: none;
+}
+
 /* Matches `.flow-sequence__num` / `__num-icon` / `__num-text` for visual parity */
 .flow-steps__num {
   width: 56px;
@@ -188,6 +193,16 @@
 
   .flow-steps__num-icon {
     font-size: 2.75rem;
+  }
+
+  .flow-steps__badge {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .flow-steps__badge .flow-sequence__brain {
+    display: inline-flex;
   }
 }
 

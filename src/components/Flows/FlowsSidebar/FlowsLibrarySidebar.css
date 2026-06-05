@@ -174,8 +174,8 @@
   display: none;
 }
 
-.flows-library__desktop {
-  display: block;
+.flows-library .flows-library__desktop {
+  display: flex;
 }
 
 .flows-library__mobile-summary {
@@ -222,7 +222,7 @@
     display: block;
   }
 
-  .flows-library__desktop {
+  .flows-library .flows-library__desktop {
     display: none;
   }
 }

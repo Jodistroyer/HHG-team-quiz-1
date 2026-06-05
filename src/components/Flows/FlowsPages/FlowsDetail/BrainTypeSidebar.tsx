@@ -193,6 +193,7 @@ export function brainProfileFromActiveId (id: BrainTypeSidebarItemId): FlowsBrai
 }
 
 const DESKTOP_BRAIN_SIDEBAR_MQ = '(min-width: 769px)'
+const MOBILE_BRAIN_SIDEBAR_MQ = '(max-width: 768px)'
 
 /** Desktop only (`max-width: 768px` is mobile in BrainTypeSidebar.css): open one accordion group from initial archetype. */
 function defaultOpenGroupsForDesktopId (
@@ -229,8 +230,21 @@ export const BrainTypeSidebar = ({ activeId, onSelect }: BrainTypeSidebarProps) 
     return () => mq.removeEventListener('change', sync)
   }, [activeId])
 
+  const [isMobile, setIsMobile] = useState(
+    () =>
+      typeof window !== 'undefined' &&
+      window.matchMedia(MOBILE_BRAIN_SIDEBAR_MQ).matches
+  )
   const [mobileOpen, setMobileOpen] = useState(false)
   const mobileRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const mq = window.matchMedia(MOBILE_BRAIN_SIDEBAR_MQ)
+    const sync = () => setIsMobile(mq.matches)
+    sync()
+    mq.addEventListener('change', sync)
+    return () => mq.removeEventListener('change', sync)
+  }, [])
 
   const activeGroup = useMemo(
     () => GROUPS.find((g) => g.items.some((i) => i.id === activeId)),
@@ -256,6 +270,7 @@ export const BrainTypeSidebar = ({ activeId, onSelect }: BrainTypeSidebarProps) 
 
   return (
     <aside className="braintype-sidebar" aria-label="Brain type options">
+      {isMobile ? (
       <div className="braintype-sidebar__mobile" ref={mobileRef}>
         <p className="braintype-sidebar__mobile-eyebrow">Brain type</p>
         <div className="nav-section-dropdown">
@@ -318,7 +333,7 @@ export const BrainTypeSidebar = ({ activeId, onSelect }: BrainTypeSidebarProps) 
           )}
         </div>
       </div>
-
+      ) : (
       <div className="braintype-sidebar__desktop">
       <p className="braintype-sidebar__label">Brain type</p>
       <div className="braintype-sidebar__groups">
@@ -422,6 +437,7 @@ export const BrainTypeSidebar = ({ activeId, onSelect }: BrainTypeSidebarProps) 
         </div>
       </div>
       </div>
+      )}
     </aside>
   )
 }

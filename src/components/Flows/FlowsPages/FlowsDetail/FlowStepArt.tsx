@@ -16,6 +16,10 @@ import {
   BURNOUT_RECOVERY_SITUATION_ID,
   BurnoutRecoveryStepArt,
 } from '../../FlowsData/FlowsDoingWork/BurnoutRecovery.tsx'
+import {
+  STAY_OR_GO_SITUATION_ID,
+  StayOrGoStepArt,
+} from '../../FlowsData/FlowsDoingWork/StayOrGo.tsx'
 
 export type { FlowStepArtProps } from '../../FlowsData/flowTypes'
 
@@ -69,6 +73,18 @@ export function FlowStepArt ({
   if (contextId === 2 && situationId === BURNOUT_RECOVERY_SITUATION_ID) {
     return (
       <BurnoutRecoveryStepArt
+        contextId={contextId}
+        situationId={situationId}
+        variantId={variantId}
+        stepIndex={stepIndex}
+        brain={brain}
+      />
+    )
+  }
+
+  if (contextId === 2 && situationId === STAY_OR_GO_SITUATION_ID) {
+    return (
+      <StayOrGoStepArt
         contextId={contextId}
         situationId={situationId}
         variantId={variantId}

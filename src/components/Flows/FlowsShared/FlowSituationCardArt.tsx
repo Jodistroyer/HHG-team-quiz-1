@@ -16,6 +16,10 @@ import {
   BURNOUT_RECOVERY_SITUATION_ID,
   BurnoutRecoveryCardArt,
 } from '../FlowsData/FlowsDoingWork/BurnoutRecovery.tsx'
+import {
+  STAY_OR_GO_SITUATION_ID,
+  StayOrGoCardArt,
+} from '../FlowsData/FlowsDoingWork/StayOrGo.tsx'
 
 function isFacingAuthorityCard (contextId: FlowContextId, situationId: string) {
   return contextId === 1 && situationId === FACING_AUTHORITY_SITUATION_ID
@@ -31,6 +35,10 @@ function isBurnoutLoopCard (contextId: FlowContextId, situationId: string) {
 
 function isBurnoutRecoveryCard (contextId: FlowContextId, situationId: string) {
   return contextId === 2 && situationId === BURNOUT_RECOVERY_SITUATION_ID
+}
+
+function isStayOrGoCard (contextId: FlowContextId, situationId: string) {
+  return contextId === 2 && situationId === STAY_OR_GO_SITUATION_ID
 }
 
 /**
@@ -55,6 +63,9 @@ export function FlowSituationCardArt ({
   }
   if (isBurnoutRecoveryCard(contextId, situationId)) {
     return <BurnoutRecoveryCardArt />
+  }
+  if (isStayOrGoCard(contextId, situationId)) {
+    return <StayOrGoCardArt />
   }
   return <ContextCardArt id={contextId} />
 }

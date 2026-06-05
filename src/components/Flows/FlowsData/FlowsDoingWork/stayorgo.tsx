@@ -1,4 +1,6 @@
-import type { FlowSituation } from '../flowTypes'
+import type { ReactNode } from 'react'
+import { ContextCardArt, CONTEXT_BACKGROUND } from '../../../Quiz/ContextArt'
+import type { FlowSituation, FlowStepArtProps } from '../flowTypes'
 import { makeSequence, PLACEHOLDER_WHY } from '../situationHelpers'
 
 export const STAY_OR_GO_SITUATION_ID = 'stay-or-go' as const
@@ -6,7 +8,7 @@ export const STAY_OR_GO_SITUATION_ID = 'stay-or-go' as const
 export const stayOrGoFlowSituation: FlowSituation = {
   id: STAY_OR_GO_SITUATION_ID,
   cardTitle: 'Stay or Go',
-  cardDescription: 'Decide whether to commit or leave.',
+  cardDescription: 'Decide whether to commit or leave a workplace / project.',
   readMinutes: 2,
   sequence: makeSequence(),
   whyText: PLACEHOLDER_WHY,
@@ -201,7 +203,7 @@ export const stayOrGoFlowSituation: FlowSituation = {
         {
           brain: 'Gut',
           label: 'Step 1',
-          title: 'Acknowledge the physical tension',
+          title: 'Notice the physical tension',
           body:
             'Pay attention to how your body reacts when you enter the room or start the work. If your body is constantly in a state of "bracing," your Gut is telling you it is over. Trust this physical intuition as your first signal.',
         },
@@ -312,4 +314,336 @@ export const stayOrGoFlowSituation: FlowSituation = {
       ],
     },
   },
+}
+
+/** Doing Work · Stay or Go — door slightly open (stay inside, go through). */
+export function StayOrGoCardArt () {
+  const bg = CONTEXT_BACKGROUND[2]
+  const cx = 160
+  const cy = 100
+  const frameW = 88
+  const frameH = 118
+  const frameX = cx - frameW / 2
+  const frameY = cy - frameH / 2
+  const hingeX = frameX
+  const doorTopX = frameX + frameW - 18
+  const doorBottomX = frameX + frameW - 10
+  return (
+    <svg className="quiz-intro-card__svg" viewBox="0 0 320 200" preserveAspectRatio="xMidYMid meet" aria-hidden>
+      <rect width="320" height="200" fill={bg} />
+      <path
+        d={`M ${doorTopX} ${frameY + 6} L ${frameX + frameW} ${frameY} L ${frameX + frameW} ${frameY + frameH} L ${doorBottomX} ${frameY + frameH - 6} Z`}
+        fill="rgba(255,255,255,0.14)"
+        stroke="none"
+      />
+      <path
+        d={`M ${hingeX} ${frameY} L ${doorTopX} ${frameY + 6} L ${doorBottomX} ${frameY + frameH - 6} L ${hingeX} ${frameY + frameH} Z`}
+        fill="rgba(255,255,255,0.1)"
+        stroke="#ffffff"
+        strokeOpacity="0.82"
+        strokeWidth="2.5"
+        strokeLinejoin="round"
+      />
+      <rect
+        x={frameX}
+        y={frameY}
+        width={frameW}
+        height={frameH}
+        rx="4"
+        fill="none"
+        stroke="#ffffff"
+        strokeOpacity="0.55"
+        strokeWidth="2.25"
+      />
+      <circle cx={hingeX + 34} cy={cy} r="4" fill="#ffffff" fillOpacity="0.55" />
+      <path
+        d={`M ${hingeX + 6} ${frameY + 10} A 6 6 0 0 1 ${hingeX + 6} ${frameY + frameH - 10}`}
+        fill="none"
+        stroke="#ffffff"
+        strokeOpacity="0.35"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}
+
+const AUDIT_STEP_BG = '#2563C8'
+const WARMTH_STEP_BG = '#C2385A'
+const STANCE_STEP_BG = '#1A9E6E'
+
+const stepSvg = (bg: string, children: ReactNode) => (
+  <svg className="quiz-intro-card__svg" viewBox="0 0 320 200" preserveAspectRatio="xMidYMid meet" aria-hidden>
+    <rect width="320" height="200" fill={bg} />
+    {children}
+  </svg>
+)
+
+export function StayOrGoStepArt ({ contextId, variantId, stepIndex, brain }: FlowStepArtProps) {
+  if (variantId === 'head-strong') {
+    if (stepIndex === 0 && brain === 'Head') return <SvgStayGoThinkerHeadStep1 />
+    if (stepIndex === 1 && brain === 'Heart') return <SvgStayGoThinkerHeartStep2 />
+    if (stepIndex === 2 && brain === 'Gut') return <SvgStayGoThinkerGutStep3 />
+  }
+  if (variantId === 'head-gut') {
+    if (stepIndex === 0 && brain === 'Head') return <SvgStayGoTacticianHeadStep1 />
+    if (stepIndex === 1 && brain === 'Gut') return <SvgStayGoTacticianGutStep2 />
+    if (stepIndex === 2 && brain === 'Heart') return <SvgStayGoTacticianHeartStep3 />
+  }
+  if (variantId === 'head-heart') {
+    if (stepIndex === 0 && brain === 'Head') return <SvgStayGoDiplomatHeadStep1 />
+    if (stepIndex === 1 && brain === 'Heart') return <SvgStayGoDiplomatHeartStep2 />
+    if (stepIndex === 2 && brain === 'Gut') return <SvgStayGoDiplomatGutStep3 />
+  }
+  if (variantId === 'heart-strong') {
+    if (stepIndex === 0 && brain === 'Heart') return <SvgStayGoEmpathHeartStep1 />
+    if (stepIndex === 1 && brain === 'Head') return <SvgStayGoEmpathHeadStep2 />
+    if (stepIndex === 2 && brain === 'Gut') return <SvgStayGoEmpathGutStep3 />
+  }
+  if (variantId === 'heart-gut') {
+    if (stepIndex === 0 && brain === 'Heart') return <SvgStayGoDefenderHeartStep1 />
+    if (stepIndex === 1 && brain === 'Gut') return <SvgStayGoDefenderGutStep2 />
+    if (stepIndex === 2 && brain === 'Head') return <SvgStayGoDefenderHeadStep3 />
+  }
+  if (variantId === 'heart-head') {
+    if (stepIndex === 0 && brain === 'Heart') return <SvgStayGoAdvisorHeartStep1 />
+    if (stepIndex === 1 && brain === 'Head') return <SvgStayGoAdvisorHeadStep2 />
+    if (stepIndex === 2 && brain === 'Gut') return <SvgStayGoAdvisorGutStep3 />
+  }
+  if (variantId === 'gut-strong') {
+    if (stepIndex === 0 && brain === 'Gut') return <SvgStayGoDoerGutStep1 />
+    if (stepIndex === 1 && brain === 'Head') return <SvgStayGoDoerHeadStep2 />
+    if (stepIndex === 2 && brain === 'Heart') return <SvgStayGoDoerHeartStep3 />
+  }
+  if (variantId === 'gut-head') {
+    if (stepIndex === 0 && brain === 'Head') return <SvgStayGoEngineerHeadStep1 />
+    if (stepIndex === 1 && brain === 'Gut') return <SvgStayGoEngineerGutStep2 />
+    if (stepIndex === 2 && brain === 'Heart') return <SvgStayGoEngineerHeartStep3 />
+  }
+  if (variantId === 'gut-heart') {
+    if (stepIndex === 0 && brain === 'Gut') return <SvgStayGoHeroGutStep1 />
+    if (stepIndex === 1 && brain === 'Heart') return <SvgStayGoHeroHeartStep2 />
+    if (stepIndex === 2 && brain === 'Head') return <SvgStayGoHeroHeadStep3 />
+  }
+  if (variantId === 'balanced') {
+    if (stepIndex === 0 && brain === 'Head') return <SvgStayGoSovereignHeadStep1 />
+    if (stepIndex === 1 && brain === 'Heart') return <SvgStayGoSovereignHeartStep2 />
+    if (stepIndex === 2 && brain === 'Gut') return <SvgStayGoSovereignGutStep3 />
+  }
+  return <ContextCardArt id={contextId} />
+}
+
+function SvgStayGoThinkerHeadStep1 () {
+  const cx = 160
+  const cy = 100
+  const boxW = 148
+  const boxH = 116
+  const boxX = cx - boxW / 2
+  const boxY = cy - boxH / 2
+  const tickX = boxX + 28
+  const lineX = tickX + 34
+  const rowYs = [cy - 24, cy, cy + 24]
+  const lineWidths = [72, 56, 64]
+  return stepSvg(AUDIT_STEP_BG, <>
+    <rect x={boxX} y={boxY} width={boxW} height={boxH} rx="10" fill="rgba(255,255,255,0.08)" stroke="#ffffff" strokeOpacity="0.5" strokeWidth="2" />
+    {rowYs.map((y, i) => (
+      <path key={`line-${i}`} d={`M ${lineX} ${y} h${lineWidths[i]}`} fill="none" stroke="#ffffff" strokeOpacity="0.75" strokeWidth="2.25" strokeLinecap="round" />
+    ))}
+    {rowYs.slice(0, 2).map((y) => (
+      <path key={`tick-${y}`} d={`M ${tickX} ${y - 2} l6 6 10-12`} fill="none" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round" />
+    ))}
+  </>)
+}
+function SvgStayGoThinkerHeartStep2 () {
+  const cx = 160; const cy = 100
+  return stepSvg(WARMTH_STEP_BG, <>
+    {[44, 30, 16].map((r) => <circle key={r} cx={cx} cy={cy} r={r} fill="none" stroke="#ffffff" strokeOpacity={0.28 + (44 - r) * 0.02} strokeWidth="2.25" />)}
+    <circle cx={cx} cy={cy} r="6" fill="#ffffff" fillOpacity="0.5" />
+  </>)
+}
+function SvgStayGoThinkerGutStep3 () {
+  const y = 100
+  return stepSvg(STANCE_STEP_BG, <>
+    <path d={`M 88 ${y} L 148 ${y}`} fill="none" stroke="#ffffff" strokeOpacity="0.35" strokeWidth="2.5" strokeLinecap="round" />
+    <path d={`M 168 ${y} L 232 ${y}`} fill="none" stroke="#ffffff" strokeOpacity="0.9" strokeWidth="3" strokeLinecap="round" />
+    <path d={`M 232 ${y - 12} L 248 ${y} L 232 ${y + 12}`} fill="none" stroke="#ffffff" strokeOpacity="0.9" strokeWidth="2.75" strokeLinecap="round" strokeLinejoin="round" />
+  </>)
+}
+
+function SvgStayGoTacticianHeadStep1 () {
+  const y = 100
+  return stepSvg(AUDIT_STEP_BG, <>
+    <path d={`M 72 ${y} L 248 ${y}`} fill="none" stroke="#ffffff" strokeOpacity="0.45" strokeWidth="2.5" strokeLinecap="round" />
+    <path d={`M 208 ${y - 32} L 208 ${y + 32}`} fill="none" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="3" strokeLinecap="round" />
+    <circle cx="208" cy={y} r="5" fill="#ffffff" fillOpacity="0.55" />
+  </>)
+}
+function SvgStayGoTacticianGutStep2 () {
+  const y = 100
+  return stepSvg(STANCE_STEP_BG, <>
+    <path d="M 200 64 L 200 136" fill="none" stroke="#ffffff" strokeOpacity="0.55" strokeWidth="3" strokeLinecap="round" />
+    <path d={`M 88 ${y} L 188 ${y}`} fill="none" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="2.75" strokeLinecap="round" />
+    <path d={`M 188 ${y - 12} L 212 ${y} L 188 ${y + 12}`} fill="none" stroke="#ffffff" strokeOpacity="0.92" strokeWidth="2.75" strokeLinecap="round" strokeLinejoin="round" />
+  </>)
+}
+function SvgStayGoTacticianHeartStep3 () {
+  const waves = [{ y: 88, o: 0.38 }, { y: 100, o: 0.55 }, { y: 112, o: 0.72 }]
+  return stepSvg(WARMTH_STEP_BG, <>
+    {waves.map(({ y, o }) => <path key={y} d={`M 72 ${y} Q 160 ${y + 14} 248 ${y}`} fill="none" stroke="#ffffff" strokeOpacity={o} strokeWidth="2.25" strokeLinecap="round" />)}
+  </>)
+}
+
+function SvgStayGoDiplomatHeadStep1 () {
+  const y = 100
+  return stepSvg(AUDIT_STEP_BG, <>
+    <path d={`M 72 ${y - 24} h176`} fill="none" stroke="#ffffff" strokeOpacity="0.28" strokeWidth="2" strokeLinecap="round" strokeDasharray="6 8" />
+    <path d={`M 72 ${y + 24} h176`} fill="none" stroke="#ffffff" strokeOpacity="0.28" strokeWidth="2" strokeLinecap="round" strokeDasharray="6 8" />
+    <path d={`M 88 ${y} h144`} fill="none" stroke="#ffffff" strokeOpacity="0.92" strokeWidth="3.25" strokeLinecap="round" />
+  </>)
+}
+function SvgStayGoDiplomatHeartStep2 () {
+  const cy = 108
+  return stepSvg(WARMTH_STEP_BG, <>
+    <path d={`M 88 ${cy - 20} Q 160 ${cy + 8} 232 ${cy - 20}`} fill="none" stroke="#ffffff" strokeOpacity="0.45" strokeWidth="2.25" strokeLinecap="round" />
+    <path d={`M 96 ${cy} Q 160 ${cy + 16} 224 ${cy}`} fill="none" stroke="#ffffff" strokeOpacity="0.82" strokeWidth="2.75" strokeLinecap="round" />
+    <circle cx="160" cy={cy + 8} r="7" fill="#ffffff" fillOpacity="0.45" />
+  </>)
+}
+function SvgStayGoDiplomatGutStep3 () {
+  const y = 100
+  return stepSvg(STANCE_STEP_BG, <>
+    <path d={`M 108 ${y} h44 M 168 ${y} h44`} fill="none" stroke="#ffffff" strokeOpacity="0.78" strokeWidth="2.75" strokeLinecap="round" />
+    <path d={`M 152 ${y - 8} L 168 ${y + 8} M 168 ${y - 8} L 152 ${y + 8}`} fill="none" stroke="#ffffff" strokeOpacity="0.45" strokeWidth="2.25" strokeLinecap="round" />
+  </>)
+}
+
+function SvgStayGoEmpathHeartStep1 () {
+  return stepSvg(WARMTH_STEP_BG, <>
+    <path d="M 160 52 L 160 148" fill="none" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="3.25" strokeLinecap="round" />
+    <circle cx="160" cy="100" r="6" fill="#ffffff" fillOpacity="0.45" />
+  </>)
+}
+function SvgStayGoEmpathHeadStep2 () {
+  const y = 108
+  return stepSvg(AUDIT_STEP_BG, <>
+    <path d={`M 72 ${y - 28} C 120 ${y - 52} 200 ${y - 52} 248 ${y - 28}`} fill="none" stroke="#ffffff" strokeOpacity="0.35" strokeWidth="2.25" strokeLinecap="round" />
+    <path d={`M 72 ${y + 12} L 248 ${y + 12}`} fill="none" stroke="#ffffff" strokeOpacity="0.9" strokeWidth="3" strokeLinecap="round" />
+  </>)
+}
+function SvgStayGoEmpathGutStep3 () {
+  return stepSvg(STANCE_STEP_BG, <>
+    <path d="M 128 68 L 128 148 M 192 68 L 192 148" fill="none" stroke="#ffffff" strokeOpacity="0.55" strokeWidth="2.5" strokeLinecap="round" />
+    <path d="M 136 100 L 220 100" fill="none" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="2.75" strokeLinecap="round" />
+    <path d="M 220 88 L 236 100 L 220 112" fill="none" stroke="#ffffff" strokeOpacity="0.9" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+  </>)
+}
+
+function SvgStayGoDefenderHeartStep1 () {
+  return stepSvg(WARMTH_STEP_BG, <circle cx="160" cy="100" r="22" fill="rgba(255,255,255,0.14)" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="2.75" />)
+}
+function SvgStayGoDefenderGutStep2 () {
+  const y = 100
+  return stepSvg(STANCE_STEP_BG, <>
+    <path d={`M 96 ${y} L 200 ${y}`} fill="none" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="3" strokeLinecap="round" />
+    <path d={`M 200 ${y - 14} L 228 ${y} L 200 ${y + 14}`} fill="none" stroke="#ffffff" strokeOpacity="0.92" strokeWidth="2.75" strokeLinecap="round" strokeLinejoin="round" />
+  </>)
+}
+function SvgStayGoDefenderHeadStep3 () {
+  const joinY = 96; const baseY = 152
+  return stepSvg(AUDIT_STEP_BG, <>
+    <path d={`M 160 ${baseY} L 160 ${joinY} L 104 68 M 160 ${joinY} L 216 68`} fill="none" stroke="#ffffff" strokeOpacity="0.82" strokeWidth="2.75" strokeLinecap="round" strokeLinejoin="round" />
+    <circle cx="104" cy="68" r="5" fill="#ffffff" fillOpacity="0.4" /><circle cx="216" cy="68" r="5" fill="#ffffff" fillOpacity="0.4" />
+  </>)
+}
+
+function SvgStayGoAdvisorHeartStep1 () {
+  return stepSvg(WARMTH_STEP_BG, <path d="M 72 88 Q 160 148 248 88" fill="none" stroke="#ffffff" strokeOpacity="0.82" strokeWidth="2.75" strokeLinecap="round" />)
+}
+function SvgStayGoAdvisorHeadStep2 () {
+  const ys = [128, 100, 72]
+  return stepSvg(AUDIT_STEP_BG, <>
+    {ys.map((y, i) => <path key={y} d={`M ${120 - i * 8} ${y} h${80 + i * 16}`} fill="none" stroke="#ffffff" strokeOpacity={0.45 + i * 0.2} strokeWidth="2.5" strokeLinecap="round" />)}
+  </>)
+}
+function SvgStayGoAdvisorGutStep3 () {
+  return stepSvg(STANCE_STEP_BG, <path d="M 96 148 L 224 72" fill="none" stroke="#ffffff" strokeOpacity="0.9" strokeWidth="3.25" strokeLinecap="round" />)
+}
+
+function SvgStayGoDoerGutStep1 () {
+  const y = 100
+  return stepSvg(STANCE_STEP_BG, <path d={`M 72 ${y} l8-18 8 18 8-16 8 16 8-14 8 14 8-12 8 12 8-10 8 10 8-8 8 8 8-6 8 6 8-4 8 4 8-2 8 2 C 200 99 220 101 248 ${y}`} fill="none" stroke="#ffffff" strokeOpacity="0.82" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />)
+}
+function SvgStayGoDoerHeadStep2 () {
+  const ys = [78, 100, 122]
+  return stepSvg(AUDIT_STEP_BG, <>
+    {ys.map((y) => <path key={y} d={`M 108 ${y} h104 M 116 ${y - 6} l6 6 10-12`} fill="none" stroke="#ffffff" strokeOpacity="0.78" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round" />)}
+  </>)
+}
+function SvgStayGoDoerHeartStep3 () {
+  return stepSvg(WARMTH_STEP_BG, <>
+    <path d="M 108 112 Q 132 88 160 100 Q 188 112 212 88" fill="none" stroke="#ffffff" strokeOpacity="0.78" strokeWidth="2.5" strokeLinecap="round" />
+    <circle cx="160" cy="100" r="5" fill="#ffffff" fillOpacity="0.45" />
+  </>)
+}
+
+function SvgStayGoEngineerHeadStep1 () {
+  const y = 108
+  return stepSvg(AUDIT_STEP_BG, <>
+    <path d={`M 96 ${y} L 224 ${y}`} fill="none" stroke="#ffffff" strokeOpacity="0.45" strokeWidth="2.5" strokeLinecap="round" />
+    <path d={`M 160 ${y} L 132 ${y - 36} M 160 ${y} L 208 ${y + 28}`} fill="none" stroke="#ffffff" strokeOpacity="0.82" strokeWidth="2.75" strokeLinecap="round" />
+    <circle cx="208" cy={y + 28} r="10" fill="rgba(255,255,255,0.1)" stroke="#ffffff" strokeOpacity="0.7" strokeWidth="2" />
+  </>)
+}
+function SvgStayGoEngineerGutStep2 () {
+  const y = 100
+  return stepSvg(STANCE_STEP_BG, <>
+    <path d={`M 72 ${y} L 136 ${y}`} fill="none" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="2.75" strokeLinecap="round" />
+    <path d={`M 184 ${y} L 248 ${y}`} fill="none" stroke="#ffffff" strokeOpacity="0.35" strokeWidth="2.25" strokeLinecap="round" strokeDasharray="5 7" />
+    <path d="M 148 88 L 172 112 M 172 88 L 148 112" fill="none" stroke="#ffffff" strokeOpacity="0.9" strokeWidth="2.5" strokeLinecap="round" />
+  </>)
+}
+function SvgStayGoEngineerHeartStep3 () {
+  return stepSvg(WARMTH_STEP_BG, <path d="M 64 108 L 256 108" fill="none" stroke="#ffffff" strokeOpacity="0.82" strokeWidth="3" strokeLinecap="round" />)
+}
+
+function SvgStayGoHeroGutStep1 () {
+  const y0 = 62; const barH = 76
+  return stepSvg(STANCE_STEP_BG, <>
+    <path d={`M 145 ${y0} L 145 ${y0 + barH}`} fill="none" stroke="#ffffff" strokeOpacity="0.92" strokeWidth="5" strokeLinecap="round" />
+    <path d={`M 175 ${y0} L 175 ${y0 + barH}`} fill="none" stroke="#ffffff" strokeOpacity="0.92" strokeWidth="5" strokeLinecap="round" />
+  </>)
+}
+function SvgStayGoHeroHeartStep2 () {
+  return stepSvg(WARMTH_STEP_BG, <>
+    <circle cx="160" cy="100" r="40" fill="none" stroke="#ffffff" strokeOpacity="0.45" strokeWidth="2.25" strokeDasharray="8 7" />
+    <path d="M 160 88 L 160 112 M 152 100 h16" fill="none" stroke="#ffffff" strokeOpacity="0.75" strokeWidth="2.5" strokeLinecap="round" />
+  </>)
+}
+function SvgStayGoHeroHeadStep3 () {
+  const forkY = 108; const y = 100
+  return stepSvg(AUDIT_STEP_BG, <>
+    <path d={`M 160 148 L 160 ${forkY} L 96 ${y}`} fill="none" stroke="#ffffff" strokeOpacity="0.38" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round" />
+    <path d={`M 160 ${forkY} L 224 ${y}`} fill="none" stroke="#ffffff" strokeOpacity="0.9" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+    <path d={`M 224 ${y - 10} L 240 ${y} L 224 ${y + 10}`} fill="none" stroke="#ffffff" strokeOpacity="0.9" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+  </>)
+}
+
+function SvgStayGoSovereignHeadStep1 () {
+  const cx = 160; const cy = 100
+  const pts = [{ x: 160, y: 52 }, { x: 96, y: 138 }, { x: 224, y: 138 }]
+  return stepSvg(AUDIT_STEP_BG, <>
+    {pts.map((p) => <path key={`${p.x}`} d={`M ${cx} ${cy} L ${p.x} ${p.y}`} fill="none" stroke="#ffffff" strokeOpacity="0.65" strokeWidth="2.5" strokeLinecap="round" />)}
+    <circle cx={cx} cy={cy} r="8" fill="#ffffff" fillOpacity="0.35" />
+  </>)
+}
+function SvgStayGoSovereignHeartStep2 () {
+  return stepSvg(WARMTH_STEP_BG, <circle cx="160" cy="100" r="48" fill="none" stroke="#ffffff" strokeOpacity="0.78" strokeWidth="2.75" />)
+}
+function SvgStayGoSovereignGutStep3 () {
+  const y = 100
+  return stepSvg(STANCE_STEP_BG, <>
+    <path d={`M 88 ${y} L 212 ${y}`} fill="none" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="3" strokeLinecap="round" />
+    <path d={`M 212 ${y - 12} L 236 ${y} L 212 ${y + 12}`} fill="none" stroke="#ffffff" strokeOpacity="0.92" strokeWidth="2.75" strokeLinecap="round" strokeLinejoin="round" />
+    <path d={`M 72 ${y + 28} L 96 ${y + 28}`} fill="none" stroke="#ffffff" strokeOpacity="0.28" strokeWidth="2" strokeLinecap="round" />
+  </>)
 }

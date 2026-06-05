@@ -81,7 +81,7 @@
 
 @media (min-width: 769px) {
   .flow-sequence {
-    padding: 0.35rem 0 0.15rem;
+    display: none;
   }
 }
 

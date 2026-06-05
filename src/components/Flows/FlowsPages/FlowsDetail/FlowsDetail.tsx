@@ -256,7 +256,7 @@ export const FlowsDetail = ({
 
             <section className="flows-detail__section flows-detail__section--what-to-do" aria-label="How to do it">
               <FlowSteps
-                steps={steps}
+                steps={sequenceSteps}
                 contextId={contextId}
                 situationId={situation.id}
                 variantId={selectedBrainId}

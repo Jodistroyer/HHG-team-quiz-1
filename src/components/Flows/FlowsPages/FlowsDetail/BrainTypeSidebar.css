@@ -9,7 +9,7 @@
   width: 220px;
   z-index: 5;
   max-height: calc(100vh - 6.25rem);
-  overflow-y: auto;
+  overflow: hidden auto;
   display: flex;
   flex-direction: column;
   padding: 1.25rem 0;
@@ -150,8 +150,21 @@
 }
 
 /* Mobile: flows-library-style dropdown (hidden on desktop) */
-.braintype-sidebar__mobile {
+.braintype-sidebar .braintype-sidebar__mobile {
   display: none;
+}
+
+.braintype-sidebar .braintype-sidebar__desktop {
+  display: block;
+}
+
+/* `nav-section-list` sets display:flex, which breaks native <details> hiding */
+.braintype-sidebar__group:not([open]) > .braintype-sidebar__list {
+  display: none;
+}
+
+.braintype-sidebar__group[open] > .braintype-sidebar__list {
+  display: flex;
 }
 
 .braintype-sidebar__mobile-eyebrow {
@@ -287,11 +300,11 @@
     border-radius: 0;
   }
 
-  .braintype-sidebar__mobile {
+  .braintype-sidebar .braintype-sidebar__mobile {
     display: block;
   }
 
-  .braintype-sidebar__desktop {
+  .braintype-sidebar .braintype-sidebar__desktop {
     display: none;
   }
 

@@ -22,7 +22,7 @@ export const burnoutRecoveryFlowSituation: FlowSituation = {
         {
           brain: 'Heart',
           label: 'Step 1',
-          title: 'Practice radical self compassion',
+          title: 'Radical self compassion',
           body:
             'Stop the internal lecture. Acknowledge that being tired is a human reality, not a failure of character. By softening your inner critic, you prevent the mental exhaustion from turning into a spiral of shame.',
         },
