@@ -14,7 +14,7 @@ import {
 import { buildFacts } from '../../../Quiz/ChangeResults/changeResultsLogic'
 import { CombinationAcrossContexts } from '../../../Quiz/ChangeResults/CombinationAcrossContexts'
 // import { WhatStandsOut } from '../../../Quiz/ChangeResults/WhatStandsOut'
-import { SECTION_ICONS, getBrainCombination, getBrainIcons } from '../../../Quiz/SectionResults/utils.tsx'
+import { getBrainCombination, getBrainIcons } from '../../../Quiz/SectionResults/utils.tsx'
 import { SECTION_CONTEXT_BY_ID } from '../../../Quiz/sectionContext'
 import { CONTEXT_BACKGROUND, ContextCardArt, contextIdForTitle, type QuizSelectedContextId } from '../../../Quiz/ContextArt'
 import '../../../Quiz/SectionResults/SectionCard.css'
@@ -51,7 +51,6 @@ interface TeamSectionHeaderProps {
 
 interface TeamContextCardTopProps {
   title: string
-  icon: IconDefinition
 }
 
 interface TeamContextCardMetaRowProps {
@@ -86,7 +85,7 @@ function TeamSectionHeader ({ title, icon }: TeamSectionHeaderProps) {
   )
 }
 
-function TeamContextCardTop ({ title, icon }: TeamContextCardTopProps) {
+function TeamContextCardTop ({ title }: TeamContextCardTopProps) {
   const sectionId = contextIdForTitle(title)
   if (sectionId === undefined) return null
 
@@ -102,9 +101,6 @@ function TeamContextCardTop ({ title, icon }: TeamContextCardTopProps) {
       <div className="section-card-top__text">
         <div className="section-card-header">
           <div className="section-header-content">
-            <span className="section-title-icon" aria-hidden="true">
-              <FontAwesomeIcon icon={icon} />
-            </span>
             <h4>{title}</h4>
           </div>
         </div>
@@ -321,7 +317,7 @@ export function TeamGroupInsights ({
             data-pdf-section="team-under-pressure"
             data-team-section="under-pressure-insight"
           >
-            <TeamContextCardTop title="Under Pressure" icon={SECTION_ICONS[1]} />
+            <TeamContextCardTop title="Under Pressure" />
             <div className="team-map-results__context-card-body section-expanded-content">
               {hasTeamScores ? (
                 <TeamUnderPressure
@@ -361,7 +357,7 @@ export function TeamGroupInsights ({
             data-pdf-section="team-doing-work"
             data-team-section="doing-work-insight"
           >
-            <TeamContextCardTop title="Doing Work" icon={SECTION_ICONS[2]} />
+            <TeamContextCardTop title="Doing Work" />
             <div className="team-map-results__context-card-body section-expanded-content">
               {hasTeamScores ? (
                 <TeamDoingWork
@@ -401,7 +397,7 @@ export function TeamGroupInsights ({
             data-pdf-section="team-with-people"
             data-team-section="with-people-insight"
           >
-            <TeamContextCardTop title="With People" icon={SECTION_ICONS[3]} />
+            <TeamContextCardTop title="With People" />
             <div className="team-map-results__context-card-body section-expanded-content">
               {hasTeamScores ? (
                 <TeamWithPeople
@@ -441,7 +437,7 @@ export function TeamGroupInsights ({
             data-pdf-section="team-getting-better"
             data-team-section="getting-better-insight"
           >
-            <TeamContextCardTop title="Getting Better" icon={SECTION_ICONS[4]} />
+            <TeamContextCardTop title="Getting Better" />
             <div className="team-map-results__context-card-body section-expanded-content">
               {hasTeamScores ? (
                 <TeamGettingBetter

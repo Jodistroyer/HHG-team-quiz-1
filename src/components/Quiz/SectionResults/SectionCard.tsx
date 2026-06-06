@@ -1,10 +1,8 @@
 import type { CSSProperties } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { UnderPressure } from './Sections/UnderPressure'
 import { DoingWork } from './Sections/DoingWork'
 import { WithPeople } from './Sections/WithPeople'
 import { GettingBetter } from './Sections/GettingBetter'
-import { SECTION_ICONS } from './utils.tsx'
 import { SECTION_CONTEXT_BY_ID } from '../sectionContext'
 import { CONTEXT_BACKGROUND, ContextCardArt, type QuizSelectedContextId } from '../ContextArt'
 import { RecommendedFlows } from '../../Flows/FlowsShared/RecommendedFlows'
@@ -79,11 +77,6 @@ export const SectionCard = ({ section, scores }: SectionCardProps) => {
         <div className="section-card-top__text">
           <div className="section-card-header">
             <div className="section-header-content">
-              {SECTION_ICONS[section.id] && (
-                <span className="section-title-icon" aria-hidden="true">
-                  <FontAwesomeIcon icon={SECTION_ICONS[section.id]} />
-                </span>
-              )}
               <h4>{section.title}</h4>
             </div>
           </div>

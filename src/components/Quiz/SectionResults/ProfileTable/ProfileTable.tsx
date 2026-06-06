@@ -1,7 +1,6 @@
 import { useState, type ReactNode } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
-import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 import './ProfileTable.css'
 
 export type ProfileTableRow = {
@@ -11,7 +10,6 @@ export type ProfileTableRow = {
 
 interface ProfileTableProps {
   title: string
-  icon: IconDefinition
   rows: ProfileTableRow[]
   className?: string
   /** Below 700px the table is collapsed to the first N rows; the rest open via "More". */
@@ -22,7 +20,6 @@ const DEFAULT_COLLAPSED_ROW_LIMIT = 4
 
 export const ProfileTable = ({
   title,
-  icon,
   rows,
   className,
   collapsedRowLimit,
@@ -41,10 +38,7 @@ export const ProfileTable = ({
 
   return (
     <div className={wrapperClass}>
-      <h4 className="profile-table-title">
-        <span className="profile-table-icon"><FontAwesomeIcon icon={icon} /></span>
-        {title}
-      </h4>
+      <h4 className="profile-table-title">{title}</h4>
       <table className="profile-table">
         {/* <thead>
           <tr>

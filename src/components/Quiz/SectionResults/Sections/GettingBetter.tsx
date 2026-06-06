@@ -1,8 +1,9 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons'
 import { FeedbackStyleTable } from '../Tables/FeedbackStyleTable.tsx'
-import { contextComboLabel } from '../../ChangeResults/contextComboLabels'
+import { archetypeNameForCombo } from '../../overallArchetypes'
 import { getBalanceTipBadge, getBrainCombination, getBrainCombinationKey, getBrainIcons } from '../utils.tsx'
+import { TraitSectionWithCombo } from '../TraitSectionWithCombo'
 import '../SectionResults.css'
 
 interface GettingBetterProps {
@@ -221,19 +222,25 @@ export const GettingBetter = ({ headPercent, heartPercent, gutPercent }: Getting
         </div>
       )} */}
       <div className="intro-grid intro-grid-three">
-        <div className="trait-section">
-          <div className="trait-section-header">
-            <div className="trait-section-title-row">
-              <h4 className="trait-section-title">{contextComboLabel('gettingBetter', combo.label)}</h4>
-              <span className="brain-icon-badge brain-icon-badge--inline" aria-label="Brain combination icons">
-                {getBrainIcons(combo.label)}
-              </span>
+        <TraitSectionWithCombo
+          comboLabel={combo.label}
+          scrollTargetId="getting-better"
+          scrollTargetLabel="Getting Better"
+        >
+          <div className="trait-section">
+            <div className="trait-section-header">
+              <div className="trait-section-title-row">
+                <span className="brains-page__toc-archetype">{archetypeNameForCombo(combo.label)}</span>
+                <span className="brain-icon-badge brain-icon-badge--inline" aria-label="Brain combination icons">
+                  {getBrainIcons(combo.label)}
+                </span>
+              </div>
             </div>
+            <p className="trait-content">
+              {traits.whatYouNaturallyTuneInto} {traits.howYouLearnBest} {traits.whatProgressMeansToYou}
+            </p>
           </div>
-          <p className="trait-content">
-            {traits.whatYouNaturallyTuneInto} {traits.howYouLearnBest} {traits.whatProgressMeansToYou}
-          </p>
-        </div>
+        </TraitSectionWithCombo>
       </div>
       <FeedbackStyleTable
         combination={combination}

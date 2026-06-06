@@ -262,3 +262,7 @@ export const OVERALL_ARCHETYPES: Record<ArchetypeKey, OverallArchetype> = {
     quote: 'I choose.',
   },
 }
+
+export function archetypeNameForCombo (comboLabel: string): string {
+  return OVERALL_ARCHETYPES[comboLabel]?.archetype ?? comboLabel
+}

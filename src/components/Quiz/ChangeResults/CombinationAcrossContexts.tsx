@@ -1,20 +1,12 @@
 import type { CSSProperties } from 'react'
 import type { ContextComboRow } from './changeResultsLogic'
-import { contextComboLabelForSectionTitle } from './contextComboLabels'
+import { ChangeResultsComboCell } from './ChangeResultsComboCell'
 import { sectionContextForTitle } from '../sectionContext'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faDiamond, faHeart, faSquare } from '@fortawesome/free-solid-svg-icons'
-import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 import { CONTEXT_BACKGROUND, ContextCardArt, contextIdForTitle } from '../ContextArt'
+import { sectionNavIdForTitle } from '../sectionNavIds'
 import { scrollToSection } from '../Sidebar/Navigation/NavSection'
 import '../SectionResults/SectionCard.css'
 import './ChangeResults.css'
-
-function sectionNavIdForTitle (title: string): string | undefined {
-  const id = contextIdForTitle(title)
-  if (id == null) return undefined
-  return title.trim().toLowerCase().replace(/\s+/g, '-')
-}
 
 interface SectionForResume {
   id: number
@@ -28,17 +20,6 @@ interface CombinationAcrossContextsProps {
   /** Opens resume confirmation (parent owns modal + navigation). */
   onRequestResume?: (sectionId: number) => void
   showResumeButton?: boolean
-}
-
-function centreIcon(centre: ContextComboRow['centres'][number]): { icon: IconDefinition; className: string } {
-  switch (centre) {
-    case 'Head':
-      return { icon: faDiamond, className: 'change-results-centre-icon change-results-centre-icon--head' }
-    case 'Heart':
-      return { icon: faHeart, className: 'change-results-centre-icon change-results-centre-icon--heart' }
-    case 'Gut':
-      return { icon: faSquare, className: 'change-results-centre-icon change-results-centre-icon--gut' }
-  }
 }
 
 export function CombinationAcrossContexts ({
@@ -93,13 +74,15 @@ export function CombinationAcrossContexts ({
                   <p className="section-card-contexts">{contextLine}</p>
                 )}
               </dt>
-              <dd className="change-results-combo-dd">
-                <div className="change-results-combo-side">
-                  {row.incomplete ? (
+              <ChangeResultsComboCell
+                comboLabel={row.rawLabel}
+                scrollTargetId={sectionNavId}
+                scrollTargetLabel={row.title}
+                incomplete={row.incomplete}
+                incompleteContent={
+                  row.incomplete ? (
                     <>
-                      <p className="change-results-incomplete-copy">
-                        
-                      </p>
+                      <p className="change-results-incomplete-copy" />
                       {canResume && (
                         <button
                           type="button"
@@ -114,21 +97,9 @@ export function CombinationAcrossContexts ({
                         </button>
                       )}
                     </>
-                  ) : (
-                    <>
-                      <div className="change-results-centres" aria-label={row.rawLabel}>
-                        {row.centres.map((c) => {
-                          const cfg = centreIcon(c)
-                          return <FontAwesomeIcon key={c} icon={cfg.icon} className={cfg.className} />
-                        })}
-                      </div>
-                      <span className="change-results-context-combo-label">
-                        {contextComboLabelForSectionTitle(row.title, row.rawLabel)}
-                      </span>
-                    </>
-                  )}
-                </div>
-              </dd>
+                  ) : undefined
+                }
+              />
             </div>
           )
         })}

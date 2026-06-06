@@ -1,8 +1,9 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleCheck, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons'
 import { PressureProfileTable, getPressureProfileForScores } from '../Tables/PressureProfileTable.tsx'
-import { contextComboLabel } from '../../ChangeResults/contextComboLabels'
+import { archetypeNameForCombo } from '../../overallArchetypes'
 import { getBalanceTipBadge, getBrainCombination, getBrainCombinationKey, getBrainIcons } from '../utils.tsx'
+import { TraitSectionWithCombo } from '../TraitSectionWithCombo'
 import '../SectionResults.css'
 
 interface UnderPressureProps {
@@ -278,19 +279,25 @@ export const UnderPressure = ({ headPercent, heartPercent, gutPercent }: UnderPr
         </div>
       )} */}
       <div className="intro-grid">
-        <div className="trait-section">
-          <div className="trait-section-header">
-            <div className="trait-section-title-row">
-              <h4 className="trait-section-title">{contextComboLabel('underPressure', combo.label)}</h4>
-              <span className="brain-icon-badge brain-icon-badge--inline" aria-label="Brain combination icons">
-                {getBrainIcons(combo.label)}
-              </span>
+        <TraitSectionWithCombo
+          comboLabel={combo.label}
+          scrollTargetId="under-pressure"
+          scrollTargetLabel="Under Pressure"
+        >
+          <div className="trait-section">
+            <div className="trait-section-header">
+              <div className="trait-section-title-row">
+                <span className="brains-page__toc-archetype">{archetypeNameForCombo(combo.label)}</span>
+                <span className="brain-icon-badge brain-icon-badge--inline" aria-label="Brain combination icons">
+                  {getBrainIcons(combo.label)}
+                </span>
+              </div>
             </div>
+            <p className="trait-content">
+              {traits.whoYouAre} {traits.howYouReact}
+            </p>
           </div>
-          <p className="trait-content">
-            {traits.whoYouAre} {traits.howYouReact}
-          </p>
-        </div>
+        </TraitSectionWithCombo>
       </div>
       <PressureProfileTable
         profile={pressureProfile}

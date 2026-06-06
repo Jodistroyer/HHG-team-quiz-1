@@ -1,4 +1,6 @@
 /* Section Traits Styles - match quiz boxes (16px radius, 3px border, 30px padding) */
+@import '../../Brains/Brains.css';
+
 .under-pressure-content,
 .getting-better-content,
 .doing-work-content {
@@ -101,8 +103,49 @@
 }
 
 /* Single combined intro: one column worth of content spanning the grid */
+.intro-grid > .trait-section-row:only-child,
 .intro-grid > .trait-section:only-child {
   grid-column: 1 / -1;
+}
+
+.trait-section-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  min-width: 0;
+  --trait-section-toc-scale: 1.2;
+}
+
+.trait-section-row .trait-section {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding-left: 0;
+}
+
+.trait-section-row .brains-page__toc-cell {
+  flex: 0 0 auto;
+  align-self: flex-start;
+  width: calc(((36rem - 1rem) / 3) * var(--trait-section-toc-scale));
+}
+
+.trait-section-row .brains-page__toc-link {
+  padding: calc(0.65rem * var(--trait-section-toc-scale)) calc(0.75rem * var(--trait-section-toc-scale));
+  gap: calc(0.35rem * var(--trait-section-toc-scale));
+}
+
+.trait-section-row .brains-page__toc-archetype {
+  font-size: calc(0.8125rem * var(--trait-section-toc-scale));
+}
+
+.team-context-insight__trait-section-row {
+  align-items: center;
+  margin-bottom: 0.35rem;
+}
+
+.team-context-insight__trait-section-row .trait-section-header {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding-bottom: 0;
 }
 
 .getting-better-content .intro-grid-three {
@@ -115,12 +158,9 @@
   min-width: 0;
 }
 
-.trait-section-title {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 1.35rem;
-  font-weight: 700;
-  color: var(--section-context-color, #7d3dbd);
-  margin: 0 0 0.5rem 0;
+.trait-section-header .trait-section-title-row .brains-page__toc-archetype {
+  font-size: calc(0.8125rem * var(--trait-section-toc-scale, 1.35));
+  margin: 0;
 }
 
 .trait-section-header {
@@ -136,10 +176,6 @@
   align-items: center;
   gap: 0.5rem;
   min-width: 0;
-}
-
-.trait-section-header .trait-section-title {
-  margin: 0;
 }
 
 .trait-section-badges {
@@ -679,8 +715,8 @@
     margin-bottom: 1.5rem;
   }
   
-  .trait-section-title {
-    font-size: 1rem;
+  .trait-section-header .trait-section-title-row .brains-page__toc-archetype {
+    font-size: calc(0.8125rem * var(--trait-section-toc-scale, 1));
   }
   
   .trait-content,
@@ -719,8 +755,8 @@
     font-size: 0.85rem;
   }
 
-  .trait-section-title {
-    font-size: 0.9rem;
+  .trait-section-header .trait-section-title-row .brains-page__toc-archetype {
+    font-size: calc(0.8125rem * var(--trait-section-toc-scale, 0.95));
   }
 
   .trait-content,

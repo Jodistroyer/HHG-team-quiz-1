@@ -39,6 +39,10 @@
   padding-bottom: 10px;
 }
 
+.team-context-insight__trait-section-row .team-context-insight__trait-header.trait-section-header {
+  padding-bottom: 0;
+}
+
 .team-context-insight__headline-block .team-map-results__context-card-insight-title {
   margin: 0;
 }

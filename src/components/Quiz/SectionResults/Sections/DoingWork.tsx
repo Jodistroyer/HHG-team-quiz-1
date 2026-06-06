@@ -1,8 +1,9 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleCheck, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons'
 import { WorkStyleTable, getWorkStyleForScores } from '../Tables/WorkStyleTable.tsx'
-import { contextComboLabel } from '../../ChangeResults/contextComboLabels'
+import { archetypeNameForCombo } from '../../overallArchetypes'
 import { getBalanceTipBadge, getBrainCombination, getBrainCombinationKey, getBrainIcons } from '../utils.tsx'
+import { TraitSectionWithCombo } from '../TraitSectionWithCombo'
 import '../SectionResults.css'
 
 interface DoingWorkProps {
@@ -267,19 +268,25 @@ export const DoingWork = ({ headPercent, heartPercent, gutPercent }: DoingWorkPr
         </div>
       )} */}
       <div className="intro-grid">
-        <div className="trait-section">
-          <div className="trait-section-header">
-            <div className="trait-section-title-row">
-              <h4 className="trait-section-title">{contextComboLabel('doingWork', combo.label)}</h4>
-              <span className="brain-icon-badge brain-icon-badge--inline" aria-label="Brain combination icons">
-                {getBrainIcons(combo.label)}
-              </span>
+        <TraitSectionWithCombo
+          comboLabel={combo.label}
+          scrollTargetId="doing-work"
+          scrollTargetLabel="Doing Work"
+        >
+          <div className="trait-section">
+            <div className="trait-section-header">
+              <div className="trait-section-title-row">
+                <span className="brains-page__toc-archetype">{archetypeNameForCombo(combo.label)}</span>
+                <span className="brain-icon-badge brain-icon-badge--inline" aria-label="Brain combination icons">
+                  {getBrainIcons(combo.label)}
+                </span>
+              </div>
             </div>
+            <p className="trait-content">
+              {traits.whoYouAre} {traits.yourWorkStyle}
+            </p>
           </div>
-          <p className="trait-content">
-            {traits.whoYouAre} {traits.yourWorkStyle}
-          </p>
-        </div>
+        </TraitSectionWithCombo>
       </div>
       <WorkStyleTable
         profile={executionPattern}

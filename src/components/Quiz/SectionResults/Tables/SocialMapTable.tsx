@@ -1,4 +1,3 @@
-import { faMap } from '@fortawesome/free-solid-svg-icons'
 import type { ProfileTableRow } from '../ProfileTable/ProfileTable.tsx'
 import { ProfileTable } from '../ProfileTable/ProfileTable.tsx'
 import { getBrainCombinationKey } from '../utils.tsx'
@@ -175,6 +174,6 @@ export const SocialMapTable = ({ profile, balanceTip, balanceTipBadge }: SocialM
     })
   }
 
-  return <ProfileTable title="Social Map" icon={faMap} rows={rows} />
+  return <ProfileTable title="Social Map" rows={rows} />
 }
 

@@ -1,4 +1,3 @@
-import { faFireFlameCurved } from '@fortawesome/free-solid-svg-icons'
 import type { ProfileTableRow } from '../ProfileTable/ProfileTable.tsx'
 import { ProfileTable } from '../ProfileTable/ProfileTable.tsx'
 import { getBrainCombinationKey } from '../utils.tsx'
@@ -128,6 +127,6 @@ export const WorkStyleTable = ({ profile, balanceTip, balanceTipBadge }: WorkSty
     })
   }
 
-  return <ProfileTable title="Work Style" icon={faFireFlameCurved} rows={rows} />
+  return <ProfileTable title="Work Style" rows={rows} />
 }
 

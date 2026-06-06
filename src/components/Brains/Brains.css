@@ -94,6 +94,40 @@
   margin: 0 auto 0.2rem;
 }
 
+/* One column from `.brains-page__toc-matrix` — reuse outside the Brains page. */
+.brains-page__toc-cell {
+  width: calc((36rem - 1rem) / 3);
+  flex-shrink: 0;
+}
+
+.brains-page__toc-cell > .brains-page__toc-link {
+  width: 100%;
+}
+
+button.brains-page__toc-link {
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.brains-page__toc-link--static {
+  cursor: default;
+  transform: none;
+}
+
+.brains-page__toc-link--static:hover,
+.brains-page__toc-link--static:focus-visible {
+  transform: none;
+  outline: none;
+}
+
+.brains-page__toc-link--art-only {
+  gap: 0;
+}
+
+.brains-page__toc-link--art-only .archetype-part__art {
+  margin-bottom: 0;
+}
+
 .brains-page__toc-spacer {
   min-height: 0;
   pointer-events: none;
@@ -286,6 +320,10 @@
   .brains-page__toc-link {
     padding: 0.35rem 0.2rem;
     gap: 0.2rem;
+  }
+
+  .brains-page__toc-cell {
+    width: calc((min(100vw - 1rem, 36rem) - 0.5rem) / 3);
   }
 
   .brains-page__toc-archetype {

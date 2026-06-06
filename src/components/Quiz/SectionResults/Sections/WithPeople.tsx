@@ -1,8 +1,9 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleCheck, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons'
 import { SocialMapTable, getSocialMapForScores } from '../Tables/SocialMapTable.tsx'
-import { contextComboLabel } from '../../ChangeResults/contextComboLabels'
+import { archetypeNameForCombo } from '../../overallArchetypes'
 import { getBalanceTipBadge, getBrainCombination, getBrainCombinationKey, getBrainIcons } from '../utils.tsx'
+import { TraitSectionWithCombo } from '../TraitSectionWithCombo'
 import '../SectionResults.css'
 
 interface WithPeopleProps {
@@ -354,19 +355,25 @@ export const WithPeople = ({ headPercent, heartPercent, gutPercent }: WithPeople
       )} */}
       {/* Profile: who you are, interaction style, core need; vertical purple line like Doing Work */}
       <div className="intro-grid intro-grid-three">
-        <div className="trait-section">
-          <div className="trait-section-header">
-            <div className="trait-section-title-row">
-              <h4 className="trait-section-title">{contextComboLabel('withPeople', combo.label)}</h4>
-              <span className="brain-icon-badge brain-icon-badge--inline" aria-label="Brain combination icons">
-                {getBrainIcons(combo.label)}
-              </span>
+        <TraitSectionWithCombo
+          comboLabel={combo.label}
+          scrollTargetId="with-people"
+          scrollTargetLabel="With People"
+        >
+          <div className="trait-section">
+            <div className="trait-section-header">
+              <div className="trait-section-title-row">
+                <span className="brains-page__toc-archetype">{archetypeNameForCombo(combo.label)}</span>
+                <span className="brain-icon-badge brain-icon-badge--inline" aria-label="Brain combination icons">
+                  {getBrainIcons(combo.label)}
+                </span>
+              </div>
             </div>
+            <p className="trait-content">
+              {traits.whoYouAre} {traits.interactionStyle} {traits.coreNeed}
+            </p>
           </div>
-          <p className="trait-content">
-            {traits.whoYouAre} {traits.interactionStyle} {traits.coreNeed}
-          </p>
-        </div>
+        </TraitSectionWithCombo>
       </div>
       <SocialMapTable
         profile={socialMap}

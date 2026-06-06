@@ -41,7 +41,7 @@ const PDF_EXPORT_CSS = `
 .pdf-export-view .section-archetype-block::before{display:none!important}
 .pdf-export-view .section-archetype-block{overflow:visible!important}
 .pdf-export-view .section-archetype-name,.pdf-export-view .section-archetype-description,.pdf-export-view .section-archetype-quote{position:static!important;display:block!important;overflow:visible!important}
-.pdf-export-view .section-card-top__text,.pdf-export-view .section-card-top__text .section-header-content h4,.pdf-export-view .section-card-top__text .section-title-icon{color:var(--section-context-color,#7d3dbd)!important}
+.pdf-export-view .section-card-top__text,.pdf-export-view .section-card-top__text .section-header-content h4{color:var(--section-context-color,#7d3dbd)!important}
 .pdf-export-view .section-card-context{color:#64748b!important;font-family:'Montserrat',sans-serif!important;font-size:0.9375rem!important;font-weight:500!important;line-height:1.6!important;max-width:52ch!important;margin:0!important;padding:0!important;letter-spacing:0.01em!important}
 .pdf-export-view table{table-layout:fixed;width:100%}
 .pdf-export-view th,.pdf-export-view td{word-wrap:break-word;overflow-wrap:break-word;white-space:normal!important;overflow:visible}

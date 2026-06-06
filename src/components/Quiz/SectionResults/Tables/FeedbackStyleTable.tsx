@@ -1,4 +1,3 @@
-import { faComments } from '@fortawesome/free-solid-svg-icons'
 import type { ProfileTableRow } from '../ProfileTable/ProfileTable.tsx'
 import { ProfileTable } from '../ProfileTable/ProfileTable.tsx'
 
@@ -144,7 +143,6 @@ export const FeedbackStyleTable = ({
   return (
     <ProfileTable
       title="Feedback Style"
-      icon={faComments}
       rows={rows}
       collapsedRowLimit={collapsedRowLimit}
     />

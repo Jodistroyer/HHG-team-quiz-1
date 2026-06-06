@@ -1,4 +1,3 @@
-import { faUserTie } from '@fortawesome/free-solid-svg-icons'
 import type { ProfileTableRow } from '../ProfileTable/ProfileTable.tsx'
 import { ProfileTable } from '../ProfileTable/ProfileTable.tsx'
 import { getBrainCombinationKey } from '../utils.tsx'
@@ -199,6 +198,6 @@ export const PressureProfileTable = ({ profile, balanceTip, balanceTipBadge }: P
     })
   }
 
-  return <ProfileTable title="Pressure Profile" icon={faUserTie} rows={rows} />
+  return <ProfileTable title="Pressure Profile" rows={rows} />
 }
 

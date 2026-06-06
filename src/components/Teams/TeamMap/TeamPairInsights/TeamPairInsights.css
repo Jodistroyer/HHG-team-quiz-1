@@ -150,10 +150,11 @@
 }
 
 .team-pair-insights__pair-change-card.change-results-card {
-  /* Context first column; two user columns share width and sit next to each other. */
-  --pair-change-side: 11.5rem;
+  --change-results-toc-scale: 1.2;
+  --change-results-combo-nudge: 2.25rem;
+  --pair-change-side: calc(((36rem - 1rem) / 3) * var(--change-results-toc-scale));
   --pair-change-gutter: 0.85rem;
-  padding: 22px clamp(1.25rem, 4vw, 2.25rem) 20px;
+  padding: 22px clamp(1rem, 3vw, 1.5rem) 20px;
   border-color: #d7e0ea;
   border-radius: 20px;
   box-shadow: 0 16px 36px rgba(15, 23, 42, 0.06);
@@ -164,7 +165,10 @@
 
 .team-pair-insights__pair-change-columns {
   display: grid;
-  grid-template-columns: minmax(12.5rem, 1.5fr) var(--pair-change-side) var(--pair-change-side);
+  grid-template-columns:
+    minmax(12.5rem, 1.5fr)
+    minmax(var(--pair-change-side), 1.2fr)
+    minmax(var(--pair-change-side), 1.8fr);
   gap: 12px var(--pair-change-gutter);
   align-items: end;
   padding: 0 0 14px;
@@ -196,14 +200,17 @@
 
 .team-pair-insights__pair-change-column-heading--left,
 .team-pair-insights__pair-change-column-heading--right {
-  text-align: center;
+  text-align: right;
 }
 
 /* Long names: .team-pair-insights__name-truncate on left/right heading spans */
 
 .team-pair-insights__pair-change-row {
   display: grid;
-  grid-template-columns: minmax(12.5rem, 1.5fr) var(--pair-change-side) var(--pair-change-side);
+  grid-template-columns:
+    minmax(12.5rem, 1.5fr)
+    minmax(var(--pair-change-side), 1.2fr)
+    minmax(var(--pair-change-side), 1.8fr);
   grid-template-areas: 'context left right';
   gap: 14px var(--pair-change-gutter);
   align-items: start;
@@ -212,30 +219,9 @@
   border-bottom: 1px solid #e8edf3;
 }
 
-.team-pair-insights__pair-change-side {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
-  box-sizing: border-box;
-}
-
 .team-pair-insights__pair-change-incomplete.change-results-incomplete-copy {
   text-align: center;
   max-width: 12rem;
-}
-
-.team-pair-insights__pair-change-dd .change-results-centres {
-  display: flex;
-  width: 100%;
-  min-width: 0;
-  gap: 12px;
-  justify-content: center;
-  flex-wrap: nowrap;
 }
 
 .team-pair-insights__pair-change-row:last-child {
@@ -243,23 +229,16 @@
   padding-bottom: 0;
 }
 
-.team-pair-insights__pair-change-dd {
-  margin: 0;
-  min-width: 0;
-  width: 100%;
-  max-width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.team-pair-insights__pair-change-dd--left {
+.team-pair-insights__pair-change-cell--left {
   grid-area: left;
+  justify-self: end;
+  margin-right: calc(-0.35 * var(--change-results-combo-nudge, 0px));
 }
 
-.team-pair-insights__pair-change-dd--right {
+.team-pair-insights__pair-change-cell--right {
   grid-area: right;
+  justify-self: end;
+  margin-right: calc(-1 * var(--change-results-combo-nudge, 0px));
 }
 
 .team-pair-insights__pair-change-dt {
@@ -328,19 +307,6 @@
 
 .team-pair-insights__pair-change-dt .change-results-context-title {
   text-align: left;
-}
-
-.team-pair-insights__pair-change-label-under-icons {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 0.82rem;
-  font-weight: 700;
-  line-height: 1.35;
-  color: #334155;
-  text-align: center;
-  white-space: nowrap;
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
 }
 
 .team-pair-insights__radar-col {
@@ -544,8 +510,19 @@
   padding-bottom: 0;
 }
 
-.team-pair-insights__pair-trait-section-header .trait-section-title {
-  font-size: 1.05rem;
+.team-pair-insights__pair-trait-section-row {
+  align-items: flex-start;
+  gap: 0.65rem;
+  --trait-section-toc-scale: 1;
+}
+
+.team-pair-insights__pair-trait-section-row .trait-section-header {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.team-pair-insights__pair-trait-section-header .trait-section-title-row .brains-page__toc-archetype {
+  font-size: calc(0.8125rem * var(--trait-section-toc-scale, 1.05));
   line-height: 1.25;
   margin: 0;
 }
@@ -755,15 +732,9 @@
     grid-area: right;
   }
 
-  .team-pair-insights__pair-change-dd--left,
-  .team-pair-insights__pair-change-dd--right {
+  .team-pair-insights__pair-change-cell--left,
+  .team-pair-insights__pair-change-cell--right {
     padding-top: 2px;
-    align-items: center;
-  }
-
-  .team-pair-insights__pair-change-label-under-icons {
-    font-size: 0.7rem;
-    letter-spacing: -0.02em;
   }
 
   .team-pair-insights__pair-change-context.section-card-contexts {

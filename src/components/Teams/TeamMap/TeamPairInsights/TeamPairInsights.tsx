@@ -3,12 +3,10 @@ import type { Person, TeamContextKey, TeamContextScores } from '../../PeoplePane
 import { getBrainCombination, getBalanceTipBadge, getBrainIcons } from '../../../Quiz/SectionResults/utils.tsx'
 import { getBrainCombinationKey } from '../../../Quiz/SectionResults/utils.tsx'
 import { OVERALL_ARCHETYPES } from '../../../Quiz/overallArchetypes'
-import type { Centre } from '../../../Quiz/ChangeResults/changeResultsLogic'
 import type { Insight } from '../../../Quiz/ChangeResults/changeResultsLogic'
-import { parseCentres } from '../../../Quiz/ChangeResults/changeResultsLogic'
 import { contextComboLabel, type SituationalContextKey } from '../../../Quiz/ChangeResults/contextComboLabels'
+import { archetypeNameForCombo } from '../../../Quiz/overallArchetypes'
 import { sectionContextForTitle } from '../../../Quiz/sectionContext'
-import { SECTION_ICONS } from '../../../Quiz/SectionResults/utils.tsx'
 import { SECTION_CONTEXT_BY_ID } from '../../../Quiz/sectionContext'
 import { CONTEXT_BACKGROUND, ContextCardArt, contextIdForTitle, type QuizSelectedContextId } from '../../../Quiz/ContextArt'
 import { getUnderPressureBalanceTipInfo } from '../../../Quiz/SectionResults/Sections/UnderPressure'
@@ -27,6 +25,8 @@ import { NaturalDefaultArchetypeParts } from '../../../Quiz/NaturalDefaultArchet
 import { PAIR_OVERALL_PARTS } from './pairOverallArchetypes'
 import { getPairContextInsight } from './pairContextInsight'
 // import { WhatStandsOut } from '../../../Quiz/ChangeResults/WhatStandsOut'
+import { ChangeResultsComboCell } from '../../../Quiz/ChangeResults/ChangeResultsComboCell'
+import { sectionNavIdForTitle, SITUATIONAL_CONTEXT_NAV_ID, SITUATIONAL_CONTEXT_TITLE } from '../../../Quiz/sectionNavIds'
 import { TreemapChart } from '../../../Quiz/TreemapResults/TreemapChart'
 // import { buildPairWhatStandsOutFromPeople } from './pairWhatStandsOut'
 import { PairAnswerResults } from './PairAnswerResults'
@@ -34,18 +34,7 @@ import { Sidebar } from '../../../Quiz/Sidebar/Sidebar'
 import { buildQuizResultsPropsFromPerson } from '../../personQuizResultExport'
 import { getSituationalContextScores } from '../../contextHhgScores'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
-import {
-  faChevronDown,
-  faChevronUp,
-  faComments,
-  faDiamond,
-  faFireFlameCurved,
-  faHeart,
-  faMap,
-  faSquare,
-  faUserTie,
-} from '@fortawesome/free-solid-svg-icons'
+import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
 import '../../../Quiz/ChangeResults/ChangeResults.css'
 import '../../../Quiz/RadarResults/OverallRadar.css'
 import '../../../Quiz/QuizResults.css'
@@ -99,29 +88,6 @@ function averageScores (a: TeamContextScores, b: TeamContextScores): TeamContext
 
 function isEmptyContextScores (s: TeamContextScores): boolean {
   return s.headPercent === 0 && s.heartPercent === 0 && s.gutPercent === 0
-}
-
-function centreIcon (centre: Centre): { icon: IconDefinition; className: string } {
-  switch (centre) {
-    case 'Head':
-      return { icon: faDiamond, className: 'change-results-centre-icon change-results-centre-icon--head' }
-    case 'Heart':
-      return { icon: faHeart, className: 'change-results-centre-icon change-results-centre-icon--heart' }
-    case 'Gut':
-      return { icon: faSquare, className: 'change-results-centre-icon change-results-centre-icon--gut' }
-  }
-}
-
-function ComboIcons ({ label }: { label: string }) {
-  const centres = parseCentres(label)
-  return (
-    <div className="change-results-centres" aria-label={label}>
-      {centres.map((c) => {
-        const cfg = centreIcon(c)
-        return <FontAwesomeIcon key={c} icon={cfg.icon} className={cfg.className} />
-      })}
-    </div>
-  )
 }
 
 function personHasContextData (person: Person, ctx: PairContextKey): boolean {
@@ -181,6 +147,7 @@ function PairAcrossContextsCard ({ people, insights }: { people: [Person, Person
               const contextLine = sectionContextForTitle(row.title)
               const artId = contextIdForTitle(row.title)
               const contextColor = artId != null ? CONTEXT_BACKGROUND[artId] : null
+              const sectionNavId = sectionNavIdForTitle(row.title)
               return (
               <div key={row.title} className="team-pair-insights__pair-change-row">
                 <dt className="team-pair-insights__pair-change-dt">
@@ -210,35 +177,31 @@ function PairAcrossContextsCard ({ people, insights }: { people: [Person, Person
                   </div>
                 </dt>
 
-                <dd className="change-results-combo-dd team-pair-insights__pair-change-dd team-pair-insights__pair-change-dd--left">
-                  <div className="team-pair-insights__pair-change-side">
-                    {row.hasA && row.ca != null ? (
-                      <>
-                        <ComboIcons label={row.ca} />
-                        <span className="team-pair-insights__pair-change-label-under-icons">{row.aLabel}</span>
-                      </>
-                    ) : (
-                      <p className="change-results-incomplete-copy team-pair-insights__pair-change-incomplete">
-                        {row.aLabel}
-                      </p>
-                    )}
-                  </div>
-                </dd>
+                <ChangeResultsComboCell
+                  comboLabel={row.ca ?? undefined}
+                  scrollTargetId={sectionNavId}
+                  scrollTargetLabel={row.title}
+                  incomplete={!row.hasA || row.ca == null}
+                  incompleteContent={
+                    <p className="change-results-incomplete-copy team-pair-insights__pair-change-incomplete">
+                      {row.aLabel}
+                    </p>
+                  }
+                  className="team-pair-insights__pair-change-cell team-pair-insights__pair-change-cell--left"
+                />
 
-                <dd className="change-results-combo-dd team-pair-insights__pair-change-dd team-pair-insights__pair-change-dd--right">
-                  <div className="team-pair-insights__pair-change-side">
-                    {row.hasB && row.cb != null ? (
-                      <>
-                        <ComboIcons label={row.cb} />
-                        <span className="team-pair-insights__pair-change-label-under-icons">{row.bLabel}</span>
-                      </>
-                    ) : (
-                      <p className="change-results-incomplete-copy team-pair-insights__pair-change-incomplete">
-                        {row.bLabel}
-                      </p>
-                    )}
-                  </div>
-                </dd>
+                <ChangeResultsComboCell
+                  comboLabel={row.cb ?? undefined}
+                  scrollTargetId={sectionNavId}
+                  scrollTargetLabel={row.title}
+                  incomplete={!row.hasB || row.cb == null}
+                  incompleteContent={
+                    <p className="change-results-incomplete-copy team-pair-insights__pair-change-incomplete">
+                      {row.bLabel}
+                    </p>
+                  }
+                  className="team-pair-insights__pair-change-cell team-pair-insights__pair-change-cell--right"
+                />
               </div>
               )
             })}
@@ -272,22 +235,35 @@ function PairPersonTraitHeader ({
   incomplete: boolean
   combo: BrainCombo | null
 }) {
-  const contextLabel =
-    incomplete || !combo ? CONTEXT_NOT_DONE_LABEL : contextComboLabel(situationalKey, combo.label)
+  const traitTitle =
+    incomplete || !combo ? CONTEXT_NOT_DONE_LABEL : archetypeNameForCombo(combo.label)
+
+  const scrollTargetId = SITUATIONAL_CONTEXT_NAV_ID[situationalKey]
+  const scrollTargetLabel = SITUATIONAL_CONTEXT_TITLE[situationalKey]
 
   return (
     <div className="team-pair-insights__pair-trait-person">
       <span className="team-pair-insights__pair-trait-person-name team-pair-insights__name-truncate" title={personTitle}>
         {personLabel}
       </span>
-      <div className="trait-section-header team-pair-insights__pair-trait-section-header">
-        <div className="trait-section-title-row">
-          <h4 className="trait-section-title">{contextLabel}</h4>
-          {!incomplete && combo ? (
-            <span className="brain-icon-badge brain-icon-badge--inline" aria-label={`${personTitle} brain combination icons`}>
-              {getBrainIcons(combo.label, 'small', 'changeResults')}
-            </span>
-          ) : null}
+      <div className="trait-section-row team-pair-insights__pair-trait-section-row">
+        {!incomplete && combo ? (
+          <ChangeResultsComboCell
+            comboLabel={combo.label}
+            scrollTargetId={scrollTargetId}
+            scrollTargetLabel={scrollTargetLabel}
+            hideArchetypeLabel
+          />
+        ) : null}
+        <div className="trait-section-header team-pair-insights__pair-trait-section-header">
+          <div className="trait-section-title-row">
+            <span className="brains-page__toc-archetype">{traitTitle}</span>
+            {!incomplete && combo ? (
+              <span className="brain-icon-badge brain-icon-badge--inline" aria-label={`${personTitle} brain combination icons`}>
+                {getBrainIcons(combo.label, 'small', 'changeResults')}
+              </span>
+            ) : null}
+          </div>
         </div>
       </div>
     </div>
@@ -299,7 +275,6 @@ const DEFAULT_PAIR_COLLAPSED_ROW_LIMIT = 4
 
 function PairProfileTable ({
   title,
-  icon,
   aHeader,
   bHeader,
   rows,
@@ -307,7 +282,6 @@ function PairProfileTable ({
   collapsedRowLimit,
 }: {
   title: string
-  icon: IconDefinition
   aHeader: { label: string; title: string }
   bHeader: { label: string; title: string }
   rows: PairProfileTableRow[]
@@ -329,10 +303,7 @@ function PairProfileTable ({
 
   return (
     <div className={wrapperClass}>
-      <h4 className="profile-table-title">
-        <span className="profile-table-icon"><FontAwesomeIcon icon={icon} /></span>
-        {title}
-      </h4>
+      <h4 className="profile-table-title">{title}</h4>
       <table className="profile-table profile-table--pair">
         <thead>
           <tr>
@@ -686,11 +657,6 @@ function PairContextSectionCard ({
         <div className="section-card-top__text">
           <div className="section-card-header">
             <div className="section-header-content">
-              {SECTION_ICONS[sectionId] && (
-                <span className="section-title-icon" aria-hidden="true">
-                  <FontAwesomeIcon icon={SECTION_ICONS[sectionId]} />
-                </span>
-              )}
               <h4>{sectionTitle}</h4>
             </div>
           </div>
@@ -721,7 +687,6 @@ function PairContextSectionCard ({
         {sectionId === 1 && pressureRows.length > 0 && (
           <PairProfileTable
             title="Pressure Profile"
-            icon={faUserTie}
             aHeader={aHeader}
             bHeader={bHeader}
             rows={rowsWithCombo(pressureRows)}
@@ -729,13 +694,12 @@ function PairContextSectionCard ({
         )}
 
         {sectionId === 2 && workRows.length > 0 && (
-          <PairProfileTable title="Work Style" icon={faFireFlameCurved} aHeader={aHeader} bHeader={bHeader} rows={rowsWithCombo(workRows)} />
+          <PairProfileTable title="Work Style" aHeader={aHeader} bHeader={bHeader} rows={rowsWithCombo(workRows)} />
         )}
 
         {sectionId === 3 && socialRows.length > 0 && (
           <PairProfileTable
             title="Social Map"
-            icon={faMap}
             aHeader={aHeader}
             bHeader={bHeader}
             rows={rowsWithCombo(socialRows)}
@@ -746,7 +710,6 @@ function PairContextSectionCard ({
         {sectionId === 4 && feedbackRows.length > 0 && (
           <PairProfileTable
             title="Feedback Style"
-            icon={faComments}
             aHeader={aHeader}
             bHeader={bHeader}
             rows={rowsWithCombo(feedbackRows)}
