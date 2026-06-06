@@ -108,7 +108,7 @@ const PDF_EXPORT_CSS = `
 .pdf-export-view .team-map-results__context-card-body{padding:0 1.25rem 1.25rem!important}
 .pdf-export-view .team-map-results__context-card .change-results-incomplete-copy{margin:0 1.25rem 1.25rem!important}
 /* Your answers by section: match on-screen AnswerResults (Montserrat) */
-.pdf-export-view .answer-results,.pdf-export-view .answer-results-title,.pdf-export-view .answer-results-section,.pdf-export-view .answer-results-section-title,.pdf-export-view .answer-results-section-header,.pdf-export-view .answer-results-table,.pdf-export-view .answer-results-table th,.pdf-export-view .answer-results-table td,.pdf-export-view .answer-results-combo-badge,.pdf-export-view .answer-results-question,.pdf-export-view .answer-results-choice{font-family:'Montserrat',sans-serif!important;-webkit-font-smoothing:antialiased!important}
+.pdf-export-view .answer-results,.pdf-export-view .answer-results-title,.pdf-export-view .answer-results-section,.pdf-export-view .answer-results-section-title,.pdf-export-view .answer-results-section-header,.pdf-export-view .answer-results-table,.pdf-export-view .answer-results-table th,.pdf-export-view .answer-results-table td,.pdf-export-view .answer-results-combo-icons,.pdf-export-view .answer-results-question,.pdf-export-view .answer-results-choice{font-family:'Montserrat',sans-serif!important;-webkit-font-smoothing:antialiased!important}
 `
 
 /**

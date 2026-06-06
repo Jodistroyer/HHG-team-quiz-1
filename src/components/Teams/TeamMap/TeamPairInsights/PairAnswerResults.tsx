@@ -1,9 +1,8 @@
-import type { CSSProperties } from 'react'
 import type { Person } from '../../PeoplePanel/types'
 import type { QuizAnswer, QuizAnswerType, QuizQuestion, QuizSection } from '../../../Quiz/quizSections'
 import { QUIZ_SECTIONS } from '../../../Quiz/quizSections'
 import { calculateSectionScoresDetailed } from '../../../Quiz/quizScoring'
-import { getBrainCombination } from '../../../Quiz/SectionResults/utils.tsx'
+import { getBrainCombination, getBrainIcons } from '../../../Quiz/SectionResults/utils.tsx'
 import '../../../Quiz/AnswerResults/AnswerResults.css'
 import './PairAnswerResults.css'
 
@@ -20,19 +19,7 @@ function sectionHasAnyAnswer (section: QuizSection, answers: Record<string, Quiz
   })
 }
 
-function comboBadgeStyle (combo: ReturnType<typeof getBrainCombination>): CSSProperties {
-  if (combo.colors.length === 1) {
-    return { background: combo.colors[0] }
-  }
-  if (combo.colors.length === 2) {
-    return { background: `linear-gradient(90deg, ${combo.colors[0]} 50%, ${combo.colors[1]} 50%)` }
-  }
-  return {
-    background: `linear-gradient(90deg, ${combo.colors[0]} 33.33%, ${combo.colors[1]} 33.33%, ${combo.colors[1]} 66.66%, ${combo.colors[2]} 66.66%)`,
-  }
-}
-
-function HeaderComboBadge ({
+function HeaderComboIcons ({
   person,
   section,
 }: {
@@ -43,20 +30,20 @@ function HeaderComboBadge ({
   const detailed = calculateSectionScoresDetailed(section.id, answers, QUIZ_SECTIONS)
   const combo = getBrainCombination(detailed.headPercent, detailed.heartPercent, detailed.gutPercent)
   const hasAnswers = sectionHasAnyAnswer(section, answers)
-  const badgeTitle = `${person.name} — ${section.title}`
+  const iconTitle = `${person.name} — ${section.title}: ${combo.label}`
 
   return (
     <div className="pair-answer-results__th-badge-wrap">
       {hasAnswers ? (
         <span
-          className="answer-results-combo-badge"
-          style={comboBadgeStyle(combo)}
-          title={badgeTitle}
+          className="answer-results-combo-icons"
+          aria-label={`Brain combination: ${combo.label}`}
+          title={iconTitle}
         >
-          {combo.label}
+          {getBrainIcons(combo.label, 'small', 'changeResults')}
         </span>
       ) : (
-        <span className="pair-answer-results__no-badge" title={badgeTitle}>
+        <span className="pair-answer-results__no-badge" title={iconTitle}>
           No answers
         </span>
       )}
@@ -103,7 +90,7 @@ function PairSectionTable ({
                   <span className="pair-answer-results__person-label" title={a.name}>
                     {shortA}
                   </span>
-                  <HeaderComboBadge person={a} section={section} />
+                  <HeaderComboIcons person={a} section={section} />
                 </div>
               </th>
               <th scope="colgroup" colSpan={2} className="pair-answer-results__th-person pair-answer-results__th-person--b">
@@ -111,7 +98,7 @@ function PairSectionTable ({
                   <span className="pair-answer-results__person-label" title={b.name}>
                     {shortB}
                   </span>
-                  <HeaderComboBadge person={b} section={section} />
+                  <HeaderComboIcons person={b} section={section} />
                 </div>
               </th>
             </tr>

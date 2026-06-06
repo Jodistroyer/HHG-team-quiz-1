@@ -286,21 +286,6 @@ export const UnderPressure = ({ headPercent, heartPercent, gutPercent }: UnderPr
                 {getBrainIcons(combo.label)}
               </span>
             </div>
-            <div className="trait-section-badges">
-              <span
-                className="brain-combo-badge"
-                style={{
-                  background:
-                    combo.colors.length === 1
-                      ? combo.colors[0]
-                      : combo.colors.length === 2
-                        ? `linear-gradient(90deg, ${combo.colors[0]} 50%, ${combo.colors[1]} 50%)`
-                        : `linear-gradient(90deg, ${combo.colors[0]} 33.33%, ${combo.colors[1]} 33.33%, ${combo.colors[1]} 66.66%, ${combo.colors[2]} 66.66%)`
-                }}
-              >
-                {combo.label}
-              </span>
-            </div>
           </div>
           <p className="trait-content">
             {traits.whoYouAre} {traits.howYouReact}

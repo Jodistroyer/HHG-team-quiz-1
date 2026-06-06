@@ -2,7 +2,7 @@ import type { CSSProperties } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChartPie } from '@fortawesome/free-solid-svg-icons'
 import { TreemapChart } from '../TreemapResults/TreemapChart'
-import { SECTION_ICONS, getBrainCombination } from '../SectionResults/utils'
+import { SECTION_ICONS, getBrainCombination, getBrainIcons } from '../SectionResults/utils'
 import { CONTEXT_BACKGROUND, type QuizSelectedContextId } from '../ContextArt'
 import './AllRadarsSection.css'
 
@@ -45,19 +45,15 @@ function RadarCardTitle ({ title, sectionId }: { title: string; sectionId?: numb
   )
 }
 
-function RadarCardBadge({ headPercent, heartPercent, gutPercent }: SectionScores) {
+function RadarCardIcons({ headPercent, heartPercent, gutPercent }: SectionScores) {
   const combo = getBrainCombination(headPercent, heartPercent, gutPercent)
-  const badgeStyle =
-    combo.colors.length === 1
-      ? { background: combo.colors[0] }
-      : combo.colors.length === 2
-        ? { background: `linear-gradient(90deg, ${combo.colors[0]} 50%, ${combo.colors[1]} 50%)` }
-        : { background: `linear-gradient(90deg, ${combo.colors[0]} 33.33%, ${combo.colors[1]} 33.33%, ${combo.colors[1]} 66.66%, ${combo.colors[2]} 66.66%)` }
   return (
-    <div className="all-radars-card-badges">
-      <div className="all-radars-brain-combo-badge" style={badgeStyle}>
-        {combo.label}
-      </div>
+    <div
+      className="all-radars-brain-combo-icons"
+      aria-label={`Brain combination: ${combo.label}`}
+      title={combo.label}
+    >
+      {getBrainIcons(combo.label, 'small', 'changeResults')}
     </div>
   )
 }
@@ -79,7 +75,7 @@ export const AllRadarsSection = ({ overall, sectionSummaries, sections }: AllRad
       <div className="all-radars-overall">
         <div className="all-radars-card all-radars-card-overall">
           <RadarCardTitle title="Overall" />
-          <RadarCardBadge headPercent={overall.headPercent} heartPercent={overall.heartPercent} gutPercent={overall.gutPercent} />
+          <RadarCardIcons headPercent={overall.headPercent} heartPercent={overall.heartPercent} gutPercent={overall.gutPercent} />
           <RadarCardDivider />
           <div className="all-radars-card-chart">
             <TreemapChart
@@ -94,7 +90,7 @@ export const AllRadarsSection = ({ overall, sectionSummaries, sections }: AllRad
         {sectionItems.map((item, i) => (
           <div key={i} className="all-radars-card" style={radarCardStyle(item.id)}>
             <RadarCardTitle title={item.title} sectionId={item.id} />
-            <RadarCardBadge headPercent={item.scores.headPercent} heartPercent={item.scores.heartPercent} gutPercent={item.scores.gutPercent} />
+            <RadarCardIcons headPercent={item.scores.headPercent} heartPercent={item.scores.heartPercent} gutPercent={item.scores.gutPercent} />
             <RadarCardDivider />
             <div className="all-radars-card-chart">
               <TreemapChart

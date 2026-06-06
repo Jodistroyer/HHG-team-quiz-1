@@ -83,30 +83,12 @@
   color: var(--section-context-color, #7d3dbd);
 }
 
-.all-radars-card-badges {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin-bottom: 12px;
-  flex-wrap: wrap;
-}
-
-.all-radars-brain-combo-badge {
-  font-family: 'Montserrat', sans-serif;
+.all-radars-brain-combo-icons {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.35rem 0.8rem;
-  border-radius: 999px;
-  border: 3px solid #fff;
-  color: #fff;
-  font-weight: 800;
-  font-size: 0.8rem;
-  letter-spacing: 0.5px;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  white-space: nowrap;
+  gap: 4px;
+  margin-bottom: 12px;
 }
 
 .all-radars-card-chart {
@@ -164,9 +146,8 @@
     margin-bottom: 8px;
   }
 
-  .all-radars-brain-combo-badge {
-    font-size: 0.7rem;
-    padding: 0.25rem 0.6rem;
+  .all-radars-brain-combo-icons svg {
+    font-size: 0.85rem;
   }
 
   /* Keep radar charts readable on mobile – same size as overall, not squished */

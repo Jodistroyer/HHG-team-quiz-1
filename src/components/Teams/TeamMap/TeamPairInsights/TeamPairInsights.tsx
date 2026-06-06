@@ -258,20 +258,6 @@ type PairProfileTableRow = {
 
 type BrainCombo = { label: string; colors: string[] }
 
-function brainComboBadgeStyle (combo: BrainCombo | null, incomplete: boolean): React.CSSProperties {
-  if (incomplete || !combo) {
-    return { background: '#e2e8f0', color: '#475569' }
-  }
-  const { colors } = combo
-  const background =
-    colors.length === 1
-      ? colors[0]
-      : colors.length === 2
-        ? `linear-gradient(90deg, ${colors[0]} 50%, ${colors[1]} 50%)`
-        : `linear-gradient(90deg, ${colors[0]} 33.33%, ${colors[1]} 33.33%, ${colors[1]} 66.66%, ${colors[2]} 66.66%)`
-  return { background }
-}
-
 /** Solo-style trait header for one person in a pair context card. */
 function PairPersonTraitHeader ({
   personLabel,
@@ -302,11 +288,6 @@ function PairPersonTraitHeader ({
               {getBrainIcons(combo.label, 'small', 'changeResults')}
             </span>
           ) : null}
-        </div>
-        <div className="trait-section-badges">
-          <span className="brain-combo-badge" style={brainComboBadgeStyle(combo, incomplete)}>
-            {incomplete || !combo ? CONTEXT_NOT_DONE_LABEL : combo.label}
-          </span>
         </div>
       </div>
     </div>
@@ -564,20 +545,6 @@ function PairContextSectionCard ({
     ),
   }
 
-  const comboRow: PairProfileTableRow = {
-    label: 'HHG Combo',
-    aValue: (
-      <span className="brain-combo-badge" style={brainComboBadgeStyle(comboA, incompleteA)}>
-        {incompleteA || !comboA ? CONTEXT_NOT_DONE_LABEL : comboA.label}
-      </span>
-    ),
-    bValue: (
-      <span className="brain-combo-badge" style={brainComboBadgeStyle(comboB, incompleteB)}>
-        {incompleteB || !comboB ? CONTEXT_NOT_DONE_LABEL : comboB.label}
-      </span>
-    ),
-  }
-
   const pressureA = getPressureProfileForScores(aScores.headPercent, aScores.heartPercent, aScores.gutPercent) ?? null
   const pressureB = getPressureProfileForScores(bScores.headPercent, bScores.heartPercent, bScores.gutPercent) ?? null
 
@@ -691,7 +658,7 @@ function PairContextSectionCard ({
     (key, v) => (key === 'hhgShiftToBalance' ? <strong>{v as React.ReactNode}</strong> : (v as React.ReactNode))
   )
 
-  const rowsWithCombo = (rows: PairProfileTableRow[]) => [contextStyleRow, iconsRow, comboRow, ...rows, balanceTipRow]
+  const rowsWithCombo = (rows: PairProfileTableRow[]) => [contextStyleRow, iconsRow, ...rows, balanceTipRow]
 
   const pairContextInsightBody =
     incompleteA || incompleteB || !comboA || !comboB

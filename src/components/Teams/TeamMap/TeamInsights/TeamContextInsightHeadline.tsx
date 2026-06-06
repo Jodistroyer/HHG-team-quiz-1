@@ -11,17 +11,6 @@ const CONTEXT_SECTION_ID: Record<SituationalContextKey, 1 | 2 | 3 | 4> = {
   gettingBetter: 4,
 }
 
-function brainComboBadgeStyle (combo: { colors: string[] }): CSSProperties {
-  const { colors } = combo
-  if (colors.length === 1) return { background: colors[0] }
-  if (colors.length === 2) {
-    return { background: `linear-gradient(90deg, ${colors[0]} 50%, ${colors[1]} 50%)` }
-  }
-  return {
-    background: `linear-gradient(90deg, ${colors[0]} 33.33%, ${colors[1]} 33.33%, ${colors[1]} 66.66%, ${colors[2]} 66.66%)`,
-  }
-}
-
 interface TeamContextInsightHeadlineProps {
   contextKey: SituationalContextKey
   combo: { label: string; colors: string[] }
@@ -50,11 +39,6 @@ export function TeamContextInsightHeadline ({
           <h4 className="trait-section-title">{contextComboLabel(contextKey, combo.label)}</h4>
           <span className="brain-icon-badge brain-icon-badge--inline" aria-label="Team brain combination icons">
             {getBrainIcons(combo.label)}
-          </span>
-        </div>
-        <div className="trait-section-badges">
-          <span className="brain-combo-badge" style={brainComboBadgeStyle(combo)}>
-            {combo.label}
           </span>
         </div>
       </div>

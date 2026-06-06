@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleCheck, faTriangleExclamation, faEye } from '@fortawesome/free-solid-svg-icons'
-import { getBalanceTipBadgeStyle, getBrainCombination } from '../../../Quiz/SectionResults/utils.tsx'
+import { getBrainCombination } from '../../../Quiz/SectionResults/utils.tsx'
 import { TeamContextInsightHeadline } from './TeamContextInsightHeadline'
 import { TeamStyleBreakdown } from './TeamStyleBreakdown'
 import './TeamGroupInsights.css'
@@ -98,23 +98,6 @@ function normalizeInsightKey(label: string): string {
   return label.replace(/\s+Strong$/, '')
 }
 
-function getMissingBrainCombo(label: string): string | null {
-  const map: Record<string, string | null> = {
-    Head: 'Heart + Gut',
-    'Head + Gut': 'Heart',
-    'Head + Heart': 'Gut',
-    Heart: 'Head + Gut',
-    'Heart + Gut': 'Head',
-    'Heart + Head': 'Gut',
-    Gut: 'Head + Heart',
-    'Gut + Head': 'Heart',
-    'Gut + Heart': 'Head',
-    'Head + Heart + Gut': 'Focus'
-  }
-
-  return map[label] ?? null
-}
-
 export function TeamGettingBetter({
   headPercent,
   heartPercent,
@@ -124,8 +107,6 @@ export function TeamGettingBetter({
   const combo = getBrainCombination(headPercent, heartPercent, gutPercent)
   const normalizedKey = normalizeInsightKey(combo.label)
   const insight = TEAM_GETTING_BETTER_INSIGHTS[normalizedKey] ?? TEAM_GETTING_BETTER_INSIGHTS.Head
-  const missingBrainCombo = getMissingBrainCombo(normalizedKey)
-  const missingBrainBadgeStyle = missingBrainCombo ? getBalanceTipBadgeStyle(missingBrainCombo) : null
   return (
     <div className="team-context-insight">
       {metaRow}
@@ -162,13 +143,6 @@ export function TeamGettingBetter({
               </span>
               Gap
             </h5>
-            {missingBrainCombo && missingBrainBadgeStyle && (
-              <div className="team-context-insight__gap-badge-row">
-                <span className="brain-combo-badge" style={missingBrainBadgeStyle}>
-                  {missingBrainCombo}
-                </span>
-              </div>
-            )}
           </div>
           <p className="team-context-insight__card-text">{insight.gap}</p>
         </article>

@@ -74,14 +74,9 @@
   max-width: 100%;
 }
 
-/* Long combo labels inside header */
-.pair-answer-results__th-badge-wrap .answer-results-combo-badge {
+/* Combo icons in pair table header */
+.pair-answer-results__th-badge-wrap .answer-results-combo-icons {
   max-width: 100%;
-  white-space: normal;
-  text-align: center;
-  line-height: 1.25;
-  word-break: break-word;
-  hyphens: auto;
 }
 
 .pair-answer-results__th-badge-wrap .pair-answer-results__no-badge {

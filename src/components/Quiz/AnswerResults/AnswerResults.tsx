@@ -1,4 +1,4 @@
-import { getBrainCombination } from '../SectionResults/utils'
+import { getBrainCombination, getBrainIcons } from '../SectionResults/utils'
 import './AnswerResults.css'
 
 type AnswerType = 'Head' | 'Heart' | 'Gut'
@@ -46,18 +46,16 @@ export const AnswerResults = ({ sections, sectionSummaries, answers }: AnswerRes
         {sections.map((section, idx) => {
           const scores = sectionSummaries[idx] ?? { headPercent: 0, heartPercent: 0, gutPercent: 0 }
           const combo = getBrainCombination(scores.headPercent, scores.heartPercent, scores.gutPercent)
-          const badgeStyle =
-            combo.colors.length === 1
-              ? { background: combo.colors[0] }
-              : combo.colors.length === 2
-                ? { background: `linear-gradient(90deg, ${combo.colors[0]} 50%, ${combo.colors[1]} 50%)` }
-                : { background: `linear-gradient(90deg, ${combo.colors[0]} 33.33%, ${combo.colors[1]} 33.33%, ${combo.colors[1]} 66.66%, ${combo.colors[2]} 66.66%)` }
           return (
           <div key={section.id} className="answer-results-section">
             <div className="answer-results-section-header">
               <h4 className="answer-results-section-title">{section.title}</h4>
-              <span className="answer-results-combo-badge" style={badgeStyle}>
-                {combo.label}
+              <span
+                className="answer-results-combo-icons"
+                aria-label={`Brain combination: ${combo.label}`}
+                title={combo.label}
+              >
+                {getBrainIcons(combo.label, 'small', 'changeResults')}
               </span>
             </div>
             <div className="answer-results-table-wrap">
