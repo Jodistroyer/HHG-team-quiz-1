@@ -83,9 +83,12 @@ export function QuizIntro ({
         <div className="quiz-intro-columns">
           <div className="quiz-intro-columns__main">
             <header className="quiz-intro-hero">
-              <h1 className="quiz-intro-hero__title"> The Head, Heart, Gut Quiz</h1>
+              <h1 className="quiz-intro-hero__title">Head, Heart, Gut Quiz</h1>
+              <p className="quiz-intro-hero__lead">Beyond Personality Labels</p>
               <p className="quiz-intro-hero__subtitle">
-              Better understand the decision-making patterns of yourself, your team, your partner, or anyone you work closely with.
+                Identify the patterns that shape your decisions, relationships, and work.
+                <br />
+                Discover practical paths tailored to how you naturally operate.
               </p>
             </header>
 

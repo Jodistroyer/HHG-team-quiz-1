@@ -138,8 +138,19 @@
   white-space: nowrap;
 }
 
+.quiz-intro-hero__lead {
+  margin: 0.85rem 0 0;
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(1.05rem, 2.2vw, 1.25rem);
+  font-weight: 700;
+  font-style: italic;
+  line-height: 1.35;
+  letter-spacing: 0.01em;
+  color: var(--qi-purple-deep);
+}
+
 .quiz-intro-hero__subtitle {
-  margin: 1rem 0 0;
+  margin: 0.75rem 0 0;
   font-size: 1.05rem;
   font-weight: 500;
   line-height: 1.65;

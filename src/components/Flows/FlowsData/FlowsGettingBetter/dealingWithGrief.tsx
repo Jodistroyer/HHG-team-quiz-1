@@ -8,7 +8,7 @@ export const DEALING_WITH_GRIEF_SITUATION_ID = 'dealing-with-grief' as const
 export const dealingWithGriefFlowSituation: FlowSituation = {
   id: DEALING_WITH_GRIEF_SITUATION_ID,
   cardTitle: 'Dealing with grief',
-  cardDescription: 'Move through loss at your own pace, with head, heart, and body.',
+  cardDescription: 'Move through loss at your own pace with your core lens.',
   readMinutes: 2,
   sequence: makeSequence(),
   whyText: PLACEHOLDER_WHY,

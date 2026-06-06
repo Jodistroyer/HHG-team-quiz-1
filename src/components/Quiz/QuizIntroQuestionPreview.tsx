@@ -39,9 +39,10 @@ export function QuizIntroQuestionPreview () {
 
       <figcaption className="quiz-intro-control-centers__header">
         <p id="quiz-intro-control-centers-title" className="quiz-intro-control-centers__headline">
-          These are our <strong>Control Centers</strong>.
+          Three <strong>Core Lenses</strong>
         </p>
-        <p className="quiz-intro-control-centers__tagline">They drive our actions.</p>
+        <p className="quiz-intro-control-centers__tagline">to</p>
+        <p className="quiz-intro-control-centers__tagline">Explore Human Behaviour</p>
       </figcaption>
 
       <div className="quiz-intro-control-centers__grid" role="list">
