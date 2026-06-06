@@ -13,7 +13,7 @@ import {
 } from '../../contextHhgScores'
 import { buildFacts } from '../../../Quiz/ChangeResults/changeResultsLogic'
 import { CombinationAcrossContexts } from '../../../Quiz/ChangeResults/CombinationAcrossContexts'
-import { WhatStandsOut } from '../../../Quiz/ChangeResults/WhatStandsOut'
+// import { WhatStandsOut } from '../../../Quiz/ChangeResults/WhatStandsOut'
 import { SECTION_ICONS, getBrainCombination, getBrainIcons } from '../../../Quiz/SectionResults/utils.tsx'
 import { SECTION_CONTEXT_BY_ID } from '../../../Quiz/sectionContext'
 import { CONTEXT_BACKGROUND, ContextCardArt, contextIdForTitle, type QuizSelectedContextId } from '../../../Quiz/ContextArt'
@@ -21,7 +21,7 @@ import '../../../Quiz/SectionResults/SectionCard.css'
 import { NaturalDefaultArchetypeParts } from '../../../Quiz/NaturalDefaultArchetypeParts'
 import { TEAM_ARCHETYPES } from './teamArchetypes'
 import { GROUP_OVERALL_PARTS } from './groupOverallArchetypes'
-import { buildTeamWhatStandsOut } from './teamWhatStandsOut'
+// import { buildTeamWhatStandsOut } from './teamWhatStandsOut'
 import { TeamDoingWork } from './TeamDoingWork'
 import { TeamGettingBetter } from './TeamGettingBetter'
 import { TeamUnderPressure } from './TeamUnderPressure'
@@ -201,10 +201,10 @@ export function TeamGroupInsights ({
     return buildFacts(situationalSummaries, SITUATIONAL_TITLES, sectionQuizComplete)
   }, [contributingPeople.length, selectedPeople])
 
-  const teamInsights = useMemo(() => {
-    if (!changeFacts) return []
-    return buildTeamWhatStandsOut(changeFacts)
-  }, [changeFacts])
+  // const teamInsights = useMemo(() => {
+  //   if (!changeFacts) return []
+  //   return buildTeamWhatStandsOut(changeFacts)
+  // }, [changeFacts])
 
   const hasTeamScores = contributingCount > 0
 
@@ -305,7 +305,7 @@ export function TeamGroupInsights ({
               <div className="change-results-card change-results-card--combo">
                 <CombinationAcrossContexts rows={changeFacts.rows} sections={SITUATIONAL_SECTIONS_FOR_COMBO_UI} />
               </div>
-              <WhatStandsOut insights={teamInsights} />
+              {/* <WhatStandsOut insights={teamInsights} /> */}
             </div>
           ) : (
             <p className="team-map-results__empty-card change-results-incomplete-copy">

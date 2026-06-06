@@ -26,9 +26,9 @@ import { getFeedbackStyleForCombination } from '../../../Quiz/SectionResults/Tab
 import { NaturalDefaultArchetypeParts } from '../../../Quiz/NaturalDefaultArchetypeParts'
 import { PAIR_OVERALL_PARTS } from './pairOverallArchetypes'
 import { getPairContextInsight } from './pairContextInsight'
-import { WhatStandsOut } from '../../../Quiz/ChangeResults/WhatStandsOut'
+// import { WhatStandsOut } from '../../../Quiz/ChangeResults/WhatStandsOut'
 import { TreemapChart } from '../../../Quiz/TreemapResults/TreemapChart'
-import { buildPairWhatStandsOutFromPeople } from './pairWhatStandsOut'
+// import { buildPairWhatStandsOutFromPeople } from './pairWhatStandsOut'
 import { PairAnswerResults } from './PairAnswerResults'
 import { Sidebar } from '../../../Quiz/Sidebar/Sidebar'
 import { buildQuizResultsPropsFromPerson } from '../../personQuizResultExport'
@@ -245,7 +245,7 @@ function PairAcrossContextsCard ({ people, insights }: { people: [Person, Person
           </dl>
         </div>
       </div>
-      {insights.length > 0 && <WhatStandsOut insights={insights} />}
+      {/* {insights.length > 0 && <WhatStandsOut insights={insights} />} */}
     </div>
   )
 }
@@ -847,7 +847,7 @@ export function TeamPairInsights ({ people }: TeamPairInsightsProps) {
     return ta >= tb ? ta : tb
   }, [a.quizCompletedAt, b.quizCompletedAt])
 
-  const pairWhatStandsOutInsights = useMemo(() => buildPairWhatStandsOutFromPeople([a, b]), [a, b])
+  // const pairWhatStandsOutInsights = useMemo(() => buildPairWhatStandsOutFromPeople([a, b]), [a, b])
 
   const pairOverall = useMemo(
     () => averageScores(scoresFor(a, 'overall'), scoresFor(b, 'overall')),
@@ -920,7 +920,7 @@ export function TeamPairInsights ({ people }: TeamPairInsightsProps) {
                     data-pdf-section="pair-change-across-contexts"
                   >
                     <h3 className="results-section-title team-pair-insights__pair-change-heading">How You Change Across Contexts</h3>
-                    <PairAcrossContextsCard people={people} insights={pairWhatStandsOutInsights} />
+                    <PairAcrossContextsCard people={people} insights={[]} />
                   </div>
                 </section>
 

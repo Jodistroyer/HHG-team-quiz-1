@@ -36,6 +36,10 @@ import {
   LEARNING_STYLE_SITUATION_ID,
   LearningStyleStepArt,
 } from '../../FlowsData/FlowsGettingBetter/LearningStyle.tsx'
+import {
+  DEALING_WITH_GRIEF_SITUATION_ID,
+  DealingWithGriefStepArt,
+} from '../../FlowsData/FlowsGettingBetter/DealingWithGrief.tsx'
 
 export type { FlowStepArtProps } from '../../FlowsData/flowTypes'
 
@@ -149,6 +153,18 @@ export function FlowStepArt ({
   if (contextId === 4 && situationId === LEARNING_STYLE_SITUATION_ID) {
     return (
       <LearningStyleStepArt
+        contextId={contextId}
+        situationId={situationId}
+        variantId={variantId}
+        stepIndex={stepIndex}
+        brain={brain}
+      />
+    )
+  }
+
+  if (contextId === 4 && situationId === DEALING_WITH_GRIEF_SITUATION_ID) {
+    return (
+      <DealingWithGriefStepArt
         contextId={contextId}
         situationId={situationId}
         variantId={variantId}

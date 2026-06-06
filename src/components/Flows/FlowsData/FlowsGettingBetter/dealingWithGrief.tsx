@@ -1,4 +1,6 @@
-import type { FlowSituation } from '../flowTypes'
+import type { ReactNode } from 'react'
+import { ContextCardArt, CONTEXT_BACKGROUND } from '../../../Quiz/ContextArt'
+import type { FlowSituation, FlowStepArtProps } from '../flowTypes'
 import { makeSequence, PLACEHOLDER_WHY } from '../situationHelpers'
 
 export const DEALING_WITH_GRIEF_SITUATION_ID = 'dealing-with-grief' as const
@@ -312,4 +314,379 @@ export const dealingWithGriefFlowSituation: FlowSituation = {
       ],
     },
   },
+}
+
+/** Getting Better · Dealing with grief — remembrance candle. */
+export function DealingWithGriefCardArt () {
+  const bg = CONTEXT_BACKGROUND[4]
+  const cx = 160
+  const cy = 100
+  const candleW = 42
+  const candleH = 84
+  const candleBottom = cy + 38
+  const candleTop = candleBottom - candleH
+  const flamePeak = candleTop - 22
+  const shadowY = candleBottom + 8
+  const stroke = { stroke: '#ffffff', strokeOpacity: 0.88, strokeWidth: 2.75 } as const
+  return (
+    <svg className="quiz-intro-card__svg" viewBox="0 0 320 200" preserveAspectRatio="xMidYMid meet" aria-hidden>
+      <rect width="320" height="200" fill={bg} />
+      <rect x={cx - candleW / 2} y={candleTop} width={candleW} height={candleH} rx="8" fill="rgba(255,255,255,0.1)" {...stroke} />
+      <path d={`M ${cx - 12} ${candleTop} Q ${cx} ${flamePeak} ${cx + 12} ${candleTop} Q ${cx} ${candleTop + 14} ${cx - 12} ${candleTop} Z`} fill="rgba(255,255,255,0.18)" {...stroke} strokeLinejoin="round" />
+      <ellipse cx={cx} cy={shadowY} rx="52" ry="10" fill="rgba(255,255,255,0.08)" stroke="#ffffff" strokeOpacity="0.35" strokeWidth="2" />
+    </svg>
+  )
+}
+
+const AUDIT_STEP_BG = '#2563C8'
+const WARMTH_STEP_BG = '#C2385A'
+const STANCE_STEP_BG = '#1A9E6E'
+
+const stepSvg = (bg: string, children: ReactNode) => (
+  <svg className="quiz-intro-card__svg" viewBox="0 0 320 200" preserveAspectRatio="xMidYMid meet" aria-hidden>
+    <rect width="320" height="200" fill={bg} />
+    {children}
+  </svg>
+)
+
+export function DealingWithGriefStepArt ({ contextId, variantId, stepIndex, brain }: FlowStepArtProps) {
+  if (variantId === 'head-strong') {
+    if (stepIndex === 0 && brain === 'Heart') return <SvgGriefThinkerHeartStep1 />
+    if (stepIndex === 1 && brain === 'Head') return <SvgGriefThinkerHeadStep2 />
+    if (stepIndex === 2 && brain === 'Gut') return <SvgGriefThinkerGutStep3 />
+  }
+  if (variantId === 'head-gut') {
+    if (stepIndex === 0 && brain === 'Heart') return <SvgGriefTacticianHeartStep1 />
+    if (stepIndex === 1 && brain === 'Gut') return <SvgGriefTacticianGutStep2 />
+    if (stepIndex === 2 && brain === 'Head') return <SvgGriefTacticianHeadStep3 />
+  }
+  if (variantId === 'head-heart') {
+    if (stepIndex === 0 && brain === 'Gut') return <SvgGriefDiplomatGutStep1 />
+    if (stepIndex === 1 && brain === 'Heart') return <SvgGriefDiplomatHeartStep2 />
+    if (stepIndex === 2 && brain === 'Head') return <SvgGriefDiplomatHeadStep3 />
+  }
+  if (variantId === 'heart-strong') {
+    if (stepIndex === 0 && brain === 'Head') return <SvgGriefEmpathHeadStep1 />
+    if (stepIndex === 1 && brain === 'Heart') return <SvgGriefEmpathHeartStep2 />
+    if (stepIndex === 2 && brain === 'Gut') return <SvgGriefEmpathGutStep3 />
+  }
+  if (variantId === 'heart-gut') {
+    if (stepIndex === 0 && brain === 'Head') return <SvgGriefDefenderHeadStep1 />
+    if (stepIndex === 1 && brain === 'Gut') return <SvgGriefDefenderGutStep2 />
+    if (stepIndex === 2 && brain === 'Heart') return <SvgGriefDefenderHeartStep3 />
+  }
+  if (variantId === 'heart-head') {
+    if (stepIndex === 0 && brain === 'Gut') return <SvgGriefAdvisorGutStep1 />
+    if (stepIndex === 1 && brain === 'Head') return <SvgGriefAdvisorHeadStep2 />
+    if (stepIndex === 2 && brain === 'Heart') return <SvgGriefAdvisorHeartStep3 />
+  }
+  if (variantId === 'gut-strong') {
+    if (stepIndex === 0 && brain === 'Heart') return <SvgGriefDoerHeartStep1 />
+    if (stepIndex === 1 && brain === 'Head') return <SvgGriefDoerHeadStep2 />
+    if (stepIndex === 2 && brain === 'Gut') return <SvgGriefDoerGutStep3 />
+  }
+  if (variantId === 'gut-head') {
+    if (stepIndex === 0 && brain === 'Heart') return <SvgGriefEngineerHeartStep1 />
+    if (stepIndex === 1 && brain === 'Head') return <SvgGriefEngineerHeadStep2 />
+    if (stepIndex === 2 && brain === 'Gut') return <SvgGriefEngineerGutStep3 />
+  }
+  if (variantId === 'gut-heart') {
+    if (stepIndex === 0 && brain === 'Head') return <SvgGriefHeroHeadStep1 />
+    if (stepIndex === 1 && brain === 'Heart') return <SvgGriefHeroHeartStep2 />
+    if (stepIndex === 2 && brain === 'Gut') return <SvgGriefHeroGutStep3 />
+  }
+  if (variantId === 'balanced') {
+    if (stepIndex === 0 && brain === 'Heart') return <SvgGriefSovereignHeartStep1 />
+    if (stepIndex === 1 && brain === 'Gut') return <SvgGriefSovereignGutStep2 />
+    if (stepIndex === 2 && brain === 'Head') return <SvgGriefSovereignHeadStep3 />
+  }
+  return <ContextCardArt id={contextId} />
+}
+
+function SvgGriefThinkerHeartStep1 () {
+  const cx = 160
+  const headCy = 86
+  const headR = 24
+  const shoulderY = headCy + headR + 10
+  const shoulderLow = headCy + headR + 28
+  return stepSvg(WARMTH_STEP_BG, <>
+    <circle cx={cx} cy={headCy} r={headR} fill="rgba(255,255,255,0.08)" stroke="#ffffff" strokeOpacity="0.82" strokeWidth="2.75" />
+    <path d={`M ${cx - 14} ${headCy - 2} q5 5 10 0 M ${cx + 4} ${headCy - 2} q5 5 10 0`} fill="none" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="2.5" strokeLinecap="round" />
+    <path d={`M ${cx - 11} ${headCy + 14} Q ${cx} ${headCy + 8} ${cx + 11} ${headCy + 14}`} fill="none" stroke="#ffffff" strokeOpacity="0.55" strokeWidth="2.5" strokeLinecap="round" />
+    <path d={`M ${cx - 38} ${shoulderY} Q ${cx} ${shoulderLow} ${cx + 38} ${shoulderY}`} fill="none" stroke="#ffffff" strokeOpacity="0.55" strokeWidth="2.75" strokeLinecap="round" />
+    <path d={`M ${cx - 38} ${shoulderY} Q ${cx - 26} ${headCy + 2} ${cx - 18} ${headCy + 10}`} fill="none" stroke="#ffffff" strokeOpacity="0.82" strokeWidth="2.75" strokeLinecap="round" strokeLinejoin="round" />
+    <path d={`M ${cx + 38} ${shoulderY} Q ${cx + 26} ${headCy + 2} ${cx + 18} ${headCy + 10}`} fill="none" stroke="#ffffff" strokeOpacity="0.82" strokeWidth="2.75" strokeLinecap="round" strokeLinejoin="round" />
+  </>)
+}
+function SvgGriefThinkerHeadStep2 () {
+  const cx = 160; const cy = 100
+  return stepSvg(AUDIT_STEP_BG, <>
+    <circle cx={cx - 32} cy={cy} r="6" fill="#ffffff" fillOpacity="0.4" />
+    <circle cx={cx} cy={cy - 20} r="6" fill="#ffffff" fillOpacity="0.55" />
+    <circle cx={cx + 32} cy={cy} r="6" fill="#ffffff" fillOpacity="0.7" />
+    <path d={`M ${cx - 26} ${cy - 4} L ${cx - 6} ${cy - 16} M ${cx + 6} ${cy - 16} L ${cx + 26} ${cy - 4}`} fill="none" stroke="#ffffff" strokeOpacity="0.78" strokeWidth="2.25" strokeLinecap="round" />
+  </>)
+}
+function SvgGriefThinkerGutStep3 () {
+  const cy = 100
+  return stepSvg(STANCE_STEP_BG, <>
+    <path d={`M 72 ${cy + 16} Q 160 ${cy - 32} 248 ${cy + 16}`} fill="none" stroke="#ffffff" strokeOpacity="0.45" strokeWidth="2.5" strokeLinecap="round" />
+    <path d={`M 96 ${cy + 16} L 224 ${cy + 16}`} fill="none" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="2.75" strokeLinecap="round" />
+    <circle cx="96" cy={cy + 16} r="5" fill="#ffffff" fillOpacity="0.55" />
+  </>)
+}
+
+function SvgGriefTacticianHeartStep1 () {
+  const cx = 160
+  const headCy = 84
+  const headR = 22
+  const bow = 8
+  return stepSvg(WARMTH_STEP_BG, <>
+    <circle cx={cx + bow} cy={headCy} r={headR} fill="rgba(255,255,255,0.08)" stroke="#ffffff" strokeOpacity="0.82" strokeWidth="2.75" />
+    <path d={`M ${cx - 34} ${headCy + 20} Q ${cx - 4} ${headCy + 38} ${cx + 24} ${headCy + 16}`} fill="none" stroke="#ffffff" strokeOpacity="0.55" strokeWidth="2.75" strokeLinecap="round" />
+    <path d={`M ${cx - 30} ${headCy + 24} L ${cx - 34} ${headCy + 48}`} fill="none" stroke="#ffffff" strokeOpacity="0.82" strokeWidth="2.5" strokeLinecap="round" />
+    <path d={`M ${cx + 10} ${headCy + 22} L ${cx + 6} ${headCy + 46}`} fill="none" stroke="#ffffff" strokeOpacity="0.82" strokeWidth="2.5" strokeLinecap="round" />
+  </>)
+}
+function SvgGriefTacticianGutStep2 () {
+  const cx = 160; const cy = 100
+  return stepSvg(STANCE_STEP_BG, <>
+    <path d={`M ${cx - 48} ${cy + 20} h96`} fill="none" stroke="#ffffff" strokeOpacity="0.45" strokeWidth="2.5" strokeLinecap="round" />
+    <rect x={cx - 28} y={cy - 20} width="56" height="32" rx="8" fill="rgba(255,255,255,0.1)" stroke="#ffffff" strokeOpacity="0.82" strokeWidth="2.5" />
+    <path d={`M ${cx - 12} ${cy - 4} h24 M ${cx - 8} ${cy + 4} h16`} fill="none" stroke="#ffffff" strokeOpacity="0.55" strokeWidth="2.25" strokeLinecap="round" />
+  </>)
+}
+function SvgGriefTacticianHeadStep3 () {
+  const cx = 160; const cy = 100
+  return stepSvg(AUDIT_STEP_BG, <>
+    <path d={`M ${cx} ${cy + 24} L ${cx} ${cy - 20}`} fill="none" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="2.75" strokeLinecap="round" />
+    <path d={`M ${cx - 16} ${cy - 20} L ${cx} ${cy - 36} L ${cx + 16} ${cy - 20} Z`} fill="rgba(255,255,255,0.12)" stroke="#ffffff" strokeOpacity="0.82" strokeWidth="2.25" strokeLinejoin="round" />
+  </>)
+}
+
+function SvgGriefDiplomatGutStep1 () {
+  const cx = 160; const cy = 128
+  return stepSvg(STANCE_STEP_BG, <>
+    <path d={`M ${cx - 56} ${cy} h112`} fill="none" stroke="#ffffff" strokeOpacity="0.55" strokeWidth="2.75" strokeLinecap="round" />
+    <path d={`M ${cx} ${cy - 48} v48`} fill="none" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="2.75" strokeLinecap="round" />
+    <circle cx={cx} cy={cy - 48} r="8" fill="rgba(255,255,255,0.12)" stroke="#ffffff" strokeOpacity="0.82" strokeWidth="2.25" />
+  </>)
+}
+function SvgGriefDiplomatHeartStep2 () {
+  const cx = 160
+  const headCy = 88
+  const headR = 24
+  const neckY = headCy + headR
+  return stepSvg(WARMTH_STEP_BG, <>
+    <circle cx={cx} cy={headCy} r={headR} fill="rgba(255,255,255,0.08)" stroke="#ffffff" strokeOpacity="0.82" strokeWidth="2.75" />
+    <path d={`M ${cx - 14} ${headCy - 2} q5 5 10 0 M ${cx + 4} ${headCy - 2} q5 5 10 0`} fill="none" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="2.5" strokeLinecap="round" />
+    <path d={`M ${cx - 10} ${headCy + 6} Q ${cx} ${headCy - 4} ${cx + 10} ${headCy + 6}`} fill="none" stroke="#ffffff" strokeOpacity="0.82" strokeWidth="2.5" strokeLinecap="round" />
+    <path d={`M ${cx} ${neckY} L ${cx} ${neckY + 20}`} fill="none" stroke="#ffffff" strokeOpacity="0.55" strokeWidth="2.75" strokeLinecap="round" />
+    <path d={`M ${cx} ${neckY + 6} L ${cx - 44} ${headCy - 6}`} fill="none" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="2.75" strokeLinecap="round" />
+    <path d={`M ${cx} ${neckY + 6} L ${cx + 44} ${headCy - 6}`} fill="none" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="2.75" strokeLinecap="round" />
+  </>)
+}
+function SvgGriefDiplomatHeadStep3 () {
+  const cx = 160; const cy = 100
+  return stepSvg(AUDIT_STEP_BG, <>
+    <circle cx={cx} cy={cy} r="14" fill="#ffffff" fillOpacity="0.45" />
+    <circle cx={cx} cy={cy} r="32" fill="none" stroke="#ffffff" strokeOpacity="0.55" strokeWidth="2.25" />
+    <circle cx={cx} cy={cy} r="52" fill="none" stroke="#ffffff" strokeOpacity="0.35" strokeWidth="2" />
+  </>)
+}
+
+function SvgGriefEmpathHeadStep1 () {
+  const cx = 160; const cy = 100
+  return stepSvg(AUDIT_STEP_BG, <>
+    <rect x={cx - 40} y={cy - 32} width="80" height="64" rx="8" fill="rgba(255,255,255,0.08)" stroke="#ffffff" strokeOpacity="0.55" strokeWidth="2.25" />
+    <path d={`M ${cx - 24} ${cy - 12} h48 M ${cx - 24} ${cy + 4} h32 M ${cx - 24} ${cy + 20} h40`} fill="none" stroke="#ffffff" strokeOpacity="0.82" strokeWidth="2.5" strokeLinecap="round" />
+  </>)
+}
+function SvgGriefEmpathHeartStep2 () {
+  const cx = 160
+  const headCy = 86
+  const headR = 24
+  const chestY = headCy + headR + 12
+  return stepSvg(WARMTH_STEP_BG, <>
+    <circle cx={cx} cy={headCy} r={headR} fill="rgba(255,255,255,0.08)" stroke="#ffffff" strokeOpacity="0.82" strokeWidth="2.75" />
+    <path d={`M ${cx - 14} ${headCy - 2} q5 5 10 0 M ${cx + 4} ${headCy - 2} q5 5 10 0`} fill="none" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="2.5" strokeLinecap="round" />
+    <path d={`M ${cx - 9} ${headCy + 10} Q ${cx} ${headCy + 6} ${cx + 9} ${headCy + 10}`} fill="none" stroke="#ffffff" strokeOpacity="0.55" strokeWidth="2.25" strokeLinecap="round" />
+    <path d={`M ${cx} ${headCy + headR} L ${cx} ${chestY + 18}`} fill="none" stroke="#ffffff" strokeOpacity="0.55" strokeWidth="2.75" strokeLinecap="round" />
+    <path d={`M ${cx + 20} ${chestY - 20} L ${cx + 6} ${chestY + 2} L ${cx + 14} ${chestY + 18}`} fill="none" stroke="#ffffff" strokeOpacity="0.55" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path d={`M ${cx - 6} ${chestY - 4} C ${cx - 18} ${chestY} ${cx - 18} ${chestY + 14} ${cx - 8} ${chestY + 16} C ${cx - 2} ${chestY + 10} ${cx - 2} ${chestY + 2} ${cx - 6} ${chestY - 4} Z`} fill="rgba(255,255,255,0.12)" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="2.5" strokeLinejoin="round" />
+  </>)
+}
+function SvgGriefEmpathGutStep3 () {
+  const cx = 160; const cy = 100
+  return stepSvg(STANCE_STEP_BG, <>
+    {[0, 1, 2].map((i) => (
+      <path key={i} d={`M ${cx - 48 + i * 16} ${cy + 16 - i * 8} h${96 - i * 32}`} fill="none" stroke="#ffffff" strokeOpacity={0.45 + i * 0.2} strokeWidth="2.5" strokeLinecap="round" />
+    ))}
+  </>)
+}
+
+function SvgGriefDefenderHeadStep1 () {
+  const cx = 160; const cy = 100; const g = 24
+  return stepSvg(AUDIT_STEP_BG, <>
+    {[0, 1, 2].flatMap((row) =>
+      [0, 1, 2].map((col) => (
+        <rect key={`${row}-${col}`} x={cx - 1.5 * g + col * g} y={cy - 1.5 * g + row * g} width={g - 4} height={g - 4} rx="4" fill="rgba(255,255,255,0.08)" stroke="#ffffff" strokeOpacity={row === 1 && col === 1 ? 0.88 : 0.35} strokeWidth="2" />
+      ))
+    )}
+  </>)
+}
+function SvgGriefDefenderGutStep2 () {
+  const cy = 100
+  const count = 3; const spacing = 24; const shaftLen = 28; const wing = 8
+  const groupW = (count - 1) * spacing + shaftLen
+  const xs = [0, 1, 2].map((i) => 160 - groupW / 2 + i * spacing)
+  return stepSvg(STANCE_STEP_BG, <>
+    {xs.map((x) => (
+      <path key={x} d={`M ${x} ${cy} L ${x + shaftLen} ${cy}`} fill="none" stroke="#ffffff" strokeOpacity="0.82" strokeWidth="2.75" strokeLinecap="round" />
+    ))}
+    {xs.map((x) => (
+      <path key={`a-${x}`} d={`M ${x + shaftLen - wing} ${cy - wing} L ${x + shaftLen} ${cy} L ${x + shaftLen - wing} ${cy + wing}`} fill="none" stroke="#ffffff" strokeOpacity="0.9" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round" />
+    ))}
+  </>)
+}
+function SvgGriefDefenderHeartStep3 () {
+  const cy = 96
+  return stepSvg(WARMTH_STEP_BG, <>
+    <path d={`M 72 ${cy + 6} Q 116 ${cy - 10} 160 ${cy + 6} T 248 ${cy + 6}`} fill="none" stroke="#ffffff" strokeOpacity="0.45" strokeWidth="2.25" strokeLinecap="round" />
+    <path d={`M 72 ${cy + 18} Q 116 ${cy + 2} 160 ${cy + 18} T 248 ${cy + 18}`} fill="none" stroke="#ffffff" strokeOpacity="0.82" strokeWidth="2.75" strokeLinecap="round" />
+  </>)
+}
+
+function SvgGriefAdvisorGutStep1 () {
+  const cx = 160; const cy = 100
+  return stepSvg(STANCE_STEP_BG, <>
+    <circle cx={cx} cy={cy} r="28" fill="rgba(255,255,255,0.08)" stroke="#ffffff" strokeOpacity="0.55" strokeWidth="2.25" />
+    <path d={`M ${cx - 20} ${cy + 12} Q ${cx} ${cy - 8} ${cx + 20} ${cy + 12}`} fill="none" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="2.75" strokeLinecap="round" />
+    {[0, 1, 2].map((i) => (
+      <circle key={i} cx={cx - 24 + i * 24} cy={cy - 20} r="4" fill="#ffffff" fillOpacity={0.35 + i * 0.15} />
+    ))}
+  </>)
+}
+function SvgGriefAdvisorHeadStep2 () {
+  const cx = 160; const cy = 100
+  return stepSvg(AUDIT_STEP_BG, <>
+    <rect x={cx - 36} y={cy - 48} width="72" height="32" rx="8" fill="rgba(255,255,255,0.08)" stroke="#ffffff" strokeOpacity="0.45" strokeWidth="2.25" />
+    <rect x={cx - 36} y={cy - 8} width="72" height="32" rx="8" fill="rgba(255,255,255,0.1)" stroke="#ffffff" strokeOpacity="0.72" strokeWidth="2.25" />
+    <circle cx={cx} cy={cy + 28} r="6" fill="#ffffff" fillOpacity="0.45" />
+  </>)
+}
+function SvgGriefAdvisorHeartStep3 () {
+  const cx = 160; const cy = 100
+  return stepSvg(WARMTH_STEP_BG, <>
+    <path d={`M ${cx - 48} ${cy + 8} L ${cx - 8} ${cy + 8}`} fill="none" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="2.75" strokeLinecap="round" />
+    <path d={`M ${cx + 48} ${cy + 8} L ${cx + 8} ${cy + 8}`} fill="none" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="2.75" strokeLinecap="round" />
+    <path d={`M ${cx - 8} ${cy + 8} Q ${cx} ${cy - 24} ${cx + 8} ${cy + 8}`} fill="none" stroke="#ffffff" strokeOpacity="0.82" strokeWidth="2.75" strokeLinecap="round" />
+  </>)
+}
+
+function SvgGriefDoerHeartStep1 () {
+  const cx = 160; const cy = 100
+  return stepSvg(WARMTH_STEP_BG, <>
+    <path d={`M ${cx - 36} ${cy - 24} L ${cx + 36} ${cy - 24} L ${cx + 28} ${cy + 24} L ${cx - 28} ${cy + 24} Z`} fill="none" stroke="#ffffff" strokeOpacity="0.45" strokeWidth="2.25" strokeLinejoin="round" />
+    <path d={`M ${cx - 20} ${cy - 8} C ${cx - 8} ${cy + 16} ${cx + 8} ${cy + 16} ${cx + 20} ${cy - 8}`} fill="rgba(255,255,255,0.1)" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="2.5" strokeLinecap="round" />
+  </>)
+}
+function SvgGriefDoerHeadStep2 () {
+  const cx = 160; const cy = 100
+  const bars = [{ w: 112, o: 0.88 }, { w: 80, o: 0.65 }, { w: 48, o: 0.45 }]
+  return stepSvg(AUDIT_STEP_BG, <>
+    {bars.map(({ w, o }, i) => (
+      <path key={w} d={`M ${cx - w / 2} ${cy - 24 + i * 24} h${w}`} fill="none" stroke="#ffffff" strokeOpacity={o} strokeWidth="2.5" strokeLinecap="round" />
+    ))}
+  </>)
+}
+function SvgGriefDoerGutStep3 () {
+  const cx = 160
+  const cy = 100
+  const mergeX = cx - 8
+  const mergeY = cy + 8
+  return stepSvg(STANCE_STEP_BG, <>
+    <path d={`M ${cx - 56} ${cy + 16} Q ${cx - 28} ${cy - 8} ${mergeX} ${mergeY}`} fill="none" stroke="#ffffff" strokeOpacity="0.35" strokeWidth="2.25" strokeLinecap="round" strokeDasharray="5 6" />
+    <path d={`M ${cx - 56} ${cy - 16} Q ${cx - 20} ${cy + 4} ${mergeX} ${mergeY}`} fill="none" stroke="#ffffff" strokeOpacity="0.55" strokeWidth="2.5" strokeLinecap="round" />
+    <path d={`M ${mergeX} ${mergeY} L ${cx + 56} ${mergeY}`} fill="none" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="3" strokeLinecap="round" />
+    <path d={`M ${cx + 44} ${mergeY - 10} L ${cx + 56} ${mergeY} L ${cx + 44} ${mergeY + 10}`} fill="none" stroke="#ffffff" strokeOpacity="0.9" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+  </>)
+}
+
+function SvgGriefEngineerHeartStep1 () {
+  const cy = 100
+  return stepSvg(WARMTH_STEP_BG, <>
+    <circle cx="128" cy={cy} r="16" fill="rgba(255,255,255,0.1)" stroke="#ffffff" strokeOpacity="0.55" strokeWidth="2.25" />
+    <circle cx="192" cy={cy} r="16" fill="rgba(255,255,255,0.1)" stroke="#ffffff" strokeOpacity="0.55" strokeWidth="2.25" />
+    <path d={`M 144 ${cy} L 176 ${cy}`} fill="none" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="2.75" strokeLinecap="round" strokeDasharray="4 6" />
+  </>)
+}
+function SvgGriefEngineerHeadStep2 () {
+  const cx = 160; const cy = 100
+  return stepSvg(AUDIT_STEP_BG, <>
+    <path d={`M ${cx - 48} ${cy - 16} h96 M ${cx - 48} ${cy + 16} h96`} fill="none" stroke="#ffffff" strokeOpacity="0.45" strokeWidth="2.25" strokeLinecap="round" />
+    <path d={`M ${cx - 32} ${cy} h64 M ${cx - 16} ${cy - 8} h32 M ${cx - 16} ${cy + 8} h32`} fill="none" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="2.75" strokeLinecap="round" />
+  </>)
+}
+function SvgGriefEngineerGutStep3 () {
+  const cx = 160; const cy = 100
+  return stepSvg(STANCE_STEP_BG, <>
+    {[0, 1, 2, 3].map((i) => (
+      <circle key={i} cx={cx - 36 + i * 24} cy={cy} r="5" fill="#ffffff" fillOpacity={0.35 + i * 0.15} />
+    ))}
+    <path d={`M ${cx - 44} ${cy + 20} L ${cx + 44} ${cy + 20}`} fill="none" stroke="#ffffff" strokeOpacity="0.55" strokeWidth="2.25" strokeLinecap="round" />
+  </>)
+}
+
+function SvgGriefHeroHeadStep1 () {
+  const cx = 160; const cy = 100
+  return stepSvg(AUDIT_STEP_BG, <>
+    <rect x={cx - 48} y={cy - 20} width="96" height="40" rx="8" fill="rgba(255,255,255,0.08)" stroke="#ffffff" strokeOpacity="0.55" strokeWidth="2.25" />
+    <path d={`M ${cx - 20} ${cy + 4} h40`} fill="none" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="2.75" strokeLinecap="round" />
+  </>)
+}
+function SvgGriefHeroHeartStep2 () {
+  const cx = 160; const cy = 100
+  return stepSvg(WARMTH_STEP_BG, <>
+    <path d={`M ${cx - 36} ${cy + 16} Q ${cx} ${cy - 28} ${cx + 36} ${cy + 16}`} fill="none" stroke="#ffffff" strokeOpacity="0.82" strokeWidth="2.75" strokeLinecap="round" />
+    <circle cx={cx} cy={cy + 8} r="8" fill="rgba(255,255,255,0.12)" stroke="#ffffff" strokeOpacity="0.82" strokeWidth="2.5" />
+  </>)
+}
+function SvgGriefHeroGutStep3 () {
+  const cy = 100
+  return stepSvg(STANCE_STEP_BG, <>
+    <path d={`M 88 ${cy - 8} L 232 ${cy - 8}`} fill="none" stroke="#ffffff" strokeOpacity="0.45" strokeWidth="2.25" strokeLinecap="round" />
+    <path d={`M 88 ${cy + 8} L 232 ${cy + 8}`} fill="none" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="2.75" strokeLinecap="round" />
+    <path d={`M 88 ${cy + 24} L 232 ${cy + 24}`} fill="none" stroke="#ffffff" strokeOpacity="0.45" strokeWidth="2.25" strokeLinecap="round" />
+  </>)
+}
+
+function SvgGriefSovereignHeartStep1 () {
+  const cx = 160; const cy = 100
+  return stepSvg(WARMTH_STEP_BG, <>
+    <circle cx={cx} cy={cy} r="28" fill="none" stroke="#ffffff" strokeOpacity="0.45" strokeWidth="2.25" />
+    <circle cx={cx} cy={cy} r="8" fill="#ffffff" fillOpacity="0.45" />
+  </>)
+}
+function SvgGriefSovereignGutStep2 () {
+  const cx = 160; const cy = 100
+  return stepSvg(STANCE_STEP_BG, <>
+    <path d={`M ${cx} ${cy + 32} L ${cx} ${cy - 32}`} fill="none" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="2.75" strokeLinecap="round" />
+    <path d={`M ${cx - 12} ${cy - 20} Q ${cx} ${cy - 32} ${cx + 12} ${cy - 20}`} fill="none" stroke="#ffffff" strokeOpacity="0.55" strokeWidth="2.25" strokeLinecap="round" />
+    <path d={`M ${cx - 12} ${cy + 4} Q ${cx} ${cy + 16} ${cx + 12} ${cy + 4}`} fill="none" stroke="#ffffff" strokeOpacity="0.55" strokeWidth="2.25" strokeLinecap="round" />
+  </>)
+}
+function SvgGriefSovereignHeadStep3 () {
+  const cx = 160
+  const cy = 100
+  const w = 104
+  const h = 68
+  const x = cx - w / 2
+  const y = cy - h / 2
+  const ground = y + h - 16
+  return stepSvg(AUDIT_STEP_BG, <>
+    <rect x={x} y={y} width={w} height={h} rx="6" fill="rgba(255,255,255,0.08)" stroke="#ffffff" strokeOpacity="0.88" strokeWidth="2.75" />
+    <path d={`M ${x + 16} ${ground} L ${x + w - 16} ${ground}`} fill="none" stroke="#ffffff" strokeOpacity="0.5" strokeWidth="2.25" strokeLinecap="round" />
+    <path d={`M ${x + 16} ${ground} Q ${cx} ${y + 24} ${x + w - 16} ${ground}`} fill="rgba(255,255,255,0.06)" stroke="#ffffff" strokeOpacity="0.75" strokeWidth="2.5" strokeLinejoin="round" />
+  </>)
 }

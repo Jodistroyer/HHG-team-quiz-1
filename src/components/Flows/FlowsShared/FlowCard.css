@@ -95,6 +95,7 @@
 }
 
 .flow-card__desc {
+  font-family: 'Montserrat', sans-serif;
   font-size: 0.875rem;
   line-height: 1.45;
   color: var(--flows-ink-soft, #64748b);

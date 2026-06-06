@@ -36,6 +36,10 @@ import {
   LEARNING_STYLE_SITUATION_ID,
   LearningStyleCardArt,
 } from '../FlowsData/FlowsGettingBetter/LearningStyle.tsx'
+import {
+  DEALING_WITH_GRIEF_SITUATION_ID,
+  DealingWithGriefCardArt,
+} from '../FlowsData/FlowsGettingBetter/DealingWithGrief.tsx'
 
 function isFacingAuthorityCard (contextId: FlowContextId, situationId: string) {
   return contextId === 1 && situationId === FACING_AUTHORITY_SITUATION_ID
@@ -71,6 +75,10 @@ function isRelationshipNeedsCard (contextId: FlowContextId, situationId: string)
 
 function isLearningStyleCard (contextId: FlowContextId, situationId: string) {
   return contextId === 4 && situationId === LEARNING_STYLE_SITUATION_ID
+}
+
+function isDealingWithGriefCard (contextId: FlowContextId, situationId: string) {
+  return contextId === 4 && situationId === DEALING_WITH_GRIEF_SITUATION_ID
 }
 
 /**
@@ -110,6 +118,9 @@ export function FlowSituationCardArt ({
   }
   if (isLearningStyleCard(contextId, situationId)) {
     return <LearningStyleCardArt />
+  }
+  if (isDealingWithGriefCard(contextId, situationId)) {
+    return <DealingWithGriefCardArt />
   }
   return <ContextCardArt id={contextId} />
 }

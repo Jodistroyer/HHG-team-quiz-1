@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { buildFacts, computeInsights } from './changeResultsLogic'
+import { buildFacts /* , computeInsights */ } from './changeResultsLogic'
 import { CombinationAcrossContexts } from './CombinationAcrossContexts'
-import { WhatStandsOut } from './WhatStandsOut'
+// import { WhatStandsOut } from './WhatStandsOut'
 import { ResumeContextQuizModal } from './ResumeContextQuizModal'
 import './ChangeResults.css'
 
@@ -50,7 +50,7 @@ export function ChangeResults ({
 }: ChangeResultsProps) {
   const labels = sections.slice(0, 4).map((s) => ({ id: s.id, title: s.title }))
   const facts = buildFacts(sectionSummaries, labels, sectionQuizComplete, sectionIncludedInQuiz)
-  const insights = computeInsights(facts)
+  // const insights = computeInsights(facts)
 
   const [resumeTarget, setResumeTarget] = useState<{ sectionId: number; variant: 'add' | 'finish' } | null>(null)
 
@@ -77,7 +77,7 @@ export function ChangeResults ({
           showResumeButton={Boolean(onResumeQuizContext)}
         />
       </div>
-      <WhatStandsOut insights={insights} />
+      {/* <WhatStandsOut insights={insights} /> */}
 
       <ResumeContextQuizModal
         open={resumeTarget != null && Boolean(resumeSection)}
