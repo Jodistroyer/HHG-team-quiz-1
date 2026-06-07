@@ -128,10 +128,10 @@ export function QuizIntro ({
             <div className="quiz-intro-contexts__body">
               <div className="quiz-intro-contexts__header">
                 <div className="quiz-intro-contexts__header-left">
-                  <h2 className="quiz-intro-contexts__title">Choose contexts</h2>
+                  <h2 className="quiz-intro-contexts__title">Choose Your Scenarios</h2>
                   <div className="quiz-intro-contexts__hint" aria-label="Context selection">
                     <strong className="quiz-intro-contexts__hint-line">
-                      Select what you want to Answer. Each Context has 5 Questions.
+                      Select what you want to Answer. Each has 5 Questions.
                     </strong>
                   </div>
                 </div>

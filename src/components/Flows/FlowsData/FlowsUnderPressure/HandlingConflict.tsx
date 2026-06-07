@@ -319,7 +319,7 @@ export const handlingConflictFlowSituation: FlowSituation = {
       ],
     },
     balanced: {
-      archetype: 'Sovereign',
+      archetype: 'Hybrid',
       negotiationOrder: 'Head → Heart → Gut',
       coreFunctions: 'Sync → Align → Close',
       whyThisOrder:

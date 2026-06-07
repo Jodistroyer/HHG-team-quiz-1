@@ -151,7 +151,7 @@ const Brains = ({ onTakeQuiz }: BrainsProps) => {
   return (
     <div className="brains-page brains-page--toc">
       <header className="brains-page__header">
-        <h1 className="brains-page__title">3 Brain types</h1>
+        <h1 className="brains-page__title">3 Brain Types</h1>
         <p className="brains-page__intro">
           10 Decision Making Archetypes
         </p>

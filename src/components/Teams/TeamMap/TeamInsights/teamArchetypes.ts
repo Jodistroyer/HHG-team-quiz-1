@@ -61,7 +61,7 @@ export const TEAM_ARCHETYPES: Record<
       "This team brings energy, warmth, and a bias toward action. It builds loyalty quickly, responds fast to what's in front of it, and genuinely cares about the people around it. With less Head, it may underinvest in analytical rigour, structured planning, and objective evaluation of options. The risk is that effort, intent, and relationship, all of which this team has in abundance, can move faster than thinking, and the team may find itself in situations it hasn't fully prepared for, despite genuinely trying."
   },
   'Head + Heart + Gut': {
-    archetype: 'Sovereign',
+    archetype: 'Hybrid',
     headline: 'A balanced team that integrates thinking, feeling, and action',
     description:
       "This team has access to everything: analytical depth, relational warmth, and instinctive confidence. That range is a genuine strength. The team can think, connect, and act, and has the capacity to navigate almost any kind of challenge. The risk is not absence but friction. Each centre brings a different default lens, and without shared language and intentional coordination, this diversity can generate as much tension as insight. The question for a Head + Heart + Gut team is less about what it's missing and more about how well it uses what it has."

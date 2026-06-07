@@ -196,7 +196,7 @@ const GETTING_BETTER_ARCHETYPES: Record<string, { archetype: string; description
     quote: 'True power is being the calm in someone else\'s storm.'
   },
   'Head+Heart+Gut': {
-    archetype: 'Sovereign',
+    archetype: 'Hybrid',
     description: 'When getting better, you integrate mind, heart, and instinct. You reflect, feel, and act in balance. Learning is holistic, and growth touches both skill and character. You evolve with awareness and purpose.',
     quote: 'Mastery is the alignment of thought, feeling, and finish.'
   }

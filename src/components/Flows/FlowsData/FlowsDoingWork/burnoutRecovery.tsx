@@ -283,7 +283,7 @@ export const burnoutRecoveryFlowSituation: FlowSituation = {
       ],
     },
     balanced: {
-      archetype: 'Sovereign',
+      archetype: 'Hybrid',
       negotiationOrder: 'Gut → Head → Heart',
       coreFunctions: 'Withdrawal → Simplification → Ease',
       whyThisOrder:

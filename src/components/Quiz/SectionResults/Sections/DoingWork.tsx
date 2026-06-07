@@ -240,7 +240,7 @@ const DOING_WORK_ARCHETYPES: Record<string, { archetype: string; description: st
     quote: 'If I step up, I feel right.'
   },
   'Head+Heart+Gut': {
-    archetype: 'Sovereign',
+    archetype: 'Hybrid',
     description: 'When doing work, you are the ultimate filter. You listen to the data, the people, and your gut, but the final command comes from your center. You don\'t work for the job; the job is the current expression of your personal mastery.',
     quote: 'If I choose it, I command it.'
   }

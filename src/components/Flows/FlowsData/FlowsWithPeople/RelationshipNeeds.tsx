@@ -291,7 +291,7 @@ export const relationshipNeedsFlowSituation: FlowSituation = {
       ],
     },
     balanced: {
-      archetype: 'Sovereign',
+      archetype: 'Hybrid',
       negotiationOrder: 'Head → Heart → Gut',
       coreFunctions: 'Analysis → Affection → Action',
       whyThisOrder:

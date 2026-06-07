@@ -283,7 +283,7 @@ export const facingAuthorityFlowSituation: FlowSituation = {
       ],
     },
     balanced: {
-      archetype: 'Sovereign',
+      archetype: 'Hybrid',
       negotiationOrder: 'Head → Heart → Gut',
       coreFunctions: 'Synthesis → Calibration → Delivery',
       whyThisOrder:

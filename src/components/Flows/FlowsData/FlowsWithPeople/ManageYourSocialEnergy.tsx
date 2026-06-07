@@ -284,7 +284,7 @@ export const manageYourSocialEnergyFlowSituation: FlowSituation = {
       ],
     },
     balanced: {
-      archetype: 'Sovereign',
+      archetype: 'Hybrid',
       negotiationOrder: 'Head → Heart → Gut',
       coreFunctions: 'Synthesis → Harmony → Participation',
       whyThisOrder:

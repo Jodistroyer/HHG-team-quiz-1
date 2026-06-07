@@ -56,7 +56,7 @@ const GROUPS: {
 
 const BALANCED_ITEM: { id: BrainTypeSidebarItemId; label: string } = {
   id: 'balanced',
-  label: 'Sovereign',
+  label: 'Hybrid',
 }
 
 function itemBrains (id: BrainTypeSidebarItemId): BrainKey[] {

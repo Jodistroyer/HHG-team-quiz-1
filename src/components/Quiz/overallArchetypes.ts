@@ -238,7 +238,7 @@ export const OVERALL_ARCHETYPES: Record<ArchetypeKey, OverallArchetype> = {
     quote: 'Someone has to.',
   },
   'Head + Heart + Gut': {
-    archetype: 'Sovereign',
+    archetype: 'Hybrid',
     headline: 'A balanced person who integrates thinking, feeling, and action',
     description:
       "You have access to all three centres: analytical depth, relational warmth, and instinctive confidence. That range is a genuine strength. You can think, feel, and act, and you have the capacity to navigate almost any kind of situation.\n\n**Having access to all three doesn't mean they work together naturally.**\n\nYou may find that different centres pull in different directions, or that under pressure you default strongly to one and lose access to the others. You may also find it harder to be read by others, because you don't have a single dominant mode.\n\nThe question for you isn't what you're missing. It's whether you're using what you have with intention, choosing which centre to lead from rather than being pulled between them.",

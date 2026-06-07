@@ -284,7 +284,7 @@ export const dealingWithGriefFlowSituation: FlowSituation = {
       ],
     },
     balanced: {
-      archetype: 'Sovereign',
+      archetype: 'Hybrid',
       negotiationOrder: 'Heart → Gut → Head',
       coreFunctions: 'Witnessing → Surviving → Reframing',
       whyThisOrder:

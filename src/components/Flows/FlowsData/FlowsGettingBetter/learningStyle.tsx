@@ -284,7 +284,7 @@ export const learningStyleFlowSituation: FlowSituation = {
       ],
     },
     balanced: {
-      archetype: 'Sovereign',
+      archetype: 'Hybrid',
       negotiationOrder: 'Head → Heart → Gut',
       coreFunctions: 'Synthesis → Alignment → Production',
       whyThisOrder:

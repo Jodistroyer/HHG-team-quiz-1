@@ -284,7 +284,7 @@ export const stayOrGoFlowSituation: FlowSituation = {
       ],
     },
     balanced: {
-      archetype: 'Sovereign',
+      archetype: 'Hybrid',
       negotiationOrder: 'Head → Heart → Gut',
       coreFunctions: 'Synthesis → Peace → Finality',
       whyThisOrder:

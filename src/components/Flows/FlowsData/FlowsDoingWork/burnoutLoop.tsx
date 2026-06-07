@@ -283,7 +283,7 @@ export const burnoutLoopFlowSituation: FlowSituation = {
       ],
     },
     balanced: {
-      archetype: 'Sovereign',
+      archetype: 'Hybrid',
       negotiationOrder: 'Head + Heart + Gut (loop)',
       coreFunctions: 'Hesitation → Self-Judgment → Stalling',
       whyThisOrder:

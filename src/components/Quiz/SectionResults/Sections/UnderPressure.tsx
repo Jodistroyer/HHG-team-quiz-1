@@ -251,7 +251,7 @@ const UNDER_PRESSURE_ARCHETYPES: Record<string, { archetype: string; description
     quote: 'If I act, I am enough.'
   },
   'Head+Heart+Gut': {
-    archetype: 'Sovereign',
+    archetype: 'Hybrid',
     description: 'Under pressure, you return to your center. You acknowledge the data and feel the weight, but you allow neither to drive. You are the pilot, not the plane; you choose your response rather than reacting.',
     quote: 'If I choose, I am free.'
   }

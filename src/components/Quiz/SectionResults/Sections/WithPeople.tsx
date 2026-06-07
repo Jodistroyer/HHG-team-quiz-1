@@ -323,7 +323,7 @@ const WITH_PEOPLE_ARCHETYPES: Record<string, { archetype: string; description: s
     quote: 'If no one moves, I will.'
   },
   'Head+Heart+Gut': {
-    archetype: 'Sovereign',
+    archetype: 'Hybrid',
     description: 'With people, you are your own anchor. You acknowledge the social data, feel the emotional weight, and trust your gut, but you never let the crowd dictate your tempo. You are present, but you are never "lost" in the group.',
     quote: 'If I am myself, I am enough.'
   }

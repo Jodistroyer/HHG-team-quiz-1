@@ -305,9 +305,9 @@
 }
 
 .quiz-intro-contexts__header-right .quiz-intro-pill {
-  background: var(--qi-purple-light);
+  background: var(--qi-purple);
   color: #ffffff;
-  border-color: var(--qi-purple);
+  border-color: var(--qi-purple-deep);
 }
 
 .quiz-intro-contexts__title {
@@ -349,7 +349,6 @@
 .quiz-intro-card {
   background: var(--qi-surface);
   border: 1px solid var(--qi-line);
-  border-bottom: 4px solid #94a3b8;
   border-radius: 14px;
   padding: 0;
   text-align: left;
@@ -358,8 +357,6 @@
   transition:
     transform 0.22s ease,
     border-color 0.22s ease,
-    border-bottom-color 0.22s ease,
-    border-bottom-width 0.12s ease,
     box-shadow 0.22s ease;
   overflow: hidden;
   display: flex;
@@ -372,17 +369,14 @@
 .quiz-intro-card:hover {
   transform: scale(1.02) translateY(-1px);
   border-color: rgba(125, 61, 189, 0.55);
-  border-bottom-color: #64748b;
 }
 
 .quiz-intro-card:active {
   transform: scale(1.01) translateY(2px);
-  border-bottom-width: 2px;
 }
 
 .quiz-intro-card.is-selected {
   border-color: var(--qi-purple);
-  border-bottom-color: #475569;
   box-shadow: 0 1px 0 rgba(125, 61, 189, 0.06), 0 18px 52px rgba(125, 61, 189, 0.12);
 }
 
@@ -678,9 +672,9 @@
 
   .quiz-intro-contexts__notes {
     order: 1;
-    margin-top: 0;
+    margin-top: -1.25rem;
     padding-top: 0;
-    margin-bottom: 1.35rem;
+    margin-bottom: 1rem;
   }
 
   .quiz-intro-contexts__header {

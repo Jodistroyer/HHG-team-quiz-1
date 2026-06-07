@@ -284,7 +284,7 @@ export const thriveZoneFlowSituation: FlowSituation = {
       ],
     },
     balanced: {
-      archetype: 'Sovereign',
+      archetype: 'Hybrid',
       negotiationOrder: 'Head → Heart → Gut',
       coreFunctions: 'Synthesize → Align → Produce',
       whyThisOrder:
